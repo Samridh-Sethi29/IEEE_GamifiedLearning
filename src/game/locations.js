@@ -1,0 +1,123 @@
+// Single source of truth for the village: the WorldMap, the hover tooltips and the
+// placeholder world scenes all read from here. Positions are WorldMap viewBox units
+// (1600 × 1000) so art, hit areas and camera zoom all share one coordinate space.
+
+export const MAP_VIEW = { width: 1600, height: 1000 };
+
+// The village plaza — the player starts here.
+export const PLAZA = { x: 800, y: 470 };
+
+export const LOCATIONS = [
+  {
+    id: "school",
+    name: "Academy of Skills",
+    icon: "🏫",
+    color: "#3B82F6",
+    colorDeep: "#1D4ED8",
+    colorSoft: "#DBEAFE",
+    description: "Expand knowledge, solve logic puzzles and earn scholarly badges.",
+    route: "/world/school",
+    position: { x: 448, y: 300 },
+    hit: { w: 430, top: -300, h: 385 },
+    tooltipY: 84, // below the art — the school sits high on the map
+    scene: {
+      kicker: "School World",
+      tagline: "Sharpen your mind with puzzles, reading quests and friendly class competitions.",
+      underConstruction: "The bell is being polished — your first classroom quest opens here soon.",
+      features: ["Logic puzzles", "Reading quests", "Scholar badges"],
+      objective: "Explore the Academy of Skills.",
+      bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
+      emojis: ["✏️", "📖", "🧮", "🎓", "🧠", "📐"],
+    },
+  },
+  {
+    id: "farm",
+    name: "Verdant Fields",
+    icon: "🌾",
+    color: "#10B981",
+    colorDeep: "#047857",
+    colorSoft: "#D1FAE5",
+    description: "Cultivate crops, manage resources and learn sustainable economics.",
+    route: "/world/farm",
+    position: { x: 1216, y: 260 },
+    hit: { w: 430, top: -255, h: 305 },
+    tooltipY: 88,
+    scene: {
+      kicker: "Farm World",
+      tagline: "Plant, water and harvest your fields — then put your harvest to good use.",
+      underConstruction: "The seeds are still in the barn — planting season starts here soon.",
+      features: ["Plant & harvest", "Care for animals", "Farm economics"],
+      objective: "Get your hands dirty at Verdant Fields.",
+      bg: "linear-gradient(180deg,#f2fbec 0%,#dcf3c8 48%,#bee3a8 100%)",
+      emojis: ["🌾", "🚜", "🍎", "🥕", "🐔", "🌻"],
+    },
+  },
+  {
+    id: "home",
+    name: "Explorer Haven",
+    icon: "🏠",
+    color: "#F59E0B",
+    colorDeep: "#B45309",
+    colorSoft: "#FEF3C7",
+    description: "Rest up, customize your quarters and review your journal of achievements.",
+    route: "/world/home",
+    position: { x: 288, y: 700 },
+    hit: { w: 370, top: -255, h: 345 },
+    tooltipY: -335,
+    scene: {
+      kicker: "Home World",
+      tagline: "Your cozy corner of the village — rest, reflect and plan your next adventure.",
+      underConstruction: "The decorator is on the way with fresh paint and furniture.",
+      features: ["Rest & recover", "Decorate your room", "Adventure journal"],
+      objective: "Make yourself at home.",
+      bg: "linear-gradient(180deg,#fff7e6 0%,#fde8c8 48%,#f9c8a8 100%)",
+      emojis: ["🌸", "🪴", "📖", "🛏️", "🍵", "✨"],
+    },
+  },
+  {
+    id: "market",
+    name: "Bazaar Square",
+    icon: "🛒",
+    color: "#8B5CF6",
+    colorDeep: "#6D28D9",
+    colorSoft: "#EDE9FE",
+    description: "Trade goods, master supply & demand and manage your coin flow.",
+    route: "/world/market",
+    position: { x: 1312, y: 750 },
+    hit: { w: 410, top: -245, h: 305 },
+    tooltipY: -320,
+    scene: {
+      kicker: "Market World",
+      tagline: "Buy low, sell smart and keep your ledger balanced at the village bazaar.",
+      underConstruction: "The merchants are unpacking crates — the first trade day starts here soon.",
+      features: ["Buy & sell goods", "Supply & demand", "Coin management"],
+      objective: "Haggle your way through Bazaar Square.",
+      bg: "linear-gradient(180deg,#f6f1ff 0%,#e7dbfb 48%,#cfbbf2 100%)",
+      emojis: ["🛒", "🪙", "🧺", "🍏", "🧾", "💰"],
+    },
+  },
+  {
+    id: "marketing",
+    name: "Creator Studio",
+    icon: "📢",
+    color: "#EC4899",
+    colorDeep: "#BE185D",
+    colorSoft: "#FCE7F3",
+    description: "Design campaigns, test creative pitches and grow your audience.",
+    route: "/world/marketing",
+    position: { x: 800, y: 845 },
+    hit: { w: 440, top: -295, h: 335 },
+    tooltipY: -350,
+    scene: {
+      kicker: "Marketing World",
+      tagline: "Turn your farm goods and ideas into campaigns the whole village talks about.",
+      underConstruction: "The billboard is being painted — your first campaign brief lands here soon.",
+      features: ["Design campaigns", "Pitch & persuade", "Grow an audience"],
+      objective: "Spread the word from Creator Studio.",
+      bg: "linear-gradient(180deg,#fff0f7 0%,#fbd9ec 48%,#f4b8dc 100%)",
+      emojis: ["📢", "🎨", "✨", "📸", "💡", "🎯"],
+    },
+  },
+];
+
+export const LOCATION_BY_ID = Object.fromEntries(LOCATIONS.map((l) => [l.id, l]));

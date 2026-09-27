@@ -1,0 +1,37 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Junk from scraper
+__emergent_overlay__
+\@vite
+cdn-cgi
+static.cloudflareinsights.com
+\@react-refresh.html
+world.html
+server.js
+fix-imports.js
+fix-css.js
+fix-css2.js
+extract-sourcemaps.js
