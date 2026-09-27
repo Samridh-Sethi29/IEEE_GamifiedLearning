@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, Hammer } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import GameHUD, { CoinIcon } from "@/components/game/GameHUD";
-import { usePlayer } from "@/hooks/usePlayer";
+import { buttonVariants } from "@/components/core/button";
+import GameHUD, { CoinIcon } from "@/features/hud/components/GameHUD";
+import { usePlayer } from "@/features/player/hooks/usePlayer";
 
 // Shared shell for the five placeholder world scenes: a themed animated backdrop,
 // a game-style panel describing the coming quests, progress stats, and the

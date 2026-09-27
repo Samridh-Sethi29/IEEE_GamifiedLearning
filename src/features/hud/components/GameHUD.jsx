@@ -1,5 +1,5 @@
 import { CalendarDays, Sparkles } from "lucide-react";
-import { usePlayer } from "@/hooks/usePlayer";
+import { usePlayer } from "@/features/player/hooks/usePlayer";
 
 // Small gold coin glyph, reused by the HUD and the world panels.
 export function CoinIcon({ className = "h-5 w-5" }) {

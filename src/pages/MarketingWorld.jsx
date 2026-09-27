@@ -1,5 +1,5 @@
-import WorldSceneLayout from "@/components/game/WorldSceneLayout";
-import { LOCATION_BY_ID } from "@/game/locations";
+import WorldSceneLayout from "@/features/world/components/WorldSceneLayout";
+import { LOCATION_BY_ID } from "@/config/locations";
 
 const world = LOCATION_BY_ID.marketing;
 

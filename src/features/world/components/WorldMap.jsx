@@ -1,11 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { LOCATIONS, MAP_VIEW, PLAZA } from "@/game/locations";
-import MapLocation from "@/components/game/MapLocation";
-import PlayerAvatar from "@/components/game/PlayerAvatar";
-import { Sign, Tree, Villager } from "@/components/game/locationArt";
-import { usePlayer } from "@/hooks/usePlayer";
+import { LOCATIONS, MAP_VIEW, PLAZA } from "@/config/locations";
+import MapLocation from "@/features/world/components/MapLocation";
+import PlayerAvatar from "@/features/player/components/PlayerAvatar";
+import { Sign, Tree, Villager } from "@/features/world/components/locationArt";
+import { usePlayer } from "@/features/player/hooks/usePlayer";
 
 const ENTER_ZOOM = 2.35;
 const ENTER_MS = 1050;

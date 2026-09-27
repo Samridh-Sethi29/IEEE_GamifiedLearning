@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/core/sonner";
 import WorldMapPage from "@/pages/WorldMapPage";
 import SchoolWorld from "@/pages/SchoolWorld";
 import FarmWorld from "@/pages/FarmWorld";
