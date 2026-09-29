@@ -121,3 +121,66 @@ export const LOCATIONS = [
 ];
 
 export const LOCATION_BY_ID = Object.fromEntries(LOCATIONS.map((l) => [l.id, l]));
+
+export const FARM_LOCATIONS = [
+  {
+    id: "agriculture",
+    name: "Agriculture",
+    icon: "🌾",
+    color: "#10B981",
+    colorDeep: "#047857",
+    colorSoft: "#D1FAE5",
+    description: "Cultivate crops, clear weeds, and expand your fields.",
+    route: "/world/farm/agriculture",
+    position: { x: 500, y: 260 },
+    hit: { w: 430, top: -255, h: 305 },
+    tooltipY: 88,
+    scene: null, // Directly routes to game
+  },
+  {
+    id: "animal",
+    name: "Animal Farming",
+    icon: "🐄",
+    color: "#F59E0B",
+    colorDeep: "#B45309",
+    colorSoft: "#FEF3C7",
+    description: "Raise livestock, collect milk and eggs, and feed animals.",
+    route: null,
+    position: { x: 1200, y: 400 },
+    hit: { w: 370, top: -255, h: 345 },
+    tooltipY: -335,
+    scene: {
+      kicker: "Animal Farming",
+      tagline: "Care for your livestock, gather fresh resources, and manage the barns.",
+      underConstruction: "The barn is being built — your first animals will arrive here soon.",
+      features: ["Raise livestock", "Gather resources", "Barn management"],
+      objective: "Explore the Animal Farm.",
+      bg: "linear-gradient(180deg,#fff7e6 0%,#fde8c8 48%,#f9c8a8 100%)",
+      emojis: ["🐄", "🐔", "🐑", "🥛", "🥚", "🌾"],
+    },
+  },
+  {
+    id: "earn-xp",
+    name: "Earn EXP",
+    icon: "🏆",
+    color: "#3B82F6",
+    colorDeep: "#1D4ED8",
+    colorSoft: "#DBEAFE",
+    description: "Complete daily farming challenges to level up quickly.",
+    route: null,
+    position: { x: 1050, y: 800 },
+    hit: { w: 410, top: -245, h: 305 },
+    tooltipY: -320,
+    scene: {
+      kicker: "Earn EXP",
+      tagline: "Complete activities and quests to earn EXP.",
+      underConstruction: "The quest board is being updated — challenges unlock here soon.",
+      features: ["Daily Quests", "Training", "Level Up"],
+      objective: "Train and earn EXP.",
+      bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
+      emojis: ["🏆", "✨", "📜", "🎯", "💪", "⭐"],
+    },
+  }
+];
+
+export const FARM_LOCATION_BY_ID = Object.fromEntries(FARM_LOCATIONS.map((l) => [l.id, l]));

@@ -894,7 +894,7 @@ export default function FarmGame2D() {
 
       {/* Leave Farm Button (Bottom Right) */}
       <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, pointerEvents: 'auto', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
-        <Link to="/" 
+        <Link to="/world/farm" 
           onMouseEnter={() => setHoveredLeave(true)}
           onMouseLeave={() => setHoveredLeave(false)}
           style={{ 

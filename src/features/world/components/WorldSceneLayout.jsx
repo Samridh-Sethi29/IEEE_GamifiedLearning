@@ -8,7 +8,7 @@ import { usePlayer } from "@/features/player/hooks/usePlayer";
 // Shared shell for the five placeholder world scenes: a themed animated backdrop,
 // a game-style panel describing the coming quests, progress stats, and the
 // "Return to World Map" control. Gameplay modules plug in below the panel later.
-export default function WorldSceneLayout({ world }) {
+export default function WorldSceneLayout({ world, backTo = "/world" }) {
   const { player } = usePlayer();
   const scene = world.scene;
 
@@ -85,9 +85,9 @@ export default function WorldSceneLayout({ world }) {
               <span className="text-slate-300">•</span>
               <span data-testid={`world-day-${world.id}`}>Day {player.day}</span>
             </div>
-            <Link to="/world" className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
+            <Link to={backTo} className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
               <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
-              Return to World Map
+              Return
             </Link>
           </div>
         </motion.div>

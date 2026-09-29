@@ -432,10 +432,98 @@ function MarketingArt() {
   );
 }
 
+export function AgricultureArt() {
+  const rows = [-96, -64, -32, 0];
+  return (
+    <g>
+      <ellipse cx="0" cy="-2" rx="212" ry="98" fill="#9ccb6b" />
+      <rect x="-196" y="-116" width="216" height="136" rx="12" fill="#a9713c" />
+      {rows.map((ry, ri) => (
+        <g key={ry}>
+          <rect x="-186" y={ry} width="196" height="14" rx="7" fill="#8f5d2f" />
+          <g className="anim-crop" style={{ animationDelay: `${ri * -0.42}s` }}>
+            {[-178, -158, -138, -118, -98, -78, -58, -38, -18, 2].map((cx) => (
+              <g key={cx}>
+                <line x1={cx} y1={ry + 2} x2={cx} y2={ry - 10} stroke="#4e9f44" strokeWidth="3" />
+                <circle cx={cx} cy={ry - 13} r="5" fill="#e9b949" />
+              </g>
+            ))}
+          </g>
+        </g>
+      ))}
+      <g>
+        <ellipse cx="100" cy="-14" rx="30" ry="12" fill="rgba(15, 23, 42, 0.15)" />
+        <rect x="74" y="-56" width="52" height="42" fill="#c7c1b4" />
+        <ellipse cx="100" cy="-56" rx="26" ry="10" fill="#d8d3c6" />
+        <ellipse cx="100" cy="-56" rx="16" ry="6" fill="#2c7da0" />
+        <line x1="74" y1="-56" x2="74" y2="-96" stroke="#8b5e3c" strokeWidth="5" />
+        <line x1="126" y1="-56" x2="126" y2="-96" stroke="#8b5e3c" strokeWidth="5" />
+        <polygon points="62,-94 138,-94 100,-118" fill="#c94f3d" />
+      </g>
+      <Tree x="-60" y="38" s="0.8" delay="-3" />
+      <Sign x="-130" y="44" label="Crops" />
+    </g>
+  );
+}
+
+export function AnimalArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-2" rx="180" ry="90" fill="#9ccb6b" />
+      <g>
+        <rect x="-68" y="-152" width="136" height="108" rx="6" fill="#c94f3d" />
+        <polygon points="-82,-152 82,-152 0,-202" fill="#8f3a2d" />
+        <rect x="-58" y="-152" width="8" height="108" fill="#f8f4e8" />
+        <rect x="50" y="-152" width="8" height="108" fill="#f8f4e8" />
+        <rect x="-26" y="-106" width="52" height="62" rx="4" fill="#8f3a2d" stroke="#f8f4e8" strokeWidth="4" />
+        <path d="M -26 -106 L 26 -44 M 26 -106 L -26 -44" stroke="#f8f4e8" strokeWidth="4" />
+        <circle cx="0" cy="-132" r="10" fill="#f8f4e8" />
+      </g>
+      <g>
+        <circle cx="96" cy="-18" r="17" fill="#e9c46a" />
+        <path d="M 84 -22 q 12 8 24 0" stroke="#d4a94e" strokeWidth="2.5" fill="none" />
+        <circle cx="126" cy="-10" r="14" fill="#efc97e" />
+      </g>
+      <Tree x="120" y="34" s="1.05" delay="-1.8" />
+      <Sign x="-90" y="44" label="Barn" />
+    </g>
+  );
+}
+
+export function ExpArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-4" rx="160" ry="80" fill="#c4e5a4" />
+      <g>
+        <rect x="-50" y="-120" width="100" height="80" rx="8" fill="#fffbea" />
+        <polygon points="-60,-120 60,-120 0,-160" fill="#3b82f6" />
+        <rect x="-20" y="-80" width="40" height="40" rx="4" fill="#f59e0b" />
+        <circle cx="10" cy="-60" r="3" fill="#ffffff" />
+      </g>
+      <g>
+        <line x1="-90" y1="-4" x2="-90" y2="-58" stroke="#8b5e3c" strokeWidth="6" />
+        <line x1="-54" y1="-4" x2="-54" y2="-58" stroke="#8b5e3c" strokeWidth="6" />
+        <rect x="-100" y="-96" width="56" height="42" rx="6" fill="#31424e" stroke="#8b5e3c" strokeWidth="4" />
+        <text x="-72" y="-69" textAnchor="middle" fontSize="14" fontWeight="700" fill="#fdf6e3" style={{ fontFamily: "var(--font-heading)" }}>
+          EXP ⭐
+        </text>
+      </g>
+      <Tree x="96" y="26" s="0.8" delay="-0.8" />
+      <Sign x="-30" y="42" label="Training" />
+    </g>
+  );
+}
+
 export const LOCATION_ART = {
   home: HomeArt,
   school: SchoolArt,
   farm: FarmArt,
   market: MarketArt,
   marketing: MarketingArt,
+};
+
+export const FARM_LOCATION_ART = {
+  agriculture: AgricultureArt,
+  animal: AnimalArt,
+  "earn-xp": ExpArt,
 };
