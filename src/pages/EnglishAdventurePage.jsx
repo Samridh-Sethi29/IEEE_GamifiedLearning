@@ -96,34 +96,36 @@ export default function EnglishAdventurePage() {
             className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4"
           >
             <motion.div 
-              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border-4 border-indigo-100 relative"
+              initial={{ scale: 0.9, y: 30 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 30 }}
+              className="bg-white rounded-[2rem] p-8 max-w-sm w-full shadow-2xl border-4 border-indigo-100 relative overflow-hidden"
             >
-              <button onClick={returnToMap} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+              <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+              
+              <button onClick={returnToMap} className="absolute top-6 right-6 text-slate-300 hover:text-slate-500 transition-colors bg-slate-50 p-2 rounded-full">
                 <XCircle className="w-6 h-6" />
               </button>
               
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-8 h-8 fill-indigo-600" />
+              <div className="text-center mb-6 mt-4">
+                <div className="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-inner border border-indigo-200">
+                  <Star className="w-10 h-10 fill-indigo-500" />
                 </div>
-                <h2 className="text-2xl font-black text-slate-800">LEVEL {selectedLevel}</h2>
-                <p className="text-indigo-600 font-bold mb-4">English Challenge</p>
+                <h2 className="text-3xl font-black text-slate-800 tracking-tight">LEVEL {selectedLevel}</h2>
+                <p className="text-indigo-500 font-bold mb-6 tracking-widest text-sm uppercase">English Challenge</p>
                 
-                <div className="bg-slate-50 p-4 rounded-2xl text-left border border-slate-100 space-y-2 mb-6">
-                  <div className="flex justify-between">
-                    <span className="text-slate-500 font-medium">Questions:</span>
-                    <span className="font-bold text-slate-700">10</span>
+                <div className="bg-slate-50 p-5 rounded-2xl text-left border-2 border-slate-100 space-y-3 mb-8 shadow-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-bold text-sm">Questions</span>
+                    <span className="font-black text-slate-700 bg-white px-3 py-1 rounded-lg border border-slate-200">10</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500 font-medium">Best Score:</span>
-                    <span className="font-bold text-slate-700">{player.english?.levels[selectedLevel]?.bestScore || 0}%</span>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-bold text-sm">Best Score</span>
+                    <span className="font-black text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg border border-indigo-100">{player.english?.levels[selectedLevel]?.bestScore || 0}%</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500 font-medium">Stars:</span>
-                    <span className="font-bold text-yellow-500 flex gap-1">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-bold text-sm">Stars</span>
+                    <span className="font-bold text-yellow-500 flex gap-1 bg-yellow-50 px-3 py-1.5 rounded-lg border border-yellow-100">
                       {[1,2,3].map(s => (
-                        <Star key={s} className={`w-4 h-4 ${s <= (player.english?.levels[selectedLevel]?.stars || 0) ? 'fill-yellow-400' : 'fill-slate-200 text-slate-200'}`} />
+                        <Star key={s} className={`w-4 h-4 ${s <= (player.english?.levels[selectedLevel]?.stars || 0) ? 'fill-yellow-400 drop-shadow-sm' : 'fill-slate-200 text-slate-200'}`} />
                       ))}
                     </span>
                   </div>
@@ -131,9 +133,9 @@ export default function EnglishAdventurePage() {
 
                 <button 
                   onClick={beginQuiz}
-                  className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all active:scale-95"
+                  className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white py-4 md:py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-transform active:scale-95"
                 >
-                  <Play className="w-5 h-5 fill-white" /> START LEVEL
+                  <Play className="w-6 h-6 fill-white" /> START LEVEL
                 </button>
               </div>
             </motion.div>
@@ -159,42 +161,48 @@ export default function EnglishAdventurePage() {
             className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4"
           >
             <motion.div 
-              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
-              className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center border-4 border-emerald-100"
+              initial={{ scale: 0.9, y: 30 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 30 }}
+              className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl text-center border-4 border-emerald-100 relative overflow-hidden"
             >
-              <Trophy className="w-20 h-20 text-yellow-400 mx-auto mb-4" />
-              <h2 className="text-3xl font-black text-slate-800 mb-2">LEVEL COMPLETE!</h2>
+              <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500" />
               
-              <div className="flex justify-center gap-2 mb-6">
+              <div className="relative mt-2">
+                <div className="absolute inset-0 bg-yellow-400/20 blur-2xl rounded-full scale-150 animate-pulse" />
+                <Trophy className="w-24 h-24 text-yellow-400 mx-auto mb-4 relative z-10 drop-shadow-xl" />
+              </div>
+              
+              <h2 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">LEVEL COMPLETE!</h2>
+              
+              <div className="flex justify-center gap-3 mb-8 mt-4">
                 {[1,2,3].map(s => (
                   <motion.div 
                     key={s}
                     initial={{ scale: 0, rotate: -45 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: s * 0.2, type: "spring" }}
+                    transition={{ delay: s * 0.15, type: "spring", stiffness: 200, damping: 15 }}
                   >
-                    <Star className={`w-12 h-12 ${s <= quizStars ? 'fill-yellow-400 text-yellow-500 drop-shadow-md' : 'fill-slate-100 text-slate-200'}`} />
+                    <Star className={`w-14 h-14 ${s <= quizStars ? 'fill-yellow-400 text-yellow-500 drop-shadow-[0_0_15px_rgba(250,204,21,0.6)]' : 'fill-slate-100 text-slate-200'}`} />
                   </motion.div>
                 ))}
               </div>
 
-              <div className="bg-slate-50 p-6 rounded-2xl mb-8 border border-slate-100">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-1">Score</p>
-                    <p className="text-2xl font-black text-slate-800">{quizScore}%</p>
+              <div className="bg-slate-50 p-6 rounded-[1.5rem] mb-8 border-2 border-slate-100 shadow-inner">
+                <div className="grid grid-cols-2 gap-y-6 gap-x-4">
+                  <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                    <p className="text-slate-400 font-black text-xs uppercase tracking-widest mb-1">Score</p>
+                    <p className="text-3xl font-black text-slate-800">{quizScore}%</p>
                   </div>
-                  <div>
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-1">Correct</p>
-                    <p className="text-2xl font-black text-emerald-600">{quizCorrect}/10</p>
+                  <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                    <p className="text-slate-400 font-black text-xs uppercase tracking-widest mb-1">Correct</p>
+                    <p className="text-3xl font-black text-emerald-500">{quizCorrect}/10</p>
                   </div>
-                  <div>
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-1">Points</p>
-                    <p className="text-2xl font-black text-indigo-600">+{quizPoints}</p>
+                  <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                    <p className="text-slate-400 font-black text-xs uppercase tracking-widest mb-1">Points</p>
+                    <p className="text-3xl font-black text-indigo-500">+{quizPoints}</p>
                   </div>
-                  <div>
-                    <p className="text-slate-400 font-bold text-sm uppercase tracking-wider mb-1">Best Streak</p>
-                    <p className="text-2xl font-black text-orange-500 flex items-center justify-center gap-1">🔥 {quizStreak}</p>
+                  <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                    <p className="text-slate-400 font-black text-xs uppercase tracking-widest mb-1">Best Streak</p>
+                    <p className="text-3xl font-black text-orange-500 flex items-center justify-center gap-1">🔥 {quizStreak}</p>
                   </div>
                 </div>
               </div>
@@ -202,13 +210,13 @@ export default function EnglishAdventurePage() {
               <div className="flex flex-col gap-3">
                 <button 
                   onClick={returnToMap}
-                  className="w-full bg-emerald-500 hover:bg-emerald-400 text-white py-4 rounded-xl font-bold shadow-lg shadow-emerald-500/30 transition-all active:scale-95"
+                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white py-5 rounded-2xl font-black text-xl shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-transform active:scale-95"
                 >
                   CONTINUE JOURNEY
                 </button>
                 <button 
                   onClick={beginQuiz}
-                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 py-3 rounded-xl font-bold transition-all"
+                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 py-4 rounded-2xl font-bold transition-all"
                 >
                   REPLAY LEVEL
                 </button>
