@@ -527,3 +527,109 @@ export const FARM_LOCATION_ART = {
   animal: AnimalArt,
   "earn-xp": ExpArt,
 };
+
+export function ScienceArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-4" rx="160" ry="80" fill="#c4e5a4" />
+      <g>
+        <rect x="-80" y="-140" width="160" height="100" rx="8" fill="#fffbea" />
+        <polygon points="-90,-140 90,-140 0,-200" fill="#10b981" />
+        <rect x="-30" y="-100" width="60" height="60" rx="6" fill="#047857" />
+        <circle cx="15" cy="-70" r="4" fill="#ffffff" />
+        {/* Telescope dome */}
+        <path d="M -40 -200 A 40 40 0 0 1 40 -200 Z" fill="#d1fae5" />
+        <line x1="10" y1="-220" x2="50" y2="-250" stroke="#047857" strokeWidth="8" strokeLinecap="round" />
+      </g>
+      <Tree x="110" y="26" s="0.85" delay="-1.2" />
+      <Sign x="-90" y="42" label="Science" />
+    </g>
+  );
+}
+
+export function MathsArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-4" rx="160" ry="80" fill="#c4e5a4" />
+      <g>
+        <rect x="-70" y="-120" width="140" height="80" rx="8" fill="#fffbea" />
+        {/* Geometric roof */}
+        <polygon points="-80,-120 -40,-180 0,-120" fill="#ef4444" />
+        <polygon points="0,-120 40,-180 80,-120" fill="#b91c1c" />
+        <rect x="-20" y="-80" width="40" height="40" rx="4" fill="#ef4444" />
+        <circle cx="10" cy="-60" r="3" fill="#ffffff" />
+        {/* Plus / Minus signs */}
+        <text x="-40" y="-130" fill="#fee2e2" fontSize="30" fontWeight="bold">+</text>
+        <text x="40" y="-130" fill="#fee2e2" fontSize="30" fontWeight="bold">-</text>
+      </g>
+      <Tree x="-100" y="10" s="0.75" delay="-2.1" />
+      <Sign x="-30" y="52" label="Maths" />
+    </g>
+  );
+}
+
+export function ComputerArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-4" rx="160" ry="80" fill="#c4e5a4" />
+      <g>
+        <rect x="-80" y="-110" width="160" height="90" rx="8" fill="#e2e8f0" />
+        <polygon points="-90,-110 90,-110 0,-150" fill="#3b82f6" />
+        <rect x="-25" y="-80" width="50" height="60" rx="4" fill="#1d4ed8" />
+        {/* Monitor */}
+        <rect x="-40" y="-190" width="80" height="60" rx="6" fill="#334155" />
+        <rect x="-35" y="-185" width="70" height="50" rx="4" fill="#38bdf8" />
+        <line x1="0" y1="-130" x2="0" y2="-110" stroke="#334155" strokeWidth="8" />
+        <line x1="-20" y1="-110" x2="20" y2="-110" stroke="#334155" strokeWidth="8" strokeLinecap="round" />
+      </g>
+      <Tree x="120" y="10" s="0.9" delay="-0.5" />
+      <Sign x="-90" y="42" label="Computer" />
+    </g>
+  );
+}
+
+export function EnglishArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-4" rx="170" ry="85" fill="#c4e5a4" />
+      <g>
+        <rect x="-90" y="-130" width="180" height="100" rx="8" fill="#f3e8ff" />
+        {/* Book roof */}
+        <path d="M -100 -130 Q -50 -180 0 -130 Q 50 -180 100 -130" fill="#8b5cf6" />
+        <rect x="-30" y="-90" width="60" height="60" rx="4" fill="#6d28d9" />
+        <line x1="-30" y1="-90" x2="-30" y2="-30" stroke="#ffffff" strokeWidth="4" />
+        <line x1="30" y1="-90" x2="30" y2="-30" stroke="#ffffff" strokeWidth="4" />
+      </g>
+      <Bush x="-110" y="20" />
+      <Bush x="110" y="20" />
+      <Sign x="-40" y="52" label="English" />
+    </g>
+  );
+}
+
+export function FactsArt() {
+  return (
+    <g>
+      <ellipse cx="0" cy="-4" rx="150" ry="75" fill="#c4e5a4" />
+      <g>
+        <rect x="-60" y="-140" width="120" height="120" rx="60" fill="#fffbeb" />
+        <rect x="-40" y="-100" width="80" height="100" fill="#fcd34d" />
+        <polygon points="-50,-100 50,-100 0,-150" fill="#f59e0b" />
+        <rect x="-20" y="-60" width="40" height="60" rx="4" fill="#b45309" />
+        {/* Lightbulb / Exclamation */}
+        <circle cx="0" cy="-180" r="25" fill="#fbbf24" className="anim-twinkle" />
+        <rect x="-10" y="-155" width="20" height="15" fill="#92400e" />
+      </g>
+      <Tree x="90" y="30" s="0.75" delay="-1.5" />
+      <Sign x="-80" y="42" label="Facts" />
+    </g>
+  );
+}
+
+export const SCHOOL_LOCATION_ART = {
+  science: ScienceArt,
+  maths: MathsArt,
+  computer: ComputerArt,
+  english: EnglishArt,
+  facts: FactsArt,
+};

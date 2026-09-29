@@ -1,4 +1,4 @@
-import { LOCATION_ART, FARM_LOCATION_ART } from "./locationArt";
+import { LOCATION_ART, FARM_LOCATION_ART, SCHOOL_LOCATION_ART } from "./locationArt";
 import LocationTooltip from "./LocationTooltip";
 
 // One interactive landmark: ground patch + building art (scales up on hover),
@@ -6,7 +6,7 @@ import LocationTooltip from "./LocationTooltip";
 // and the floating tooltip with the ENTER prompt.
 export default function MapLocation({ location, active, onHover, onEnter }) {
   const { id, name, color, position, hit, tooltipY, description } = location;
-  const Art = LOCATION_ART[id] || FARM_LOCATION_ART[id];
+  const Art = LOCATION_ART[id] || FARM_LOCATION_ART[id] || SCHOOL_LOCATION_ART[id];
   return (
     <g transform={`translate(${position.x} ${position.y})`} data-testid={`map-location-${id}`}>
       <ellipse

@@ -122,6 +122,121 @@ export const LOCATIONS = [
 
 export const LOCATION_BY_ID = Object.fromEntries(LOCATIONS.map((l) => [l.id, l]));
 
+export const SCHOOL_LOCATIONS = [
+  {
+    id: "science",
+    name: "Science",
+    icon: "🔬",
+    color: "#10B981", // Emerald
+    colorDeep: "#047857",
+    colorSoft: "#D1FAE5",
+    description: "Explore the laws of nature, conduct experiments, and discover the universe.",
+    route: null,
+    position: { x: 400, y: 300 },
+    hit: { w: 320, top: -200, h: 250 },
+    tooltipY: -220,
+    scene: {
+      kicker: "Science Lab",
+      tagline: "Uncover the mysteries of physics, chemistry, and biology.",
+      underConstruction: "The microscopes are being calibrated — experiments start soon.",
+      features: ["Experiments", "Biology", "Physics"],
+      objective: "Enter the Science Lab.",
+      bg: "linear-gradient(180deg,#f2fbec 0%,#dcf3c8 48%,#bee3a8 100%)",
+      emojis: ["🔬", "🧬", "🧪", "🔭", "🌍", "🌿"],
+    },
+  },
+  {
+    id: "maths",
+    name: "Maths",
+    icon: "➗",
+    color: "#EF4444", // Red
+    colorDeep: "#B91C1C",
+    colorSoft: "#FEE2E2",
+    description: "Solve complex problems, master algebra, and sharpen your logic.",
+    route: null,
+    position: { x: 800, y: 200 },
+    hit: { w: 320, top: -200, h: 250 },
+    tooltipY: 60,
+    scene: {
+      kicker: "Mathematics",
+      tagline: "Numbers govern the universe. Learn how to speak their language.",
+      underConstruction: "The chalkboards are being erased — equations arrive soon.",
+      features: ["Algebra", "Geometry", "Logic Puzzles"],
+      objective: "Master Mathematics.",
+      bg: "linear-gradient(180deg,#fef2f2 0%,#fecaca 48%,#fca5a5 100%)",
+      emojis: ["➗", "📐", "🧮", "📈", "🔢", "🧠"],
+    },
+  },
+  {
+    id: "computer",
+    name: "Computer",
+    icon: "💻",
+    color: "#3B82F6", // Blue
+    colorDeep: "#1D4ED8",
+    colorSoft: "#DBEAFE",
+    description: "Write code, build software, and understand the digital world.",
+    route: null,
+    position: { x: 1200, y: 300 },
+    hit: { w: 320, top: -200, h: 250 },
+    tooltipY: -220,
+    scene: {
+      kicker: "Computer Lab",
+      tagline: "Learn to code, debug systems, and create your own programs.",
+      underConstruction: "Servers are booting up — programming classes start soon.",
+      features: ["Coding", "Hardware", "Logic"],
+      objective: "Boot up the Computer Lab.",
+      bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
+      emojis: ["💻", "⌨️", "💾", "🌐", "🔋", "🖥️"],
+    },
+  },
+  {
+    id: "english",
+    name: "English & Comm",
+    icon: "📚",
+    color: "#8B5CF6", // Purple
+    colorDeep: "#6D28D9",
+    colorSoft: "#EDE9FE",
+    description: "Master languages, improve vocabulary, and practice public speaking.",
+    route: null,
+    position: { x: 500, y: 700 },
+    hit: { w: 350, top: -220, h: 260 },
+    tooltipY: -240,
+    scene: {
+      kicker: "English & Communication",
+      tagline: "Words are powerful. Learn to express yourself with clarity and confidence.",
+      underConstruction: "The library is organizing books — reading sessions start soon.",
+      features: ["Vocabulary", "Grammar", "Speaking"],
+      objective: "Explore English and Communication.",
+      bg: "linear-gradient(180deg,#f6f1ff 0%,#e7dbfb 48%,#cfbbf2 100%)",
+      emojis: ["📚", "✍️", "🗣️", "📖", "🎭", "✒️"],
+    },
+  },
+  {
+    id: "facts",
+    name: "Amazing Fact",
+    icon: "💡",
+    color: "#F59E0B", // Amber
+    colorDeep: "#B45309",
+    colorSoft: "#FEF3C7",
+    description: "Discover mind-blowing facts about the world, history, and beyond.",
+    route: null,
+    position: { x: 1100, y: 700 },
+    hit: { w: 320, top: -200, h: 250 },
+    tooltipY: -220,
+    scene: {
+      kicker: "Amazing Facts",
+      tagline: "Did you know? Expand your trivia knowledge with incredible daily facts.",
+      underConstruction: "The encyclopedia is being printed — new facts arrive soon.",
+      features: ["Daily Trivia", "History", "World Records"],
+      objective: "Discover Amazing Facts.",
+      bg: "linear-gradient(180deg,#fff7e6 0%,#fde8c8 48%,#f9c8a8 100%)",
+      emojis: ["💡", "🤯", "🦖", "🌋", "🌟", "🔍"],
+    },
+  },
+];
+
+export const SCHOOL_LOCATION_BY_ID = Object.fromEntries(SCHOOL_LOCATIONS.map((l) => [l.id, l]));
+
 export const FARM_LOCATIONS = [
   {
     id: "agriculture",
