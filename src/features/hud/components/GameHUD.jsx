@@ -88,15 +88,17 @@ export default function GameHUD({ objective }) {
           </div>
         </div>
       </div>
-      <div className="pointer-events-none fixed inset-x-0 top-[72px] z-30 flex justify-center px-4 sm:top-[80px]">
-        <div
-          className="flex items-center gap-2 rounded-full border border-amber-200/60 bg-slate-900/85 py-1.5 pl-3.5 pr-4 text-[13px] font-medium text-amber-50 shadow-lg backdrop-blur"
-          data-testid="hud-objective"
-        >
-          <Sparkles className="h-3.5 w-3.5 text-amber-300" aria-hidden="true" />
-          {objective}
+      {objective && (
+        <div className="pointer-events-none fixed inset-x-0 top-[72px] z-30 flex justify-center px-4 sm:top-[80px]">
+          <div
+            className="flex items-center gap-2 rounded-full border border-amber-200/60 bg-slate-900/85 py-1.5 pl-3.5 pr-4 text-[13px] font-medium text-amber-50 shadow-lg backdrop-blur"
+            data-testid="hud-objective"
+          >
+            <Sparkles className="h-3.5 w-3.5 text-amber-300" aria-hidden="true" />
+            {objective}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

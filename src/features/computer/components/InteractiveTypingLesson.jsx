@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { buttonVariants } from '@/components/core/button';
-import { CheckCircle2, XCircle, Sparkles, MessageCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, MessageCircle, Keyboard } from 'lucide-react';
 import { usePlayer } from '@/features/player/hooks/usePlayer';
 import VirtualKeyboard from './VirtualKeyboard';
 
@@ -214,12 +214,19 @@ export default function InteractiveTypingLesson({ onComplete, onBack }) {
               })}
             </div>
           ) : (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center max-w-xl text-center rounded-[32px] bg-white p-10 shadow-lg border-4 border-slate-100">
+              <div className="flex h-20 w-20 items-center justify-center rounded-[24px] bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-xl shadow-blue-500/30 mb-6">
+                <Keyboard className="h-10 w-10" />
+              </div>
+              <h2 className="text-3xl font-heading font-extrabold text-slate-800 mb-4">Welcome to Typing!</h2>
+              <p className="text-lg font-bold text-slate-500 mb-8 leading-relaxed">
+                In this lesson, you'll learn how to find and press keys on the keyboard. Keep your eyes on the screen and use the colored finger hints!
+              </p>
               <button 
                 onClick={handleNextIntro} 
-                className={buttonVariants({ variant: 'default', size: 'lg', className: 'rounded-2xl h-16 px-12 text-xl shadow-[0_4px_0_0_rgba(0,0,0,0.15)] hover:translate-y-[2px] hover:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] active:translate-y-[4px] active:shadow-none transition-all' })}
+                className={buttonVariants({ variant: 'default', size: 'lg', className: 'rounded-2xl h-16 w-full text-xl shadow-[0_4px_0_0_rgba(0,0,0,0.15)] bg-blue-500 hover:bg-blue-600' })}
               >
-                Let's Start
+                Begin Lesson
               </button>
             </div>
           )}

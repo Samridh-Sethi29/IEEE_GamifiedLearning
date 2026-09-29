@@ -184,7 +184,7 @@ export default function ComputerChallenge() {
         <div className="absolute -right-[10%] bottom-0 h-[600px] w-[600px] rounded-full bg-emerald-200/30 blur-3xl" />
       </div>
 
-      <GameHUD objective="Complete the final Computer Mission." />
+      <GameHUD  />
 
       <div className="pointer-events-auto fixed left-4 top-[100px] z-40 sm:left-4">
         <Link 

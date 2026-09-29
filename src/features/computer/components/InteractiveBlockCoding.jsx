@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, RotateCcw, Trash2, ArrowUp, ArrowDown, Bot } from 'lucide-react';
-import { buttonVariants } from '@/components/core/button';
+import { Play, RotateCcw, RotateCw, Trash2, ArrowUp, ArrowDown, Blocks, Check, Repeat, Sparkles } from 'lucide-react';
+import './BlockCoding.css';
+import { usePlayer } from '@/features/player/hooks/usePlayer';
 
 const BLOCKS = {
-  START: { id: 'START', label: 'START', color: 'bg-emerald-500', category: 'EVENT' },
-  MOVE_FORWARD: { id: 'MOVE_FORWARD', label: 'MOVE FORWARD', color: 'bg-blue-500', category: 'ACTION' },
-  MOVE_BACKWARD: { id: 'MOVE_BACKWARD', label: 'MOVE BACKWARD', color: 'bg-blue-600', category: 'ACTION' },
-  TURN_RIGHT: { id: 'TURN_RIGHT', label: 'TURN RIGHT', color: 'bg-purple-500', category: 'ACTION' },
-  TURN_LEFT: { id: 'TURN_LEFT', label: 'TURN LEFT', color: 'bg-purple-500', category: 'ACTION' },
-  REPEAT_3: { id: 'REPEAT_3', label: 'REPEAT 3 TIMES', color: 'bg-amber-500', category: 'CONTROL', isContainer: true }
+  START: { id: 'START', label: 'START', bg: '#10b981', category: 'EVENT', icon: Play },
+  MOVE_FORWARD: { id: 'MOVE_FORWARD', label: 'MOVE FORWARD', bg: '#3b82f6', category: 'ACTION', icon: ArrowUp },
+  MOVE_BACKWARD: { id: 'MOVE_BACKWARD', label: 'MOVE BACKWARD', bg: '#2563eb', category: 'ACTION', icon: ArrowDown },
+  TURN_RIGHT: { id: 'TURN_RIGHT', label: 'TURN RIGHT', bg: '#8b5cf6', category: 'ACTION', icon: RotateCw },
+  TURN_LEFT: { id: 'TURN_LEFT', label: 'TURN LEFT', bg: '#8b5cf6', category: 'ACTION', icon: RotateCcw },
+  REPEAT_3: { id: 'REPEAT_3', label: 'REPEAT 3 TIMES', bg: '#f59e0b', category: 'CONTROL', isContainer: true, icon: Repeat }
 };
 
-export default function InteractiveBlockCoding({ tasks, mode = 'learning', onComplete }) {
+const LEARNING_REWARD = { xp: 25, coins: 10 };
+
+/**
+ * fitViewport: when true (full-page Block Coding screens) the coding area is sized
+ * from the viewport height so palette, workspace, robot board and Run/Reset are all
+ * visible without scrolling on desktop. When false (embedded, e.g. final challenge)
+ * it uses natural/min heights.
+ */
+export default function InteractiveBlockCoding({ tasks, mode = 'learning', onComplete, fitViewport = false }) {
+  const { player, updatePlayer } = usePlayer();
   const [currentLessonIdx, setCurrentLessonIdx] = useState(0);
   const lesson = tasks[currentLessonIdx];
 
@@ -20,17 +30,26 @@ export default function InteractiveBlockCoding({ tasks, mode = 'learning', onCom
   const [isRunning, setIsRunning] = useState(false);
   const [robotState, setRobotState] = useState(lesson.startPos);
   const [feedback, setFeedback] = useState(null);
+  const [executingBlockIndex, setExecutingBlockIndex] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const playerRef = useRef(player);
+  playerRef.current = player;
 
   useEffect(() => {
     setWorkspace([]);
     setRobotState(lesson.startPos);
     setFeedback(null);
     setIsRunning(false);
+    setShowSuccess(false);
+    setExecutingBlockIndex(null);
+    setAttempts(0);
   }, [lesson]);
 
   const addBlock = (blockId) => {
     if (isRunning) return;
     if (blockId === 'START' && workspace.some(b => b.id === 'START')) return;
+    setFeedback(null);
     setWorkspace([...workspace, { ...BLOCKS[blockId], uniqueId: Date.now() + Math.random() }]);
   };
 
@@ -43,7 +62,6 @@ export default function InteractiveBlockCoding({ tasks, mode = 'learning', onCom
     if (isRunning) return;
     if (direction === -1 && index === 0) return;
     if (direction === 1 && index === workspace.length - 1) return;
-    
     const newWorkspace = [...workspace];
     const temp = newWorkspace[index];
     newWorkspace[index] = newWorkspace[index + direction];
@@ -51,43 +69,53 @@ export default function InteractiveBlockCoding({ tasks, mode = 'learning', onCom
     setWorkspace(newWorkspace);
   };
 
+  const clearAll = () => {
+    if (isRunning) return;
+    setWorkspace([]);
+    setFeedback(null);
+  };
+
   const resetSimulation = () => {
     setIsRunning(false);
     setWorkspace([]);
     setRobotState(lesson.startPos);
     setFeedback(null);
+    setShowSuccess(false);
+    setExecutingBlockIndex(null);
   };
 
   const runProgram = async () => {
     if (isRunning || workspace.length === 0) return;
-    
+
     if (workspace[0].id !== 'START') {
-      setFeedback({ type: 'error', message: 'Program must begin with START block.' });
+      setFeedback({ type: 'error', message: 'Every program must begin with a START block. Try moving START to the top.' });
       return;
     }
 
     setIsRunning(true);
     setFeedback(null);
+    setExecutingBlockIndex(0);
     let currentRobot = { ...lesson.startPos };
     setRobotState(currentRobot);
-    
+
     const executionList = [];
     for (let i = 0; i < workspace.length; i++) {
       if (workspace[i].id === 'REPEAT_3' && i + 1 < workspace.length) {
-        executionList.push(workspace[i + 1].id);
-        executionList.push(workspace[i + 1].id);
-        executionList.push(workspace[i + 1].id);
-        i++; // Skip the next block since it's inside the repeat
+        executionList.push({ id: workspace[i + 1].id, wsIndex: i + 1 });
+        executionList.push({ id: workspace[i + 1].id, wsIndex: i + 1 });
+        executionList.push({ id: workspace[i + 1].id, wsIndex: i + 1 });
+        i++;
       } else {
-        executionList.push(workspace[i].id);
+        executionList.push({ id: workspace[i].id, wsIndex: i });
       }
     }
 
-    for (const cmd of executionList) {
-      if (cmd === 'START') continue;
-      
+    for (const step of executionList) {
+      setExecutingBlockIndex(step.wsIndex);
+      const cmd = step.id;
       await new Promise(r => setTimeout(r, 600));
-      
+      if (cmd === 'START') continue;
+
       if (cmd === 'MOVE_FORWARD') {
         if (currentRobot.dir === 0) currentRobot.y -= 1;
         if (currentRobot.dir === 1) currentRobot.x += 1;
@@ -103,205 +131,238 @@ export default function InteractiveBlockCoding({ tasks, mode = 'learning', onCom
       } else if (cmd === 'TURN_LEFT') {
         currentRobot.dir = (currentRobot.dir + 3) % 4;
       }
-      
+
       currentRobot.x = Math.max(0, Math.min(lesson.gridSize - 1, currentRobot.x));
       currentRobot.y = Math.max(0, Math.min(lesson.gridSize - 1, currentRobot.y));
-      
+
       setRobotState({ ...currentRobot });
     }
 
-    await new Promise(r => setTimeout(r, 600));
-    
-    if (currentRobot.x === lesson.flagPos.x && currentRobot.y === lesson.flagPos.y) {
+    await new Promise(r => setTimeout(r, 500));
+    setExecutingBlockIndex(null);
+
+    const reached = currentRobot.x === lesson.flagPos.x && currentRobot.y === lesson.flagPos.y;
+
+    if (reached) {
       if (lesson.requireRepeat && !workspace.some(b => b.id === 'REPEAT_3')) {
         setFeedback({ type: 'error', message: 'You must use a REPEAT block for this mission!' });
         setIsRunning(false);
         return;
       }
-
-      setFeedback({ type: 'success', message: mode === 'challenge' ? 'Great! Mission complete!' : 'Great! You built your program!' });
-      setTimeout(() => {
-        if (currentLessonIdx < tasks.length - 1) {
-          setCurrentLessonIdx(prev => prev + 1);
-        } else {
-          onComplete();
-        }
-      }, 2000);
+      if (mode === 'learning') {
+        // single update so XP, level and coins never overwrite each other
+        const p = playerRef.current;
+        const newXP = p.xp + LEARNING_REWARD.xp;
+        updatePlayer({ xp: newXP, level: Math.floor(newXP / 100) + 1, coins: p.coins + LEARNING_REWARD.coins });
+      }
+      setShowSuccess(true);
     } else {
-      setFeedback({ type: 'error', message: 'Almost! Try changing the order.' });
+      const n = attempts + 1;
+      setAttempts(n);
+      setFeedback({
+        type: 'error',
+        message: n % 2 === 1
+          ? 'Almost! Your robot stopped before reaching the star.'
+          : 'Try changing the order of your blocks.'
+      });
       setIsRunning(false);
     }
   };
 
-  const getRotationStyle = (dir) => {
-    if (dir === 0) return 'rotate-0';
-    if (dir === 1) return 'rotate-90';
-    if (dir === 2) return 'rotate-180';
-    if (dir === 3) return '-rotate-90';
-    return '';
+  const handleContinue = () => {
+    setShowSuccess(false);
+    if (currentLessonIdx < tasks.length - 1) {
+      setCurrentLessonIdx(prev => prev + 1);
+    } else {
+      onComplete();
+    }
   };
 
+  const isLast = currentLessonIdx === tasks.length - 1;
+  const canRun = workspace.length > 0 && !isRunning;
+  const n = lesson.gridSize;
+
   return (
-    <div className="flex w-full flex-col gap-6">
-      
-      {/* Progress Bar */}
-      <div className="mx-auto flex w-full max-w-3xl items-center justify-between rounded-2xl bg-white/60 px-6 py-4 shadow-sm border border-white/80 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <span className="text-[15px] font-extrabold uppercase tracking-wide text-slate-500">{mode === 'challenge' ? 'Mission Progress' : 'Lesson Progress'}</span>
-          <span className="text-xl font-black text-blue-600">{mode === 'challenge' ? 'Mission' : 'Step'} {currentLessonIdx + 1} of {tasks.length}</span>
+    <div className="bc-root">
+
+      {/* Lesson progress */}
+      <div className="bc-progress">
+        <div>
+          <span className="bc-progress-label">{mode === 'challenge' ? 'Mission Progress' : 'Lesson Progress'}</span>
+          <span className="bc-progress-stage">{mode === 'challenge' ? 'Mission' : 'Stage'} {currentLessonIdx + 1} of {tasks.length}</span>
         </div>
-        <div className="h-4 w-48 overflow-hidden rounded-full bg-blue-100/50 shadow-inner sm:w-72">
-          <div className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all duration-500" style={{ width: `${((currentLessonIdx) / tasks.length) * 100}%` }} />
+        <div className="bc-progress-bar">
+          <div className="bc-progress-fill" style={{ width: `${(currentLessonIdx / tasks.length) * 100}%` }} />
         </div>
       </div>
 
-      <div className="flex w-full flex-col lg:flex-row gap-6">
-        <div className="flex w-full lg:w-64 flex-col gap-4 rounded-[32px] bg-white/90 p-6 shadow-xl border-4 border-white">
-        <h3 className="font-heading text-lg font-bold text-slate-700">Blocks</h3>
-        <div className="flex flex-col gap-3">
-          {lesson.availableBlocks.map(blockId => (
-            <button
-              key={blockId}
-              onClick={() => addBlock(blockId)}
-              disabled={isRunning || (blockId === 'START' && workspace.some(b => b.id === 'START'))}
-              className={`flex items-center justify-center rounded-xl p-4 font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0.5 active:shadow-sm disabled:opacity-50 disabled:pointer-events-none ${BLOCKS[blockId].color}`}
-            >
-              {BLOCKS[blockId].label}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* MAIN CODING AREA: left = palette + workspace, right = robot game */}
+      <div className={`bc-grid ${fitViewport ? 'bc-fit' : ''}`}>
 
-      <div className="flex flex-1 flex-col gap-4 rounded-[32px] bg-white/90 p-6 shadow-xl border-4 border-white">
-        <div className="flex items-center justify-between">
-          <h3 className="font-heading text-lg font-bold text-slate-700">Workspace</h3>
-          <button 
-            onClick={() => setWorkspace([])}
-            disabled={isRunning || workspace.length === 0}
-            className="text-sm font-bold text-rose-500 hover:text-rose-600 disabled:opacity-50"
-          >
-            Clear All
-          </button>
-        </div>
-        
-        <div className="flex-1 min-h-[300px] rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 p-4 flex flex-col gap-2">
-          {workspace.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-slate-400 font-bold">
-              Click blocks to add them here
+        {/* LEFT */}
+        <div className="bc-col">
+          <div className="bc-card">
+            <div className="bc-card-head">
+              <h3 className="bc-h3">Blocks Palette</h3>
+              <p className="bc-hint">Click a block to add it</p>
             </div>
-          ) : (
-            <AnimatePresence>
-              {workspace.map((block, idx) => {
-                const isRepeatNext = idx > 0 && workspace[idx-1].id === 'REPEAT_3';
+            <div className="bc-palette">
+              {lesson.availableBlocks.map(blockId => {
+                const cfg = BLOCKS[blockId];
+                const Icon = cfg.icon;
                 return (
-                  <motion.div
-                    key={block.uniqueId}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    className={`group flex items-center justify-between rounded-xl p-4 font-bold text-white shadow-sm ${block.color} ${isRepeatNext ? 'ml-8 relative' : ''}`}
+                  <button
+                    key={blockId}
+                    className="bc-pal-btn"
+                    onClick={() => addBlock(blockId)}
+                    disabled={isRunning || (blockId === 'START' && workspace.some(b => b.id === 'START'))}
+                    style={{ backgroundColor: cfg.bg }}
                   >
-                    {isRepeatNext && (
-                      <div className="absolute -left-6 top-1/2 h-10 w-4 -translate-y-1/2 border-b-[3px] border-l-[3px] border-amber-500/50 rounded-bl-xl" />
-                    )}
-                    <span>{block.label}</span>
-                    <div className="flex items-center gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => moveBlock(idx, -1)} disabled={isRunning || idx === 0} className="p-1 hover:bg-white/20 rounded disabled:opacity-30"><ArrowUp size={18} /></button>
-                      <button onClick={() => moveBlock(idx, 1)} disabled={isRunning || idx === workspace.length - 1} className="p-1 hover:bg-white/20 rounded disabled:opacity-30"><ArrowDown size={18} /></button>
-                      <button onClick={() => removeBlock(idx)} disabled={isRunning} className="p-1 hover:bg-white/20 rounded ml-2"><Trash2 size={18} /></button>
-                    </div>
-                  </motion.div>
+                    <span className="bc-ico"><Icon size={12} strokeWidth={3} /></span>
+                    <span className="bc-lbl">{cfg.label}</span>
+                  </button>
                 );
               })}
-            </AnimatePresence>
-          )}
-        </div>
-
-        <div className="mt-4 flex gap-4">
-          <button 
-            onClick={runProgram} 
-            disabled={isRunning || workspace.length === 0}
-            className={buttonVariants({ variant: 'default', size: 'lg', className: 'flex-1 rounded-xl shadow-[0_4px_0_0_rgba(0,0,0,0.15)] bg-emerald-500 hover:bg-emerald-600' })}
-          >
-            <Play className="mr-2 h-5 w-5" /> Run Program
-          </button>
-          <button 
-            onClick={resetSimulation} 
-            disabled={isRunning}
-            className={buttonVariants({ variant: 'secondary', size: 'lg', className: 'flex-1 rounded-xl' })}
-          >
-            <RotateCcw className="mr-2 h-5 w-5" /> Reset
-          </button>
-        </div>
-      </div>
-
-      <div className="flex w-full lg:w-72 flex-col gap-4 rounded-[32px] bg-[#f4f9f9]/90 p-6 shadow-xl border-4 border-white justify-between">
-        <div className="flex flex-col items-center text-center">
-          <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-b from-blue-400 to-blue-500 text-white shadow-md">
-            <Bot className="h-6 w-6" />
-          </div>
-          <p className="font-bold text-slate-700 leading-snug">{lesson.description}</p>
-        </div>
-
-        <div className="relative mx-auto mt-4 aspect-square w-full max-w-[240px] rounded-2xl bg-white border-2 border-slate-100 shadow-inner overflow-hidden">
-          <div 
-            className="absolute inset-0 grid"
-            style={{ 
-              gridTemplateColumns: `repeat(${lesson.gridSize}, 1fr)`,
-              gridTemplateRows: `repeat(${lesson.gridSize}, 1fr)` 
-            }}
-          >
-            {Array.from({ length: lesson.gridSize * lesson.gridSize }).map((_, i) => (
-              <div key={i} className="border-[0.5px] border-slate-100" />
-            ))}
+            </div>
           </div>
 
-          <div 
-            className="absolute flex items-center justify-center transition-all duration-300"
-            style={{ 
-              width: `${100 / lesson.gridSize}%`, 
-              height: `${100 / lesson.gridSize}%`,
-              left: `${(lesson.flagPos.x / lesson.gridSize) * 100}%`,
-              top: `${(lesson.flagPos.y / lesson.gridSize) * 100}%`
-            }}
-          >
-            <div className="text-3xl animate-bounce">⭐</div>
-          </div>
+          <div className="bc-card bc-ws-card">
+            <div className="bc-card-head">
+              <h3 className="bc-h3">Workspace</h3>
+              <button className="bc-clear" onClick={clearAll} disabled={isRunning || workspace.length === 0}>Clear All</button>
+            </div>
 
-          <div 
-            className="absolute flex items-center justify-center transition-all duration-500 ease-in-out"
-            style={{ 
-              width: `${100 / lesson.gridSize}%`, 
-              height: `${100 / lesson.gridSize}%`,
-              left: `${(robotState.x / lesson.gridSize) * 100}%`,
-              top: `${(robotState.y / lesson.gridSize) * 100}%`
-            }}
-          >
-            <div className={`h-[70%] w-[70%] rounded-[10px] bg-blue-500 shadow-[0_4px_10px_rgba(59,130,246,0.5)] flex items-center justify-center text-white transition-transform duration-300 ${getRotationStyle(robotState.dir)}`}>
-              <Bot size={28} strokeWidth={2.5} />
+            <div className="bc-ws">
+              {workspace.length === 0 ? (
+                <div className="bc-empty">
+                  <Blocks size={32} color="#cbd5e1" />
+                  <b>🧩 Your program is empty</b>
+                  <small>Click a block above to start building.</small>
+                </div>
+              ) : (
+                <div className="bc-stack">
+                  <AnimatePresence initial={false}>
+                    {workspace.map((block, idx) => {
+                      const isRepeatNext = idx > 0 && workspace[idx - 1].id === 'REPEAT_3';
+                      const Icon = block.icon;
+                      const active = idx === executingBlockIndex;
+                      return (
+                        <React.Fragment key={block.uniqueId}>
+                          {idx > 0 && <div className="bc-arrow"><ArrowDown size={14} strokeWidth={3} /></div>}
+                          <motion.div
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className={`bc-block ${isRepeatNext ? 'bc-indent' : ''} ${active ? 'bc-active' : ''}`}
+                            style={{ backgroundColor: block.bg }}
+                          >
+                            {isRepeatNext && <div className="bc-branch" />}
+                            <div className="bc-block-l">
+                              <span className="bc-ico" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 20, height: 20, borderRadius: '50%', background: active ? '#fff' : 'rgba(255,255,255,.25)', fontSize: 10 }}>
+                                {active ? '🟢' : <Icon size={12} strokeWidth={3} />}
+                              </span>
+                              <span>{block.label}</span>
+                            </div>
+                            <div className="bc-block-r">
+                              <button className="bc-mini" aria-label="Move up" onClick={() => moveBlock(idx, -1)} disabled={isRunning || idx === 0}><ArrowUp size={13} strokeWidth={3} /></button>
+                              <button className="bc-mini" aria-label="Move down" onClick={() => moveBlock(idx, 1)} disabled={isRunning || idx === workspace.length - 1}><ArrowDown size={13} strokeWidth={3} /></button>
+                              <button className="bc-mini bc-del" aria-label="Delete block" onClick={() => removeBlock(idx)} disabled={isRunning}><Trash2 size={13} strokeWidth={2.5} /></button>
+                            </div>
+                          </motion.div>
+                        </React.Fragment>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="h-16 flex items-center justify-center mt-4">
-          <AnimatePresence mode="wait">
-            {feedback && (
-              <motion.div
-                key={feedback.message}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                className={`text-center font-bold px-4 py-2 rounded-xl text-sm ${
-                  feedback.type === 'success' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
-                }`}
+        {/* RIGHT: robot game */}
+        <div className="bc-card bc-game">
+          <h3 className="bc-game-title">🤖 Help the robot reach the star!</h3>
+          <p className="bc-game-sub">Programs run from top to bottom.</p>
+
+          <div className="bc-board-area">
+            <div className="bc-board" data-testid="robot-board">
+              <div className="bc-cells" style={{ gridTemplateColumns: `repeat(${n}, 1fr)`, gridTemplateRows: `repeat(${n}, 1fr)` }}>
+                {Array.from({ length: n * n }).map((_, i) => (
+                  <div key={i} className={`bc-cell ${((i % n) + Math.floor(i / n)) % 2 ? 'bc-alt' : ''}`} />
+                ))}
+              </div>
+
+              {/* Star */}
+              <div
+                className="bc-sprite"
+                style={{ width: `${100 / n}%`, height: `${100 / n}%`, left: `${(lesson.flagPos.x / n) * 100}%`, top: `${(lesson.flagPos.y / n) * 100}%` }}
               >
-                {feedback.message}
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <motion.span
+                  className="bc-emoji"
+                  animate={{ scale: [1, 1.12, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.6 }}
+                  style={{ fontSize: `${52 / n}cqw` }}
+                >⭐</motion.span>
+              </div>
+
+              {/* Robot */}
+              <div
+                className="bc-sprite bc-robot"
+                style={{ width: `${100 / n}%`, height: `${100 / n}%`, left: `${(robotState.x / n) * 100}%`, top: `${(robotState.y / n) * 100}%` }}
+              >
+                <div className="bc-robot-body">
+                  <div className="bc-face" style={{ transform: `rotate(${robotState.dir * 90}deg)` }}><i /></div>
+                  <span className="bc-emoji" style={{ fontSize: `${46 / n}cqw` }}>🤖</span>
+                </div>
+              </div>
+            </div>
+
+            <AnimatePresence>
+              {showSuccess && (
+                <motion.div className="bc-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <motion.div className="bc-win" initial={{ scale: 0.85, y: 10 }} animate={{ scale: 1, y: 0 }}>
+                    <div style={{ fontSize: 30 }}>🎉</div>
+                    <h4>PROGRAM COMPLETE!</h4>
+                    <p>{mode === 'challenge' ? 'Great! Mission complete!' : 'The robot reached the star!'}</p>
+                    {mode === 'learning' && (
+                      <div className="bc-rewards">
+                        <span className="bc-chip"><Sparkles size={12} style={{ verticalAlign: '-2px' }} /> +{LEARNING_REWARD.xp} XP</span>
+                        <span className="bc-chip bc-coin">🪙 +{LEARNING_REWARD.coins} Coins</span>
+                      </div>
+                    )}
+                    <button className="bc-continue" onClick={handleContinue}>{isLast ? 'Finish' : 'Continue'}</button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="bc-status">
+            <AnimatePresence mode="wait">
+              {feedback && (
+                <motion.div key={feedback.message} className="bc-msg bc-err" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                  <span>💡</span>{feedback.message}
+                </motion.div>
+              )}
+              {!feedback && isRunning && !showSuccess && (
+                <motion.div key="running" className="bc-msg bc-run" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  ▶ Running your program…
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* RUN / RESET */}
+      <div className="bc-controls">
+        <button className="bc-btn bc-run" onClick={runProgram} disabled={!canRun}>
+          <Play size={20} fill="#fff" /> RUN PROGRAM
+        </button>
+        <button className="bc-btn bc-reset" onClick={resetSimulation} disabled={isRunning && !showSuccess}>
+          <RotateCcw size={20} strokeWidth={2.5} /> RESET
+        </button>
+      </div>
     </div>
   );
 }

@@ -67,17 +67,20 @@ export default function BlockCodingChallengeLevel1() {
         <div className="absolute -right-[10%] bottom-0 h-[600px] w-[600px] rounded-full bg-amber-200/30 blur-3xl" />
       </div>
 
-      <GameHUD objective="Block Coding Challenge" />
+      <GameHUD  />
 
-      <div className="pointer-events-auto fixed left-4 top-[100px] z-40 sm:left-4">
-        <Link 
-          to="/world/school/computer/hub" 
-          className="flex items-center gap-2 rounded-xl border-2 border-white/90 bg-white/80 px-4 py-2.5 text-[14px] font-bold text-slate-700 shadow-[0_4px_12px_rgba(0,0,0,0.05)] backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)]"
-        >
-          <ArrowLeft className="h-4 w-4" strokeWidth={2.5} />
-          Back
-        </Link>
-      </div>
+      {(!hasStarted || isCompleted) && (
+        <div className="pointer-events-auto fixed left-4 top-[100px] z-40">
+          <Link
+            to="/world/school/computer/hub"
+            className="flex items-center gap-2 rounded-xl border-2 border-white/90 bg-white/80 px-4 py-2.5 text-[14px] font-bold text-slate-700 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white"
+          >
+            <ArrowLeft className="h-4 w-4" strokeWidth={2.5} />
+            Back
+          </Link>
+        </div>
+      )}
+
 
       {!hasStarted && !isCompleted ? (
         <div className="relative z-10 mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-4 pb-6 pt-28">
@@ -110,16 +113,18 @@ export default function BlockCodingChallengeLevel1() {
           </motion.div>
         </div>
       ) : !isCompleted ? (
-        <div className="relative z-10 mx-auto flex min-h-full max-w-6xl flex-col pb-10 pt-28 px-4">
-          <div className="mb-8 flex flex-col items-center text-center">
-            <h1 className="font-heading text-4xl font-extrabold tracking-tight text-slate-800 drop-shadow-sm flex items-center gap-3">
-              <Trophy className="text-amber-500 h-8 w-8" />
-              CHALLENGE MODE
-            </h1>
-            <p className="mt-2 text-lg font-bold text-slate-500 uppercase tracking-wider">Level 1 — Programming Basics</p>
+        <div className="bc-page">
+          <div className="bc-header">
+            <Link to="/world/school/computer/hub" className="bc-back">
+              <ArrowLeft size={16} strokeWidth={2.5} /> Back
+            </Link>
+            <div>
+              <h1 className="bc-title"><Trophy size={24} color="#f59e0b" />CHALLENGE MODE</h1>
+              <p className="bc-sub">Level 1 — Programming Basics</p>
+            </div>
           </div>
 
-          <InteractiveBlockCoding tasks={MISSIONS} mode="challenge" onComplete={handleComplete} />
+          <InteractiveBlockCoding fitViewport tasks={MISSIONS} mode="challenge" onComplete={handleComplete} />
         </div>
       ) : (
         <div className="relative z-10 mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-4 pb-6 pt-28">

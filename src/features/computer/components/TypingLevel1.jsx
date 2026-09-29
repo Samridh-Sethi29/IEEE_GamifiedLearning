@@ -21,7 +21,7 @@ export default function TypingLevel1() {
   if (view === 'lesson') {
     return (
       <div className="fixed inset-0 overflow-auto bg-[#eaf3ff]">
-        <GameHUD objective="Learn to type." />
+        <GameHUD  />
         <InteractiveTypingLesson onBack={() => setView('menu')} onComplete={() => setView('menu')} />
       </div>
     );
@@ -30,7 +30,7 @@ export default function TypingLevel1() {
   if (view === 'challenge') {
     return (
       <div className="fixed inset-0 overflow-auto bg-[#eaf3ff]">
-        <GameHUD objective="Typing Challenge: Level 1" />
+        <GameHUD  />
         <TypingChallenge onBack={() => setView('menu')} onCompleteLevel={() => setView('menu')} />
       </div>
     );
@@ -39,7 +39,7 @@ export default function TypingLevel1() {
   if (view === 'level2') {
     return (
       <div className="fixed inset-0 overflow-auto bg-[#eaf3ff]">
-        <GameHUD objective="Typing — Level 2" />
+        <GameHUD  />
         <TypingLevel2 onBack={() => setView('menu')} onCompleteLevel={() => setView('menu')} />
       </div>
     );
@@ -53,7 +53,7 @@ export default function TypingLevel1() {
         <div className="absolute bottom-[-10%] right-[10%] h-[500px] w-[500px] rounded-full bg-blue-300/20 blur-3xl" />
       </div>
 
-      <GameHUD objective="Typing Path" />
+      <GameHUD  />
       
       <div className="pointer-events-auto fixed left-4 top-[100px] z-40 sm:left-4">
         <Link 

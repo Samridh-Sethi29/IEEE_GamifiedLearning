@@ -182,7 +182,9 @@ export const SCHOOL_LOCATIONS = [
     scene: {
       kicker: "Computer Lab",
       tagline: "Learn to code, debug systems, and create your own programs.",
-      underConstruction: "Servers are booting up — programming classes start soon.",
+      underConstruction: null,
+      proceedRoute: "/world/school/computer/hub",
+      readyMessage: "Your Computer Lab is ready! Let's start coding.",
       features: ["Coding", "Hardware", "Logic"],
       objective: "Boot up the Computer Lab.",
       bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
