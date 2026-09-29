@@ -108,6 +108,49 @@ const CROPS = {
   }
 };
 
+const EQUIPMENT = {
+  scythe: {
+    id: 'scythe', name: 'Scythe', type: 'equipment', buyPrice: 150,
+    icon: '🗡️',
+    description: 'A traditional hand tool with a curved blade used for mowing grass or reaping crops.',
+    educationalFact: 'Historically, scythes revolutionized farming by allowing one person to harvest much more grain in a day compared to a sickle. Modern agriculture uses combine harvesters, but scythes are still used for managing weeds in small farms.',
+    action: 'Clears all dead crops instantly.'
+  },
+  pickaxe: {
+    id: 'pickaxe', name: 'Pickaxe', type: 'equipment', buyPrice: 200,
+    icon: '⛏️',
+    description: 'A T-shaped hand tool used for prying and breaking hard soil or rocks.',
+    educationalFact: 'Pickaxes are essential for breaking up hard, compacted soil (hardpan) and removing large rocks to prepare land for plowing. Good soil aeration allows roots to penetrate deeper and access more nutrients.',
+    action: 'Breaks rocks/debris.' 
+  },
+  sprinkler: {
+    id: 'sprinkler', name: 'Sprinkler', type: 'equipment', buyPrice: 500,
+    icon: '🚿',
+    description: 'An automated device that sprays water over crops.',
+    educationalFact: 'Sprinkler irrigation mimics natural rainfall and is much more efficient than traditional flood irrigation. It prevents soil erosion, reduces water wastage, and ensures even distribution of water across large crop fields.',
+    action: 'Waters a 3x3 grid of crops automatically.'
+  },
+  scarecrow: {
+    id: 'scarecrow', name: 'Scarecrow', type: 'equipment', buyPrice: 300,
+    icon: '🧍',
+    description: 'A decoy or mannequin placed in a field to deter birds.',
+    educationalFact: 'Birds can decimate freshly sown seeds and ripe crops. Scarecrows are one of the oldest forms of pest control. Modern farms often use reflective tapes, noise cannons, or drones instead of traditional scarecrows.',
+    action: 'Prevents crows from eating crops.'
+  },
+  neem_oil: {
+    id: 'neem_oil', name: 'Neem Oil', type: 'equipment', buyPrice: 100, icon: '🧴',
+    description: 'Organic pest control extracted from the Neem tree.',
+    educationalFact: 'Unlike harsh chemical pesticides that kill beneficial insects and degrade soil, Neem oil acts as a natural repellent and disrupts the life cycle of pests while keeping ladybugs and earthworms safe.',
+    action: 'Cures crops infected by pests.'
+  },
+  fertilizer: {
+    id: 'fertilizer', name: 'Organic Fertilizer', type: 'equipment', buyPrice: 50, icon: '💩',
+    description: 'Rich organic matter made from composted weeds.',
+    educationalFact: 'Plants absorb Nitrogen, Phosphorus, and Potassium from the soil to grow. Without fertilizer, the dirt becomes depleted and dead. Composting creates a circular ecosystem where dead plants feed new plants!',
+    action: 'Heals depleted soil so crops can grow again.'
+  }
+};
+
 const getSeasonIcon = (season) => {
   switch (season) {
     case 'Spring': return <Sprout size={20} color="#22c55e" />;
@@ -118,55 +161,54 @@ const getSeasonIcon = (season) => {
   }
 };
 
-
 const INITIAL_PLOTS = [
   // --- GRID 1 (Left side) ---
-  { id: 0, x: 250, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 1, x: 380, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 2, x: 510, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 0, x: 250, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 1, x: 380, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 2, x: 510, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 3, x: 250, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 4, x: 380, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 5, x: 510, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 3, x: 250, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 4, x: 380, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 5, x: 510, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 6, x: 250, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 7, x: 380, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 8, x: 510, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 6, x: 250, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 7, x: 380, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 8, x: 510, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 
   // --- GRID 2 (Right side) ---
-  { id: 9, x: 880, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 10, x: 1010, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 11, x: 1140, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 9, x: 880, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 10, x: 1010, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 11, x: 1140, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 12, x: 880, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 13, x: 1010, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 14, x: 1140, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 12, x: 880, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 13, x: 1010, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 14, x: 1140, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 15, x: 880, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 16, x: 1010, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 17, x: 1140, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 15, x: 880, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 16, x: 1010, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 17, x: 1140, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 
   // --- GRID 3 (Bottom Left) ---
-  { id: 18, x: 250, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 19, x: 380, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 20, x: 510, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 21, x: 250, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 22, x: 380, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 23, x: 510, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 24, x: 250, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 25, x: 380, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 26, x: 510, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 18, x: 250, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 19, x: 380, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 20, x: 510, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 21, x: 250, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 22, x: 380, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 23, x: 510, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 24, x: 250, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 25, x: 380, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 26, x: 510, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 
   // --- GRID 4 (Bottom Right) ---
-  { id: 27, x: 880, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 28, x: 1010, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 29, x: 1140, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 30, x: 880, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 31, x: 1010, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 32, x: 1140, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 33, x: 880, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 34, x: 1010, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
-  { id: 35, x: 1140, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false },
+  { id: 27, x: 880, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 28, x: 1010, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 29, x: 1140, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 30, x: 880, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 31, x: 1010, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 32, x: 1140, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 33, x: 880, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 34, x: 1010, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 35, x: 1140, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 ];
 
 const MUSIC_TRACKS = [
@@ -182,19 +224,33 @@ export default function FarmGame2D() {
   const [inventory, setInventory] = useState({ 
     wheat: 5, millet: 0, mustard: 0, bajra: 0,
     banana: 0, carrot: 0, mango: 0, watermelon: 0, grapes: 0,
-    ladyfinger: 0, tomato: 0, lemon: 0, cucumber: 0
+    ladyfinger: 0, tomato: 0, lemon: 0, cucumber: 0,
+    biomass: 0, fertilizer: 2
   });
+  
   const [harvested, setHarvested] = useState({ 
     wheat: 0, millet: 0, mustard: 0, bajra: 0,
     banana: 0, carrot: 0, mango: 0, watermelon: 0, grapes: 0,
     ladyfinger: 0, tomato: 0, lemon: 0, cucumber: 0
   });
+  
   const [plots, setPlots] = useState(INITIAL_PLOTS);
 
   const [activeTool, setActiveTool] = useState(null);
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const [shopTab, setShopTab] = useState('seeds');
   const [hoveredInfoId, setHoveredInfoId] = useState(null);
   const [hoveredLeave, setHoveredLeave] = useState(false);
+  const [unlockedEquipment, setUnlockedEquipment] = useState([]);
+  
+  // Market & Economy States
+  const basePrices = Object.keys(CROPS).reduce((acc, key) => ({...acc, [key]: CROPS[key].sellPrice}), {});
+  const [marketPrices, setMarketPrices] = useState(basePrices);
+  const [marketTrend, setMarketTrend] = useState({ cropId: null, type: null, message: '' });
+
+  // Educational Systems
+  const [activeLesson, setActiveLesson] = useState(null);
+  const [lessonsSeen, setLessonsSeen] = useState({ weeds: false, pests: false, soil: false, economics: false });
   
   // Weather State
   const [weather, setWeather] = useState('sunny');
@@ -208,6 +264,15 @@ export default function FarmGame2D() {
     setTimeout(() => {
       setNotifications(prev => prev.filter(n => n.id !== id));
     }, 2500);
+  };
+
+  const buyEquipment = (equip) => {
+    if (unlockedEquipment.includes(equip.id)) return;
+    if (spendCoins(equip.buyPrice)) {
+      setUnlockedEquipment(prev => [...prev, equip.id]);
+      earnXP(Math.floor(equip.buyPrice / 4));
+      addNotification(`Bought ${equip.name}!`);
+    }
   };
   
   const [playerPos, setPlayerPos] = useState({ x: 100, y: 350 });
@@ -298,16 +363,53 @@ export default function FarmGame2D() {
         return { ...p, isWatered: true };
       }
 
+      // Fertilizer Cures Depleted Soil
+      if (activeTool === 'fertilizer' && inventory.fertilizer > 0) {
+        if (p.isDepleted) {
+          setInventory(prev => ({ ...prev, fertilizer: prev.fertilizer - 1 }));
+          addNotification("Organic Fertilizer restored the soil! 💩✨");
+          return { ...p, isDepleted: false };
+        }
+      }
+
+      // Neem Oil Cures Pests
+      if (activeTool === 'neem_oil') {
+        if (p.hasPests) {
+          addNotification("Organic Neem Oil cured the pests! 🐛❌");
+          return { ...p, hasPests: false };
+        }
+      }
+
+      // Scythe clears weeds & dead crops -> Gives Biomass!
+      if (activeTool === 'scythe') {
+        if (p.hasWeed || p.state === 'dead') {
+          setInventory(prev => ({ ...prev, biomass: (prev.biomass || 0) + 1 }));
+          addNotification(p.hasWeed ? "Cleared a weed! +1 Biomass 🌿" : "Cleared dead crop! +1 Biomass 🥀");
+          return { ...p, state: 'empty', cropId: null, daysPlanted: 0, isWatered: weather === 'rainy', hasPests: false, hasWeed: false };
+        }
+      }
+
       if (activeTool === 'harvest') {
         if (p.state === 'ready') {
+          const totalStored = Object.values(harvested).reduce((a, b) => a + b, 0);
+          if (totalStored >= 30) {
+            addNotification("⚠️ Silo is full! Sell crops in the Shop.");
+            return p;
+          }
+
           const cropData = CROPS[p.cropId];
           earnXP(cropData.xp);
-          // Store crop instead of instant cash
           setHarvested(prev => ({ ...prev, [p.cropId]: prev[p.cropId] + 1 }));
-          addNotification(`${EMOJIS[p.cropId]} Harvested ${cropData.name}!`);
-          return { ...p, state: 'empty', cropId: null, daysPlanted: 0, isWatered: weather === 'rainy' };
+          addNotification(`${EMOJIS[p.cropId]} Harvested ${cropData.name}! Soil is now depleted.`);
+          
+          // HARVESTING DEPLETES THE SOIL
+          if (!lessonsSeen.soil) {
+             setActiveLesson('soil');
+             setLessonsSeen(prev => ({...prev, soil: true}));
+          }
+          return { ...p, state: 'empty', cropId: null, daysPlanted: 0, isWatered: weather === 'rainy', hasPests: false, hasWeed: false, isDepleted: true };
         } else if (p.state === 'dead') {
-          return { ...p, state: 'empty', cropId: null, daysPlanted: 0, isWatered: weather === 'rainy' };
+          return { ...p, state: 'empty', cropId: null, daysPlanted: 0, isWatered: weather === 'rainy', hasPests: false, hasWeed: false };
         }
       }
       return p;
@@ -318,51 +420,159 @@ export default function FarmGame2D() {
     const qty = harvested[cropId];
     if (qty > 0) {
       setHarvested(prev => ({ ...prev, [cropId]: 0 }));
-      const profit = CROPS[cropId].sellPrice * qty;
+      const profit = marketPrices[cropId] * qty;
       addCoins(profit);
       addNotification(`Sold ${qty}x ${CROPS[cropId].name} for ${profit} coins!`);
     }
   };
 
-  const advanceDay = () => {
-    const nextDay = day + 1;
-    const nextSeason = SEASONS[Math.floor((nextDay - 1) / DAYS_PER_SEASON) % 4];
-    
-    // Calculate tomorrow's weather
-    const isRaining = Math.random() < 0.35; // 35% chance of rain
-    const nextWeather = isRaining ? 'rainy' : 'sunny';
+  const [gameTime, setGameTime] = useState(360); // 360 = 6:00 AM
 
-    setPlots(currentPlots => currentPlots.map(p => {
-      if (p.state === 'empty' || p.state === 'dead' || p.state === 'ready') {
-         return { ...p, isWatered: isRaining };
-      }
-
-      const cropData = CROPS[p.cropId];
-      if (!cropData.seasons.includes(nextSeason)) {
-        return { ...p, state: 'dead', isWatered: false };
-      }
-
-      if (p.isWatered) {
-        const newDaysPlanted = p.daysPlanted + 1;
-        let newState = p.state;
-        if (newDaysPlanted >= cropData.daysToGrow) {
-          newState = 'ready';
-        } else {
-          newState = 'growing';
+  useEffect(() => {
+    // 1 real second = 10 in-game minutes
+    const interval = setInterval(() => {
+      setGameTime(prev => {
+        if (prev + 10 >= 1560) {
+          // 2:00 AM reached, trigger advanceDay via a timeout to avoid deep update conflicts
+          setTimeout(() => {
+            advanceDay();
+          }, 0);
+          return 360;
         }
-        return { ...p, state: newState, daysPlanted: newDaysPlanted, isWatered: isRaining };
+        return prev + 10;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const advanceDay = () => {
+    setDay(prevDay => {
+      const nextDay = prevDay + 1;
+      const nextSeason = SEASONS[Math.floor((nextDay - 1) / DAYS_PER_SEASON) % 4];
+      
+      const isRaining = Math.random() < 0.35;
+      const nextWeather = isRaining ? 'rainy' : 'sunny';
+      setWeather(nextWeather);
+
+      // --- 1. COMPOST CONVERSION ---
+      setInventory(prevInv => {
+        let newFert = prevInv.fertilizer || 0;
+        let newBiomass = prevInv.biomass || 0;
+        if (newBiomass >= 3) {
+          const created = Math.floor(newBiomass / 3);
+          newFert += created;
+          newBiomass %= 3;
+          setTimeout(() => addNotification(`♻️ Compost bin created ${created} Organic Fertilizer!`), 1000);
+        }
+        return { ...prevInv, fertilizer: newFert, biomass: newBiomass };
+      });
+
+      // --- 2. MARKET FLUCTUATIONS ---
+      let spawnedEconomyEvent = false;
+      const newPrices = { ...basePrices };
+      let trend = { cropId: null, type: null, message: '' };
+      
+      Object.keys(newPrices).forEach(key => {
+        newPrices[key] = Math.floor(basePrices[key] * (0.8 + Math.random() * 0.4));
+      });
+
+      if (Math.random() < 0.3) {
+        const cropsList = Object.keys(CROPS);
+        const randomCrop = cropsList[Math.floor(Math.random() * cropsList.length)];
+        const isShortage = Math.random() > 0.5;
+        if (isShortage) {
+          newPrices[randomCrop] = Math.floor(basePrices[randomCrop] * 3);
+          trend = { cropId: randomCrop, type: 'shortage', message: `${CROPS[randomCrop].name} Shortage! Prices triple!` };
+        } else {
+          newPrices[randomCrop] = Math.floor(basePrices[randomCrop] * 0.3);
+          trend = { cropId: randomCrop, type: 'surplus', message: `${CROPS[randomCrop].name} Surplus. Prices crashed.` };
+        }
+        spawnedEconomyEvent = true;
       }
       
-      // If it wasn't watered yesterday, it doesn't grow today, but might be watered by rain for tomorrow
-      return { ...p, isWatered: isRaining };
-    }));
+      setMarketPrices(newPrices);
+      setMarketTrend(trend);
+      if (trend.message) {
+        setTimeout(() => addNotification(`📈 Market Alert: ${trend.message}`), 500);
+      }
 
-    setDay(nextDay);
-    setWeather(nextWeather);
-    
-    if (isRaining) {
-      addNotification("It's raining! All crops have been watered.");
-    }
+      // --- 3. CROP GROWTH & EVENTS ---
+      setPlots(currentPlots => {
+        let spawnedWeed = false;
+        let spawnedPest = false;
+
+        const nextPlots = currentPlots.map(p => {
+          let newPlot = { ...p };
+          
+          if (newPlot.hasPests) {
+             newPlot.state = 'dead';
+             newPlot.hasPests = false;
+             return newPlot;
+          }
+
+          if (!newPlot.hasWeed && Math.random() < 0.10) {
+             newPlot.hasWeed = true;
+             spawnedWeed = true;
+          }
+
+          if ((newPlot.state === 'growing' || newPlot.state === 'seed') && !newPlot.hasPests && Math.random() < 0.08) {
+             newPlot.hasPests = true;
+             spawnedPest = true;
+          }
+
+          if (newPlot.state === 'empty' || newPlot.state === 'dead' || newPlot.state === 'ready') {
+             newPlot.isWatered = isRaining;
+          } else {
+             const cropData = CROPS[newPlot.cropId];
+             if (!cropData.seasons.includes(nextSeason)) {
+               newPlot.state = 'dead';
+               newPlot.isWatered = false;
+               newPlot.hasPests = false;
+             } else if (newPlot.isWatered && !newPlot.hasWeed && !newPlot.isDepleted) { 
+               // Growth only happens if watered, no weeds, AND soil is healthy!
+               const newDaysPlanted = newPlot.daysPlanted + 1;
+               if (newDaysPlanted >= cropData.daysToGrow) {
+                 newPlot.state = 'ready';
+               } else {
+                 newPlot.state = 'growing';
+               }
+               newPlot.daysPlanted = newDaysPlanted;
+               newPlot.isWatered = isRaining;
+             } else {
+               newPlot.isWatered = isRaining;
+             }
+          }
+          return newPlot;
+        });
+
+        // Trigger Lessons
+        setTimeout(() => {
+          setLessonsSeen(prev => {
+            const nextLessons = { ...prev };
+            if (spawnedWeed && !prev.weeds) {
+              setActiveLesson('weeds');
+              nextLessons.weeds = true;
+            } else if (spawnedPest && !prev.pests) {
+              setActiveLesson('pests');
+              nextLessons.pests = true;
+            } else if (spawnedEconomyEvent && !prev.economics) {
+              setActiveLesson('economics');
+              nextLessons.economics = true;
+            }
+            return nextLessons;
+          });
+        }, 0);
+
+        return nextPlots;
+      });
+
+      if (isRaining) {
+        setTimeout(() => addNotification("It's raining! All crops have been watered."), 1500);
+      }
+      
+      return nextDay;
+    });
+    setGameTime(360);
   };
 
   const buyItem = (crop) => {
@@ -375,15 +585,41 @@ export default function FarmGame2D() {
     }
   };
 
+  const [hoveredPlot, setHoveredPlot] = useState(null);
+
+  const getCropEmoji = (cropId, state) => {
+    if (state === 'dead') return EMOJIS.dead;
+    if (state === 'ready') return EMOJIS[cropId];
+
+    const varieties = {
+      wheat: { seed: '🟤', growing: '🌾' },
+      millet: { seed: '🟤', growing: '🌾' },
+      mustard: { seed: '🟤', growing: '🌿' },
+      bajra: { seed: '🟤', growing: '🌾' },
+      banana: { seed: '🪴', growing: '🌴' },
+      mango: { seed: '🪴', growing: '🌳' },
+      lemon: { seed: '🪴', growing: '🌳' },
+      carrot: { seed: '🌰', growing: '🥬' },
+      watermelon: { seed: '🌰', growing: '🍃' },
+      grapes: { seed: '🌰', growing: '🍃' },
+      cucumber: { seed: '🌰', growing: '🍃' },
+      ladyfinger: { seed: '🌱', growing: '🌿' },
+      tomato: { seed: '🌱', growing: '🌿' },
+    };
+
+    const vars = varieties[cropId] || { seed: '🌱', growing: '🌿' };
+    return vars[state] || EMOJIS.seed;
+  };
+
   const renderCrop = (plot) => {
     if (plot.state === 'empty') return null;
-    let emoji = '';
-    if (plot.state === 'dead') emoji = EMOJIS.dead;
-    else if (plot.state === 'seed') emoji = EMOJIS.seed;
-    else if (plot.state === 'growing') emoji = EMOJIS.growing;
-    else if (plot.state === 'ready') emoji = EMOJIS[plot.cropId];
-
-    return <span style={{ fontSize: '3rem', userSelect: 'none' }}>{emoji}</span>;
+    const emoji = getCropEmoji(plot.cropId, plot.state);
+    
+    return (
+      <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+        <span style={{ fontSize: plot.state === 'growing' ? '2.5rem' : '3rem', userSelect: 'none' }}>{emoji}</span>
+      </div>
+    );
   };
 
   const togglePlay = () => {
@@ -411,9 +647,109 @@ export default function FarmGame2D() {
   }, [trackIndex]);
 
   // Inventory 8-slot calculation
-  const ownedCropIds = Object.keys(inventory).filter(id => inventory[id] > 0);
+  const ownedCropIds = Object.keys(inventory).filter(id => inventory[id] > 0 && CROPS[id]);
   const displayedCropIds = ownedCropIds.slice(0, 6);
   const emptySlotsCount = Math.max(0, 6 - displayedCropIds.length);
+
+  // Helper to render equipment category
+  const renderEquipmentCategory = () => {
+    const items = Object.values(EQUIPMENT);
+    if (items.length === 0) return null;
+
+    return (
+      <div style={{ marginBottom: '40px' }}>
+        <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1e293b', marginBottom: '20px', borderBottom: '3px solid #f1f5f9', paddingBottom: '8px' }}>
+          🛠️ Advanced Farming Equipment
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          {items.map(equip => {
+            const isOwned = unlockedEquipment.includes(equip.id);
+            return (
+            <div key={`shop-${equip.id}`} style={{ backgroundColor: 'white', border: '3px solid #e2e8f0', borderRadius: '20px', padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', position: 'relative' }}>
+              <div style={{ fontSize: '3rem', backgroundColor: '#f8fafc', minWidth: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '16px', border: '2px solid #f1f5f9' }}>
+                {equip.icon}
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ fontWeight: 900, fontSize: '1.15rem', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 4px 0' }}>
+                  {equip.name}
+                  
+                  {/* Info Hover Button */}
+                  <div 
+                    onMouseEnter={() => {
+                      if (window.hoverTimeout) clearTimeout(window.hoverTimeout);
+                      setHoveredInfoId(equip.id);
+                    }}
+                    onMouseLeave={() => {
+                      window.hoverTimeout = setTimeout(() => setHoveredInfoId(null), 300);
+                    }}
+                    style={{ cursor: 'help', display: 'inline-flex' }}
+                  >
+                    <Info size={20} color="#64748b" />
+                  </div>
+                </h3>
+                <p style={{ color: '#64748b', fontWeight: 500, margin: '0 0 12px 0', fontSize: '0.875rem' }}>{equip.action}</p>
+                
+                <button
+                  onClick={() => buyEquipment(equip)}
+                  disabled={isOwned || player.coins < equip.buyPrice}
+                  style={{
+                    width: '100%', padding: '12px', borderRadius: '16px', fontWeight: 900, fontSize: '1.125rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', cursor: (isOwned || player.coins < equip.buyPrice) ? 'not-allowed' : 'pointer', border: 'none',
+                    ...(isOwned 
+                      ? { backgroundColor: '#d1fae5', color: '#047857', border: '2px solid #34d399' }
+                      : player.coins >= equip.buyPrice 
+                        ? { backgroundColor: '#fef3c7', color: '#b45309', borderBottom: '4px solid #fcd34d' } 
+                        : { backgroundColor: '#f1f5f9', color: '#94a3b8', border: '2px solid #e2e8f0' })
+                  }}
+                >
+                  {isOwned ? 'Owned' : `Buy for ${EMOJIS.coin} ${equip.buyPrice}`}
+                </button>
+              </div>
+
+              {/* Educational Tooltip anchored to the CARD */}
+              <AnimatePresence>
+                {hoveredInfoId === equip.id && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    onMouseEnter={() => {
+                      if (window.hoverTimeout) clearTimeout(window.hoverTimeout);
+                      setHoveredInfoId(equip.id);
+                    }}
+                    onMouseLeave={() => {
+                      window.hoverTimeout = setTimeout(() => setHoveredInfoId(null), 300);
+                    }}
+                    style={{
+                      position: 'absolute', top: 'calc(100% + 8px)', left: '0', right: '0',
+                      backgroundColor: '#ffffff', color: '#334155', padding: '20px', borderRadius: '12px',
+                      zIndex: 100, boxShadow: '0 10px 40px -10px rgba(0,0,0,0.5)',
+                      pointerEvents: 'auto', border: '1px solid #cbd5e1', textAlign: 'left',
+                      fontSize: '0.75rem', lineHeight: '1.5'
+                    }}
+                  >
+                    <div style={{ fontWeight: 800, fontSize: '1rem', color: '#0f172a', marginBottom: '8px', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>
+                      {equip.name} Details
+                    </div>
+                    <p style={{ fontStyle: 'italic', color: '#64748b', margin: '0 0 12px 0' }}>{equip.description}</p>
+                    
+                    <div style={{ backgroundColor: '#fffbeb', padding: '12px', borderRadius: '8px', border: '1px solid #fde68a' }}>
+                      <strong style={{ color: '#b45309', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px', fontSize: '0.85rem' }}>
+                        <span style={{ fontSize: '1.2em' }}>💡</span> Real World Fact
+                      </strong>
+                      <span style={{ color: '#78350f', fontWeight: 500, fontSize: '0.8rem', lineHeight: '1.6' }}>{equip.educationalFact}</span>
+                    </div>
+                    
+                    <div style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderBottom: '8px solid #ffffff' }} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   // Helper to render shop categories
   const renderShopCategory = (title, type) => {
@@ -536,6 +872,19 @@ export default function FarmGame2D() {
         backgroundSize: '40px 40px' 
       }} />
 
+      {/* Day/Night Ambient Lighting Overlay */}
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 10,
+        backgroundColor: (() => {
+          if (gameTime < 420) return 'rgba(15, 23, 42, 0.4)';      // 6 AM - 7 AM (Dawn)
+          if (gameTime < 600) return 'rgba(255, 255, 255, 0.1)';   // 7 AM - 10 AM (Morning)
+          if (gameTime < 960) return 'transparent';                // 10 AM - 4 PM (Noon)
+          if (gameTime < 1140) return 'rgba(251, 146, 60, 0.2)';   // 4 PM - 7 PM (Evening/Sunset)
+          return 'rgba(15, 23, 42, 0.5)';                          // After 7 PM (Night)
+        })(),
+        transition: 'background-color 2s ease'
+      }} />
+
       {/* Rain Overlay */}
       {weather === 'rainy' && (
         <div style={{
@@ -596,24 +945,37 @@ export default function FarmGame2D() {
             {/* Divider */}
             <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
             
-            {/* Day & Next Button */}
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                <span style={{ fontWeight: 700, color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Day</span>
-                <span style={{ fontWeight: 800, color: '#064e3b', fontSize: '1.1rem' }}>{day}</span>
+            {/* Day & Time & Next Button */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                  <span style={{ fontWeight: 700, color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Day</span>
+                  <span style={{ fontWeight: 800, color: '#064e3b', fontSize: '1.1rem' }}>{day}</span>
+                </div>
+                <button 
+                  onClick={advanceDay}
+                  title="Advance to Next Day"
+                  style={{ 
+                    backgroundColor: '#3b82f6', color: 'white', border: 'none', borderBottom: '2px solid #1d4ed8', 
+                    padding: '4px 6px', borderRadius: '6px', fontWeight: 800, fontSize: '0.6rem', 
+                    cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.05em',
+                    transform: 'translateY(-1px)'
+                  }}
+                >
+                  Next ➔
+                </button>
               </div>
-              <button 
-                onClick={advanceDay}
-                title="Advance to Next Day"
-                style={{ 
-                  backgroundColor: '#3b82f6', color: 'white', border: 'none', borderBottom: '2px solid #1d4ed8', 
-                  padding: '4px 6px', borderRadius: '6px', fontWeight: 800, fontSize: '0.6rem', 
-                  cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.05em',
-                  transform: 'translateY(-1px)'
-                }}
-              >
-                Next ➔
-              </button>
+              {/* REAL TIME CLOCK */}
+              <div style={{ fontWeight: 800, color: '#475569', fontSize: '0.85rem', letterSpacing: '0.02em', backgroundColor: 'rgba(241,245,249,0.8)', padding: '2px 8px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                {(() => {
+                  let h = Math.floor(gameTime / 60);
+                  const m = gameTime % 60;
+                  const ampm = h >= 12 && h < 24 ? 'PM' : 'AM';
+                  h = h % 12;
+                  if (h === 0) h = 12;
+                  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+                })()}
+              </div>
             </div>
 
             {/* Divider */}
@@ -625,6 +987,32 @@ export default function FarmGame2D() {
               <span style={{ fontWeight: 800, color: '#b45309', fontSize: '1.1rem' }}>{player.coins}</span>
             </div>
           </div>
+
+          {/* Compost Bin */}
+          <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderRadius: '16px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', border: '2px solid rgba(255,255,255,0.4)', marginTop: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.8rem', color: '#15803d', display: 'flex', gap: '6px', alignItems: 'center' }}>♻️ COMPOST BIN</h4>
+               <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b' }}>{inventory.biomass || 0} / 3 Biomass</span>
+            </div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+               <div style={{ flex: 1, backgroundColor: '#e2e8f0', height: '8px', borderRadius: '4px', overflow: 'hidden' }}>
+                 <div style={{ backgroundColor: '#22c55e', height: '100%', width: `${((inventory.biomass || 0) % 3 / 3) * 100}%`, transition: 'width 0.3s ease' }} />
+               </div>
+               <span style={{ fontWeight: 900, color: '#8b5e3c', fontSize: '0.8rem' }}>💩 {inventory.fertilizer || 0}</span>
+            </div>
+          </div>
+          
+          {/* Market Alert Banner */}
+          {marketTrend.message && (
+             <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               animate={{ opacity: 1, scale: 1 }}
+               style={{ backgroundColor: marketTrend.type === 'shortage' ? '#fff1f2' : '#f0fdfa', borderRadius: '16px', padding: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', border: `2px solid ${marketTrend.type === 'shortage' ? '#fecdd3' : '#ccfbf1'}`, marginTop: '8px' }}
+             >
+               <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.75rem', color: marketTrend.type === 'shortage' ? '#be123c' : '#0f766e', display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '4px' }}>📈 MARKET {marketTrend.type.toUpperCase()}</h4>
+               <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700, color: '#334155' }}>{marketTrend.message}</p>
+             </motion.div>
+          )}
         </div>
 
         {/* Right Side: Player Level & Actions */}
@@ -695,13 +1083,20 @@ export default function FarmGame2D() {
         {plots.map((plot) => {
           const dist = Math.hypot(plot.x - playerPos.x, plot.y - playerPos.y);
           const isNear = dist < 120;
-          const bg = plot.isWatered ? '#5c4033' : '#8b5e3c';
-          const border = plot.isWatered ? '#3e2b22' : '#6b472b';
+          let bg = plot.isWatered ? '#5c4033' : '#8b5e3c';
+          let border = plot.isWatered ? '#3e2b22' : '#6b472b';
+          
+          if (plot.isDepleted) {
+            bg = '#78716c'; // Stone/dead dirt
+            border = '#44403c';
+          }
           
           return (
             <div
               key={plot.id}
               onClick={() => handlePlotInteraction(plot)}
+              onMouseEnter={() => setHoveredPlot(plot.id)}
+              onMouseLeave={() => setHoveredPlot(null)}
               style={{
                 position: 'absolute', width: '110px', height: '110px',
                 transform: 'translate(-50%, -50%)', borderRadius: '16px',
@@ -723,10 +1118,37 @@ export default function FarmGame2D() {
                 {renderCrop(plot)}
               </motion.div>
 
+              {/* Crop Info Tooltip */}
+              <AnimatePresence>
+                {hoveredPlot === plot.id && plot.state !== 'empty' && plot.state !== 'dead' && CROPS[plot.cropId] && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    style={{
+                      position: 'absolute', bottom: '110%', backgroundColor: 'rgba(15,23,42,0.95)',
+                      color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem',
+                      fontWeight: 'bold', zIndex: 50, whiteSpace: 'nowrap', pointerEvents: 'none',
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.3)', border: '2px solid rgba(255,255,255,0.1)'
+                    }}
+                  >
+                    {CROPS[plot.cropId].name} <span style={{ color: '#94a3b8', fontSize: '0.7rem', marginLeft: '4px' }}>({plot.state})</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {plot.isWatered && (
                 <div style={{ position: 'absolute', top: '4px', right: '4px' }}>
                   <Droplet size={20} color="#60a5fa" fill="#60a5fa" />
                 </div>
+              )}
+              
+              {plot.hasWeed && (
+                <div style={{ position: 'absolute', bottom: '-4px', left: '-4px', fontSize: '1.8rem', zIndex: 12, pointerEvents: 'none' }}>🌿</div>
+              )}
+              
+              {plot.hasPests && (
+                <div style={{ position: 'absolute', top: '-4px', left: '-4px', fontSize: '1.5rem', zIndex: 12, pointerEvents: 'none', animation: 'bounce 1s infinite alternate' }}>🐛</div>
               )}
               
               {plot.state === 'ready' && (
@@ -786,9 +1208,14 @@ export default function FarmGame2D() {
         borderRadius: '24px', padding: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', 
         border: '4px solid #e2e8f0', display: 'flex', flexDirection: 'column', zIndex: 40 
       }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1e293b', marginBottom: '16px', borderBottom: '3px solid #f1f5f9', paddingBottom: '8px', textAlign: 'center' }}>
-          📦 Silo Storage
-        </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px', borderBottom: '3px solid #f1f5f9', paddingBottom: '12px' }}>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1e293b', margin: '0 0 4px 0' }}>
+            📦 Silo Storage
+          </h3>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: Object.values(harvested).reduce((a, b) => a + b, 0) >= 30 ? '#ef4444' : '#64748b' }}>
+            Capacity: {Object.values(harvested).reduce((a, b) => a + b, 0)} / 30
+          </span>
+        </div>
         
         <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {Object.keys(harvested).map(cropId => {
@@ -800,14 +1227,16 @@ export default function FarmGame2D() {
                   <span style={{ fontSize: '1.5rem' }}>{EMOJIS[cropId]}</span>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.875rem' }}>{crop.name}</span>
-                    <span style={{ fontWeight: 600, color: '#64748b', fontSize: '0.7rem' }}>x{harvested[cropId]}</span>
+                    <span style={{ fontWeight: 600, color: '#64748b', fontSize: '0.7rem' }}>
+                      x{harvested[cropId]} | <span style={{ color: marketPrices[cropId] > crop.sellPrice ? '#10b981' : (marketPrices[cropId] < crop.sellPrice ? '#ef4444' : '#64748b') }}>{marketPrices[cropId]} coins/ea</span>
+                    </span>
                   </div>
                 </div>
                 <button 
                   onClick={() => sellAllCrop(cropId)}
                   style={{ backgroundColor: '#fef3c7', border: '2px solid #fcd34d', color: '#b45309', fontWeight: 800, fontSize: '0.75rem', padding: '4px 8px', borderRadius: '8px', cursor: 'pointer' }}
                 >
-                  Sell
+                  Sell All
                 </button>
               </div>
             );
@@ -824,8 +1253,8 @@ export default function FarmGame2D() {
       {/* Bottom Toolbar & Shop Wrapper (60% width, centered) */}
       <div style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 40, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '12px', width: '60%', minWidth: '600px', maxWidth: '800px' }}>
         
-        {/* Tools Panel (Exactly 8 Slots) */}
-        <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', borderRadius: '20px', padding: '8px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.2)', border: '3px solid #e2e8f0', display: 'flex', gap: '6px', flex: 1, justifyContent: 'center' }}>
+        {/* Tools Panel */}
+        <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', borderRadius: '20px', padding: '8px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.2)', border: '3px solid #e2e8f0', display: 'flex', gap: '6px', flex: 1, justifyContent: 'flex-start', overflowX: 'auto', paddingRight: '12px' }}>
           
           <ToolButton 
             active={activeTool === 'water'} 
@@ -837,8 +1266,30 @@ export default function FarmGame2D() {
             active={activeTool === 'harvest'} 
             onClick={() => setActiveTool('harvest')}
             icon={<Axe size={24} color="#475569" />}
-            label="Harvest"
           />
+
+          {inventory.fertilizer > 0 && (
+            <ToolButton 
+              active={activeTool === 'fertilizer'} 
+              onClick={() => setActiveTool('fertilizer')}
+              icon={<span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{EQUIPMENT['fertilizer'].icon}</span>}
+              label={EQUIPMENT['fertilizer'].name}
+              badge={inventory.fertilizer}
+            />
+          )}
+          
+          {unlockedEquipment.map(eqId => {
+            const eq = EQUIPMENT[eqId];
+            return (
+              <ToolButton 
+                key={`inv-eq-${eq.id}`}
+                active={activeTool === eq.id} 
+                onClick={() => setActiveTool(eq.id)}
+                icon={<span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{eq.icon}</span>}
+                label={eq.name}
+              />
+            );
+          })}
           
           <div style={{ minWidth: '4px', borderRadius: '2px', backgroundColor: '#e2e8f0', margin: '0 2px' }} />
 
@@ -857,7 +1308,7 @@ export default function FarmGame2D() {
             );
           })}
 
-          {/* Empty Slots to pad up to 8 total blocks (2 tools + up to 6 crops) */}
+          {/* Empty Slots */}
           {Array.from({ length: emptySlotsCount }).map((_, i) => (
             <ToolButton
               key={`empty-${i}`}
@@ -931,6 +1382,120 @@ export default function FarmGame2D() {
         </Link>
       </div>
 
+      {/* Educational Lesson Modal */}
+      <AnimatePresence>
+        {activeLesson && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              style={{ backgroundColor: 'white', padding: '32px', borderRadius: '32px', maxWidth: '600px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', border: '6px solid #10b981' }}
+            >
+              {activeLesson === 'weeds' && (
+                <>
+                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px' }}>🌿</div>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#064e3b', textAlign: 'center', margin: '0 0 16px 0' }}>New Challenge: Weeds!</h2>
+                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                    A weed has sprouted on your farm! In agriculture, this causes <strong>Resource Competition</strong>.
+                  </p>
+                  <div style={{ backgroundColor: '#f0fdf4', padding: '20px', borderRadius: '16px', border: '2px solid #bbf7d0', marginBottom: '24px' }}>
+                    <h3 style={{ color: '#166534', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '1.5rem' }}>📚</span> The Science
+                    </h3>
+                    <p style={{ color: '#15803d', margin: 0, lineHeight: 1.5, fontSize: '0.95rem' }}>
+                      Plants need water, sunlight, and soil nutrients to survive. When a weed grows next to your crop, it steals those resources. 
+                      Because of this, your crop will <strong>stop growing</strong> until you remove the weed!
+                    </p>
+                  </div>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                    Equip your <strong style={{ color: '#0f172a' }}>Scythe</strong> and click on the plot to clear it.
+                  </p>
+                </>
+              )}
+
+              {activeLesson === 'pests' && (
+                <>
+                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px', animation: 'bounce 1s infinite alternate' }}>🐛</div>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#b45309', textAlign: 'center', margin: '0 0 16px 0' }}>New Challenge: Pests!</h2>
+                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                    Insects are attacking your crops! If you leave them alone, your plant will die tomorrow.
+                  </p>
+                  <div style={{ backgroundColor: '#fffbeb', padding: '20px', borderRadius: '16px', border: '2px solid #fde68a', marginBottom: '24px' }}>
+                    <h3 style={{ color: '#92400e', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '1.5rem' }}>🔬</span> Integrated Pest Management (IPM)
+                    </h3>
+                    <p style={{ color: '#b45309', margin: 0, lineHeight: 1.5, fontSize: '0.95rem' }}>
+                      Farmers must protect crops without destroying the environment. Instead of toxic chemicals that ruin the soil, 
+                      you can use <strong>Organic Neem Oil</strong>. It repels pests naturally while keeping helpful insects (like Ladybugs) alive!
+                    </p>
+                  </div>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                    Buy <strong style={{ color: '#0f172a' }}>Neem Oil</strong> from the Equipment Shop and use it to cure the plant!
+                  </p>
+                </>
+              )}
+
+              {activeLesson === 'soil' && (
+                <>
+                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px' }}>🍂</div>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#78716c', textAlign: 'center', margin: '0 0 16px 0' }}>Depleted Soil!</h2>
+                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                    You just harvested a crop, but look at the dirt! It has turned grey and cracked. 
+                  </p>
+                  <div style={{ backgroundColor: '#fafaf9', padding: '20px', borderRadius: '16px', border: '2px solid #e7e5e4', marginBottom: '24px' }}>
+                    <h3 style={{ color: '#57534e', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '1.5rem' }}>🧪</span> The Nitrogen Cycle
+                    </h3>
+                    <p style={{ color: '#44403c', margin: 0, lineHeight: 1.5, fontSize: '0.95rem' }}>
+                      Growing plants suck nutrients (like Nitrogen) out of the dirt. If you don't replace them, the soil dies! 
+                      Use your Scythe to cut weeds (adding Biomass to your Compost Bin). When you have 3 Biomass, it turns into Organic Fertilizer overnight!
+                    </p>
+                  </div>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                    Equip <strong style={{ color: '#0f172a' }}>Organic Fertilizer</strong> (💩) to heal the depleted plot!
+                  </p>
+                </>
+              )}
+
+              {activeLesson === 'economics' && (
+                <>
+                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px' }}>📈</div>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#0369a1', textAlign: 'center', margin: '0 0 16px 0' }}>Market Shift!</h2>
+                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                    Did you see that Market Alert? The prices of crops just changed drastically!
+                  </p>
+                  <div style={{ backgroundColor: '#f0f9ff', padding: '20px', borderRadius: '16px', border: '2px solid #bae6fd', marginBottom: '24px' }}>
+                    <h3 style={{ color: '#0c4a6e', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '1.5rem' }}>📊</span> Supply and Demand
+                    </h3>
+                    <p style={{ color: '#0369a1', margin: 0, lineHeight: 1.5, fontSize: '0.95rem' }}>
+                      In economics, when everyone wants tomatoes but there aren't many (<strong>Shortage</strong>), the price goes UP! 
+                      When farmers grow way too much of one thing (<strong>Surplus</strong>), the price crashes DOWN! 
+                    </p>
+                  </div>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                    Check your Silo Storage to see the real-time prices. Sell when prices are green (High)!
+                  </p>
+                </>
+              )}
+
+              <button 
+                onClick={() => setActiveLesson(null)}
+                style={{ width: '100%', padding: '16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '16px', fontSize: '1.25rem', fontWeight: 900, cursor: 'pointer', boxShadow: '0 10px 20px -5px rgba(16, 185, 129, 0.4)' }}
+              >
+                Got it! Let's Farm!
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Shop Modal */}
       <AnimatePresence>
         {isShopOpen && (
@@ -955,19 +1520,49 @@ export default function FarmGame2D() {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 32px', borderBottom: '4px solid #f1f5f9', backgroundColor: 'white' }}>
-                <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '16px', margin: 0 }}>
-                  <Store size={36} color="#f59e0b" />
-                  Seed Shop
-                </h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '16px', margin: 0 }}>
+                    <Store size={36} color="#f59e0b" />
+                    Shop
+                  </h2>
+                  
+                  {/* Tabs */}
+                  <div style={{ display: 'flex', gap: '8px', backgroundColor: '#f1f5f9', padding: '6px', borderRadius: '16px' }}>
+                    <button 
+                      onClick={() => setShopTab('seeds')}
+                      style={{ 
+                        padding: '8px 24px', borderRadius: '12px', border: 'none', fontWeight: 800, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
+                        ...(shopTab === 'seeds' ? { backgroundColor: 'white', color: '#10b981', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' } : { backgroundColor: 'transparent', color: '#64748b' })
+                      }}
+                    >
+                      🌱 Seeds
+                    </button>
+                    <button 
+                      onClick={() => setShopTab('equipment')}
+                      style={{ 
+                        padding: '8px 24px', borderRadius: '12px', border: 'none', fontWeight: 800, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
+                        ...(shopTab === 'equipment' ? { backgroundColor: 'white', color: '#3b82f6', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' } : { backgroundColor: 'transparent', color: '#64748b' })
+                      }}
+                    >
+                      🛠️ Equipment
+                    </button>
+                  </div>
+                </div>
+                
                 <button onClick={() => setIsShopOpen(false)} style={{ padding: '8px', backgroundColor: '#f1f5f9', border: 'none', borderRadius: '50%', cursor: 'pointer', display: 'flex' }}>
                   <X size={28} color="#475569" />
                 </button>
               </div>
 
               <div style={{ overflowY: 'auto', padding: '32px', paddingBottom: '200px' }}>
-                {renderShopCategory('🌾 Crops', 'crop')}
-                {renderShopCategory('🍎 Fruits', 'fruit')}
-                {renderShopCategory('🥦 Vegetables', 'vegetable')}
+                {shopTab === 'seeds' && (
+                  <>
+                    {renderShopCategory('🌾 Crops', 'crop')}
+                    {renderShopCategory('🍎 Fruits', 'fruit')}
+                    {renderShopCategory('🥦 Vegetables', 'vegetable')}
+                  </>
+                )}
+                {shopTab === 'equipment' && renderEquipmentCategory()}
               </div>
             </motion.div>
           </motion.div>
