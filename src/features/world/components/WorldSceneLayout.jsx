@@ -85,10 +85,17 @@ export default function WorldSceneLayout({ world, backTo = "/world" }) {
               <span className="text-slate-300">•</span>
               <span data-testid={`world-day-${world.id}`}>Day {player.day}</span>
             </div>
-            <Link to={backTo} className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
-              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
-              Return
-            </Link>
+            <div className="flex gap-2">
+              <Link to={backTo} className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
+                <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
+                Return
+              </Link>
+              {scene.proceedRoute && (
+                <Link to={scene.proceedRoute} className={buttonVariants({ variant: "default", size: "lg" })}>
+                  Proceed
+                </Link>
+              )}
+            </div>
           </div>
         </motion.div>
       </div>

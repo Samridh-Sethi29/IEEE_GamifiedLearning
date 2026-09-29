@@ -187,6 +187,7 @@ export const SCHOOL_LOCATIONS = [
       objective: "Boot up the Computer Lab.",
       bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
       emojis: ["💻", "⌨️", "💾", "🌐", "🔋", "🖥️"],
+      proceedRoute: "/world/school/computer/hub"
     },
   },
   {
