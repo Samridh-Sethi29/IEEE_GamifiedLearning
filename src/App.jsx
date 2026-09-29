@@ -4,6 +4,7 @@ import WorldMapPage from "@/pages/WorldMapPage";
 import SchoolWorld from "@/pages/SchoolWorld";
 import FarmWorld from "@/pages/FarmWorld";
 import FarmGame2D from "@/features/farm/components/FarmGame";
+import FarmEarnXP from "@/pages/FarmEarnXP";
 import HomeWorld from "@/pages/HomeWorld";
 import MarketWorld from "@/pages/MarketWorld";
 import MarketingWorld from "@/pages/MarketingWorld";
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/world/school/:subId" element={<SchoolSubScene />} />
         <Route path="/world/farm" element={<FarmWorld />} />
         <Route path="/world/farm/agriculture" element={<FarmGame2D />} />
+        <Route path="/world/farm/earn-xp" element={<FarmEarnXP />} />
         <Route path="/world/farm/:subId" element={<FarmSubScene />} />
         <Route path="/world/home" element={<HomeWorld />} />
         <Route path="/world/market" element={<MarketWorld />} />

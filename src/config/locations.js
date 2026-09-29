@@ -282,19 +282,11 @@ export const FARM_LOCATIONS = [
     colorDeep: "#1D4ED8",
     colorSoft: "#DBEAFE",
     description: "Complete daily farming challenges to level up quickly.",
-    route: null,
+    route: "/world/farm/earn-xp",
     position: { x: 1050, y: 800 },
     hit: { w: 410, top: -245, h: 305 },
     tooltipY: -320,
-    scene: {
-      kicker: "Earn EXP",
-      tagline: "Complete activities and quests to earn EXP.",
-      underConstruction: "The quest board is being updated — challenges unlock here soon.",
-      features: ["Daily Quests", "Training", "Level Up"],
-      objective: "Train and earn EXP.",
-      bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
-      emojis: ["🏆", "✨", "📜", "🎯", "💪", "⭐"],
-    },
+    scene: null,
   }
 ];
 

@@ -38,7 +38,10 @@ export function usePlayer() {
   const earnXP = (amount) => {
     const newXP = player.xp + amount;
     const newLevel = Math.floor(newXP / 100) + 1; // 100 XP per level
-    updatePlayer({ xp: newXP, level: newLevel });
+    const leveledUp = newLevel > player.level;
+    const coinBonus = leveledUp ? 100 : 0;
+    updatePlayer({ xp: newXP, level: newLevel, coins: player.coins + coinBonus });
+    return { leveledUp, newLevel, coinBonus };
   };
 
   const addCoins = (amount) => {
