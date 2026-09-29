@@ -1,8 +1,6 @@
-import WorldSceneLayout from "@/features/world/components/WorldSceneLayout";
-import { LOCATION_BY_ID } from "@/config/locations";
-
-const world = LOCATION_BY_ID.farm;
+import React from "react";
+import FarmGame2D from "@/features/farm/components/FarmGame";
 
 export default function FarmWorld() {
-  return <WorldSceneLayout world={world} />;
+  return <FarmGame2D />;
 }
