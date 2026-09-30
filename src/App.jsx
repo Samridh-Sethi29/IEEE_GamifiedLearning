@@ -9,6 +9,14 @@ import HomeWorld from "@/pages/HomeWorld";
 import MarketWorld from "@/pages/MarketWorld";
 import MarketingWorld from "@/pages/MarketingWorld";
 import WorldSceneLayout from "@/features/world/components/WorldSceneLayout";
+import MathsHub from "@/pages/MathsHub";
+import MathsTeaching from "@/pages/MathsTeaching";
+import MathsLesson from "@/pages/MathsLesson";
+import MathsProblems from "@/pages/MathsProblems";
+import MathsPractice from "@/pages/MathsPractice";
+import MathsGames from "@/pages/MathsGames";
+import MathsRiverMenu from "@/pages/MathsRiverMenu";
+import MathsRiverGame from "@/pages/MathsRiverGame";
 import { FARM_LOCATION_BY_ID, SCHOOL_LOCATION_BY_ID } from "@/config/locations";
 import { useParams } from "react-router-dom";
 
@@ -34,6 +42,14 @@ export default function App() {
         <Route path="/" element={<Navigate to="/world" replace />} />
         <Route path="/world" element={<WorldMapPage />} />
         <Route path="/world/school" element={<SchoolWorld />} />
+        <Route path="/world/school/maths" element={<MathsHub />} />
+        <Route path="/world/school/maths/teaching" element={<MathsTeaching />} />
+        <Route path="/world/school/maths/teaching/:topicId" element={<MathsLesson />} />
+        <Route path="/world/school/maths/problems" element={<MathsProblems />} />
+        <Route path="/world/school/maths/problems/:topicId" element={<MathsPractice />} />
+        <Route path="/world/school/maths/games" element={<MathsGames />} />
+        <Route path="/world/school/maths/games/river" element={<MathsRiverMenu />} />
+        <Route path="/world/school/maths/games/river/:topicId" element={<MathsRiverGame />} />
         <Route path="/world/school/:subId" element={<SchoolSubScene />} />
         <Route path="/world/farm" element={<FarmWorld />} />
         <Route path="/world/farm/agriculture" element={<FarmGame2D />} />

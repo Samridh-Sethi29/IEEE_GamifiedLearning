@@ -153,19 +153,11 @@ export const SCHOOL_LOCATIONS = [
     colorDeep: "#B91C1C",
     colorSoft: "#FEE2E2",
     description: "Solve complex problems, master algebra, and sharpen your logic.",
-    route: null,
+    route: "/world/school/maths",
     position: { x: 800, y: 200 },
     hit: { w: 320, top: -200, h: 250 },
     tooltipY: 60,
-    scene: {
-      kicker: "Mathematics",
-      tagline: "Numbers govern the universe. Learn how to speak their language.",
-      underConstruction: "The chalkboards are being erased — equations arrive soon.",
-      features: ["Algebra", "Geometry", "Logic Puzzles"],
-      objective: "Master Mathematics.",
-      bg: "linear-gradient(180deg,#fef2f2 0%,#fecaca 48%,#fca5a5 100%)",
-      emojis: ["➗", "📐", "🧮", "📈", "🔢", "🧠"],
-    },
+    scene: null, // Directly routes to MathsHub
   },
   {
     id: "computer",
