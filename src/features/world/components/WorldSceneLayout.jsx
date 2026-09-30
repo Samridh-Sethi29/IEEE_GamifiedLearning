@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowLeft, Hammer } from "lucide-react";
+import { ArrowLeft, Hammer, Sparkles } from "lucide-react";
 import { buttonVariants } from "@/components/core/button";
 import GameHUD, { CoinIcon } from "@/features/hud/components/GameHUD";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
@@ -63,10 +63,17 @@ export default function WorldSceneLayout({ world, backTo = "/world" }) {
 
           <p className="mt-4 text-[15px] leading-relaxed text-slate-600">{scene.tagline}</p>
 
-          <div className="mt-3 flex items-start gap-2.5 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-[13px] leading-snug text-slate-500">
-            <Hammer className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
-            <span>{scene.underConstruction}</span>
-          </div>
+          {scene.underConstruction ? (
+            <div className="mt-3 flex items-start gap-2.5 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-[13px] leading-snug text-slate-500">
+              <Hammer className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+              <span>{scene.underConstruction}</span>
+            </div>
+          ) : scene.readyMessage ? (
+            <div className="mt-3 flex items-start gap-2.5 rounded-2xl border border-dashed border-emerald-300 bg-emerald-50 px-4 py-3 text-[13px] leading-snug text-emerald-700 font-bold">
+              <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              <span>{scene.readyMessage}</span>
+            </div>
+          ) : null}
 
           <div className="mt-4 flex flex-wrap gap-2">
             {scene.features.map((feature) => (
@@ -85,10 +92,17 @@ export default function WorldSceneLayout({ world, backTo = "/world" }) {
               <span className="text-slate-300">•</span>
               <span data-testid={`world-day-${world.id}`}>Day {player.day}</span>
             </div>
-            <Link to={backTo} className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
-              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
-              Return
-            </Link>
+            <div className="flex gap-2">
+              <Link to={backTo} className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
+                <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
+                Return
+              </Link>
+              {scene.proceedRoute && (
+                <Link to={scene.proceedRoute} className={buttonVariants({ variant: "default", size: "lg" })}>
+                  Proceed
+                </Link>
+              )}
+            </div>
           </div>
         </motion.div>
       </div>

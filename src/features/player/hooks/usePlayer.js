@@ -8,6 +8,12 @@ export const DEFAULT_PLAYER = {
   xp: 0,
   coins: 150, // Started with more coins so they can buy seeds
   day: 1,
+  computerProgress: {
+    typing: { unlocked: true, currentLevel: 1, lesson1Completed: false, lesson2Completed: false, completedLevels: [] },
+    blockCoding: { unlocked: false, currentLevel: 0, completedLevels: [] },
+    pythonDebugging: { unlocked: false, currentLevel: 0, completedLevels: [] },
+    finalChallenge: { unlocked: false, completed: false }
+  }
 };
 
 export function usePlayer() {
