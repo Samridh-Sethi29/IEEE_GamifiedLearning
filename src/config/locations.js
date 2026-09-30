@@ -153,19 +153,11 @@ export const SCHOOL_LOCATIONS = [
     colorDeep: "#B91C1C",
     colorSoft: "#FEE2E2",
     description: "Solve complex problems, master algebra, and sharpen your logic.",
-    route: null,
+    route: "/world/school/maths",
     position: { x: 800, y: 200 },
     hit: { w: 320, top: -200, h: 250 },
     tooltipY: 60,
-    scene: {
-      kicker: "Mathematics",
-      tagline: "Numbers govern the universe. Learn how to speak their language.",
-      underConstruction: "The chalkboards are being erased — equations arrive soon.",
-      features: ["Algebra", "Geometry", "Logic Puzzles"],
-      objective: "Master Mathematics.",
-      bg: "linear-gradient(180deg,#fef2f2 0%,#fecaca 48%,#fca5a5 100%)",
-      emojis: ["➗", "📐", "🧮", "📈", "🔢", "🧠"],
-    },
+    scene: null, // Directly routes to MathsHub
   },
   {
     id: "computer",
@@ -282,19 +274,11 @@ export const FARM_LOCATIONS = [
     colorDeep: "#1D4ED8",
     colorSoft: "#DBEAFE",
     description: "Complete daily farming challenges to level up quickly.",
-    route: null,
+    route: "/world/farm/earn-xp",
     position: { x: 1050, y: 800 },
     hit: { w: 410, top: -245, h: 305 },
     tooltipY: -320,
-    scene: {
-      kicker: "Earn EXP",
-      tagline: "Complete activities and quests to earn EXP.",
-      underConstruction: "The quest board is being updated — challenges unlock here soon.",
-      features: ["Daily Quests", "Training", "Level Up"],
-      objective: "Train and earn EXP.",
-      bg: "linear-gradient(180deg,#eaf3ff 0%,#d6e8ff 48%,#bbd8f9 100%)",
-      emojis: ["🏆", "✨", "📜", "🎯", "💪", "⭐"],
-    },
+    scene: null,
   }
 ];
 
