@@ -7,66 +7,55 @@ import { usePlayer } from "@/features/player/hooks/usePlayer";
 /* ─────────────────────── QUESTION BANK ─────────────────────── */
 const CATEGORIES = [
   {
-    id: "crops",
-    name: "Crops & Seasons",
-    icon: "🌾",
-    color: "#10B981",
-    questions: [
-      { q: "Which season is best for growing wheat in India?", opts: ["Summer (Zaid)", "Winter (Rabi)", "Monsoon (Kharif)", "Autumn"], correct: 1, xp: 10, hint: "Wheat is a cold-season crop sown around November." },
-      { q: "Rice is primarily a _____ crop.", opts: ["Rabi", "Zaid", "Kharif", "Cash"], correct: 2, xp: 10, hint: "Rice needs lots of water, which the monsoon provides." },
-      { q: "What is the process of loosening soil before planting called?", opts: ["Harvesting", "Tilling", "Sowing", "Irrigation"], correct: 1, xp: 10, hint: "Think about breaking up the ground with a plow." },
-      { q: "Which crop is known as 'White Gold'?", opts: ["Rice", "Wheat", "Cotton", "Sugarcane"], correct: 2, xp: 15, hint: "It's fluffy and white and used for clothes." },
-      { q: "Crop rotation helps to:", opts: ["Kill all insects", "Maintain soil fertility", "Increase water use", "Reduce sunlight"], correct: 1, xp: 15, hint: "Different crops take different nutrients from the soil." },
-      { q: "Which of these is a leguminous crop that fixes nitrogen?", opts: ["Wheat", "Rice", "Peas", "Cotton"], correct: 2, xp: 15, hint: "Legumes have root nodules with nitrogen-fixing bacteria." },
-      { q: "What is the ideal pH level for most crops?", opts: ["2-3 (very acidic)", "6-7 (slightly acidic to neutral)", "9-10 (alkaline)", "12-14 (very alkaline)"], correct: 1, xp: 20, hint: "Most plants like conditions close to neutral." },
-    ],
-  },
-  {
-    id: "pesticides",
-    name: "Pesticides & Protection",
-    icon: "🧪",
+    id: "biology",
+    name: "Biology (Weeds & Pests)",
+    icon: "🐛",
     color: "#EF4444",
     questions: [
-      { q: "What are pesticides used for?", opts: ["Watering crops", "Killing pests", "Painting fences", "Plowing fields"], correct: 1, xp: 10, hint: "The word 'pest' is right in the name!" },
-      { q: "Which of these is an organic method of pest control?", opts: ["Spraying DDT", "Using neem oil", "Using bleach", "Burning crops"], correct: 1, xp: 10, hint: "Think natural, plant-based solutions." },
-      { q: "Excessive use of chemical pesticides can cause:", opts: ["Better crop quality", "Soil pollution", "More rainfall", "Bigger seeds"], correct: 1, xp: 15, hint: "Chemicals don't just disappear — they stay in the ground." },
-      { q: "Biological pest control uses _____ to fight pests.", opts: ["Fire", "Natural predators", "More chemicals", "Salt water"], correct: 1, xp: 15, hint: "Ladybugs eat aphids — that's a hint!" },
-      { q: "IPM stands for:", opts: ["Internal Pest Method", "Integrated Pest Management", "Industrial Pest Machine", "International Plant Monitor"], correct: 1, xp: 20, hint: "It's a strategy that combines multiple methods." },
-      { q: "Which insect is a friend to farmers?", opts: ["Locust", "Aphid", "Ladybug", "Bollworm"], correct: 2, xp: 10, hint: "This red-and-black beetle eats harmful aphids." },
-      { q: "What is 'companion planting'?", opts: ["Planting two farmers together", "Growing plants that help each other nearby", "Planting crops in a circle", "Using only one type of seed"], correct: 1, xp: 15, hint: "Marigolds near tomatoes repel certain pests!" },
+      { q: "What happens when a weed grows next to your crop?", opts: ["It helps the crop grow faster", "It causes resource competition, stealing water and sunlight", "It turns into fertilizer immediately", "It produces extra coins"], correct: 1, xp: 15, explanation: "Weeds are invasive plants. In our game, they steal vital nutrients, water, and sunlight from your crops (Resource Competition), completely stalling their growth until you cut them down with a Scythe!" },
+      { q: "What is Integrated Pest Management (IPM)?", opts: ["Using fire to burn all insects", "A strategy to protect crops while keeping helpful insects alive", "Building a giant wall around the farm", "Ignoring pests completely"], correct: 1, xp: 15, explanation: "IPM is a modern farming strategy. Instead of carpet-bombing a farm with toxic chemicals, farmers use targeted, natural methods to kill bad pests while keeping good insects (like pollinating bees and ladybugs) alive." },
+      { q: "Why is Neem Oil better than harsh chemical pesticides?", opts: ["It kills everything instantly", "It is cheaper to buy", "It repels pests naturally while keeping ladybugs and earthworms safe", "It makes the crops taste like neem"], correct: 2, xp: 20, explanation: "Neem Oil is an organic pesticide. Harsh chemicals soak into the soil and kill earthworms, but Neem Oil only disrupts the life-cycle of bad pests while leaving the surrounding ecosystem healthy." },
+      { q: "If you leave pests on your growing crop overnight, what happens?", opts: ["They multiply and give you XP", "The crop dies the next day", "The pests turn into butterflies", "Nothing happens"], correct: 1, xp: 10, explanation: "Pests eat the leaves and stems of your crops. If you don't cure them with Neem Oil before the day ends, they will completely destroy the plant overnight!" },
+      { q: "Which tool is used to clear weeds and dead crops from your plot?", opts: ["Pickaxe", "Sprinkler", "Scythe", "Fertilizer"], correct: 2, xp: 10, explanation: "The Scythe is a traditional farming tool with a sharp curved blade, perfect for slicing down invasive weeds and dead crops." }
     ],
   },
   {
-    id: "equipment",
-    name: "Farm Equipment",
-    icon: "🚜",
-    color: "#F59E0B",
+    id: "chemistry",
+    name: "Chemistry (Soil & Compost)",
+    icon: "🧪",
+    color: "#10B981",
     questions: [
-      { q: "What is a plough used for?", opts: ["Cutting crops", "Turning & loosening soil", "Spraying water", "Storing grain"], correct: 1, xp: 10, hint: "Think about preparing the field before planting." },
-      { q: "A combine harvester is used for:", opts: ["Planting seeds", "Irrigating fields", "Cutting, threshing & cleaning grain", "Spraying pesticides"], correct: 2, xp: 15, hint: "It 'combines' multiple harvest steps into one machine." },
-      { q: "Drip irrigation saves water by:", opts: ["Flooding the field", "Delivering water directly to roots", "Spraying water in the air", "Using sea water"], correct: 1, xp: 15, hint: "Water drips slowly right where the plant needs it." },
-      { q: "Which tool is used for cutting mature crops?", opts: ["Axe", "Sickle", "Hammer", "Saw"], correct: 1, xp: 10, hint: "It's a curved blade used at harvest time." },
-      { q: "What does a seed drill do?", opts: ["Drills holes in rocks", "Plants seeds at equal distance & depth", "Removes weeds", "Waters the field"], correct: 1, xp: 15, hint: "It ensures seeds are evenly spaced in the soil." },
-      { q: "Greenhouses help farmers by:", opts: ["Blocking all sunlight", "Controlling temperature & humidity", "Making crops taste green", "Removing all insects forever"], correct: 1, xp: 20, hint: "Think of a protected, controlled environment." },
-      { q: "What is a winnowing fan used for?", opts: ["Cooling farmers", "Separating grain from chaff", "Drying clothes", "Generating electricity"], correct: 1, xp: 10, hint: "Wind blows away the light chaff, heavier grain stays." },
+      { q: "What happens to the soil immediately after you harvest a crop?", opts: ["It becomes richer in nutrients", "It turns into sand", "It becomes depleted of nutrients like Nitrogen", "It catches on fire"], correct: 2, xp: 15, explanation: "Plants absorb nutrients (like Nitrogen, Phosphorus, and Potassium) from the dirt to grow. When you harvest them, those nutrients are gone, leaving the soil grey, cracked, and depleted!" },
+      { q: "What do you get when you use a Scythe on a weed or dead crop?", opts: ["Coins", "Biomass", "Seeds", "Water"], correct: 1, xp: 10, explanation: "Instead of throwing dead plants away, you collect them as Biomass! This is the first step in recycling organic matter back into the earth." },
+      { q: "How much Biomass do you need to create Organic Fertilizer?", opts: ["1", "5", "3", "10"], correct: 2, xp: 15, explanation: "It takes 3 Biomass collected in your Compost Bin to break down and convert into a single batch of rich Organic Fertilizer." },
+      { q: "The Nitrogen Cycle in our farm involves turning dead organic matter into...", opts: ["Gold", "Water", "Organic Fertilizer", "Pesticides"], correct: 2, xp: 15, explanation: "The Nitrogen Cycle is nature's way of recycling! Dead plants break down into compost/fertilizer, returning Nitrogen to the soil so new plants can grow." },
+      { q: "What must you do to a depleted, grey soil plot before planting again?", opts: ["Water it twice", "Apply Organic Fertilizer to heal it", "Hit it with a Pickaxe", "Sing to it"], correct: 1, xp: 10, explanation: "Seeds cannot grow in dead dirt. You must equip your Organic Fertilizer (💩) and apply it to the plot to restore its nutrients!" }
     ],
   },
   {
-    id: "soil",
-    name: "Soil & Fertilizers",
-    icon: "🪱",
-    color: "#8B5CF6",
+    id: "economics",
+    name: "Economics (Supply & Demand)",
+    icon: "📈",
+    color: "#3B82F6",
     questions: [
-      { q: "Humus is formed by:", opts: ["Mixing chemicals", "Decomposition of organic matter", "Burning plastic", "Watering sand"], correct: 1, xp: 10, hint: "Dead leaves, organisms decompose to form it." },
-      { q: "Which type of soil holds the most water?", opts: ["Sandy", "Clayey", "Loamy", "Rocky"], correct: 1, xp: 15, hint: "Its tiny particles pack tightly together." },
-      { q: "NPK fertilizer provides which three nutrients?", opts: ["Neon, Potassium, Krypton", "Nitrogen, Phosphorus, Potassium", "Nickel, Platinum, Kryptonite", "Sodium, Protein, Calcium"], correct: 1, xp: 15, hint: "N, P, and K are the chemical symbols on the periodic table." },
-      { q: "Vermicomposting uses _____ to make fertilizer.", opts: ["Chemicals", "Fire", "Earthworms", "Plastic"], correct: 2, xp: 10, hint: "'Vermi' comes from the Latin word for worm." },
-      { q: "What is mulching?", opts: ["Painting the soil", "Covering soil to retain moisture", "Removing all plants", "Freezing the ground"], correct: 1, xp: 15, hint: "Straw or leaves on top of soil help keep water in." },
-      { q: "Sandy soil is good for growing:", opts: ["Rice", "Carrots & potatoes", "Water lilies", "Mushrooms"], correct: 1, xp: 10, hint: "Root vegetables grow easily in loose, well-drained soil." },
-      { q: "Over-use of chemical fertilizers leads to:", opts: ["Healthier soil forever", "Soil degradation", "More earthworms", "Better rainfall"], correct: 1, xp: 20, hint: "Too much of anything is bad." },
+      { q: "In the market, what happens during a 'Shortage' of a crop?", opts: ["The price crashes down", "The price stays the same", "The price triples (goes UP!)", "The crop disappears"], correct: 2, xp: 15, explanation: "When there is a Shortage, Supply is low but Demand is high. Buyers are willing to pay way more money for it, causing the price to skyrocket!" },
+      { q: "What causes a crop's price to crash down in the market?", opts: ["A shortage", "A surplus (too much supply)", "Watering it too much", "Using fertilizer"], correct: 1, xp: 15, explanation: "If every farmer grows Tomatoes, there is a Surplus (too much Supply). Because it's no longer rare, buyers won't pay as much, and the price crashes." },
+      { q: "Why should you store crops in your Silo instead of selling immediately?", opts: ["To wait for the market prices to go up (turn green)", "Because they look pretty", "To feed the pests", "Because the shop is closed"], correct: 0, xp: 20, explanation: "Smart farmers hold onto their harvest in the Silo until a Market Shortage occurs, allowing them to sell their crops for massive profits!" },
+      { q: "What is the maximum capacity of your Silo Storage?", opts: ["10 items", "50 items", "100 items", "30 items"], correct: 3, xp: 10, explanation: "Your Silo can only hold 30 items. If it gets full, you are forced to sell crops even if the market prices are terrible." },
+      { q: "If the market price in your Silo is highlighted in RED, it means:", opts: ["The price is higher than normal", "The crop is rotten", "The price is lower than the normal sell price", "The crop is on fire"], correct: 2, xp: 15, explanation: "Red indicates a market drop or a Surplus. You should try to avoid selling when prices are red, and wait for them to turn Green!" }
     ],
   },
 ];
+
+// Proper Fisher-Yates Shuffle for robust randomization
+function shuffleArray(array) {
+  const newArr = [...array];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
 
 /* ─────────────── SVG FARMER CHARACTER ─────────────── */
 const FarmerAvatar = ({ speaking }) => (
@@ -138,7 +127,7 @@ function TopicSelect({ onSelect, player }) {
           Farmer's Quiz Challenge
         </h1>
         <p style={{ color: "rgba(255,255,255,0.7)", marginTop: 8, fontSize: "1.1rem" }}>
-          Pick a topic and answer my questions to earn EXP!
+          Pick a topic and answer my questions to earn EXP! Level up to get Coin rewards!
         </p>
       </motion.div>
 
@@ -180,10 +169,20 @@ function TopicSelect({ onSelect, player }) {
 /* ────────────── QUIZ SCREEN ────────────── */
 function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
   const cat = CATEGORIES.find((c) => c.id === category);
-  const questions = useMemo(() => [...cat.questions].sort(() => Math.random() - 0.5), [cat]);
+  
+  // Randomize questions order
+  const questions = useMemo(() => {
+    return shuffleArray(cat.questions).map(q => {
+        // Map options to objects tracking their original index, then shuffle them
+        const shuffledOptions = shuffleArray(
+          q.opts.map((opt, idx) => ({ text: opt, originalIndex: idx }))
+        );
+        return { ...q, shuffledOptions };
+      });
+  }, [cat]);
 
   const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState(null);
+  const [selectedOptIndex, setSelectedOptIndex] = useState(null); // The index in the SHUFFLED array
   const [showFeedback, setShowFeedback] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [totalXP, setTotalXP] = useState(0);
@@ -195,13 +194,13 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
   const total = questions.length;
   const progress = ((currentQ + (showFeedback ? 1 : 0)) / total) * 100;
 
-  const handleSelect = (idx) => {
-    if (selected !== null) return;
-    setSelected(idx);
+  const handleSelect = (shuffledIdx, originalIdx) => {
+    if (selectedOptIndex !== null) return;
+    setSelectedOptIndex(shuffledIdx);
     setShowFeedback(true);
     setShowHint(false);
 
-    if (idx === q.correct) {
+    if (originalIdx === q.correct) {
       setCorrect((c) => c + 1);
       setTotalXP((x) => x + q.xp);
       const result = doEarnXP(q.xp);
@@ -214,7 +213,7 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
   const handleNext = () => {
     if (currentQ < total - 1) {
       setCurrentQ((c) => c + 1);
-      setSelected(null);
+      setSelectedOptIndex(null);
       setShowFeedback(false);
       setShowHint(false);
     } else {
@@ -318,21 +317,23 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
                 <div style={{ fontSize: "0.75rem", color: cat.color, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>
                   Question {currentQ + 1} • {q.xp} XP
                 </div>
-                <h2 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.4 }}>{q.question}</h2>
+                {/* BUG FIX: It was {q.question}, now it's {q.q} matching the data structure */}
+                <h2 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.4 }}>{q.q}</h2>
               </div>
             </div>
 
             {/* Options */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              {q.opts.map((opt, idx) => {
+              {q.shuffledOptions.map((optObj, idx) => {
+                const { text, originalIndex } = optObj;
                 let bg = "rgba(255,255,255,0.07)";
                 let border = "1px solid rgba(255,255,255,0.1)";
 
                 if (showFeedback) {
-                  if (idx === q.correct) {
+                  if (originalIndex === q.correct) {
                     bg = "rgba(16, 185, 129, 0.25)";
                     border = "2px solid #10B981";
-                  } else if (idx === selected && idx !== q.correct) {
+                  } else if (idx === selectedOptIndex && originalIndex !== q.correct) {
                     bg = "rgba(239, 68, 68, 0.25)";
                     border = "2px solid #EF4444";
                   }
@@ -343,7 +344,7 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
                     key={idx}
                     whileHover={!showFeedback ? { scale: 1.03 } : {}}
                     whileTap={!showFeedback ? { scale: 0.97 } : {}}
-                    onClick={() => handleSelect(idx)}
+                    onClick={() => handleSelect(idx, originalIndex)}
                     style={{
                       background: bg, border, borderRadius: 14, padding: "16px 14px",
                       color: "#fff", fontWeight: 600, fontSize: "1rem",
@@ -353,7 +354,7 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
                     <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.75rem", marginRight: 8 }}>
                       {String.fromCharCode(65 + idx)}
                     </span>
-                    {opt}
+                    {text}
                   </motion.button>
                 );
               })}
@@ -371,7 +372,7 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
                   display: "flex", alignItems: "center", gap: 8,
                 }}
               >
-                💡 Need a hint?
+                💡 Explain this concept!
               </motion.button>
             )}
 
@@ -386,7 +387,7 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
                     color: "#fde68a", fontSize: "0.9rem", lineHeight: 1.5,
                   }}
                 >
-                  💡 <strong>Farmer's Hint:</strong> {q.hint}
+                  💡 <strong>Farmer's Hint:</strong> {q.explanation}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -396,14 +397,14 @@ function QuizScreen({ category, onFinish, earnXP: doEarnXP }) {
               {showFeedback && (
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{
                   marginTop: 20, padding: "20px 24px", borderRadius: 16,
-                  background: selected === q.correct ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
-                  border: `1px solid ${selected === q.correct ? "#10B981" : "#EF4444"}`,
+                  background: selectedOptIndex !== null && q.shuffledOptions[selectedOptIndex].originalIndex === q.correct ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)",
+                  border: `1px solid ${selectedOptIndex !== null && q.shuffledOptions[selectedOptIndex].originalIndex === q.correct ? "#10B981" : "#EF4444"}`,
                 }}>
-                  <div style={{ fontWeight: 700, fontSize: "1.1rem", color: selected === q.correct ? "#10B981" : "#EF4444", marginBottom: 8 }}>
-                    {selected === q.correct ? `✅ Correct! +${q.xp} XP` : "❌ Not quite!"}
+                  <div style={{ fontWeight: 700, fontSize: "1.1rem", color: selectedOptIndex !== null && q.shuffledOptions[selectedOptIndex].originalIndex === q.correct ? "#10B981" : "#EF4444", marginBottom: 8 }}>
+                    {selectedOptIndex !== null && q.shuffledOptions[selectedOptIndex].originalIndex === q.correct ? `✅ Correct! +${q.xp} XP` : "❌ Not quite!"}
                   </div>
-                  <p style={{ color: "rgba(255,255,255,0.7)", margin: 0, fontSize: "0.9rem", lineHeight: 1.5 }}>
-                    {q.hint}
+                  <p style={{ color: "rgba(255,255,255,0.7)", margin: 0, fontSize: "0.95rem", lineHeight: 1.6 }}>
+                    {q.explanation}
                   </p>
                 </motion.div>
               )}
