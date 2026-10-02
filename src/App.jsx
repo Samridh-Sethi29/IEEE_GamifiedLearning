@@ -10,6 +10,7 @@ import MarketingWorld from "@/pages/MarketingWorld";
 import WorldSceneLayout from "@/features/world/components/WorldSceneLayout";
 import { FARM_LOCATION_BY_ID, SCHOOL_LOCATION_BY_ID } from "@/config/locations";
 import { useParams } from "react-router-dom";
+import ScienceRouter from "@/features/science/ScienceRouter";
 
 function FarmSubScene() {
   const { subId } = useParams();
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/" element={<Navigate to="/world" replace />} />
         <Route path="/world" element={<WorldMapPage />} />
         <Route path="/world/school" element={<SchoolWorld />} />
+        <Route path="/world/school/science/*" element={<ScienceRouter />} />
         <Route path="/world/school/:subId" element={<SchoolSubScene />} />
         <Route path="/world/farm" element={<FarmWorld />} />
         <Route path="/world/farm/agriculture" element={<FarmGame2D />} />
