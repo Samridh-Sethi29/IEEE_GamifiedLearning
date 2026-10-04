@@ -218,7 +218,7 @@ const MUSIC_TRACKS = [
 ];
 
 export default function FarmGame2D() {
-  const { player, earnXP, addCoins, spendCoins } = usePlayer();
+  const { player, earnXP, addCoins, spendCoins, updatePlayer, updateSkill, markWorldCompleted } = usePlayer();
   
   const [day, setDay] = useState(1);
   const [inventory, setInventory] = useState({ 
@@ -359,8 +359,15 @@ export default function FarmGame2D() {
         }
       }
       
-      if (activeTool === 'water' && p.state !== 'empty' && p.state !== 'dead' && p.state !== 'ready') {
-        return { ...p, isWatered: true };
+      if (activeTool === 'water' && p.state !== 'empty' && p.state !== 'dead' && p.state !== 'ready' && !p.isWatered) {
+        if (player.water >= 10) {
+          updatePlayer({ water: player.water - 10 });
+          updateSkill("vocational", 2);
+          return { ...p, isWatered: true };
+        } else {
+          addNotification("Not enough water! You need 10L per plot. Waste less water at home!");
+          return p;
+        }
       }
 
       // Fertilizer Cures Depleted Soil
@@ -986,6 +993,13 @@ export default function FarmGame2D() {
               <span style={{ fontSize: '1rem', lineHeight: 1 }}>{EMOJIS.coin}</span>
               <span style={{ fontWeight: 800, color: '#b45309', fontSize: '1.1rem' }}>{player.coins}</span>
             </div>
+            
+            {/* Water */}
+            <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#2563eb' }}>
+              <Droplet size={18} />
+              <span style={{ fontWeight: 800, fontSize: '1.1rem' }}>{player.water}L</span>
+            </div>
           </div>
 
           {/* Compost Bin */}
@@ -1345,7 +1359,8 @@ export default function FarmGame2D() {
 
       {/* Leave Farm Button (Bottom Right) */}
       <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, pointerEvents: 'auto', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
-        <Link to="/world/farm" 
+        <Link to="/world" 
+          onClick={() => markWorldCompleted('farm')}
           onMouseEnter={() => setHoveredLeave(true)}
           onMouseLeave={() => setHoveredLeave(false)}
           style={{ 

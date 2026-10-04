@@ -1,34 +1,63 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiGet } from "@/lib/api";
 
 export const DEFAULT_PLAYER = {
-  id: "offline",
+  id: "local",
   name: "Explorer",
   level: 1,
   xp: 0,
-  coins: 150, // Started with more coins so they can buy seeds
+  coins: 150,
   day: 1,
   computerProgress: {
-    typing: { unlocked: true, currentLevel: 1, lesson1Completed: false, lesson2Completed: false, completedLevels: [] },
+    typing: {
+      unlocked: true,
+      currentLevel: 1,
+      lesson1Completed: false,
+      lesson2Completed: false,
+      completedLevels: [],
+    },
     blockCoding: { unlocked: false, currentLevel: 0, completedLevels: [] },
     pythonDebugging: { unlocked: false, currentLevel: 0, completedLevels: [] },
-    finalChallenge: { unlocked: false, completed: false }
-  }
+    finalChallenge: { unlocked: false, completed: false },
+  },
+  water: 100, // Available water
+  skills: {
+    life: 0,
+    human: 0,
+    digital: 0,
+    vocational: 0,
+    entrepreneurial: 0,
+  },
+  flags: {}, // e.g. "home_leak_repaired": true
+  badges: [],
+  starLog: [],
+  starFragments: 0,
+  completedToday: [], // e.g. "home", "school"
+  english: {
+    maxUnlocked: 1,
+    levels: {}, // { "1": { stars: 3, bestScore: 100 } }
+    totalPoints: 0,
+    totalCorrect: 0,
+    totalAnswered: 0,
+    streak: 0,
+    bestStreak: 0,
+  },
 };
 
 export function usePlayer() {
   const queryClient = useQueryClient();
-  
+
   const { data, isLoading } = useQuery({
     queryKey: ["player"],
-    queryFn: async () => {
+    queryFn: () => {
       try {
-        return await apiGet("/player");
-      } catch {
-        return DEFAULT_PLAYER;
+        const stored = localStorage.getItem("skillverse_save");
+        if (stored) return JSON.parse(stored);
+      } catch (e) {
+        console.error("Failed to load save", e);
       }
+      return DEFAULT_PLAYER;
     },
-    staleTime: Infinity, // Keep local changes alive
+    staleTime: Infinity,
     retry: false,
   });
 
@@ -37,7 +66,16 @@ export function usePlayer() {
   const updatePlayer = (updates) => {
     queryClient.setQueryData(["player"], (old) => {
       const current = old ?? DEFAULT_PLAYER;
-      return { ...current, ...updates };
+      const next = { ...current, ...updates };
+      // Deep merge for skills/flags if provided
+      if (updates.skills) {
+        next.skills = { ...current.skills, ...updates.skills };
+      }
+      if (updates.flags) {
+        next.flags = { ...current.flags, ...updates.flags };
+      }
+      localStorage.setItem("skillverse_save", JSON.stringify(next));
+      return next;
     });
   };
 
@@ -46,7 +84,11 @@ export function usePlayer() {
     const newLevel = Math.floor(newXP / 100) + 1; // 100 XP per level
     const leveledUp = newLevel > player.level;
     const coinBonus = leveledUp ? 100 : 0;
-    updatePlayer({ xp: newXP, level: newLevel, coins: player.coins + coinBonus });
+    updatePlayer({
+      xp: newXP,
+      level: newLevel,
+      coins: player.coins + coinBonus,
+    });
     return { leveledUp, newLevel, coinBonus };
   };
 
@@ -62,5 +104,81 @@ export function usePlayer() {
     return false;
   };
 
-  return { player, isLoading, earnXP, addCoins, spendCoins, updatePlayer };
+  const updateSkill = (pillar, amount) => {
+    const newSkills = {
+      ...player.skills,
+      [pillar]: (player.skills[pillar] || 0) + amount,
+    };
+    updatePlayer({ skills: newSkills });
+  };
+
+  const addBadge = (badgeId) => {
+    if (!player.badges.includes(badgeId)) {
+      updatePlayer({ badges: [...player.badges, badgeId] });
+    }
+  };
+
+  const markWorldCompleted = (worldId) => {
+    if (!player.completedToday.includes(worldId)) {
+      updatePlayer({ completedToday: [...player.completedToday, worldId] });
+    }
+  };
+
+  const startNewDay = () => {
+    updatePlayer({
+      day: player.day + 1,
+      completedToday: [],
+      water: 100, // reset resources
+    });
+  };
+
+  const saveEnglishProgress = (
+    levelId,
+    score,
+    stars,
+    points,
+    correct,
+    total,
+    streak,
+  ) => {
+    const nextUnlocked = Math.max(player.english.maxUnlocked, levelId + 1);
+    const existingLvl = player.english.levels[levelId] || {
+      stars: 0,
+      bestScore: 0,
+    };
+
+    const newLevels = {
+      ...player.english.levels,
+      [levelId]: {
+        stars: Math.max(existingLvl.stars, stars),
+        bestScore: Math.max(existingLvl.bestScore, score),
+      },
+    };
+
+    updatePlayer({
+      english: {
+        ...player.english,
+        maxUnlocked: nextUnlocked > 50 ? 50 : nextUnlocked,
+        levels: newLevels,
+        totalPoints: player.english.totalPoints + points,
+        totalCorrect: player.english.totalCorrect + correct,
+        totalAnswered: player.english.totalAnswered + total,
+        bestStreak: Math.max(player.english.bestStreak, streak),
+      },
+    });
+  };
+
+  return {
+    player,
+    isLoading,
+    earnXP,
+    addCoins,
+    spendCoins,
+    updatePlayer,
+    updateSkill,
+    addBadge,
+    markWorldCompleted,
+    startNewDay,
+    saveEnglishProgress,
+  };
 }
