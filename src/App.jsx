@@ -80,7 +80,7 @@ export default function App() {
           element={<MathsRiverGame />}
         />
 
-        <Route path="/world/school/computer/hub" element={<ComputerHub />} />
+        <Route path="/world/school/computer" element={<ComputerHub />} />
         <Route
           path="/world/school/computer/typing"
           element={<TypingLevel1 />}
