@@ -25,6 +25,7 @@ import BlockCodingLevel1 from "@/features/computer/components/BlockCodingLevel1"
 import BlockCodingChallengeLevel1 from "@/features/computer/components/BlockCodingChallengeLevel1";
 import PythonDebuggingLevel1 from "@/features/computer/components/PythonDebuggingLevel1";
 import ComputerChallenge from "@/features/computer/components/ComputerChallenge";
+import ScienceRouter from "@/features/science/ScienceRouter";
 
 function FarmSubScene() {
   const { subId } = useParams();
@@ -49,20 +50,54 @@ export default function App() {
         <Route path="/world" element={<WorldMapPage />} />
         <Route path="/world/school" element={<SchoolWorld />} />
         <Route path="/world/school/maths" element={<MathsHub />} />
-        <Route path="/world/school/maths/teaching" element={<MathsTeaching />} />
-        <Route path="/world/school/maths/teaching/:topicId" element={<MathsLesson />} />
-        <Route path="/world/school/maths/problems" element={<MathsProblems />} />
-        <Route path="/world/school/maths/problems/:topicId" element={<MathsPractice />} />
+        <Route
+          path="/world/school/maths/teaching"
+          element={<MathsTeaching />}
+        />
+        <Route
+          path="/world/school/maths/teaching/:topicId"
+          element={<MathsLesson />}
+        />
+        <Route
+          path="/world/school/maths/problems"
+          element={<MathsProblems />}
+        />
+        <Route
+          path="/world/school/maths/problems/:topicId"
+          element={<MathsPractice />}
+        />
         <Route path="/world/school/maths/games" element={<MathsGames />} />
-        <Route path="/world/school/maths/games/river" element={<MathsRiverMenu />} />
-        <Route path="/world/school/maths/games/river/:topicId" element={<MathsRiverGame />} />
-        
+        <Route
+          path="/world/school/maths/games/river"
+          element={<MathsRiverMenu />}
+        />
+        <Route
+          path="/world/school/maths/games/river/:topicId"
+          element={<MathsRiverGame />}
+        />
+
         <Route path="/world/school/computer/hub" element={<ComputerHub />} />
-        <Route path="/world/school/computer/typing" element={<TypingLevel1 />} />
-        <Route path="/world/school/computer/block-coding" element={<BlockCodingLevel1 />} />
-        <Route path="/world/school/computer/block-coding/challenge" element={<BlockCodingChallengeLevel1 />} />
-        <Route path="/world/school/computer/python-debugging" element={<PythonDebuggingLevel1 />} />
-        <Route path="/world/school/computer/final-challenge" element={<ComputerChallenge />} />
+        <Route
+          path="/world/school/computer/typing"
+          element={<TypingLevel1 />}
+        />
+        <Route
+          path="/world/school/computer/block-coding"
+          element={<BlockCodingLevel1 />}
+        />
+        <Route
+          path="/world/school/computer/block-coding/challenge"
+          element={<BlockCodingChallengeLevel1 />}
+        />
+        <Route
+          path="/world/school/computer/python-debugging"
+          element={<PythonDebuggingLevel1 />}
+        />
+        <Route
+          path="/world/school/computer/final-challenge"
+          element={<ComputerChallenge />}
+        />
+        <Route path="/world/school/science/*" element={<ScienceRouter />} />
         <Route path="/world/school/:subId" element={<SchoolSubScene />} />
         <Route path="/world/farm" element={<FarmWorld />} />
         <Route path="/world/farm/agriculture" element={<FarmGame2D />} />

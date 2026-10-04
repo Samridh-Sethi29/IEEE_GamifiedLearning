@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { ArrowLeft, Hammer, Sparkles } from "lucide-react";
+import { ArrowLeft, Hammer, Sparkles, ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/core/button";
 import GameHUD, { CoinIcon } from "@/features/hud/components/GameHUD";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
@@ -8,12 +8,26 @@ import { usePlayer } from "@/features/player/hooks/usePlayer";
 // Shared shell for the five placeholder world scenes: a themed animated backdrop,
 // a game-style panel describing the coming quests, progress stats, and the
 // "Return to World Map" control. Gameplay modules plug in below the panel later.
-export default function WorldSceneLayout({ world, backTo = "/world" }) {
+//
+// Optional props (existing callers are unaffected):
+//   enterTo    - route for a prominent "Enter" button shown next to Return.
+//   enterLabel - text for that button (default "Enter").
+// When `scene.underConstruction` is omitted the dashed "coming soon" strip is hidden.
+export default function WorldSceneLayout({
+  world,
+  backTo = "/world",
+  enterTo,
+  enterLabel = "Enter",
+}) {
   const { player } = usePlayer();
   const scene = world.scene;
 
   return (
-    <div className="fixed inset-0 overflow-hidden" style={{ background: scene.bg }} data-testid={`world-scene-${world.id}`}>
+    <div
+      className="fixed inset-0 overflow-hidden"
+      style={{ background: scene.bg }}
+      data-testid={`world-scene-${world.id}`}
+    >
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -48,59 +62,120 @@ export default function WorldSceneLayout({ world, backTo = "/world" }) {
           data-testid={`world-panel-${world.id}`}
         >
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl shadow-inner" style={{ background: world.colorSoft }}>
+            <div
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl shadow-inner"
+              style={{ background: world.colorSoft }}
+            >
               {world.icon}
             </div>
             <div>
-              <p className="text-[11px] font-extrabold uppercase tracking-[0.22em]" style={{ color: world.colorDeep }}>
+              <p
+                className="text-[11px] font-extrabold uppercase tracking-[0.22em]"
+                style={{ color: world.colorDeep }}
+              >
                 {scene.kicker}
               </p>
-              <h1 className="font-heading text-[28px] font-bold leading-tight tracking-tight text-slate-900" data-testid={`world-title-${world.id}`}>
+              <h1
+                className="font-heading text-[28px] font-bold leading-tight tracking-tight text-slate-900"
+                data-testid={`world-title-${world.id}`}
+              >
                 {world.name}
               </h1>
             </div>
           </div>
 
-          <p className="mt-4 text-[15px] leading-relaxed text-slate-600">{scene.tagline}</p>
+          <p className="mt-4 text-[15px] leading-relaxed text-slate-600">
+            {scene.tagline}
+          </p>
 
           {scene.underConstruction ? (
             <div className="mt-3 flex items-start gap-2.5 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-[13px] leading-snug text-slate-500">
-              <Hammer className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+              <Hammer
+                className="mt-0.5 h-4 w-4 shrink-0 text-slate-400"
+                aria-hidden="true"
+              />
               <span>{scene.underConstruction}</span>
             </div>
           ) : scene.readyMessage ? (
             <div className="mt-3 flex items-start gap-2.5 rounded-2xl border border-dashed border-emerald-300 bg-emerald-50 px-4 py-3 text-[13px] leading-snug text-emerald-700 font-bold">
-              <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+              <Sparkles
+                className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500"
+                aria-hidden="true"
+              />
               <span>{scene.readyMessage}</span>
             </div>
           ) : null}
 
           <div className="mt-4 flex flex-wrap gap-2">
             {scene.features.map((feature) => (
-              <span key={feature} className="rounded-full px-3 py-1 text-[12px] font-bold" style={{ background: world.colorSoft, color: world.colorDeep }}>
+              <span
+                key={feature}
+                className="rounded-full px-3 py-1 text-[12px] font-bold"
+                style={{ background: world.colorSoft, color: world.colorDeep }}
+              >
                 {feature}
               </span>
             ))}
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5">
-            <div className="flex items-center gap-2 text-[13px] font-semibold text-slate-500" data-testid={`world-stats-${world.id}`}>
+            <div
+              className="flex items-center gap-2 text-[13px] font-semibold text-slate-500"
+              data-testid={`world-stats-${world.id}`}
+            >
               <CoinIcon className="h-5 w-5" />
-              <span className="text-slate-800" data-testid={`world-coins-${world.id}`}>
+              <span
+                className="text-slate-800"
+                data-testid={`world-coins-${world.id}`}
+              >
                 {player.coins}
               </span>
               <span className="text-slate-300">•</span>
-              <span data-testid={`world-day-${world.id}`}>Day {player.day}</span>
+              <span data-testid={`world-day-${world.id}`}>
+                Day {player.day}
+              </span>
             </div>
-            <div className="flex gap-2">
-              <Link to={backTo} className={buttonVariants({ variant: "secondary", size: "lg" })} data-testid="return-to-map-button">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <Link
+                to={backTo}
+                className={buttonVariants({ variant: "secondary", size: "lg" })}
+                data-testid="return-to-map-button"
+              >
                 <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
                 Return
               </Link>
               {scene.proceedRoute && (
-                <Link to={scene.proceedRoute} className={buttonVariants({ variant: "default", size: "lg" })}>
+                <Link
+                  to={scene.proceedRoute}
+                  className={buttonVariants({ variant: "default", size: "lg" })}
+                >
                   Proceed
                 </Link>
+              )}
+              {enterTo && (
+                <motion.span
+                  className="inline-flex"
+                  whileHover={{ scale: 1.04, y: -1 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  <Link
+                    to={enterTo}
+                    className={buttonVariants({
+                      variant: "default",
+                      size: "lg",
+                    })}
+                    style={{
+                      background: `linear-gradient(135deg, ${world.color} 0%, ${world.colorDeep} 100%)`,
+                      color: "#fff",
+                      fontWeight: 800,
+                      boxShadow: `0 8px 20px -6px ${world.colorDeep}99, inset 0 1px 0 rgba(255,255,255,0.35)`,
+                    }}
+                    data-testid={`enter-${world.id}-button`}
+                  >
+                    {enterLabel}
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </motion.span>
               )}
             </div>
           </div>
