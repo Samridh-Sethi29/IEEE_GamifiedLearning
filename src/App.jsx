@@ -31,6 +31,7 @@ import PythonDebuggingLevel1 from "@/features/computer/components/PythonDebuggin
 import ComputerChallenge from "@/features/computer/components/ComputerChallenge";
 import ScienceRouter from "@/features/science/ScienceRouter";
 import SchoolSubScene from "@/pages/SchoolSubScene";
+import StudioHome from "@/features/studio/pages/StudioHome";
 
 function FarmSubScene() {
   const { subId } = useParams();
@@ -113,6 +114,7 @@ export default function App() {
         <Route path="/world/home" element={<HomeWorld />} />
         <Route path="/world/market" element={<MarketWorld />} />
         <Route path="/world/marketing" element={<MarketingWorld />} />
+        <Route path="/world/studio" element={<StudioHome />} />
         <Route path="/night" element={<NightPage />} />
         <Route path="/dream" element={<DreamPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
