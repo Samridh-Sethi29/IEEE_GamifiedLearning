@@ -1,5 +1,8 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { Toaster } from "@/components/core/sonner";
+import { AuthProvider } from "@/features/auth/AuthContext";
+import AuthPage from "@/pages/AuthPage";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import SplashPage from "@/pages/SplashPage";
 import OnboardingPage from "@/pages/OnboardingPage";
 import WorldMapPage from "@/pages/WorldMapPage";
@@ -47,77 +50,89 @@ function SchoolSubSceneWrapper() {
 // The map IS the app: every route leads into the village or one of its worlds.
 export default function App() {
   return (
-    <>
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<SplashPage />} />
-        <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/world" element={<WorldMapPage />} />
-        <Route path="/world/school" element={<SchoolWorld />} />
-        <Route path="/world/school/maths" element={<MathsHub />} />
-        <Route
-          path="/world/school/maths/teaching"
-          element={<MathsTeaching />}
-        />
-        <Route
-          path="/world/school/maths/teaching/:topicId"
-          element={<MathsLesson />}
-        />
-        <Route
-          path="/world/school/maths/problems"
-          element={<MathsProblems />}
-        />
-        <Route
-          path="/world/school/maths/problems/:topicId"
-          element={<MathsPractice />}
-        />
-        <Route path="/world/school/maths/games" element={<MathsGames />} />
-        <Route
-          path="/world/school/maths/games/river"
-          element={<MathsRiverMenu />}
-        />
-        <Route
-          path="/world/school/maths/games/river/:topicId"
-          element={<MathsRiverGame />}
-        />
+        <Route path="/auth" element={<AuthPage />} />
 
-        <Route path="/world/school/computer" element={<ComputerHub />} />
+        {/* Protected Game Routes */}
         <Route
-          path="/world/school/computer/typing"
-          element={<TypingLevel1 />}
-        />
-        <Route
-          path="/world/school/computer/block-coding"
-          element={<BlockCodingLevel1 />}
-        />
-        <Route
-          path="/world/school/computer/block-coding/challenge"
-          element={<BlockCodingChallengeLevel1 />}
-        />
-        <Route
-          path="/world/school/computer/python-debugging"
-          element={<PythonDebuggingLevel1 />}
-        />
-        <Route
-          path="/world/school/computer/final-challenge"
-          element={<ComputerChallenge />}
-        />
-        <Route path="/world/school/science/*" element={<ScienceRouter />} />
-        <Route
-          path="/world/school/:subId"
-          element={<SchoolSubSceneWrapper />}
-        />
-        <Route path="/world/farm" element={<FarmWorld />} />
-        <Route path="/world/farm/agriculture" element={<FarmGame2D />} />
-        <Route path="/world/farm/earn-xp" element={<FarmEarnXP />} />
-        <Route path="/world/farm/:subId" element={<FarmSubScene />} />
-        <Route path="/world/home" element={<HomeWorld />} />
-        <Route path="/world/market" element={<MarketWorld />} />
-        <Route path="/world/marketing" element={<MarketingWorld />} />
-        <Route path="/night" element={<NightPage />} />
-        <Route path="/dream" element={<DreamPage />} />
+          element={
+            <ProtectedRoute>
+              <Outlet />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/world" element={<WorldMapPage />} />
+          <Route path="/world/school" element={<SchoolWorld />} />
+          <Route path="/world/school/maths" element={<MathsHub />} />
+          <Route
+            path="/world/school/maths/teaching"
+            element={<MathsTeaching />}
+          />
+          <Route
+            path="/world/school/maths/teaching/:topicId"
+            element={<MathsLesson />}
+          />
+          <Route
+            path="/world/school/maths/problems"
+            element={<MathsProblems />}
+          />
+          <Route
+            path="/world/school/maths/problems/:topicId"
+            element={<MathsPractice />}
+          />
+          <Route path="/world/school/maths/games" element={<MathsGames />} />
+          <Route
+            path="/world/school/maths/games/river"
+            element={<MathsRiverMenu />}
+          />
+          <Route
+            path="/world/school/maths/games/river/:topicId"
+            element={<MathsRiverGame />}
+          />
+
+          <Route path="/world/school/computer" element={<ComputerHub />} />
+          <Route
+            path="/world/school/computer/typing"
+            element={<TypingLevel1 />}
+          />
+          <Route
+            path="/world/school/computer/block-coding"
+            element={<BlockCodingLevel1 />}
+          />
+          <Route
+            path="/world/school/computer/block-coding/challenge"
+            element={<BlockCodingChallengeLevel1 />}
+          />
+          <Route
+            path="/world/school/computer/python-debugging"
+            element={<PythonDebuggingLevel1 />}
+          />
+          <Route
+            path="/world/school/computer/final-challenge"
+            element={<ComputerChallenge />}
+          />
+          <Route path="/world/school/science/*" element={<ScienceRouter />} />
+          <Route
+            path="/world/school/:subId"
+            element={<SchoolSubSceneWrapper />}
+          />
+          <Route path="/world/farm" element={<FarmWorld />} />
+          <Route path="/world/farm/agriculture" element={<FarmGame2D />} />
+          <Route path="/world/farm/earn-xp" element={<FarmEarnXP />} />
+          <Route path="/world/farm/:subId" element={<FarmSubScene />} />
+          <Route path="/world/home" element={<HomeWorld />} />
+          <Route path="/world/market" element={<MarketWorld />} />
+          <Route path="/world/marketing" element={<MarketingWorld />} />
+          <Route path="/night" element={<NightPage />} />
+          <Route path="/dream" element={<DreamPage />} />
+        </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster />
-    </>
+    </AuthProvider>
   );
 }
