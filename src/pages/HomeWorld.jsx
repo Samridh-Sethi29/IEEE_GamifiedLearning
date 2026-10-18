@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import '@/features/home/styles/home.css';
 import { ROOMS, STATIONS, HOME_MAP } from '@/features/home/data/homeData';
 import { useHomeEngine } from '@/features/home/hooks/useHomeEngine';
@@ -30,6 +30,8 @@ export default function HomeWorld() {
     pos,
     cam,
     direction,
+    velocity,
+    speed,
     isWalking,
     nearbyStation,
     activeGame,
@@ -78,6 +80,13 @@ export default function HomeWorld() {
     }
   };
 
+  // Auto-focus viewport on mount so arrow keys work immediately
+  useEffect(() => {
+    if (viewportRef.current) {
+      viewportRef.current.focus();
+    }
+  }, []);
+
   return (
     <div className="home-world">
       {/* HUD overlay: Back button, current room, coins, XP, progress, help */}
@@ -97,7 +106,13 @@ export default function HomeWorld() {
       )}
 
       {/* Main Game Viewport */}
-      <div className="home-viewport" ref={viewportRef}>
+      <div
+        className="home-viewport"
+        ref={viewportRef}
+        tabIndex={0}
+        style={{ outline: 'none' }}
+        onClick={() => viewportRef.current?.focus()}
+      >
         <div
           className="home-camera"
           style={{
@@ -162,12 +177,15 @@ export default function HomeWorld() {
             />
           ))}
 
-          {/* Animated Player Avatar */}
+          {/* Animated Player Avatar matching user design */}
           <HomeAvatar
             pos={pos}
+            velocity={velocity}
             direction={direction}
             isWalking={isWalking}
             nearbyStation={nearbyStation}
+            name={player.name}
+            level={player.level}
           />
         </div>
       </div>

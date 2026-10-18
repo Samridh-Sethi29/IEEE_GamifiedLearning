@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { HOME_MAP, STATIONS, COLLISIONS } from '../data/homeData';
 
-const SPEED = 4;
+const ACCEL = 0.72;
+const MAX_SPEED = 6.0;
+const FRICTION = 0.88;
 const AVATAR_W = 48;
 const AVATAR_H = 72;
-const INTERACT_DIST = 100;
+const INTERACT_DIST = 110;
 
 function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
   return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
@@ -13,15 +15,17 @@ function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
 export function useHomeEngine(viewportRef) {
   const [pos, setPos] = useState({ x: 600, y: 450 });
   const [cam, setCam] = useState({ x: 0, y: 0 });
+  const [velocity, setVelocity] = useState({ vx: 0, vy: 0 });
   const [nearbyStation, setNearbyStation] = useState(null);
   const [activeGame, setActiveGame] = useState(null);
   const [completedGames, setCompletedGames] = useState(() => {
     try {
       const saved = localStorage.getItem('skillverse_home_progress');
       return saved ? JSON.parse(saved) : [];
-    } catch { return []; }
+    } catch {
+      return [];
+    }
   });
-  const [isWalking, setIsWalking] = useState(false);
   const [direction, setDirection] = useState('down');
   const [showWelcome, setShowWelcome] = useState(() => {
     return !localStorage.getItem('skillverse_home_welcomed');
@@ -29,17 +33,22 @@ export function useHomeEngine(viewportRef) {
 
   const keysRef = useRef({});
   const posRef = useRef(pos);
+  const velRef = useRef({ vx: 0, vy: 0 });
+  const camRef = useRef({ x: 0, y: 0 });
   const frameRef = useRef(null);
-  const walkTimerRef = useRef(null);
 
   posRef.current = pos;
 
-  // Save completed games
+  // Persist completed games
   useEffect(() => {
-    localStorage.setItem('skillverse_home_progress', JSON.stringify(completedGames));
+    try {
+      localStorage.setItem('skillverse_home_progress', JSON.stringify(completedGames));
+    } catch (e) {
+      console.warn('Storage error', e);
+    }
   }, [completedGames]);
 
-  // Keyboard events
+  // Keyboard controls
   useEffect(() => {
     if (activeGame) return;
 
@@ -68,7 +77,7 @@ export function useHomeEngine(viewportRef) {
     };
   }, [activeGame, nearbyStation]);
 
-  // Movement loop
+  // Gliding Physics & Camera LERP Loop
   useEffect(() => {
     if (activeGame) {
       cancelAnimationFrame(frameRef.current);
@@ -77,51 +86,111 @@ export function useHomeEngine(viewportRef) {
 
     const tick = () => {
       const keys = keysRef.current;
-      let dx = 0, dy = 0;
+      let targetDx = 0;
+      let targetDy = 0;
 
-      if (keys['arrowup'] || keys['w']) dy = -SPEED;
-      if (keys['arrowdown'] || keys['s']) dy = SPEED;
-      if (keys['arrowleft'] || keys['a']) dx = -SPEED;
-      if (keys['arrowright'] || keys['d']) dx = SPEED;
+      if (keys['arrowup'] || keys['w']) targetDy -= 1;
+      if (keys['arrowdown'] || keys['s']) targetDy += 1;
+      if (keys['arrowleft'] || keys['a']) targetDx -= 1;
+      if (keys['arrowright'] || keys['d']) targetDx += 1;
 
-      // Normalize diagonal
-      if (dx && dy) {
-        const f = 0.707;
-        dx *= f;
-        dy *= f;
+      // Normalize diagonal intent
+      if (targetDx !== 0 && targetDy !== 0) {
+        targetDx *= 0.7071;
+        targetDy *= 0.7071;
       }
 
-      if (dx || dy) {
-        // Direction
-        if (Math.abs(dx) > Math.abs(dy)) {
-          setDirection(dx > 0 ? 'right' : 'left');
+      const targetVx = targetDx * MAX_SPEED;
+      const targetVy = targetDy * MAX_SPEED;
+
+      let { vx, vy } = velRef.current;
+
+      // Smooth acceleration when steering, smooth gliding friction when released
+      if (targetDx !== 0) {
+        vx += (targetVx - vx) * ACCEL;
+      } else {
+        vx *= FRICTION;
+        if (Math.abs(vx) < 0.05) vx = 0;
+      }
+
+      if (targetDy !== 0) {
+        vy += (targetVy - vy) * ACCEL;
+      } else {
+        vy *= FRICTION;
+        if (Math.abs(vy) < 0.05) vy = 0;
+      }
+
+      velRef.current = { vx, vy };
+
+      // Update facing direction when actively moving
+      if (Math.abs(vx) > 0.3 || Math.abs(vy) > 0.3) {
+        if (Math.abs(vx) > Math.abs(vy)) {
+          setDirection(vx > 0 ? 'right' : 'left');
         } else {
-          setDirection(dy > 0 ? 'down' : 'up');
+          setDirection(vy > 0 ? 'down' : 'up');
         }
+      }
 
-        const cur = posRef.current;
-        let nx = cur.x + dx;
-        let ny = cur.y + dy;
+      const cur = posRef.current;
 
-        // Clamp to world
-        nx = Math.max(30, Math.min(HOME_MAP.width - AVATAR_W - 30, nx));
-        ny = Math.max(30, Math.min(HOME_MAP.height - AVATAR_H - 30, ny));
+      // Top-down character foot collision box (allows natural perspective and easy doorway passage)
+      const FOOT_X = 14;
+      const FOOT_Y = 54;
+      const FOOT_W = 20;
+      const FOOT_H = 16;
 
-        // Collision check
-        let blocked = false;
-        for (const c of COLLISIONS) {
-          if (rectsOverlap(nx, ny, AVATAR_W, AVATAR_H, c.x, c.y, c.w, c.h)) {
-            blocked = true;
-            break;
-          }
+      // Independent X axis movement with wall-sliding
+      let nextX = cur.x + vx;
+      nextX = Math.max(20, Math.min(HOME_MAP.width - AVATAR_W - 20, nextX));
+      let blockedX = false;
+      for (const c of COLLISIONS) {
+        if (rectsOverlap(nextX + FOOT_X, cur.y + FOOT_Y, FOOT_W, FOOT_H, c.x, c.y, c.w, c.h)) {
+          blockedX = true;
+          break;
         }
+      }
+      if (blockedX) {
+        velRef.current.vx = 0;
+        nextX = cur.x;
+      }
 
-        if (!blocked) {
-          setPos({ x: nx, y: ny });
-          setIsWalking(true);
-          clearTimeout(walkTimerRef.current);
-          walkTimerRef.current = setTimeout(() => setIsWalking(false), 150);
+      // Independent Y axis movement with wall-sliding
+      let nextY = cur.y + vy;
+      nextY = Math.max(20, Math.min(HOME_MAP.height - AVATAR_H - 20, nextY));
+      let blockedY = false;
+      for (const c of COLLISIONS) {
+        if (rectsOverlap(nextX + FOOT_X, nextY + FOOT_Y, FOOT_W, FOOT_H, c.x, c.y, c.w, c.h)) {
+          blockedY = true;
+          break;
         }
+      }
+      if (blockedY) {
+        velRef.current.vy = 0;
+        nextY = cur.y;
+      }
+
+      // Update position state if position or speed changed
+      if (nextX !== cur.x || nextY !== cur.y || Math.abs(vx) > 0.05 || Math.abs(vy) > 0.05) {
+        setPos({ x: nextX, y: nextY });
+        setVelocity({ vx: velRef.current.vx, vy: velRef.current.vy });
+      }
+
+      // Smooth camera interpolation (LERP) following the avatar
+      if (viewportRef.current) {
+        const vw = viewportRef.current.clientWidth;
+        const vh = viewportRef.current.clientHeight;
+
+        let idealCamX = -(nextX + AVATAR_W / 2 - vw / 2);
+        let idealCamY = -(nextY + AVATAR_H / 2 - vh / 2);
+
+        idealCamX = Math.min(0, Math.max(-(HOME_MAP.width - vw), idealCamX));
+        idealCamY = Math.min(0, Math.max(-(HOME_MAP.height - vh), idealCamY));
+
+        const newCamX = camRef.current.x + (idealCamX - camRef.current.x) * 0.12;
+        const newCamY = camRef.current.y + (idealCamY - camRef.current.y) * 0.12;
+
+        camRef.current = { x: newCamX, y: newCamY };
+        setCam({ x: newCamX, y: newCamY });
       }
 
       frameRef.current = requestAnimationFrame(tick);
@@ -130,25 +199,8 @@ export function useHomeEngine(viewportRef) {
     frameRef.current = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(frameRef.current);
-      clearTimeout(walkTimerRef.current);
     };
-  }, [activeGame]);
-
-  // Camera follow
-  useEffect(() => {
-    if (!viewportRef.current) return;
-    const vw = viewportRef.current.clientWidth;
-    const vh = viewportRef.current.clientHeight;
-
-    let cx = -(pos.x + AVATAR_W / 2 - vw / 2);
-    let cy = -(pos.y + AVATAR_H / 2 - vh / 2);
-
-    // Clamp camera
-    cx = Math.min(0, Math.max(-(HOME_MAP.width - vw), cx));
-    cy = Math.min(0, Math.max(-(HOME_MAP.height - vh), cy));
-
-    setCam({ x: cx, y: cy });
-  }, [pos, viewportRef]);
+  }, [activeGame, viewportRef]);
 
   // Nearby station detection
   useEffect(() => {
@@ -173,7 +225,7 @@ export function useHomeEngine(viewportRef) {
   }, [pos]);
 
   const completeGame = useCallback((gameId) => {
-    setCompletedGames(prev => {
+    setCompletedGames((prev) => {
       if (prev.includes(gameId)) return prev;
       return [...prev, gameId];
     });
@@ -204,16 +256,31 @@ export function useHomeEngine(viewportRef) {
   }, []);
 
   const teleport = useCallback((x, y) => {
+    velRef.current = { vx: 0, vy: 0 };
     setPos({ x, y });
+    posRef.current = { x, y };
   }, []);
 
+  const isGliding = Math.hypot(velocity.vx, velocity.vy) > 0.2;
+  const speed = Math.hypot(velocity.vx, velocity.vy);
+
   return {
-    pos, cam, direction, isWalking,
-    nearbyStation, activeGame, completedGames,
+    pos,
+    cam,
+    direction,
+    velocity,
+    speed,
+    isWalking: isGliding,
+    nearbyStation,
+    activeGame,
+    completedGames,
     showWelcome,
-    setActiveGame, closeGame, completeGame,
+    setActiveGame,
+    closeGame,
+    completeGame,
     dismissWelcome,
-    startTouch, endTouch,
+    startTouch,
+    endTouch,
     teleport,
   };
 }

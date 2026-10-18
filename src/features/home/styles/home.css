@@ -24,7 +24,6 @@
   position: absolute;
   width: 3600px;
   height: 1800px;
-  transition: transform 0.15s ease-out;
   will-change: transform;
 }
 
@@ -55,70 +54,147 @@
   top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border: 2px solid rgba(139, 94, 60, 0.4);
   border-radius: 20px;
-  padding: 4px 16px;
+  padding: 4px 18px;
   font-size: 14px;
   font-weight: 800;
   color: #5b3a29;
   white-space: nowrap;
   z-index: 2;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   letter-spacing: 0.5px;
 }
 
 /* ── Avatar ──────────────────────────────────────── */
 .home-avatar {
   position: absolute;
-  width: 48px;
-  height: 72px;
+  width: 52px;
+  height: 80px;
   z-index: 10;
   pointer-events: none;
-  transition: left 0.08s linear, top 0.08s linear;
+  will-change: transform;
+  transform-origin: 50% 80%;
+  transition: transform 0.12s ease-out;
 }
 
 .avatar-sprite {
   position: relative;
-  width: 48px;
-  height: 72px;
+  width: 52px;
+  height: 80px;
 }
 
 .avatar-body {
   animation: home-idle 1.8s ease-in-out infinite;
+  transform-origin: 50% 100%;
 }
 
 .avatar-shadow {
   position: absolute;
-  bottom: -4px;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
-  width: 36px;
+  width: 38px;
   height: 10px;
-  background: rgba(0,0,0,0.15);
+  background: rgba(15, 23, 42, 0.22);
   border-radius: 50%;
   animation: home-shadow 1.8s ease-in-out infinite;
 }
 
+/* Floating player badge above head (matches the attached user image) */
+.home-nameplate {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border-radius: 9999px;
+  padding: 3px 10px 3px 12px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.home-nameplate-text {
+  font-family: var(--font-heading), 'Plus Jakarta Sans Variable', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.home-nameplate-level {
+  background: #f59e0b;
+  color: #451a03;
+  border-radius: 9999px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
 @keyframes home-idle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(-3px) scaleY(1.02); }
 }
 
 @keyframes home-shadow {
-  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.15; }
-  50% { transform: translateX(-50%) scale(0.85); opacity: 0.1; }
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.22; }
+  50% { transform: translateX(-50%) scale(0.85); opacity: 0.15; }
 }
 
-.avatar-walking {
-  animation: home-walk 0.35s ease-in-out infinite !important;
+.avatar-gliding {
+  animation: home-glide 0.35s ease-in-out infinite alternate !important;
 }
 
-@keyframes home-walk {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  25% { transform: translateY(-3px) rotate(0deg); }
-  50% { transform: translateY(0) rotate(2deg); }
-  75% { transform: translateY(-3px) rotate(0deg); }
+@keyframes home-glide {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px); }
+}
+
+.avatar-gliding .avatar-arm-left {
+  transform-origin: 10px 40px;
+  animation: arm-swing-left 0.35s ease-in-out infinite alternate;
+}
+
+.avatar-gliding .avatar-arm-right {
+  transform-origin: 39px 40px;
+  animation: arm-swing-right 0.35s ease-in-out infinite alternate;
+}
+
+.avatar-gliding .avatar-leg-left {
+  transform-origin: 20px 60px;
+  animation: leg-swing-left 0.35s ease-in-out infinite alternate;
+}
+
+.avatar-gliding .avatar-leg-right {
+  transform-origin: 30px 60px;
+  animation: leg-swing-right 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes arm-swing-left {
+  0% { transform: rotate(-12deg); }
+  100% { transform: rotate(12deg); }
+}
+
+@keyframes arm-swing-right {
+  0% { transform: rotate(12deg); }
+  100% { transform: rotate(-12deg); }
+}
+
+@keyframes leg-swing-left {
+  0% { transform: rotate(8deg); }
+  100% { transform: rotate(-8deg); }
+}
+
+@keyframes leg-swing-right {
+  0% { transform: rotate(-8deg); }
+  100% { transform: rotate(8deg); }
 }
 
 /* ── Interactive Station ──────────────────────────── */

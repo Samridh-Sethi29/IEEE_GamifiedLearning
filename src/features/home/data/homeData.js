@@ -38,48 +38,70 @@ export const STATIONS = [
 // Collision boundaries (rectangles that block movement)
 // Format: { x, y, w, h } in world coordinates
 export const COLLISIONS = [
-  // Living Room walls
-  { x: -20, y: -20, w: 3640, h: 40 }, // top wall
-  { x: -20, y: -20, w: 40, h: 1840 }, // left wall
-  { x: 3580, y: -20, w: 40, h: 1840 }, // right wall
-  { x: -20, y: 1780, w: 3640, h: 40 }, // bottom wall
+  // Outer perimeter walls
+  { x: -20, y: -20, w: 3640, h: 40 }, // top boundary
+  { x: -20, y: -20, w: 40, h: 1840 }, // left boundary
+  { x: 3580, y: -20, w: 40, h: 1840 }, // right boundary
+  { x: -20, y: 1780, w: 3640, h: 40 }, // bottom boundary
+
   // Living Room furniture
-  { x: 80, y: 200, w: 250, h: 120 }, // sofa
-  { x: 900, y: 150, w: 200, h: 100 }, // TV stand
-  { x: 80, y: 600, w: 60, h: 200 }, // bookshelf
+  { x: 100, y: 220, w: 280, h: 90 }, // sectional sofa
+  { x: 860, y: 150, w: 240, h: 50 }, // TV stand
+  { x: 60, y: 560, w: 85, h: 220 }, // bookshelf
+
   // Kitchen furniture
-  { x: 1250, y: 100, w: 300, h: 80 }, // counter
-  { x: 1700, y: 100, w: 200, h: 100 }, // fridge
-  { x: 1900, y: 100, w: 250, h: 80 }, // cupboards
-  { x: 1500, y: 600, w: 200, h: 80 }, // dining table
+  { x: 1240, y: 30, w: 280, h: 80 }, // stove & counter
+  { x: 1880, y: 20, w: 150, h: 90 }, // fridge
+  { x: 1380, y: 340, w: 380, h: 70 }, // kitchen island
+  { x: 1880, y: 540, w: 180, h: 80 }, // dining table
+
   // Bedroom furniture
-  { x: 80, y: 1050, w: 350, h: 200 }, // bed
-  { x: 80, y: 1400, w: 100, h: 250 }, // wardrobe
-  { x: 900, y: 1050, w: 200, h: 100 }, // desk
-  // Bathroom
-  { x: 1250, y: 1050, w: 200, h: 100 }, // sink area
-  { x: 1700, y: 1050, w: 200, h: 200 }, // shower
-  { x: 1400, y: 1500, w: 150, h: 120 }, // washing machine
-  // Garden
-  { x: 2500, y: 100, w: 400, h: 60 }, // fence
-  { x: 2850, y: 300, w: 100, h: 100 }, // big plant
-  // Safety Corner
-  { x: 2500, y: 1050, w: 150, h: 80 }, // equipment shelf
-  // Room dividers (thin walls between rooms)
-  { x: 1170, y: 0, w: 30, h: 350 },
-  { x: 1170, y: 550, w: 30, h: 350 },
-  { x: 1170, y: 900, w: 30, h: 350 },
-  { x: 1170, y: 1450, w: 30, h: 350 },
-  { x: 2370, y: 0, w: 30, h: 350 },
-  { x: 2370, y: 550, w: 30, h: 350 },
-  { x: 2370, y: 900, w: 30, h: 350 },
-  { x: 2370, y: 1450, w: 30, h: 350 },
-  { x: 0, y: 870, w: 450, h: 30 },
-  { x: 750, y: 870, w: 450, h: 30 },
-  { x: 1200, y: 870, w: 450, h: 30 },
-  { x: 1950, y: 870, w: 450, h: 30 },
-  { x: 2400, y: 870, w: 450, h: 30 },
-  { x: 3150, y: 870, w: 450, h: 30 },
+  { x: 80, y: 1000, w: 360, h: 160 }, // canopy bed
+  { x: 60, y: 1360, w: 130, h: 220 }, // wardrobe
+  { x: 860, y: 1020, w: 220, h: 80 }, // study desk
+  { x: 460, y: 1050, w: 80, h: 60 }, // nightstand
+
+  // Bathroom furniture
+  { x: 1280, y: 1020, w: 220, h: 70 }, // vanity sink
+  { x: 1880, y: 1030, w: 260, h: 90 }, // soaking bathtub
+  { x: 1580, y: 1340, w: 130, h: 100 }, // washer & hampers
+
+  // Garden furniture
+  { x: 2580, y: 200, w: 220, h: 60 }, // raised garden bed
+  { x: 3080, y: 60, w: 280, h: 150 }, // greenhouse
+  { x: 2580, y: 580, w: 260, h: 90 }, // compost station
+
+  // Safety Corner furniture
+  { x: 2760, y: 1200, w: 320, h: 90 }, // detective workbench
+
+  // ── Wide Open Doorways (580px to 680px wide openings) ──
+  // Living Room <-> Kitchen (x = 1180): open from y = 160 to 740
+  { x: 1180, y: 0, w: 30, h: 160 },
+  { x: 1180, y: 740, w: 30, h: 160 },
+
+  // Kitchen <-> Garden (x = 2380): open from y = 160 to 740
+  { x: 2380, y: 0, w: 30, h: 160 },
+  { x: 2380, y: 740, w: 30, h: 160 },
+
+  // Bedroom <-> Bathroom (x = 1180): open from y = 1060 to 1640
+  { x: 1180, y: 900, w: 30, h: 160 },
+  { x: 1180, y: 1640, w: 30, h: 160 },
+
+  // Bathroom <-> Safety Corner (x = 2380): open from y = 1060 to 1640
+  { x: 2380, y: 900, w: 30, h: 160 },
+  { x: 2380, y: 1640, w: 30, h: 160 },
+
+  // Living Room <-> Bedroom (y = 885): open from x = 260 to 940
+  { x: 0, y: 885, w: 260, h: 30 },
+  { x: 940, y: 885, w: 260, h: 30 },
+
+  // Kitchen <-> Bathroom (y = 885): open from x = 1460 to 2140
+  { x: 1200, y: 885, w: 260, h: 30 },
+  { x: 2140, y: 885, w: 260, h: 30 },
+
+  // Garden <-> Safety Corner (y = 885): open from x = 2660 to 3340
+  { x: 2400, y: 885, w: 260, h: 30 },
+  { x: 3340, y: 885, w: 260, h: 30 },
 ];
 
 // ─── GAME DATA ────────────────────────────────────────────────
