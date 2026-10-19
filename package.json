@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:studio": "node --test src/features/studio/engine/__tests__/reducer.test.mjs src/features/studio/engine/__tests__/schema-storage.test.mjs src/features/studio/engine/__tests__/isolation-keyboard.test.mjs"
+    "test:studio": "node --test src/features/studio/engine/__tests__/reducer.test.mjs src/features/studio/engine/__tests__/schema-storage.test.mjs src/features/studio/engine/__tests__/isolation-keyboard.test.mjs src/features/studio/world-builder/__tests__/mission.test.mjs"
   },
   "keywords": [],
   "author": "",

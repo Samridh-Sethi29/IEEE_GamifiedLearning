@@ -18,8 +18,8 @@ function files(dir) {
   });
 }
 
-test("11a. engine and storage code never reference the player profile or XP/coins/skills", () => {
-  const targets = [...files(join(studioRoot, "engine")), ...files(join(studioRoot, "storage")), join(studioRoot, "pages", "EngineLab.jsx")];
+test("11a. engine, storage and world-builder code never reference the player profile or XP/coins/skills", () => {
+  const targets = [...files(join(studioRoot, "engine")), ...files(join(studioRoot, "storage")), ...files(join(studioRoot, "world-builder")), join(studioRoot, "pages", "EngineLab.jsx")];
   assert.ok(targets.length > 10);
   for (const f of targets) {
     const src = readFileSync(f, "utf8");

@@ -1,11 +1,13 @@
 import { BookOpen, Hammer, Lightbulb, Palette } from "lucide-react";
+import { MISSION } from "../world-builder/data/mission.js";
 
 // Single source of truth for the Creative Studio Hub.
 //
-// Every station is `available: false` for now: the editors do not exist yet. `route` is the
-// planned path for each station, but NO route is registered in App.jsx for it, so the hub never
-// links there. When a station's editor ships: register its route, set `available: true`, and the
-// hub will start rendering a live "Enter" link automatically (see PlazaPanel).
+// Only World Builder is `available: true` (Phase D2): its route is registered in App.jsx and opens
+// the "Save Our Village" mission briefing. The other three stations stay `available: false`: their
+// activities do not exist yet and NO route is registered for them, so the hub never links there.
+// When a station ships: register its route, set `available: true`, and the hub renders a live
+// "Enter" link automatically (see StationCard).
 //
 // `pillars` use the same five keys as usePlayer().player.skills. They are display labels only —
 // nothing in the Studio reads or writes skills yet.
@@ -32,8 +34,8 @@ export const STUDIO_LOOP = [
 ];
 
 export const STUDIO_MISSION = {
-  title: "Save Our Village",
-  subtitle: "Design a Better Water System",
+  title: MISSION.title,
+  subtitle: MISSION.subtitle,
   story:
     "The well is running low and the fields are thirsty. With a small budget and a few parts, can you keep homes, crops and the community supplied?",
   station: "world-builder",
@@ -42,7 +44,7 @@ export const STUDIO_MISSION = {
 export const STUDIO_TOOLS = [
   {
     id: "world-builder",
-    purpose: "Lay out homes, roads, trees and a water supply for a small village, then see how your plan holds up.",
+    purpose: "Plan a water system for a small village: connect a well to homes and farms within a budget, then see how your plan holds up.",
     title: "World Builder",
     description: "Build better places to live.",
     Icon: Hammer,
@@ -53,8 +55,9 @@ export const STUDIO_TOOLS = [
       "See how one decision changes the whole village",
       "Balance what people need today with tomorrow",
     ],
-    available: false,
-    route: "/world/studio/world-builder",
+    available: true,
+    availabilityNote: "Mission briefing is open. The construction workspace is coming soon.",
+    route: MISSION.route,
   },
   {
     id: "invention-lab",

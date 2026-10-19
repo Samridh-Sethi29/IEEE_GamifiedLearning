@@ -32,11 +32,16 @@ export default function StationCard({ tool, onClose }) {
         {tool.pillars.map((p) => <li key={p}>{PILLAR_LABELS[p]}</li>)}
       </ul>
       {tool.id === STUDIO_MISSION.station && (
-        <p className="studio-card-mission" data-testid="studio-mission">Planned first mission: <strong>{STUDIO_MISSION.title}</strong> (not available yet).</p>
+        <p className="studio-card-mission" data-testid="studio-mission">
+          {live ? "First mission:" : "Planned first mission:"} <strong>{STUDIO_MISSION.title}</strong>{live ? "." : " (not available yet)."}
+        </p>
       )}
       <div className="studio-card-foot">
         {live ? (
-          <Link to={tool.route} className="studio-cta" data-testid="studio-enter">Enter {tool.title}</Link>
+          <>
+            <Link to={tool.route} className="studio-cta" data-testid="studio-enter">Enter {tool.title}</Link>
+            {tool.availabilityNote && <span className="studio-note" data-testid="studio-note">{tool.availabilityNote}</span>}
+          </>
         ) : (
           <>
             <span className="studio-badge" data-testid="studio-status">Coming soon</span>

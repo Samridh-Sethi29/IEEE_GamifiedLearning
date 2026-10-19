@@ -33,6 +33,7 @@ import ScienceRouter from "@/features/science/ScienceRouter";
 import SchoolSubScene from "@/pages/SchoolSubScene";
 import StudioHome from "@/features/studio/pages/StudioHome";
 import EngineLab from "@/features/studio/pages/EngineLab";
+import WorldBuilderBriefing from "@/features/studio/world-builder/pages/WorldBuilderBriefing";
 
 function FarmSubScene() {
   const { subId } = useParams();
@@ -117,6 +118,7 @@ export default function App() {
         <Route path="/world/marketing" element={<MarketingWorld />} />
         <Route path="/world/studio" element={<StudioHome />} />
         <Route path="/world/studio/engine-lab" element={<EngineLab />} />
+        <Route path="/world/studio/world-builder" element={<WorldBuilderBriefing />} />
         <Route path="/night" element={<NightPage />} />
         <Route path="/dream" element={<DreamPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
