@@ -4,12 +4,17 @@
 //   tall  (<  900px): a vertical campus: Core on top, then the four zones in a winding column,
 //                     so labels stay large instead of shrinking the desktop scene.
 
+import { ACCENTS, PAL } from "../art/palette.js";
+
 export const ZONE_W = 480;
 export const ZONE_H = 340;
 export const CORE_W = 440;
 export const CORE_H = 520;
 
-export const ACCENT_COLORS = { emerald: "#10b981", amber: "#f59e0b", rose: "#f43f5e", violet: "#8b5cf6" };
+// Per-station accent colours, all from art/palette.js. `ACCENT_COLORS` = the bright accent,
+// `ACCENT_DEEP` = the darker partner used for badges and text.
+export const ACCENT_COLORS = Object.fromEntries(Object.entries(ACCENTS).map(([k, v]) => [k, v.acc]));
+export const ACCENT_DEEP = Object.fromEntries(Object.entries(ACCENTS).map(([k, v]) => [k, v.deep]));
 
 const wide = {
   key: "wide",
@@ -23,7 +28,7 @@ const wide = {
   },
   core: { x: 580, y: 150, s: 1 },
   markers: { "world-builder": [556, 404], "invention-lab": [1044, 404], "story-studio": [556, 792], "design-studio": [1044, 792] },
-  goldPaths: [
+  paths: [
     "M 556 404 C 640 430 700 520 746 626",
     "M 1044 404 C 960 430 900 520 854 626",
     "M 746 640 C 660 690 600 730 556 792",
@@ -41,7 +46,7 @@ const wide = {
   waterfall: { x: 800, y: 40 },
   stairs: { x: 690, y: 888, w: 220 },
   foreground: [[22, 540, 1.5], [1580, 540, 1.5], [20, 985, 1.6], [96, 996, 1.2], [1582, 985, 1.6], [1504, 996, 1.2], [320, 1000, 1], [1280, 1000, 1], [520, 1000, 0.9], [1080, 1000, 0.9]],
-  banners: [[672, 990, "#2f6fb7"], [928, 990, "#2f6fb7"]],
+  banners: [[672, 990, PAL.blue], [928, 990, PAL.blue]],
 };
 
 const tallZones = { "world-builder": { x: 20, y: 500, s: 1 }, "invention-lab": { x: 100, y: 880, s: 1 }, "story-studio": { x: 20, y: 1260, s: 1 }, "design-studio": { x: 100, y: 1640, s: 1 } };
@@ -52,7 +57,7 @@ const tall = {
   zones: tallZones,
   core: { x: 124, y: 24, s: 0.8 },
   markers: { "world-builder": [552, 560], "invention-lab": [48, 940], "story-studio": [552, 1320], "design-studio": [48, 1700] },
-  goldPaths: ["M 300 440 C 300 500 552 500 552 560 C 552 740 48 760 48 940 C 48 1120 552 1140 552 1320 C 552 1500 48 1520 48 1700"],
+  paths: ["M 300 440 C 300 500 552 500 552 560 C 552 740 48 760 48 940 C 48 1120 552 1140 552 1320 C 552 1500 48 1520 48 1700"],
   rivers: [],
   bridges: [],
   pond: { cx: 300, cy: 462, rx: 150, ry: 24 },
@@ -60,7 +65,7 @@ const tall = {
   waterfall: null,
   stairs: { x: 220, y: 1990, w: 160 },
   foreground: [[24, 2030, 1.4], [576, 2030, 1.4], [90, 2046, 1.1], [510, 2046, 1.1]],
-  banners: [[196, 2046, "#2f6fb7"], [404, 2046, "#2f6fb7"]],
+  banners: [[196, 2046, PAL.blue], [404, 2046, PAL.blue]],
 };
 
 export const LAYOUTS = { wide, tall };
@@ -91,12 +96,12 @@ function mulberry32(seed) {
   };
 }
 
-/** Deterministic background forest: stays off the glowing paths, ponds and the Core. */
+/** Deterministic background forest: stays off the dirt paths, ponds and the Core. */
 export function scatterForest(layout, count, seed = 7) {
   const rnd = mulberry32(seed);
   const keep = [coreRect(layout)];
   const pts = [];
-  layout.goldPaths.forEach((d) => {
+  layout.paths.forEach((d) => {
     const nums = d.match(/-?\d+(\.\d+)?/g).map(Number);
     for (let i = 0; i + 1 < nums.length; i += 2) pts.push([nums[i], nums[i + 1]]);
   });

@@ -8,7 +8,7 @@ import { PILLAR_LABELS, STUDIO_LOOP, STUDIO_MISSION } from "@/features/studio/da
 export default function StationCard({ tool, onClose }) {
   if (!tool) {
     return (
-      <aside className="studio-card" data-accent="gold" aria-label="Creative Core" data-testid="studio-detail">
+      <aside className="studio-card" data-accent="sky" aria-label="Creative Core" data-testid="studio-detail">
         <button type="button" className="studio-card-x" onClick={onClose} aria-label="Close"><X size={18} aria-hidden="true" /></button>
         <p className="studio-card-kicker">The heart of the studio</p>
         <h2 className="studio-card-title">Creative Core</h2>

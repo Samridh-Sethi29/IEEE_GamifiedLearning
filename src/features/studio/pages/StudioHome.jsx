@@ -4,6 +4,7 @@ import { ArrowLeft, CalendarDays, Palette } from "lucide-react";
 import { CoinIcon } from "@/features/hud/components/GameHUD";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
 import { STUDIO_HUB, STUDIO_TOOLS } from "@/features/studio/data/studioTools";
+import { STUDIO_CSS_VARS } from "@/features/studio/art/palette";
 import { LAYOUTS } from "@/features/studio/data/campusLayout";
 import CampusScene from "@/features/studio/components/CampusScene";
 import StationCard from "@/features/studio/components/StationCard";
@@ -40,7 +41,7 @@ export default function StudioHome() {
   }, []);
 
   return (
-    <div className="studio-scope" data-testid="studio-home" data-layout={layout.key} data-card={selectedId ? "true" : undefined}>
+    <div className="studio-scope" style={STUDIO_CSS_VARS} data-testid="studio-home" data-layout={layout.key} data-card={selectedId ? "true" : undefined}>
       <header className="studio-top">
         <Link to="/world" className="studio-back" data-testid="studio-back">
           <ArrowLeft size={16} aria-hidden="true" />
