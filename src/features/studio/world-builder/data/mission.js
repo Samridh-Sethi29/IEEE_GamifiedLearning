@@ -20,6 +20,10 @@ export const MISSION = {
   situation:
     "Our village has a limited supply of water. Families need water at home, farms need water for crops, and water can be wasted through inefficient distribution. Design a system that balances everyone's needs while staying within your budget.",
 
+  // Friendly framing used by the briefing (copy only; no rules live here).
+  challenge: "You've been asked to help a village. Can you design a water system that keeps everyone supplied?",
+  goal: "Plan a water network that reaches every home and farm, saves water where it can, and stays within your budget.",
+
   // Starting resources for this mission only.
   resources: {
     budget: { id: "budget", label: "Construction budget", value: 100, unit: "mission coins" },
@@ -32,22 +36,27 @@ export const MISSION = {
   objectivesIntro: "Your village design needs to meet all five:",
   objectivesNote: "These are the mission requirements. They'll be checked once you can test your design.",
   objectives: [
-    { id: "budget", text: "Stay within the 100-coin construction budget.", target: 100 },
-    { id: "households", text: "Supply at least four connected households.", target: 4 },
-    { id: "farm", text: "Supply at least one connected farm plot.", target: 1 },
-    { id: "well", text: "Connect at least one well to the distribution network.", target: 1 },
-    { id: "reserve", text: "Keep at least 10 litres/day of water in reserve.", target: 10 },
+    { id: "budget", short: "Stay in budget", text: "Stay within the 100-coin construction budget.", target: 100 },
+    { id: "households", short: "Supply 4 households", text: "Supply at least four connected households.", target: 4 },
+    { id: "farm", short: "Supply a farm", text: "Supply at least one connected farm plot.", target: 1 },
+    { id: "well", short: "Connect a well", text: "Connect at least one well to the distribution network.", target: 1 },
+    { id: "reserve", short: "Keep a reserve", text: "Keep at least 10 litres/day of water in reserve.", target: 10 },
   ],
 
-  // Two ideas the player needs before building.
+  // The five ideas the player needs before building. `role` is a short tag for the briefing tiles.
   howItWorks: [
+    { id: "well", role: "Supply", title: "The well", text: "This is where your mission's daily water supply enters the village system." },
     {
       id: "pipes",
+      role: "Delivery",
       title: "Pipes carry the water",
       text: "Houses and farms only receive water when they are connected to the well through pipes.",
     },
+    { id: "houses", role: "Demand", title: "Houses", text: "Every connected house needs some water each day." },
+    { id: "farms", role: "Demand", title: "Farms", text: "Crops need irrigation, so a connected farm uses water too." },
     {
       id: "drip",
+      role: "Saver",
       title: "Drip saves water",
       text: "Drip irrigation reduces a farm's water demand compared with flood irrigation.",
     },
@@ -65,6 +74,8 @@ export const MISSION = {
   startAction: {
     label: "Start Designing",
     enabled: false,
+    preparingTitle: "Your village workspace is being prepared",
+    preparingText: "You'll soon be able to place houses, connect pipes and test your design.",
     disabledReason: "Construction workspace is coming in the next update.",
   },
 };
