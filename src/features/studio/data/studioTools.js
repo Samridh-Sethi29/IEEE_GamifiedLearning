@@ -91,7 +91,7 @@ export const STUDIO_TOOLS = [
   {
     id: "design-studio",
     purpose: "Turn an idea into a poster or product label that says something clear and honest.",
-    title: "Design Studio",
+    title: "Design Atelier",
     description: "Design ideas that make a difference.",
     Icon: Palette,
     accent: "violet",
