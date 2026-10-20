@@ -73,9 +73,9 @@ export const MISSION = {
 
   startAction: {
     label: "Start Designing",
-    enabled: false,
-    preparingTitle: "Your village workspace is being prepared",
-    preparingText: "You'll soon be able to place houses, connect pipes and test your design.",
-    disabledReason: "Construction workspace is coming in the next update.",
+    enabled: true,
+    preparingTitle: "Your village workspace is ready",
+    preparingText: "Enter the workspace to place houses, connect pipes from the well to the farm, and build your village.",
+    disabledReason: "",
   },
 };

@@ -1,0 +1,531 @@
+/* World Builder Mission Dashboard Styling */
+
+.wb-mission-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.wb-dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wb-dashboard-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0;
+}
+
+.wb-dashboard-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.wb-dashboard-refresh-btn:hover {
+  background: #e2e8f0;
+}
+
+/* Overall Status Banner */
+.wb-dashboard-overall {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid;
+  transition: all 0.2s ease;
+}
+
+.wb-dashboard-overall--ready {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+.wb-dashboard-overall--needs-attention {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.wb-dashboard-overall--incomplete {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #334155;
+}
+
+.wb-dashboard-overall-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.wb-dashboard-overall-title {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.wb-dashboard-overall-summary {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.wb-dashboard-overall-badge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  letter-spacing: 0.03em;
+}
+
+.wb-dashboard-overall--ready .wb-dashboard-overall-badge {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.wb-dashboard-overall--needs-attention .wb-dashboard-overall-badge {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.wb-dashboard-overall--incomplete .wb-dashboard-overall-badge {
+  background: #64748b;
+  color: #ffffff;
+}
+
+/* Requirement List */
+.wb-dashboard-reqs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wb-dashboard-req-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.wb-dashboard-req-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.wb-dashboard-req-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.wb-dashboard-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wb-dashboard-badge--pass {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.wb-dashboard-badge--fail {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.wb-dashboard-badge--unknown {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.wb-dashboard-values {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  background: #f8fafc;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.wb-dashboard-explanation {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.wb-dashboard-suggestion {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0284c7;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Water Planning Inputs Section */
+.wb-planning-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+.wb-planning-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wb-planning-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.wb-planning-note {
+  font-size: 10px;
+  color: #64748b;
+  margin: 0;
+}
+
+.wb-planning-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wb-planning-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.wb-planning-row label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.wb-planning-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-planning-input {
+  width: 72px;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  text-align: right;
+  background: #ffffff;
+}
+
+.wb-planning-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.wb-planning-unit {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  min-width: 38px;
+}
+
+.wb-planning-error {
+  font-size: 10px;
+  font-weight: 700;
+  color: #dc2626;
+  margin: 0;
+}
+
+.wb-planning-missing-hint {
+  font-size: 11px;
+  font-weight: 600;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin: 0;
+}
+
+/* Mission Completion Section */
+.wb-mission-completion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+.wb-completion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.wb-completion-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.wb-completion-status-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wb-completion-status-badge--ready {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.wb-completion-status-badge--blocked {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.wb-completion-ready-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.wb-completion-blockers {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wb-completion-blockers-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.wb-completion-blockers-list {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wb-completion-blocker-item {
+  font-size: 10.5px;
+  color: #78350f;
+  line-height: 1.35;
+}
+
+.wb-complete-mission-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+}
+
+.wb-complete-mission-btn--active {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.25);
+}
+
+.wb-complete-mission-btn--active:hover {
+  background: linear-gradient(135deg, #047857 0%, #0f766e 100%);
+  transform: translateY(-1px);
+}
+
+.wb-complete-mission-btn--active:active {
+  transform: translateY(0);
+}
+
+.wb-complete-mission-btn--disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.wb-completion-status-badge--completed {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.wb-completion-rewards-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.wb-rewards-preview-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.wb-rewards-preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.wb-reward-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wb-reward-tag--xp {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.wb-reward-tag--coins {
+  background: #fefce8;
+  color: #a16207;
+  border: 1px solid #fef08a;
+}
+
+.wb-reward-tag--badge {
+  background: #fdf4ff;
+  color: #a21caf;
+  border: 1px solid #f5d0fe;
+}
+
+.wb-completion-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.wb-completion-error-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wb-completion-error-text {
+  font-weight: 700;
+}
+
+.wb-completion-error-hint {
+  font-size: 10px;
+  font-weight: 500;
+  color: #991b1b;
+}
+
+

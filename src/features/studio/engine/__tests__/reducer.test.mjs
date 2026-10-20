@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import { test } from "node:test";
 import { HISTORY_LIMIT, MAX_OBJECTS } from "../constants.js";
 import { actions } from "../actions.js";
 import { exportProject, selectCanRedo, selectCanUndo } from "../editorReducer.js";
-import { validateProject } from "../schema.js";
+import { createObject, validateProject } from "../schema.js";
+import { getPaletteObjectTypes } from "../objectTypes.js";
 import { add, makeEditor, newProject } from "./helpers.mjs";
 
 test("1. add an object: appended on top, selected, valid, one undo step", () => {
@@ -265,4 +267,302 @@ test("modifiedAt only changes through the action timestamp (reducer stays pure)"
   ed.do({ ...actions.addObject("tree", { id: "t" }), at: Date.parse("2026-05-05T00:00:00Z") });
   assert.equal(ed.doc.modifiedAt, "2026-05-05T00:00:00.000Z");
   assert.equal(ed.doc.createdAt, "2026-01-01T00:00:00.000Z");
+});
+
+test("World Builder project in reducer: accepts all seven types, rejects rectangle/circle/triangle/gear", () => {
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const ed = makeEditor(wbProject);
+  assert.equal(ed.doc.type, "world-builder");
+
+  // All seven types can be added
+  const permitted = ["house", "tree", "farm", "well", "tank", "pipe", "road"];
+  for (let i = 0; i < permitted.length; i++) {
+    const t = permitted[i];
+    add(ed, t, `wb_${t}`);
+    assert.equal(ed.doc.objects.length, i + 1);
+    assert.equal(ed.doc.objects[i].id, `wb_${t}`);
+    assert.equal(ed.doc.objects[i].type, t);
+  }
+
+  // Rectangle, circle, triangle, gear are rejected with warning notice
+  const beforeCount = ed.doc.objects.length;
+  for (const badType of ["rectangle", "circle", "triangle", "gear"]) {
+    add(ed, badType, `bad_${badType}`);
+    assert.equal(ed.doc.objects.length, beforeCount);
+    assert.equal(ed.state.notice.kind, "warning");
+    assert.match(ed.state.notice.message, /not allowed in a world-builder project/);
+  }
+
+  // Undo and redo work as expected across added objects
+  ed.do(actions.undo());
+  assert.equal(ed.doc.objects.length, 6);
+  assert.equal(ed.doc.objects[5].id, "wb_pipe");
+
+  ed.do(actions.redo());
+  assert.equal(ed.doc.objects.length, 7);
+  assert.equal(ed.doc.objects[6].id, "wb_road");
+});
+
+test("World Builder editor rejects loading a document with invalid types", () => {
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const ed = makeEditor(wbProject);
+  add(ed, "house", "h1");
+
+  const invalidDoc = newProject({
+    type: "world-builder",
+    objects: [createObject("rectangle", { id: "r1", layer: 0 })],
+  });
+
+  ed.do(actions.load(invalidDoc));
+  // Preserves current work
+  assert.equal(ed.doc.objects.length, 1);
+  assert.equal(ed.doc.objects[0].id, "h1");
+  assert.equal(ed.state.notice.kind, "warning");
+
+  // createEditorState directly throws on invalid project
+  assert.throws(() => makeEditor(invalidDoc), /not allowed in a world-builder project/);
+
+  // SET_PROP validates within World Builder project
+  ed.do(actions.select("h1"));
+  ed.do(actions.setProp("roof", "#3b82f6"));
+  assert.equal(ed.obj("h1").props.roof, "#3b82f6");
+
+  const beforeHistory = ed.state.history;
+  ed.do(actions.setProp("roof", "invalid-color"));
+  assert.equal(ed.state.history, beforeHistory);
+  assert.equal(ed.state.notice.kind, "warning");
+});
+
+test("World Builder SET_PROP updates properties for all five new object types", () => {
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const ed = makeEditor(wbProject);
+
+  // 1. Farm irrigation update
+  add(ed, "farm", "f1");
+  ed.do(actions.select("f1"));
+  assert.equal(ed.obj("f1").props.irrigation, "flood");
+  ed.do(actions.setProp("irrigation", "drip"));
+  assert.equal(ed.obj("f1").props.irrigation, "drip");
+
+  // Invalid irrigation rejected
+  const histBefore = ed.state.history;
+  ed.do(actions.setProp("irrigation", "sprinkler"));
+  assert.equal(ed.state.history, histBefore);
+  assert.equal(ed.obj("f1").props.irrigation, "drip");
+  assert.equal(ed.state.notice.kind, "warning");
+
+  // 2. Well roof update
+  add(ed, "well", "w1");
+  ed.do(actions.select("w1"));
+  ed.do(actions.setProp("roof", "#3b82f6"));
+  assert.equal(ed.obj("w1").props.roof, "#3b82f6");
+
+  // 3. Tank fill update
+  add(ed, "tank", "tk1");
+  ed.do(actions.select("tk1"));
+  ed.do(actions.setProp("fill", "#22c55e"));
+  assert.equal(ed.obj("tk1").props.fill, "#22c55e");
+
+  // 4. Pipe fill update
+  add(ed, "pipe", "p1");
+  ed.do(actions.select("p1"));
+  ed.do(actions.setProp("fill", "#ef4444"));
+  assert.equal(ed.obj("p1").props.fill, "#ef4444");
+
+  // 5. Road fill update
+  add(ed, "road", "r1");
+  ed.do(actions.select("r1"));
+  ed.do(actions.setProp("fill", "#78716c"));
+  assert.equal(ed.obj("r1").props.fill, "#78716c");
+});
+
+test("D3.2A-5: Palette action invocation creates all permitted objects for World Builder and Sandbox", () => {
+  // World Builder: all seven objects can be added via palette action
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const wbEd = makeEditor(wbProject);
+  const wbPaletteTypes = getPaletteObjectTypes(wbEd.doc.type);
+  assert.deepEqual(wbPaletteTypes, ["house", "tree", "farm", "well", "tank", "pipe", "road"]);
+
+  for (let i = 0; i < wbPaletteTypes.length; i++) {
+    const type = wbPaletteTypes[i];
+    add(wbEd, type, `wb_${type}`);
+    assert.equal(wbEd.doc.objects.length, i + 1);
+    assert.equal(wbEd.doc.objects[i].type, type);
+    assert.equal(wbEd.doc.objects[i].layer, i);
+    assert.equal(wbEd.state.selectedId, `wb_${type}`);
+  }
+  assert.equal(validateProject(wbEd.doc).ok, true);
+
+  // Sandbox: all six palette objects can be added
+  const sbProject = newProject({ type: "sandbox", objects: [] });
+  const sbEd = makeEditor(sbProject);
+  const sbPaletteTypes = getPaletteObjectTypes(sbEd.doc.type);
+  assert.deepEqual(sbPaletteTypes, ["rectangle", "circle", "triangle", "tree", "house", "gear"]);
+
+  for (let i = 0; i < sbPaletteTypes.length; i++) {
+    const type = sbPaletteTypes[i];
+    add(sbEd, type, `sb_${type}`);
+    assert.equal(sbEd.doc.objects.length, i + 1);
+    assert.equal(sbEd.doc.objects[i].type, type);
+    assert.equal(sbEd.doc.objects[i].layer, i);
+    assert.equal(sbEd.state.selectedId, `sb_${type}`);
+  }
+  assert.equal(validateProject(sbEd.doc).ok, true);
+});
+
+test("World Builder object manipulation: select, move, rotate, resize, layer order, and delete work for new objects", () => {
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const ed = makeEditor(wbProject);
+
+  // Add farm, pipe, tank
+  add(ed, "farm", "f1");
+  add(ed, "pipe", "p1");
+  add(ed, "tank", "tk1");
+  assert.equal(ed.state.selectedId, "tk1");
+
+  // Move
+  ed.do(actions.select("f1"));
+  assert.equal(ed.state.selectedId, "f1");
+  ed.do(actions.moveBy(20, -15));
+  assert.equal(ed.obj("f1").x, 420);
+  assert.equal(ed.obj("f1").y, 235);
+
+  // Rotate
+  ed.do(actions.rotateBy(45));
+  assert.equal(ed.obj("f1").rotation, 45);
+
+  // Resize
+  ed.do(actions.select("p1"));
+  ed.do(actions.resizeTo(150, 40));
+  assert.equal(ed.obj("p1").width, 150);
+  assert.equal(ed.obj("p1").height, 40);
+
+  // Reorder
+  ed.do(actions.reorder("back"));
+  assert.equal(ed.doc.objects[0].id, "p1");
+  assert.equal(ed.doc.objects[0].layer, 0);
+
+  // Delete
+  ed.do(actions.remove());
+  assert.equal(ed.doc.objects.length, 2);
+  assert.equal(ed.doc.objects.find((o) => o.id === "p1"), undefined);
+  assert.equal(ed.state.selectedId, null);
+});
+
+test("PropertiesPanel supports accessible enum property controls alongside color and int", () => {
+  const panelSrc = fs.readFileSync(new URL("../PropertiesPanel.jsx", import.meta.url), "utf8");
+  assert.match(panelSrc, /pdef\.kind\s*===\s*["']enum["']/);
+  assert.match(panelSrc, /aria-pressed=\{selected\.props\[key\]\s*===\s*opt\}/);
+  assert.match(panelSrc, /actions\.setProp\(key,\s*opt\)/);
+});
+
+test("D3.2C-5: Property edits on World Builder objects support undo and redo", () => {
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const ed = makeEditor(wbProject);
+
+  add(ed, "farm", "f1");
+  assert.equal(ed.obj("f1").props.irrigation, "flood");
+
+  // Edit irrigation
+  ed.do(actions.select("f1"));
+  ed.do(actions.setProp("irrigation", "drip"));
+  assert.equal(ed.obj("f1").props.irrigation, "drip");
+
+  // Undo restores "flood"
+  ed.do(actions.undo());
+  assert.equal(ed.obj("f1").props.irrigation, "flood");
+
+  // Redo restores "drip"
+  ed.do(actions.redo());
+  assert.equal(ed.obj("f1").props.irrigation, "drip");
+
+  // Edit color property on tank
+  add(ed, "tank", "tk1");
+  assert.equal(ed.obj("tk1").props.fill, "#3b82f6");
+  ed.do(actions.select("tk1"));
+  ed.do(actions.setProp("fill", "#22c55e"));
+  assert.equal(ed.obj("tk1").props.fill, "#22c55e");
+
+  // Undo restores default color
+  ed.do(actions.undo());
+  assert.equal(ed.obj("tk1").props.fill, "#3b82f6");
+
+  // Redo restores updated color
+  ed.do(actions.redo());
+  assert.equal(ed.obj("tk1").props.fill, "#22c55e");
+});
+
+test("D3.2C-6: Property editing does not mutate or change unrelated objects", () => {
+  const wbProject = newProject({ type: "world-builder", objects: [] });
+  const ed = makeEditor(wbProject);
+
+  add(ed, "house", "h1");
+  add(ed, "farm", "f1");
+  add(ed, "tank", "tk1");
+
+  const houseSnapshot = JSON.parse(JSON.stringify(ed.obj("h1")));
+  const tankSnapshot = JSON.parse(JSON.stringify(ed.obj("tk1")));
+
+  // Edit farm property
+  ed.do(actions.select("f1"));
+  ed.do(actions.setProp("irrigation", "drip"));
+  assert.equal(ed.obj("f1").props.irrigation, "drip");
+
+  // Unrelated objects must remain strictly identical
+  assert.deepEqual(JSON.parse(JSON.stringify(ed.obj("h1"))), houseSnapshot);
+  assert.deepEqual(JSON.parse(JSON.stringify(ed.obj("tk1"))), tankSnapshot);
+
+  // Edit house roof property
+  const farmSnapshot = JSON.parse(JSON.stringify(ed.obj("f1")));
+  ed.do(actions.select("h1"));
+  ed.do(actions.setProp("roof", "#3b82f6"));
+  assert.equal(ed.obj("h1").props.roof, "#3b82f6");
+
+  assert.deepEqual(JSON.parse(JSON.stringify(ed.obj("f1"))), farmSnapshot);
+  assert.deepEqual(JSON.parse(JSON.stringify(ed.obj("tk1"))), tankSnapshot);
+});
+
+test("D3.2C-7: Existing Sandbox properties and behavior remain completely intact", () => {
+  const sbProject = newProject({ type: "sandbox", objects: [] });
+  const ed = makeEditor(sbProject);
+
+  // Sandbox objects can be added and have their properties edited
+  add(ed, "gear", "g1");
+  assert.equal(ed.obj("g1").props.teeth, 10);
+  assert.equal(ed.obj("g1").props.fill, "#78716c");
+
+  // Valid property updates
+  ed.do(actions.select("g1"));
+  ed.do(actions.setProp("teeth", 14));
+  assert.equal(ed.obj("g1").props.teeth, 14);
+
+  ed.do(actions.setProp("fill", "#ef4444"));
+  assert.equal(ed.obj("g1").props.fill, "#ef4444");
+
+  // Invalid teeth (out of range [6, 16]) rejected without mutating document
+  const teethHist = ed.state.history;
+  ed.do(actions.setProp("teeth", 25));
+  assert.equal(ed.state.history, teethHist);
+  assert.equal(ed.obj("g1").props.teeth, 14);
+  assert.equal(ed.state.notice.kind, "warning");
+
+  // Non-existent property rejected
+  ed.do(actions.setProp("irrigation", "flood"));
+  assert.equal(ed.state.history, teethHist);
+  assert.equal(ed.state.notice.kind, "warning");
+
+  // Rectangle, tree, house properties work as before
+  add(ed, "tree", "t1");
+  ed.do(actions.select("t1"));
+  ed.do(actions.setProp("foliage", "#3b82f6"));
+  assert.equal(ed.obj("t1").props.foliage, "#3b82f6");
+});
+
+test("D3.2D-1: EngineLab supports mode switching between Sandbox (6 objects) and World Builder (7 objects)", () => {
+  const engineLabSrc = fs.readFileSync(new URL("../../pages/EngineLab.jsx", import.meta.url), "utf8");
+  assert.match(engineLabSrc, /useSearchParams/);
+  assert.match(engineLabSrc, /rawType\s*===\s*["']world-builder["']/);
+  assert.match(engineLabSrc, /data-testid=["']engine-lab-type-sandbox["']/);
+  assert.match(engineLabSrc, /data-testid=["']engine-lab-type-world-builder["']/);
+  assert.match(engineLabSrc, /to=["']\/world\/studio\/engine-lab\?type=world-builder["']/);
 });

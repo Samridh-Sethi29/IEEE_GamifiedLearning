@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:studio": "node --test src/features/studio/engine/__tests__/reducer.test.mjs src/features/studio/engine/__tests__/schema-storage.test.mjs src/features/studio/engine/__tests__/isolation-keyboard.test.mjs src/features/studio/world-builder/__tests__/mission.test.mjs"
+    "test:studio": "node --test src/features/studio/engine/__tests__/reducer.test.mjs src/features/studio/engine/__tests__/schema-storage.test.mjs src/features/studio/engine/__tests__/isolation-keyboard.test.mjs src/features/studio/world-builder/__tests__/mission.test.mjs src/features/studio/world-builder/__tests__/water-network.test.mjs src/features/studio/world-builder/__tests__/water-overlay.test.mjs src/features/studio/world-builder/__tests__/integration.test.mjs src/features/studio/world-builder/__tests__/water-status.test.mjs src/features/studio/world-builder/__tests__/village-trial.test.mjs src/features/studio/world-builder/__tests__/household-connectivity.test.mjs src/features/studio/world-builder/__tests__/construction-budget.test.mjs src/features/studio/world-builder/__tests__/water-reserve.test.mjs src/features/studio/world-builder/__tests__/mission-readiness.test.mjs src/features/studio/world-builder/__tests__/mission-dashboard.test.mjs src/features/studio/world-builder/__tests__/mission-completion.test.mjs src/features/studio/world-builder/__tests__/mission-completion-ui.test.mjs src/features/studio/world-builder/__tests__/e2e-audit.test.mjs src/features/studio/world-builder/__tests__/mission-rewards.test.mjs src/features/studio/world-builder/__tests__/guided-start.test.mjs"
   },
   "keywords": [],
   "author": "",

@@ -4,11 +4,13 @@ import CollapsiblePanel from "./CollapsiblePanel.jsx";
 import { actions } from "./actions.js";
 import { ROTATE_STEP } from "./constants.js";
 import { COLOR_CHOICES, OBJECT_TYPES } from "./objectTypes.js";
+import WaterStatusInspector from "../world-builder/components/WaterStatusInspector.jsx";
+import MissionDashboard from "../world-builder/components/MissionDashboard.jsx";
 
 // Accessible controls for the selected object: number fields + sliders (no dragging needed),
 // colour swatches, layer buttons, delete, and a layer list to pick any object without a pointer.
 
-export default function PropertiesPanel({ doc, selected, dispatch }) {
+export default function PropertiesPanel({ doc, selected, dispatch, onBackToBriefing }) {
   const [lock, setLock] = useState(true);
   const endGroup = () => dispatch(actions.endGroup());
   // Spread onto controls so one slider drag / typing burst is a single undo step.
@@ -17,6 +19,12 @@ export default function PropertiesPanel({ doc, selected, dispatch }) {
 
   return (
     <CollapsiblePanel id="sce-props" title="Properties" className="sce-props" testId="sce-props">
+      {doc.type === "world-builder" && (
+        <MissionDashboard doc={doc} onBackToBriefing={onBackToBriefing} />
+      )}
+      {doc.type === "world-builder" && (
+        <WaterStatusInspector doc={doc} selected={selected} />
+      )}
 
       {!selected ? (
         <p className="sce-hint" data-testid="sce-no-selection">
@@ -113,6 +121,25 @@ function SelectedControls({ doc, selected, dispatch, lock, setLock, grouped, num
                 aria-pressed={selected.props[key].toLowerCase() === c}
                 onClick={() => dispatch(actions.setProp(key, c))}
               />
+            ))}
+          </fieldset>
+        ) : pdef.kind === "enum" ? (
+          <fieldset className="sce-btn-row" key={key} style={{ border: 0, padding: 0, margin: 0 }}>
+            <legend style={{ fontSize: "13px", fontWeight: 700, color: "var(--sce-body)", marginBottom: "6px" }}>{pdef.label}</legend>
+            {(pdef.options || pdef.values || []).map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                className="sce-btn"
+                aria-label={`${pdef.label}: ${opt}`}
+                aria-pressed={selected.props[key] === opt}
+                data-selected={selected.props[key] === opt ? "true" : undefined}
+                data-testid={`sce-prop-${key}-${opt}`}
+                style={selected.props[key] === opt ? { fontWeight: 700, borderColor: "#4f46e5", background: "#e0e7ff", color: "#3730a3" } : undefined}
+                onClick={() => dispatch(actions.setProp(key, opt))}
+              >
+                {opt.charAt(0).toUpperCase() + opt.slice(1)}
+              </button>
             ))}
           </fieldset>
         ) : (

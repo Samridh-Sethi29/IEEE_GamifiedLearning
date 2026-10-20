@@ -92,7 +92,7 @@ function reduce(s, a) {
     case "ADD_OBJECT": {
       const doc = s.history.present;
       if (doc.objects.length >= MAX_OBJECTS) return note(s, "warning", `The workspace is full (${MAX_OBJECTS} objects). Delete something first.`);
-      const errors = validateObject({ ...a.object, layer: doc.objects.length }, undefined, "object");
+      const errors = validateObject({ ...a.object, layer: doc.objects.length }, undefined, "object", doc.type);
       if (errors.length) return note(s, "warning", `That object can't be added: ${errors[0]}.`);
       if (doc.objects.some((o) => o.id === a.object.id)) return note(s, "warning", "An object with that id already exists.");
       const placed = { ...a.object, layer: doc.objects.length };
@@ -160,7 +160,7 @@ function reduce(s, a) {
       const pdef = OBJECT_TYPES[target.type].props[a.key];
       if (!pdef) return note(s, "warning", `A ${OBJECT_TYPES[target.type].label.toLowerCase()} has no "${a.key}" setting.`);
       const candidate = { ...target, props: { ...target.props, [a.key]: a.value } };
-      if (validateObject(candidate).length) return note(s, "warning", `That value isn't allowed for ${pdef.label.toLowerCase()}.`);
+      if (validateObject(candidate, undefined, "object", s.history.present.type).length) return note(s, "warning", `That value isn't allowed for ${pdef.label.toLowerCase()}.`);
       return applyEdit(s, updateObject(s.history.present, target.id, { props: candidate.props }, a.at), a.group);
     }
 

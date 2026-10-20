@@ -26,9 +26,9 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
   const store = () => storage ?? defaultStorage();
   const backupKey = `${key}__backup`;
 
-  function readRaw(s) {
+  function readRaw(s, targetKey = key) {
     try {
-      return { ok: true, raw: s.getItem(key) };
+      return { ok: true, raw: s.getItem(targetKey) };
     } catch {
       return { ok: false, ...unavailable };
     }
@@ -41,10 +41,50 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
     load() {
       const s = store();
       if (!s) return unavailable;
-      const read = readRaw(s);
+      const read = readRaw(s, key);
       if (!read.ok) return read;
       if (read.raw === null) return { ok: true, empty: true, project: null };
       return deserializeProject(read.raw);
+    },
+
+    hasBackup() {
+      const s = store();
+      if (!s) return false;
+      try {
+        return s.getItem(backupKey) !== null;
+      } catch {
+        return false;
+      }
+    },
+
+    loadBackup() {
+      const s = store();
+      if (!s) return unavailable;
+      const read = readRaw(s, backupKey);
+      if (!read.ok) return read;
+      if (read.raw === null) return { ok: true, empty: true, project: null };
+      return deserializeProject(read.raw);
+    },
+
+    restoreBackup() {
+      const s = store();
+      if (!s) return unavailable;
+      const read = readRaw(s, backupKey);
+      if (!read.ok) return read;
+      if (read.raw === null) return { ok: false, code: "no_backup", message: "No backup document was found." };
+      const parsed = deserializeProject(read.raw);
+      if (!parsed.ok) return parsed;
+      try {
+        s.setItem(key, read.raw);
+        return { ok: true, project: parsed.project };
+      } catch (err) {
+        const full = err && (err.name === "QuotaExceededError" || err.code === 22);
+        return {
+          ok: false,
+          code: full ? "storage_full" : "storage_unavailable",
+          message: full ? "There isn't enough space to restore this backup." : unavailable.message,
+        };
+      }
     },
 
     save(project, { replaceUnreadable = false } = {}) {
@@ -52,7 +92,7 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
       if (!s) return unavailable;
       const out = serializeProject(project);
       if (!out.ok) return out;
-      const read = readRaw(s);
+      const read = readRaw(s, key);
       if (!read.ok) return read;
       try {
         if (read.raw !== null) {

@@ -14,7 +14,7 @@ function toWorkspace(svg, e) {
   return { x: p.x, y: p.y };
 }
 
-export default function Canvas({ doc, selectedId, dispatch, onKeyDown, onKeyUp, onBlur }) {
+export default function Canvas({ doc, selectedId, dispatch, onKeyDown, onKeyUp, onBlur, overlay }) {
   const svgRef = useRef(null);
   const drag = useRef(null);
 
@@ -133,6 +133,7 @@ export default function Canvas({ doc, selectedId, dispatch, onKeyDown, onKeyUp, 
           </g>
         );
       })}
+      {overlay}
 
       {doc.objects.length === 0 && (
         <g pointerEvents="none" data-testid="sce-empty">

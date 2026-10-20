@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Redo2, RotateCcw, Save, Trash2, Undo2, Upload } from "lucide-react";
+import { Play, Redo2, RotateCcw, Save, Trash2, Undo2, Upload } from "lucide-react";
 import Canvas from "./Canvas.jsx";
 import Palette from "./Palette.jsx";
 import PropertiesPanel from "./PropertiesPanel.jsx";
@@ -7,6 +7,9 @@ import { actions } from "./actions.js";
 import { GROUP_RELEASE_KEYS, keyToAction } from "./keyboard.js";
 import { OBJECT_TYPES } from "./objectTypes.js";
 import { useEditor } from "./useEditor.js";
+import WaterPortOverlay from "../world-builder/components/WaterPortOverlay.jsx";
+import VillageTrialCard from "../world-builder/components/VillageTrialCard.jsx";
+import { isTrialStale, runVillageTrial } from "../world-builder/engine/villageTrialModel.js";
 import "./engine.css";
 
 // Shared editing workspace: palette + canvas + properties + toolbar.
@@ -15,9 +18,19 @@ import "./engine.css";
 
 const isTextEntry = (el) => !!el?.closest?.("input, textarea, select, [contenteditable='true']");
 
-export default function EditorWorkspace({ initialProject, storage }) {
+export default function EditorWorkspace({ initialProject, storage, renderOverlay, onBackToBriefing }) {
   const { state, dispatch, doc, selected, canUndo, canRedo } = useEditor(initialProject);
   const [saveMsg, setSaveMsg] = useState(null); // { kind, text, offerReplace? }
+  const [trialResult, setTrialResult] = useState(null);
+  const [trialDoc, setTrialDoc] = useState(null);
+
+  const runTrial = useCallback(() => {
+    const result = runVillageTrial(doc);
+    setTrialResult(result);
+    setTrialDoc(doc);
+  }, [doc]);
+
+  const isTrialResultStale = trialDoc !== null && isTrialStale(trialDoc, doc);
 
   // Auto-dismiss notices. Each notice has a unique id, so a repeat of the same message re-arms it.
   const noticeId = state.notice?.id;
@@ -107,6 +120,18 @@ export default function EditorWorkspace({ initialProject, storage }) {
             </div>
           </>
         )}
+        {doc.type === "world-builder" && (
+          <div className="sce-group wb-trial-toolbar-group" role="group" aria-label="Village Trial">
+            <button
+              type="button"
+              className="sce-btn wb-test-village-btn"
+              onClick={runTrial}
+              data-testid="wb-test-village-btn"
+            >
+              <Play size={15} aria-hidden="true" fill="currentColor" /> Test Village
+            </button>
+          </div>
+        )}
         <span className="sce-count" data-testid="sce-count">{doc.objects.length} {doc.objects.length === 1 ? "object" : "objects"}</span>
       </div>
 
@@ -137,8 +162,19 @@ export default function EditorWorkspace({ initialProject, storage }) {
       </div>
 
       <div className="sce-layout">
-        <Palette onAdd={add} />
+        <Palette onAdd={add} projectType={doc.type} doc={doc} />
         <div className="sce-stage">
+          {trialResult && doc.type === "world-builder" && (
+            <VillageTrialCard
+              trialResult={trialResult}
+              isStale={isTrialResultStale}
+              onRetest={runTrial}
+              onDismiss={() => {
+                setTrialResult(null);
+                setTrialDoc(null);
+              }}
+            />
+          )}
           <div className="sce-canvas-wrap">
             <Canvas
               doc={doc}
@@ -147,6 +183,21 @@ export default function EditorWorkspace({ initialProject, storage }) {
               onKeyDown={onCanvasKey}
               onKeyUp={onCanvasKeyUp}
               onBlur={() => dispatch(actions.endGroup())}
+              overlay={
+                renderOverlay
+                  ? renderOverlay({ doc, selectedId: state.selectedId, selected })
+                  : doc.type === "world-builder"
+                  ? (
+                    <WaterPortOverlay
+                      doc={doc}
+                      selectedId={state.selectedId}
+                      highlightedObjectIds={
+                        trialResult?.ok && !isTrialResultStale ? trialResult.participatingIds : null
+                      }
+                    />
+                  )
+                  : null
+              }
             />
           </div>
           <p className="sce-sr" role="status" aria-live="polite">{status}</p>
@@ -161,7 +212,7 @@ export default function EditorWorkspace({ initialProject, storage }) {
             </ul>
           </details>
         </div>
-        <PropertiesPanel doc={doc} selected={selected} dispatch={dispatch} />
+        <PropertiesPanel doc={doc} selected={selected} dispatch={dispatch} onBackToBriefing={onBackToBriefing} />
       </div>
     </div>
   );

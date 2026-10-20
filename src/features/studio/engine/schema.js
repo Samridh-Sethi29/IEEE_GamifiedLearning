@@ -15,7 +15,9 @@
 import {
   CANVAS_LIMITS, DEFAULT_CANVAS, MAX_OBJECTS, MAX_TITLE_LENGTH, PROJECT_TYPES, SCHEMA_VERSION,
 } from "./constants.js";
-import { OBJECT_TYPES, checkPropValue, defaultProps, isObjectType } from "./objectTypes.js";
+import { OBJECT_TYPES, checkPropValue, defaultProps, getObjectTypes, isObjectType } from "./objectTypes.js";
+
+export { getObjectTypes };
 
 let idCounter = 0;
 /** Unique-enough id for projects/objects. Not used inside the reducer (ids arrive via actions). */
@@ -39,8 +41,15 @@ export function createProject({
 }
 
 /** Build a valid object of `type` (defaults for size and props, overridable). */
-export function createObject(type, overrides = {}) {
-  if (!isObjectType(type)) throw new Error(`Unknown object type: ${String(type)}`);
+export function createObject(type, overrides = {}, projectType = undefined) {
+  const pType = projectType ?? overrides.projectType;
+  if (pType !== undefined) {
+    if (!isObjectType(type, pType)) {
+      throw new Error(`Object type "${String(type)}" is not allowed in a ${String(pType)} project`);
+    }
+  } else if (!isObjectType(type)) {
+    throw new Error(`Unknown object type: ${String(type)}`);
+  }
   const def = OBJECT_TYPES[type];
   return {
     id: overrides.id ?? createId("obj"),
@@ -73,40 +82,54 @@ const OBJECT_KEYS = ["id", "type", "x", "y", "rotation", "width", "height", "lay
 const PROJECT_KEYS = ["id", "schemaVersion", "title", "type", "createdAt", "modifiedAt", "canvas", "objects", "metadata"];
 
 /** Validate one object. `canvas` is optional (enables the bounds check). Returns string[]. */
-export function validateObject(obj, canvas, path = "object") {
+export function validateObject(obj, canvasOrOptions, path = "object", projectType = undefined) {
   const errors = [];
   if (!isPlainObject(obj)) return [`${path} must be an object`];
-  for (const k of Object.keys(obj)) if (!OBJECT_KEYS.includes(k)) errors.push(`${path}.${k} is not a known field`);
-  if (typeof obj.id !== "string" || obj.id === "") errors.push(`${path}.id must be a non-empty string`);
+
+  let canvas = canvasOrOptions;
+  let p = path;
+  let pType = projectType;
+
+  if (isPlainObject(canvasOrOptions) && ("projectType" in canvasOrOptions || "canvas" in canvasOrOptions || ("path" in canvasOrOptions && !("width" in canvasOrOptions || "height" in canvasOrOptions)))) {
+    canvas = canvasOrOptions.canvas;
+    if ("path" in canvasOrOptions) p = canvasOrOptions.path;
+    if ("projectType" in canvasOrOptions) pType = canvasOrOptions.projectType;
+  }
+
+  for (const k of Object.keys(obj)) if (!OBJECT_KEYS.includes(k)) errors.push(`${p}.${k} is not a known field`);
+  if (typeof obj.id !== "string" || obj.id === "") errors.push(`${p}.id must be a non-empty string`);
   if (!isObjectType(obj.type)) {
-    errors.push(`${path}.type "${String(obj.type)}" is not a supported object type`);
+    errors.push(`${p}.type "${String(obj.type)}" is not a supported object type`);
     return errors;
+  }
+  if (pType !== undefined && !isObjectType(obj.type, pType)) {
+    errors.push(`${p}.type "${String(obj.type)}" is not allowed in a ${pType} project`);
   }
   const def = OBJECT_TYPES[obj.type];
   for (const k of ["x", "y", "rotation", "width", "height"]) {
-    if (!isNum(obj[k])) errors.push(`${path}.${k} must be a finite number`);
+    if (!isNum(obj[k])) errors.push(`${p}.${k} must be a finite number`);
   }
-  if (isNum(obj.rotation) && (obj.rotation < 0 || obj.rotation >= 360)) errors.push(`${path}.rotation must be from 0 up to (not including) 360`);
+  if (isNum(obj.rotation) && (obj.rotation < 0 || obj.rotation >= 360)) errors.push(`${p}.rotation must be from 0 up to (not including) 360`);
   for (const k of ["width", "height"]) {
     if (isNum(obj[k]) && (obj[k] < def.minSize || obj[k] > def.maxSize)) {
-      errors.push(`${path}.${k} must be between ${def.minSize} and ${def.maxSize} for a ${def.label}`);
+      errors.push(`${p}.${k} must be between ${def.minSize} and ${def.maxSize} for a ${def.label}`);
     }
   }
-  if (!Number.isInteger(obj.layer) || obj.layer < 0) errors.push(`${path}.layer must be a whole number, 0 or more`);
+  if (!Number.isInteger(obj.layer) || obj.layer < 0) errors.push(`${p}.layer must be a whole number, 0 or more`);
   if (!isPlainObject(obj.props)) {
-    errors.push(`${path}.props must be an object`);
+    errors.push(`${p}.props must be an object`);
   } else {
-    for (const k of Object.keys(obj.props)) if (!def.props[k]) errors.push(`${path}.props.${k} is not a property of ${def.label}`);
+    for (const k of Object.keys(obj.props)) if (!def.props[k]) errors.push(`${p}.props.${k} is not a property of ${def.label}`);
     for (const [k, pdef] of Object.entries(def.props)) {
-      if (!(k in obj.props)) errors.push(`${path}.props.${k} is missing`);
+      if (!(k in obj.props)) errors.push(`${p}.props.${k} is missing`);
       else {
         const problem = checkPropValue(pdef, obj.props[k]);
-        if (problem) errors.push(`${path}.props.${k} ${problem}`);
+        if (problem) errors.push(`${p}.props.${k} ${problem}`);
       }
     }
   }
   if (canvas && isNum(obj.x) && isNum(obj.y) && (obj.x < 0 || obj.y < 0 || obj.x > canvas.width || obj.y > canvas.height)) {
-    errors.push(`${path} centre (${obj.x}, ${obj.y}) is outside the workspace`);
+    errors.push(`${p} centre (${obj.x}, ${obj.y}) is outside the workspace`);
   }
   return errors;
 }
@@ -145,7 +168,7 @@ export function validateProject(doc) {
     const ids = new Set();
     const layers = new Set();
     doc.objects.forEach((o, i) => {
-      errors.push(...validateObject(o, canvasOk ? doc.canvas : undefined, `objects[${i}]`));
+      errors.push(...validateObject(o, canvasOk ? doc.canvas : undefined, `objects[${i}]`, doc.type));
       if (isPlainObject(o)) {
         if (typeof o.id === "string") {
           if (ids.has(o.id)) errors.push(`objects[${i}].id "${o.id}" is duplicated`);

@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Hammer, Lock } from "lucide-react";
 import { STUDIO_CSS_VARS } from "@/features/studio/art/palette";
 import { MISSION } from "@/features/studio/world-builder/data/mission";
 import { CoinsArt, DripArt, FarmArt, HouseArt, PipeArt, TankArt, VillageScene, WellArt } from "@/features/studio/world-builder/art/WorldBuilderArt";
+import WorldBuilderWorkspace from "../components/WorldBuilderWorkspace";
+import { resolveWorldBuilderView } from "../engine/worldBuilderWorkspaceModel.js";
 import "@/features/studio/studio.css";
 import "@/features/studio/world-builder/world-builder.css";
 
 // World Builder mission briefing (Phases D2 / D2.1). Read-only and static: it shows the mission's own
 // starting resources and requirements from data/mission.js. It holds no player state, runs no
-// simulation, and the Start Designing action is intentionally disabled until the construction
-// workspace exists. Requirements are shown as requirements, never as results.
+// simulation, and the Start Designing action opens the World Builder workspace.
+// Requirements are shown as requirements, never as results.
 
 const RESOURCE_ART = { budget: CoinsArt, water: TankArt };
 const RESOURCE_ACCENT = { budget: "amber", water: "sky" };
@@ -19,6 +21,13 @@ const ROLE_TONE = { Supply: "sky", Delivery: "slate", Demand: "amber", Saver: "g
 const METER_SEGMENTS = 10;
 
 export default function WorldBuilderBriefing() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isDesigning = resolveWorldBuilderView(searchParams) === "editor";
+
+  if (isDesigning) {
+    return <WorldBuilderWorkspace onBack={() => setSearchParams({})} />;
+  }
+
   const { resources, objectives, howItWorks, loop, startAction } = MISSION;
   return (
     <div className="studio-scope wb-scope" style={STUDIO_CSS_VARS} data-testid="world-builder-briefing" data-accent="emerald">
@@ -131,13 +140,25 @@ export default function WorldBuilderBriefing() {
         <section className="wb-card wb-start" aria-label="Start designing">
           <span className="wb-start-art" aria-hidden="true"><Hammer size={28} /></span>
           <div className="wb-start-copy">
-            <p className="wb-start-title">{startAction.preparingTitle}</p>
-            <p className="wb-start-text">{startAction.preparingText}</p>
+            <p className="wb-start-title">{startAction.enabled ? "Your village workspace is ready" : startAction.preparingTitle}</p>
+            <p className="wb-start-text">{startAction.enabled ? "Enter the workspace to place houses, connect pipes from the well to the farm, and build your village." : startAction.preparingText}</p>
             <p id="wb-start-note" className="wb-start-note" data-testid="world-builder-start-note">
-              <Lock size={16} aria-hidden="true" /> {startAction.disabledReason}
+              {startAction.enabled ? (
+                <>Ready to design your village water system.</>
+              ) : (
+                <><Lock size={16} aria-hidden="true" /> {startAction.disabledReason}</>
+              )}
             </p>
           </div>
-          <button type="button" className="studio-cta" disabled={!startAction.enabled} aria-disabled={!startAction.enabled} aria-describedby="wb-start-note" data-testid="world-builder-start">
+          <button
+            type="button"
+            className="studio-cta"
+            disabled={!startAction.enabled}
+            aria-disabled={!startAction.enabled}
+            aria-describedby="wb-start-note"
+            data-testid="world-builder-start"
+            onClick={() => setSearchParams({ mode: "edit" })}
+          >
             {startAction.label} <ArrowRight size={18} aria-hidden="true" />
           </button>
         </section>

@@ -113,3 +113,438 @@
   .wb-scope .studio-back span.wb-back-text { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; }
 }
 @media (prefers-reduced-motion: reduce) { .wb-bob { animation: none; } }
+
+/* World Builder Storage Recovery Banner */
+.wb-storage-recovery-banner {
+  margin: 12px 0 16px 0;
+  padding: 14px 18px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 5px solid #d97706;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #92400e;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.08);
+}
+
+.wb-storage-recovery-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.wb-storage-recovery-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.wb-storage-recovery-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wb-storage-recovery-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #78350f;
+}
+
+.wb-storage-recovery-desc {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin: 0;
+  color: #92400e;
+}
+
+.wb-storage-recovery-sub {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  margin: 0;
+  color: #b45309;
+}
+
+.wb-storage-recovery-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-left: 36px;
+}
+
+.wb-storage-recovery-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.wb-storage-recovery-retry {
+  background: #d97706;
+  color: #ffffff;
+  border: 1px solid #b45309;
+}
+
+.wb-storage-recovery-retry:hover {
+  background: #b45309;
+}
+
+.wb-storage-recovery-restore {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.wb-storage-recovery-restore:hover {
+  background: #fde68a;
+}
+
+.wb-storage-recovery-fresh {
+  background: #ffffff;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.wb-storage-recovery-fresh:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* World Builder Guided Start */
+.wb-header-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.wb-guide-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--st-emerald-deep, #065f46);
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.wb-guide-toggle-btn:hover {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+}
+
+.wb-guide-card {
+  margin: 8px 0 12px 0;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #059669;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: clamp(280px, 46vh, 440px);
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+}
+
+.wb-guide-card--minimized {
+  max-height: 52px;
+  gap: 0;
+  padding-bottom: 10px;
+}
+
+.wb-guide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.wb-guide-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.wb-guide-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.wb-guide-icon {
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.wb-guide-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.wb-guide-subtitle {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wb-guide-minimize-btn,
+.wb-guide-dismiss-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #64748b;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.wb-guide-minimize-btn:hover,
+.wb-guide-dismiss-btn:hover {
+  color: #0f172a;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.wb-guide-minimize-btn:focus-visible,
+.wb-guide-dismiss-btn:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 1px;
+}
+
+.wb-guide-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+  min-height: 0;
+}
+
+.wb-guide-honesty-note {
+  padding: 8px 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: #166534;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.wb-guide-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 699px) {
+  .wb-guide-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wb-guide-step {
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wb-guide-step:hover {
+  border-color: #cbd5e1;
+  background: #ffffff;
+}
+
+.wb-guide-step-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wb-guide-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #059669;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.wb-guide-step-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.wb-guide-step-desc {
+  font-size: 0.77rem;
+  line-height: 1.32;
+  color: #475569;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.wb-guide-actions-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.wb-guide-step-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0284c7;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.wb-guide-step-action:hover {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #0369a1;
+}
+
+.wb-guide-step-action:focus-visible {
+  outline: 2px solid #0284c7;
+  outline-offset: 1px;
+}
+
+.wb-guide-step-action--secondary {
+  color: #475569;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.wb-guide-step-action--secondary:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.wb-guide-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 8px;
+  flex-shrink: 0;
+}
+
+.wb-guide-footer-tip {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.wb-guide-got-it-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #059669;
+  border: 1px solid #047857;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.wb-guide-got-it-btn:hover {
+  background: #047857;
+}
+
+.wb-guide-got-it-btn:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 2px;
+}
+
+/* Highlight effect when navigating from guide */
+@keyframes wb-target-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7);
+    outline: 3px solid #0284c7;
+    outline-offset: 3px;
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(5, 150, 105, 0.45);
+    outline: 3px solid #059669;
+    outline-offset: 4px;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
+    outline: 3px solid transparent;
+    outline-offset: 4px;
+  }
+}
+
+.wb-guide-highlight-target {
+  animation: wb-target-pulse 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+  position: relative;
+  z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wb-guide-highlight-target {
+    animation: none !important;
+    outline: 3px solid #0284c7 !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.3) !important;
+  }
+}

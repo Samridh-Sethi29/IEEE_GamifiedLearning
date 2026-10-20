@@ -75,21 +75,27 @@ test("D2f. the five objective definitions are present", () => {
   assert.match(MISSION.objectives[4].text, /10 litres\/day/);
 });
 
-test("D2g. briefing copy, learning loop and disabled start action", () => {
+test("D2g. briefing copy, learning loop and enabled start action", () => {
   assert.equal(MISSION.title, "Save Our Village");
   assert.equal(MISSION.subtitle, "Design a Better Water System");
   assert.deepEqual(MISSION.loop.map((s) => s.label), ["Plan", "Build", "Test", "Improve"]);
   assert.equal(MISSION.backTo, "/world/studio");
-  assert.equal(MISSION.startAction.enabled, false);
-  assert.match(MISSION.startAction.disabledReason, /coming in the next update/i);
+  assert.equal(MISSION.startAction.enabled, true);
+  assert.equal(MISSION.startAction.label, "Start Designing");
   assert.match(MISSION.howItWorks.map((h) => h.text).join(" "), /connected to the well through pipes/);
   assert.match(MISSION.howItWorks.map((h) => h.text).join(" "), /drip irrigation reduces/i);
 });
 
-test("D2h. the page's Start Designing is disabled and links nowhere", () => {
+test("D2h. the page's Start Designing is enabled and opens the World Builder workspace", () => {
   const page = read("world-builder", "pages", "WorldBuilderBriefing.jsx");
-  assert.match(page, /disabled=\{!startAction\.enabled\}/);
-  assert.doesNotMatch(page, /engine-lab|EditorWorkspace|navigate\(/);
+  const workspace = read("world-builder", "components", "WorldBuilderWorkspace.jsx");
+  assert.equal(MISSION.startAction.enabled, true);
+  assert.match(page, /resolveWorldBuilderView/);
+  assert.match(page, /setSearchParams\(\{\s*mode:\s*"edit"\s*\}\)/);
+  assert.match(page, /<WorldBuilderWorkspace\s+onBack=/);
+  assert.match(workspace, /<EditorWorkspace/);
+  assert.match(workspace, /key="world-builder"/);
+  assert.match(workspace, /data-testid="world-builder-back-to-briefing"/);
 });
 
 test("D2i. mission data and page do not depend on or modify player progression", () => {
