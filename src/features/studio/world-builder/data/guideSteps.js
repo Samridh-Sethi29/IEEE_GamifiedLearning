@@ -75,6 +75,7 @@ export const BUILDER_GUIDE_STEPS = [
     actionLabel: "Open Mission Dashboard",
     targetSelector: '[data-testid="wb-planning-inputs"]',
     secondaryTargetSelector: '[data-testid="wb-mission-dashboard"]',
+    focusSelector: "#wb-input-daily-supply",
     testId: "wb-guide-step-6",
     actionTestId: "wb-guide-dashboard-link",
   },

@@ -6,6 +6,16 @@ import { ROTATE_STEP } from "./constants.js";
 import { COLOR_CHOICES, OBJECT_TYPES } from "./objectTypes.js";
 import WaterStatusInspector from "../world-builder/components/WaterStatusInspector.jsx";
 import MissionDashboard from "../world-builder/components/MissionDashboard.jsx";
+import { navigateToGuideTarget } from "../world-builder/engine/guideNavigation.js";
+
+// World Builder only: quick jumps inside the (scrollable) Properties panel.
+const WB_PROPS_JUMPS = [
+  { label: "Mission", selector: '[data-testid="wb-mission-dashboard"]' },
+  { label: "Inputs", title: "Water planning inputs", selector: '[data-testid="wb-planning-inputs"]' },
+  { label: "Water", selector: '[data-testid="wb-status-inspector"]' },
+  { label: "Object", selector: '[data-testid="sce-props-selected"]' },
+  { label: "Layers", selector: '[data-testid="sce-props-layers"]' },
+];
 
 // Accessible controls for the selected object: number fields + sliders (no dragging needed),
 // colour swatches, layer buttons, delete, and a layer list to pick any object without a pointer.
@@ -20,21 +30,38 @@ export default function PropertiesPanel({ doc, selected, dispatch, onBackToBrief
   return (
     <CollapsiblePanel id="sce-props" title="Properties" className="sce-props" testId="sce-props">
       {doc.type === "world-builder" && (
+        <nav className="wb-props-nav" aria-label="Jump to a section of the Properties panel" data-testid="wb-props-nav">
+          {WB_PROPS_JUMPS.map((j) => (
+            <button
+              key={j.label}
+              type="button"
+              className="wb-props-nav-btn"
+              title={j.title}
+              onClick={() => navigateToGuideTarget(j.selector, { highlight: false, focus: false })}
+            >
+              {j.label}
+            </button>
+          ))}
+        </nav>
+      )}
+      {doc.type === "world-builder" && (
         <MissionDashboard doc={doc} onBackToBriefing={onBackToBriefing} />
       )}
       {doc.type === "world-builder" && (
         <WaterStatusInspector doc={doc} selected={selected} />
       )}
 
-      {!selected ? (
-        <p className="sce-hint" data-testid="sce-no-selection">
-          Nothing selected. Click an object, or choose one from the layer list below.
-        </p>
-      ) : (
-        <SelectedControls {...{ doc, selected, dispatch, lock, setLock, grouped, num }} />
-      )}
+      <div className="wb-props-section" data-testid="sce-props-selected">
+        {!selected ? (
+          <p className="sce-hint" data-testid="sce-no-selection">
+            Nothing selected. Click an object, or choose one from the layer list below.
+          </p>
+        ) : (
+          <SelectedControls {...{ doc, selected, dispatch, lock, setLock, grouped, num }} />
+        )}
+      </div>
 
-      <h3 className="sce-subtitle">Layers (front first)</h3>
+      <h3 className="sce-subtitle" data-testid="sce-props-layers">Layers (front first)</h3>
       {doc.objects.length === 0 ? (
         <p className="sce-hint">No objects yet.</p>
       ) : (

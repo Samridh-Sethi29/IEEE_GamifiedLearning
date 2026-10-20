@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   padding: max(1rem, env(safe-area-inset-top, 1rem)) max(1rem, env(safe-area-inset-right, 1rem)) max(1rem, env(safe-area-inset-bottom, 1rem)) max(1rem, env(safe-area-inset-left, 1rem));
-  overflow-y: auto;
+  overflow-y: auto; /* safety net only (extreme zoom): the dialog's own body is the normal scroller */
   animation: wbFadeIn 0.25s ease-out;
   box-sizing: border-box;
 }
@@ -30,8 +30,11 @@
   border-radius: 1.25rem;
   max-width: 580px;
   width: 100%;
+  /* Fit the visible viewport (dynamic units for mobile browser chrome) minus the overlay padding. */
   max-height: calc(100vh - 2rem);
   max-height: calc(100dvh - 2rem);
+  max-height: 100%; /* of the padded overlay: safe-area insets are respected automatically */
+  min-height: 0;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.2);
   border: 2px solid #6ee7b7;
   overflow: hidden;

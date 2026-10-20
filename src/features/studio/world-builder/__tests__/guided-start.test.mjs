@@ -15,6 +15,8 @@ import {
   navigateToGuideTarget,
 } from "../engine/guideNavigation.js";
 
+import { makeEl, makeDoc, fakeWin, styleOf } from "./fake-dom.mjs";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const studioRoot = resolve(__dirname, "../..");
@@ -102,42 +104,34 @@ test("3. Guided start component: renders header, title, honesty note, steps, min
   assert.match(guideSource, /navigateToSection/);
 });
 
-test("4. Guided start in WorldBuilderWorkspace: supports session dismiss and reopen", () => {
+test("4. Guided start in WorldBuilderWorkspace: open / minimized / closed state lives outside the editor", () => {
   const workspaceSource = readFileSync(
     resolve(worldBuilderRoot, "components", "WorldBuilderWorkspace.jsx"),
     "utf-8"
   );
 
-  // State initialization: defaults to open in memory
-  assert.match(
-    workspaceSource,
-    /const \[isGuideOpen, setIsGuideOpen\] = useState\(true\)/,
-    "Guide must default to open in session memory"
-  );
+  // Open state defaults to open; minimized state is separate and viewport-aware (short screens start slim).
+  assert.match(workspaceSource, /const \[isGuideOpen, setIsGuideOpen\] = useState\(true\)/);
+  assert.match(workspaceSource, /const \[isGuideMinimized, setIsGuideMinimized\] = useState\(/);
+  assert.match(workspaceSource, /window\.innerHeight < 720/);
 
-  // Toggle button present in header with accessibility attribute and dynamic label
+  // Header toggle stays available in every state, with accessibility attribute and dynamic label
   assert.match(workspaceSource, /data-testid="wb-guide-toggle-btn"/);
   assert.match(workspaceSource, /aria-expanded=\{isGuideOpen\}/);
+  assert.match(workspaceSource, /isGuideOpen \? "Hide Guide" : "How to Build Guide"/);
+  assert.match(workspaceSource, /setIsGuideOpen\(\(prev\) => !prev\);\s*setIsGuideMinimized\(false\);/, "Reopening always shows the expanded guide");
+
+  // Guide receives controlled minimized state and a dismiss callback
   assert.match(
     workspaceSource,
-    /isGuideOpen \? "Hide Guide" : "How to Build Guide"/,
-    "Toggle button must switch between Hide Guide and How to Build Guide"
+    /\{isGuideOpen && \(\s*<WorldBuilderGuide\s+isMinimized=\{isGuideMinimized\}\s+onMinimizedChange=\{setIsGuideMinimized\}\s+onDismiss=\{\(\) => setIsGuideOpen\(false\)\}/
   );
 
-  // Re-opening clicking toggles state
-  assert.match(
-    workspaceSource,
-    /onClick=\{\(\) => setIsGuideOpen\(\(prev\) => !prev\)\}/
-  );
-
-  // Conditionally renders WorldBuilderGuide
-  assert.match(
-    workspaceSource,
-    /\{isGuideOpen && \(\s*<WorldBuilderGuide onDismiss=\{\(\) => setIsGuideOpen\(false\)\}/
-  );
-
-  // Preserves key="world-builder" on EditorWorkspace
+  // The editor (and therefore the village design) is a stable sibling: guide state cannot remount it
   assert.match(workspaceSource, /<EditorWorkspace\s+key="world-builder"/);
+  const guideIdx = workspaceSource.indexOf("<WorldBuilderGuide");
+  const editorIdx = workspaceSource.indexOf("<EditorWorkspace");
+  assert.ok(guideIdx > 0 && editorIdx > guideIdx, "Guide renders before, and independently of, the editor");
 });
 
 test("5. D3.6D Regression: each of the six guide actions targets its exact section and element", () => {
@@ -201,55 +195,38 @@ test("7. D3.6D Regression: dashboard links target specific requirements and plan
   assert.notEqual(dashboardSelector, '[data-testid="sce-props"]');
 });
 
-test("8. D3.6D Regression: guide closes or minimizes before navigating when requested", () => {
-  let dismissed = false;
-  const onDismiss = () => {
-    dismissed = true;
-  };
-
-  // Mock document with querySelector
-  const mockDoc = {
-    querySelector: (sel) => {
-      if (sel === '[data-testid="sce-add-well"]') {
-        return {
-          scrollIntoView: () => {},
-          focus: () => {},
-          classList: { add: () => {}, remove: () => {} },
-        };
-      }
-      return null;
-    },
-  };
-
-  const ok = navigateToGuideTarget('[data-testid="sce-add-well"]', {
-    onDismiss,
-    rootDocument: mockDoc,
+test("8. Guide navigation runs the minimize callback before touching the DOM and reports success", async () => {
+  const order = [];
+  const target = makeEl({ id: "well", testid: "sce-add-well", rect: { top: 40, height: 60 } });
+  const doc = makeDoc([target]);
+  const res = await navigateToGuideTarget('[data-testid="sce-add-well"]', {
+    onBeforeNavigate: () => order.push("minimize"),
+    rootDocument: doc,
+    win: fakeWin(),
+    getStyle: styleOf,
   });
-
-  assert.equal(ok, true);
-  assert.equal(dismissed, true, "onDismiss must be executed immediately before scrolling");
+  assert.equal(res.ok, true);
+  assert.deepEqual(order, ["minimize"]);
+  assert.equal(target.classList.has("wb-guide-highlight-target"), true, "target is highlighted");
 });
 
-test("9. D3.6D Regression: missing DOM targets fail gracefully without throwing errors", () => {
-  const emptyDoc = {
-    querySelector: () => null,
-  };
-
-  assert.doesNotThrow(() => {
-    const res = navigateToGuideTarget('[data-testid="non-existent-element"]', {
-      rootDocument: emptyDoc,
-    });
-    assert.equal(res, true);
+test("9. Missing targets fail gracefully (ok:false, no throw) and legacy helpers tolerate bad input", async () => {
+  const doc = makeDoc([]);
+  const res = await navigateToGuideTarget('[data-testid="non-existent-element"]', {
+    rootDocument: doc,
+    win: fakeWin(),
+    getStyle: styleOf,
   });
+  assert.equal(res.ok, false);
+  assert.equal(res.reason, "target-not-found");
+
+  assert.deepEqual(await navigateToGuideTarget("", { rootDocument: doc }), { ok: false, reason: "no-document-or-selector" });
 
   assert.doesNotThrow(() => {
     applyHighlight(null);
     applyHighlight({});
-  });
-
-  assert.doesNotThrow(() => {
     expandPanelForSelector(null, null);
-    expandPanelForSelector("invalid-sel", emptyDoc);
+    expandPanelForSelector("invalid-sel", doc);
   });
 });
 
@@ -334,8 +311,13 @@ test("13. Guided start: responsive layout with independent scrollable body and h
   assert.match(css, /\.wb-guide-body/);
   assert.match(css, /overflow-y:\s*auto;/);
   assert.match(css, /\.wb-guide-steps/);
-  assert.match(css, /grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(260px,\s*1fr\)\)/);
-  assert.match(css, /@media\s*\(max-width:\s*699px\)\s*\{\s*\.wb-guide-steps\s*\{\s*grid-template-columns:\s*1fr;/);
+  // 1 column by default (phones), 2 from 700px, 3 from 1100px
+  assert.match(css, /\.wb-guide-steps\s*\{[^}]*grid-template-columns:\s*1fr;/);
+  assert.match(css, /@media\s*\(min-width:\s*700px\)\s*\{\s*\.wb-guide-steps\s*\{\s*grid-template-columns:\s*repeat\(2,/);
+  assert.match(css, /@media\s*\(min-width:\s*1100px\)\s*\{\s*\.wb-guide-steps\s*\{\s*grid-template-columns:\s*repeat\(3,/);
+  // height-capped by the viewport, never squeezed by the editor, body scrolls inside
+  assert.match(css, /\.wb-guide-card\s*\{[^}]*flex:\s*0 0 auto;/);
+  assert.match(css, /\.wb-guide-card\s*\{[^}]*max-height:\s*min\(\d+px,\s*\d+dvh\);/);
   assert.match(css, /\.wb-guide-highlight-target/);
   assert.match(css, /@keyframes wb-target-pulse/);
 

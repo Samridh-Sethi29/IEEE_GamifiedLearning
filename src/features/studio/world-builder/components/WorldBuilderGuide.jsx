@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BookOpen, ChevronDown, ChevronRight, ChevronUp, X } from "lucide-react";
 import {
   BUILDER_GUIDE_HONESTY_NOTE,
@@ -7,29 +6,35 @@ import {
 import { navigateToGuideTarget } from "../engine/guideNavigation.js";
 
 /**
- * Child-friendly Guided Start Experience for World Builder (D3.6A / D3.6D).
+ * Child-friendly Guided Start Experience for World Builder.
  * Explains the 6 essential steps to building a valid water system for "Save Our Village".
  *
- * Improvements in D3.6D:
- * - Compact header with title, subtitle, minimize toggle, and close button.
- * - Responsive grid on desktop, single-column layout on narrow screens.
- * - Independent scrollable body to keep the main editor and toolbar easily accessible.
- * - Accurate target selectors for every action (Well, Canvas, Tank, Household, Water System, Dashboard).
- * - Smooth scroll with scrollIntoView({ behavior: 'smooth', block: 'center' }).
- * - Automatically expands collapsed panels on narrow viewports before scrolling.
- * - Closes or minimizes the guide before navigating so the overlay does not obscure the target.
- * - Applies a temporary, accessible highlight treatment that automatically clears without altering data.
+ * Space behaviour:
+ * - Expanded: compact header, one-line tip, steps in a 3 / 2 / 1 column grid. The card is height-capped
+ *   by the viewport and its body scrolls on its own, so it can never push the editor off screen.
+ * - Minimized: a single slim banner row (expand + close). The header "How to Build Guide" button stays.
+ * - Every action goes through `navigateToGuideTarget`, which minimizes the guide first so it cannot
+ *   cover the target, then scrolls the real container, highlights, and (optionally) focuses.
+ * - Open / minimized state lives in WorldBuilderWorkspace, outside the editor, so toggling the guide
+ *   never touches (or remounts) the village design.
  *
  * @param {object} props
- * @param {Function} props.onDismiss - Callback when player dismisses or closes the guide
+ * @param {boolean} props.isMinimized
+ * @param {Function} props.onMinimizedChange - (nextMinimized: boolean) => void
+ * @param {Function} props.onDismiss - Callback when the player closes the guide
  */
-export default function WorldBuilderGuide({ onDismiss }) {
-  const [isMinimized, setIsMinimized] = useState(false);
+export default function WorldBuilderGuide({ isMinimized = false, onMinimizedChange, onDismiss }) {
+  const setMinimized = (next) => {
+    if (typeof onMinimizedChange === "function") onMinimizedChange(next);
+  };
 
-  const navigateToSection = (selector) => {
-    // Delegated to authoritative navigation engine
-    // Ensures scrollIntoView, panel expansion, highlight, and dismissal
-    navigateToGuideTarget(selector, { onDismiss });
+  const navigateToSection = (selector, focusSelector) => {
+    // Delegated to the authoritative navigation engine: minimize -> layout -> expand panels ->
+    // scroll real containers -> highlight -> focus.
+    navigateToGuideTarget(selector, {
+      onBeforeNavigate: () => setMinimized(true),
+      focusSelector,
+    });
   };
 
   return (
@@ -48,7 +53,7 @@ export default function WorldBuilderGuide({ onDismiss }) {
             </h2>
             <p className="wb-guide-subtitle">
               {isMinimized
-                ? "Guide minimized — click expand to view all 6 building steps"
+                ? "6 steps — expand to read them"
                 : "Follow these 6 steps to solve the village water crisis"}
             </p>
           </div>
@@ -57,7 +62,8 @@ export default function WorldBuilderGuide({ onDismiss }) {
           <button
             type="button"
             className="wb-guide-minimize-btn"
-            onClick={() => setIsMinimized((m) => !m)}
+            onClick={() => setMinimized(!isMinimized)}
+            aria-expanded={!isMinimized}
             data-testid="wb-guide-minimize-btn"
             aria-label={isMinimized ? "Expand building guide" : "Minimize building guide"}
             title={isMinimized ? "Expand guide" : "Minimize guide"}
@@ -95,7 +101,7 @@ export default function WorldBuilderGuide({ onDismiss }) {
                   <button
                     type="button"
                     className="wb-guide-step-action"
-                    onClick={() => navigateToSection(s.targetSelector)}
+                    onClick={() => navigateToSection(s.targetSelector, s.focusSelector)}
                     data-testid={s.actionTestId}
                     aria-label={`${s.actionLabel} for step ${s.step}`}
                   >

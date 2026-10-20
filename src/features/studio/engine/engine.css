@@ -127,7 +127,12 @@
   .sce-scope { overflow: hidden; }
   .sce-shell { height: 100%; padding-bottom: 12px; }
   .sce-layout { flex: 1 1 auto; grid-template-rows: minmax(0, 1fr); align-items: stretch; }
-  .sce-palette, .sce-props { overflow-y: auto; overscroll-behavior: contain; }
+  /* Each side panel is a column: its title stays put and its body is the scroll region. */
+  .sce-palette, .sce-props { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .sce-palette > .sce-panel-body, .sce-props > .sce-panel-body {
+    flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable;
+    scroll-padding-top: 8px; scroll-padding-bottom: 8px;
+  }
   .sce-stage { min-height: 0; }
   .sce-canvas-wrap { flex: 1 1 auto; min-height: 0; container-type: size; align-items: center; }
   .sce-canvas-wrap .sce-canvas { width: min(100cqw, 100cqh * var(--sce-ratio, 1.6)); height: auto; }

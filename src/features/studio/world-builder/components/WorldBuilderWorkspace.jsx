@@ -7,6 +7,7 @@ import {
   loadWorldBuilderProject,
 } from "../engine/worldBuilderWorkspaceModel.js";
 import { MISSION } from "../data/mission.js";
+import { STUDIO_CSS_VARS } from "../../art/palette.js";
 import WorldBuilderGuide from "./WorldBuilderGuide.jsx";
 import "../world-builder.css";
 
@@ -19,7 +20,13 @@ import "../world-builder.css";
 export default function WorldBuilderWorkspace({ onBack }) {
   const storage = useMemo(() => createWorldBuilderStorage(), []);
   const [editorKey, setEditorKey] = useState(1);
+  // Guide state lives here, outside EditorWorkspace, so opening / minimizing / closing the guide can
+  // never reset or remount the village design. Short screens start with the slim banner so the
+  // editor gets the room; taller screens start expanded.
   const [isGuideOpen, setIsGuideOpen] = useState(true);
+  const [isGuideMinimized, setIsGuideMinimized] = useState(
+    () => typeof window !== "undefined" && window.innerHeight > 0 && window.innerHeight < 720
+  );
   const [initialLoad] = useState(() => loadWorldBuilderProject(storage));
   const [project, setProject] = useState(() => initialLoad.project || createDefaultWorldBuilderProject());
   const [loadError, setLoadError] = useState(() =>
@@ -86,7 +93,7 @@ export default function WorldBuilderWorkspace({ onBack }) {
   };
 
   return (
-    <div className="sce-scope wb-editor-scope" data-testid="world-builder-workspace">
+    <div className="sce-scope wb-editor-scope" style={STUDIO_CSS_VARS} data-testid="world-builder-workspace">
       <div className="sce-shell">
         <header className="sce-header">
           <button
@@ -106,7 +113,10 @@ export default function WorldBuilderWorkspace({ onBack }) {
               <button
                 type="button"
                 className="wb-guide-toggle-btn"
-                onClick={() => setIsGuideOpen((prev) => !prev)}
+                onClick={() => {
+                  setIsGuideOpen((prev) => !prev);
+                  setIsGuideMinimized(false);
+                }}
                 data-testid="wb-guide-toggle-btn"
                 aria-expanded={isGuideOpen}
               >
@@ -172,7 +182,11 @@ export default function WorldBuilderWorkspace({ onBack }) {
         )}
 
         {isGuideOpen && (
-          <WorldBuilderGuide onDismiss={() => setIsGuideOpen(false)} />
+          <WorldBuilderGuide
+            isMinimized={isGuideMinimized}
+            onMinimizedChange={setIsGuideMinimized}
+            onDismiss={() => setIsGuideOpen(false)}
+          />
         )}
 
         <EditorWorkspace
