@@ -55,7 +55,7 @@ export default function CanvaDrawer({
   };
 
   return (
-    <div className="flex h-full">
+    <div className="atl-drawer-shell">
       {/* 1. Creative Studio Icon Sidebar */}
       <nav className="canva-icon-sidebar" data-testid="canva-sidebar">
         <button
@@ -94,31 +94,29 @@ export default function CanvaDrawer({
       {/* 2. Slide-out Panel */}
       <aside className="canva-drawer-panel" data-testid="canva-drawer">
         <div className="canva-drawer-header">
-          <span>
+          <h2 className="atl-drawer-title">
             {navTab === "elements" && "Design Elements"}
             {navTab === "text" && "Typography"}
             {navTab === "uploads" && "Your Images"}
             {navTab === "colors" && "Poster Colors"}
-          </span>
-          <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">
-            {navTab === "elements" ? `${filteredStickers.length} Items` : "Creative Desk"}
+          </h2>
+          <span className="atl-drawer-count">
+            {navTab === "elements" ? `${filteredStickers.length} items` : "Creative desk"}
           </span>
         </div>
 
         <div className="canva-drawer-scroll">
           {/* TAB 1: ELEMENTS (STICKERS & RESIZABLE SHAPES) */}
           {navTab === "elements" && (
-            <div className="flex flex-col gap-3">
-              {/* Category Pills */}
-              <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            <div className="atl-stack">
+              {/* Category chips */}
+              <div className="atl-chips" role="group" aria-label="Element categories">
                 {categories.map((cat) => (
                   <button
                     key={cat}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border cursor-pointer transition ${
-                      elementCategory === cat
-                        ? "bg-cyan-500 text-slate-950 border-cyan-400"
-                        : "bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700"
-                    }`}
+                    type="button"
+                    className={`atl-chip ${elementCategory === cat ? "atl-chip--on" : ""}`}
+                    aria-pressed={elementCategory === cat}
                     onClick={() => setElementCategory(cat)}
                   >
                     {cat}
@@ -126,112 +124,103 @@ export default function CanvaDrawer({
                 ))}
               </div>
 
-              {/* Geometric Shapes Category */}
+              {/* Geometric shapes */}
               {(elementCategory === "All" || elementCategory === "Shapes") && (
-                <div>
-                  <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">
-                    Shapes & Frames (Drag Corners to Resize)
-                  </span>
-                  <div className="grid grid-cols-2 gap-2 mb-3">
+                <section>
+                  <h3 className="atl-section-label">Shapes &amp; frames</h3>
+                  <p className="atl-section-note">Drag the corners to resize.</p>
+                  <div className="atl-grid atl-grid--2">
                     {SHAPES_CATALOG.map((shp) => (
                       <button
                         key={shp.id}
-                        className="p-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 flex items-center justify-center gap-2 cursor-pointer transition hover:border-cyan-400"
+                        type="button"
+                        className="atl-shape-btn"
                         onClick={() => onAddShape(shp.shape, shp.name)}
                       >
-                        <span className="text-lg text-cyan-400">{shp.icon}</span>
-                        <span className="text-xs font-bold text-slate-200">{shp.name}</span>
+                        <span className="atl-shape-icon" aria-hidden="true">{shp.icon}</span>
+                        <span className="atl-shape-name">{shp.name}</span>
                       </button>
                     ))}
                   </div>
-                </div>
+                </section>
               )}
 
-              {/* Stickers Grid */}
+              {/* Stickers */}
               {elementCategory !== "Shapes" && (
-                <div>
-                  <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block mb-2">
-                    Illustrations & Badges
-                  </span>
-                  <div className="grid grid-cols-3 gap-2">
+                <section>
+                  <h3 className="atl-section-label">Illustrations &amp; badges</h3>
+                  <div className="atl-grid atl-grid--3">
                     {filteredStickers.map((st) => {
                       const isMatch = st.project === activeProjectId;
                       return (
                         <button
                           key={st.id}
-                          className={`p-2.5 rounded-xl flex flex-col items-center justify-center gap-1 transition border cursor-pointer ${
-                            isMatch
-                              ? "bg-cyan-950/40 border-cyan-400/60 shadow-md shadow-cyan-500/10 hover:scale-105"
-                              : "bg-slate-800/60 border-slate-700/80 hover:bg-slate-700 hover:scale-105"
-                          }`}
+                          type="button"
+                          className={`atl-sticker ${isMatch ? "atl-sticker--match" : ""}`}
                           onClick={() => onAddSticker(st.id, st.icon, st.name)}
-                          title={st.name}
+                          title={isMatch ? `${st.name} (great for this project)` : st.name}
                         >
-                          <span className="text-3xl filter drop-shadow">{st.icon}</span>
-                          <span className="text-[10px] font-bold text-slate-200 truncate w-full text-center">
-                            {st.name}
-                          </span>
+                          <span className="atl-sticker-icon" aria-hidden="true">{st.icon}</span>
+                          <span className="atl-sticker-name">{st.name}</span>
                         </button>
                       );
                     })}
                   </div>
-                </div>
+                </section>
               )}
             </div>
           )}
 
           {/* TAB 2: TEXT */}
           {navTab === "text" && (
-            <div className="flex flex-col gap-3">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                Click to add text
-              </span>
+            <div className="atl-stack">
+              <p className="atl-section-note">Tap one to add it to your poster.</p>
 
               <button
-                className="w-full text-left p-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 transition cursor-pointer shadow-sm hover:border-cyan-400"
+                type="button"
+                className="atl-text-card atl-text-card--heading"
                 onClick={() => onAddText("heading", "ADD A HEADING", 32)}
               >
-                <div className="text-xl font-black text-white tracking-wide">Add a heading</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Large, bold title for your poster</div>
+                <span className="atl-text-card-title">Add a heading</span>
+                <span className="atl-text-card-desc">Large, bold title for your poster</span>
               </button>
 
               <button
-                className="w-full text-left p-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 transition cursor-pointer shadow-sm hover:border-cyan-400"
+                type="button"
+                className="atl-text-card atl-text-card--sub"
                 onClick={() => onAddText("subtitle", "Add a subheading to share details", 18)}
               >
-                <div className="text-sm font-bold text-sky-300">Add a subheading</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Context, subtitle and slogan</div>
+                <span className="atl-text-card-title">Add a subheading</span>
+                <span className="atl-text-card-desc">Context, subtitle and slogan</span>
               </button>
 
               <button
-                className="w-full text-left p-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 transition cursor-pointer shadow-sm hover:border-cyan-400"
+                type="button"
+                className="atl-text-card atl-text-card--details"
                 onClick={() => onAddText("details", "📅 Date: Friday 10 AM • Hall B", 14)}
               >
-                <div className="text-xs font-semibold text-emerald-300">📅 Add event details</div>
-                <div className="text-[10px] text-slate-400 mt-0.5">Time, date and venue location</div>
+                <span className="atl-text-card-title">📅 Add event details</span>
+                <span className="atl-text-card-desc">Time, date and venue location</span>
               </button>
 
               <button
-                className="w-full text-left p-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-pink-500/20 to-purple-500/20 hover:from-amber-500/30 hover:to-pink-500/30 border border-pink-500/40 transition cursor-pointer shadow-sm"
+                type="button"
+                className="atl-text-card atl-text-card--cta"
                 onClick={() => onAddBadge("TAKE ACTION NOW!")}
               >
-                <div className="text-xs font-black text-amber-300">⚡ Add Call to Action Badge</div>
-                <div className="text-[10px] text-slate-300 mt-0.5">Highlight button for reader actions</div>
+                <span className="atl-text-card-title">⚡ Add a call-to-action badge</span>
+                <span className="atl-text-card-desc">A bright button that tells readers what to do</span>
               </button>
             </div>
           )}
 
           {/* TAB 3: UPLOADS */}
           {navTab === "uploads" && (
-            <div className="flex flex-col gap-3">
-              <label className="w-full p-4 rounded-xl bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-2 border-dashed border-cyan-400/60 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-cyan-500/30 transition text-center">
-                <Upload size={24} className="text-cyan-400" />
-                <span className="text-xs font-black text-cyan-200 uppercase tracking-wider">
-                  Upload an Image
-                </span>
-                <span className="text-[10px] text-slate-300">
-                  PNG, JPG, SVG from your device
-                </span>
+            <div className="atl-stack">
+              <label className="atl-upload">
+                <Upload size={28} aria-hidden="true" />
+                <span className="atl-upload-title">Upload an image</span>
+                <span className="atl-upload-hint">PNG, JPG or SVG from your device</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -241,46 +230,35 @@ export default function CanvaDrawer({
               </label>
 
               {uploadedImages.length > 0 && (
-                <div className="flex flex-col gap-2 mt-2">
-                  <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                    Uploaded Gallery ({uploadedImages.length})
-                  </span>
-                  <div className="grid grid-cols-2 gap-2">
+                <section>
+                  <h3 className="atl-section-label">Your gallery ({uploadedImages.length})</h3>
+                  <div className="atl-grid atl-grid--2">
                     {uploadedImages.map((img, idx) => (
                       <button
                         key={idx}
-                        className="p-1 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-cyan-400 overflow-hidden cursor-pointer group"
+                        type="button"
+                        className="atl-gallery-item"
                         onClick={() => onUploadImage(img.src, img.name)}
-                        title="Click to place on poster"
+                        title="Tap to place on poster"
                       >
-                        <img
-                          src={img.src}
-                          alt={img.name}
-                          className="w-full h-24 object-cover rounded-lg group-hover:scale-105 transition-transform"
-                        />
-                        <span className="text-[9px] text-slate-300 truncate block mt-1 px-1">
-                          {img.name}
-                        </span>
+                        <img src={img.src} alt={img.name} className="atl-gallery-img" />
+                        <span className="atl-gallery-name">{img.name}</span>
                       </button>
                     ))}
                   </div>
-                </div>
+                </section>
               )}
             </div>
           )}
 
           {/* TAB 4: COLORS */}
           {navTab === "colors" && (
-            <div className="flex flex-col gap-4">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                Select poster background color
-              </span>
+            <div className="atl-stack">
+              <p className="atl-section-note">Pick a poster background colour.</p>
 
               {COLOR_CATEGORIES.map((cat, idx) => (
-                <div key={idx} className="flex flex-col gap-2">
-                  <span className="text-xs font-extrabold text-cyan-300">
-                    {cat.name}
-                  </span>
+                <section key={idx}>
+                  <h3 className="atl-section-label">{cat.name}</h3>
                   <div className="canva-color-grid">
                     {cat.colors.map((c) => {
                       const isActive = currentBg.toLowerCase() === c.hex.toLowerCase();
@@ -295,20 +273,23 @@ export default function CanvaDrawer({
                       return (
                         <button
                           key={c.hex}
+                          type="button"
                           className={`canva-palette-card ${isActive ? "active" : ""}`}
                           style={{
                             backgroundColor: c.hex,
                             color: isLight ? "#0f172a" : "#ffffff",
                           }}
                           onClick={() => onChangeBg(c.hex)}
+                          aria-pressed={isActive}
                           title={`${c.name} (${c.hex})`}
+                          aria-label={c.name}
                         >
                           {isActive && <span className="font-extrabold">✓</span>}
                         </button>
                       );
                     })}
                   </div>
-                </div>
+                </section>
               ))}
             </div>
           )}

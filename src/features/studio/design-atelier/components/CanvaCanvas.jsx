@@ -134,14 +134,14 @@ export default function CanvaCanvas({
 
         {/* Empty Canvas Guidance */}
         {elements.length === 0 && !isPreview && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-6 text-center">
-            <span className="text-5xl mb-2 opacity-35">🎨</span>
-            <span className="text-sm font-black text-slate-300 tracking-wider">
-              CREATIVE POSTER ARTBOARD
-            </span>
-            <span className="text-xs text-slate-400 mt-1 max-w-[280px]">
-              Use the left tools to add text, stickers, shapes, or upload your own images!
-            </span>
+          <div className="atl-empty">
+            <div className="atl-empty-card">
+              <span className="atl-empty-emoji" aria-hidden="true">🎨</span>
+              <span className="atl-empty-title">Your poster starts here</span>
+              <span className="atl-empty-text">
+                Pick text, stickers or shapes from the tools to add them. Tap and drag to move things around!
+              </span>
+            </div>
           </div>
         )}
 

@@ -13,6 +13,7 @@ import CanvaDrawer from "../components/CanvaDrawer";
 import CanvaCanvas from "../components/CanvaCanvas";
 import CanvaTopToolbar from "../components/CanvaTopToolbar";
 import DesignCoachModal from "../components/DesignCoachModal";
+import "../../studio-lab-theme.css";
 import "../designAtelier.css";
 
 export default function DesignAtelierPage() {
