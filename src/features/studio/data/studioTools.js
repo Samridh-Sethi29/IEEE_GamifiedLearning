@@ -72,7 +72,8 @@ export const STUDIO_TOOLS = [
       "Test, fail, and improve your design",
       "Choose materials under a cost limit",
     ],
-    available: false,
+    available: true,
+    availabilityNote: "Workbench & Challenge Missions open. Test your inventions!",
     route: "/world/studio/invention-lab",
   },
   {
@@ -104,7 +105,9 @@ export const STUDIO_TOOLS = [
       "Present a product honestly and attractively",
       "Use colour, text and layout with purpose",
     ],
-    available: false,
+    available: true,
+    availabilityNote: "Design canvas & projects open. Create inspiring posters!",
     route: "/world/studio/design-studio",
   },
 ];
+

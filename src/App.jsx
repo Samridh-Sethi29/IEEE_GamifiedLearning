@@ -34,6 +34,8 @@ import SchoolSubScene from "@/pages/SchoolSubScene";
 import StudioHome from "@/features/studio/pages/StudioHome";
 import EngineLab from "@/features/studio/pages/EngineLab";
 import WorldBuilderBriefing from "@/features/studio/world-builder/pages/WorldBuilderBriefing";
+import InventionLabPage from "@/features/studio/invention-lab/pages/InventionLabPage";
+import DesignAtelierPage from "@/features/studio/design-atelier/pages/DesignAtelierPage";
 
 function FarmSubScene() {
   const { subId } = useParams();
@@ -119,6 +121,9 @@ export default function App() {
         <Route path="/world/studio" element={<StudioHome />} />
         <Route path="/world/studio/engine-lab" element={<EngineLab />} />
         <Route path="/world/studio/world-builder" element={<WorldBuilderBriefing />} />
+        <Route path="/world/studio/invention-lab" element={<InventionLabPage />} />
+        <Route path="/world/studio/design-atelier" element={<DesignAtelierPage />} />
+        <Route path="/world/studio/design-studio" element={<DesignAtelierPage />} />
         <Route path="/night" element={<NightPage />} />
         <Route path="/dream" element={<DreamPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
