@@ -10,6 +10,8 @@ import { useEditor } from "./useEditor.js";
 import WaterPortOverlay from "../world-builder/components/WaterPortOverlay.jsx";
 import VillageTrialCard from "../world-builder/components/VillageTrialCard.jsx";
 import { isTrialStale, runVillageTrial } from "../world-builder/engine/villageTrialModel.js";
+import { getBuilderHint } from "../world-builder/engine/builderHint.js";
+import { WORLD_BUILDER_PALETTE_HINTS } from "../world-builder/data/paletteHints.js";
 import "./engine.css";
 
 // Shared editing workspace: palette + canvas + properties + toolbar.
@@ -94,28 +96,28 @@ export default function EditorWorkspace({ initialProject, storage, renderOverlay
       <div className="sce-toolbar" role="toolbar" aria-label="Editing tools">
         <div className="sce-group" role="group" aria-label="History">
         <button type="button" className="sce-btn" onClick={() => dispatch(actions.undo())} disabled={!canUndo} data-testid="sce-undo">
-          <Undo2 size={16} aria-hidden="true" /> Undo
+          <Undo2 size={16} aria-hidden="true" /> <span className="sce-btn-label">Undo</span>
         </button>
         <button type="button" className="sce-btn" onClick={() => dispatch(actions.redo())} disabled={!canRedo} data-testid="sce-redo">
-          <Redo2 size={16} aria-hidden="true" /> Redo
+          <Redo2 size={16} aria-hidden="true" /> <span className="sce-btn-label">Redo</span>
         </button>
         </div>
         <div className="sce-group" role="group" aria-label="Object">
         <button type="button" className="sce-btn" onClick={() => dispatch(actions.remove())} disabled={!selected} data-testid="sce-delete">
-          <Trash2 size={16} aria-hidden="true" /> Delete
+          <Trash2 size={16} aria-hidden="true" /> <span className="sce-btn-label">Delete</span>
         </button>
         <button type="button" className="sce-btn" onClick={() => dispatch(actions.reset())} data-testid="sce-reset">
-          <RotateCcw size={16} aria-hidden="true" /> Reset
+          <RotateCcw size={16} aria-hidden="true" /> <span className="sce-btn-label">Reset</span>
         </button>
         </div>
         {storage && (
           <>
             <div className="sce-group" role="group" aria-label="Save and load">
             <button type="button" className="sce-btn" onClick={() => save()} data-testid="sce-save">
-              <Save size={16} aria-hidden="true" /> Save
+              <Save size={16} aria-hidden="true" /> <span className="sce-btn-label">Save</span>
             </button>
             <button type="button" className="sce-btn" onClick={load} data-testid="sce-load">
-              <Upload size={16} aria-hidden="true" /> Load
+              <Upload size={16} aria-hidden="true" /> <span className="sce-btn-label">Load</span>
             </button>
             </div>
           </>
@@ -124,11 +126,11 @@ export default function EditorWorkspace({ initialProject, storage, renderOverlay
           <div className="sce-group wb-trial-toolbar-group" role="group" aria-label="Village Trial">
             <button
               type="button"
-              className="sce-btn wb-test-village-btn"
+              className="sce-btn wb-test-village-btn wb-primary-btn"
               onClick={runTrial}
               data-testid="wb-test-village-btn"
             >
-              <Play size={15} aria-hidden="true" fill="currentColor" /> Test Village
+              <Play size={15} aria-hidden="true" fill="currentColor" /> <span className="sce-btn-label">Test Village</span>
             </button>
           </div>
         )}
@@ -138,7 +140,9 @@ export default function EditorWorkspace({ initialProject, storage, renderOverlay
       <div className="sce-messages" data-testid="sce-status">
         {!state.notice && !saveMsg && (
           <p className="sce-hint-default">
-            {doc.objects.length === 0 ? "Ready. Pick an object from the palette to begin." : selected ? "Drag it, or use the controls on the right." : "Click an object to select it."}
+            {doc.type === "world-builder"
+              ? getBuilderHint(doc, selected).text
+              : doc.objects.length === 0 ? "Ready. Pick an object from the palette to begin." : selected ? "Drag it, or use the controls on the right." : "Click an object to select it."}
           </p>
         )}
         <p
@@ -162,7 +166,7 @@ export default function EditorWorkspace({ initialProject, storage, renderOverlay
       </div>
 
       <div className="sce-layout">
-        <Palette onAdd={add} projectType={doc.type} doc={doc} />
+        <Palette onAdd={add} projectType={doc.type} doc={doc} hints={doc.type === "world-builder" ? WORLD_BUILDER_PALETTE_HINTS : undefined} />
         <div className="sce-stage">
           {trialResult && doc.type === "world-builder" && (
             <VillageTrialCard

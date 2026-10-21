@@ -10,6 +10,7 @@ import { MISSION } from "../data/mission.js";
 import { STUDIO_CSS_VARS } from "../../art/palette.js";
 import WorldBuilderGuide from "./WorldBuilderGuide.jsx";
 import "../world-builder.css";
+import "../world-builder-ui.css";
 
 /**
  * Dedicated World Builder editing workspace.
@@ -25,7 +26,9 @@ export default function WorldBuilderWorkspace({ onBack }) {
   // editor gets the room; taller screens start expanded.
   const [isGuideOpen, setIsGuideOpen] = useState(true);
   const [isGuideMinimized, setIsGuideMinimized] = useState(
-    () => typeof window !== "undefined" && window.innerHeight > 0 && window.innerHeight < 720
+    () =>
+      typeof window !== "undefined" &&
+      ((window.innerHeight > 0 && window.innerHeight < 720) || (window.innerWidth > 0 && window.innerWidth < 760))
   );
   const [initialLoad] = useState(() => loadWorldBuilderProject(storage));
   const [project, setProject] = useState(() => initialLoad.project || createDefaultWorldBuilderProject());
@@ -95,15 +98,17 @@ export default function WorldBuilderWorkspace({ onBack }) {
   return (
     <div className="sce-scope wb-editor-scope" style={STUDIO_CSS_VARS} data-testid="world-builder-workspace">
       <div className="sce-shell">
-        <header className="sce-header">
+        <header className="sce-header wb-header">
           <button
             type="button"
             className="sce-back"
             onClick={onBack}
             data-testid="world-builder-back-to-briefing"
+            aria-label="Back to Mission Briefing"
           >
             <ArrowLeft size={16} aria-hidden="true" />
-            Back to Mission Briefing
+            <span className="wb-back-full">Back to Mission Briefing</span>
+            <span className="wb-back-short" aria-hidden="true">Back</span>
           </button>
           <div className="sce-heading">
             <div className="wb-header-title-row">

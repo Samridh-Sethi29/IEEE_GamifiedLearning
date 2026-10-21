@@ -4,7 +4,7 @@ import { defaultProps, getPaletteObjectTypes, OBJECT_TYPES } from "./objectTypes
 
 export { getPaletteObjectTypes };
 
-export default function Palette({ onAdd, disabled, projectType, doc }) {
+export default function Palette({ onAdd, disabled, projectType, doc, hints }) {
   const activeType = projectType ?? doc?.type;
   const types = getPaletteObjectTypes(activeType);
 
@@ -30,7 +30,8 @@ export default function Palette({ onAdd, disabled, projectType, doc }) {
                   className="sce-palette-btn"
                   onClick={() => onAdd(type)}
                   disabled={disabled}
-                  aria-label={`Add ${def.label}`}
+                  aria-label={`Add ${def.label}${hints?.[type] ? `, ${hints[type]}` : ""}`}
+                  title={hints?.[type] ? `${def.label}: ${hints[type]}` : undefined}
                   data-testid={`sce-add-${type}`}
                 >
                   <ObjectPreview
@@ -40,6 +41,7 @@ export default function Palette({ onAdd, disabled, projectType, doc }) {
                     props={defaultProps(type)}
                   />
                   <span>{def.label}</span>
+                  {hints?.[type] && <small className="sce-palette-hint">{hints[type]}</small>}
                 </button>
               </li>
             );

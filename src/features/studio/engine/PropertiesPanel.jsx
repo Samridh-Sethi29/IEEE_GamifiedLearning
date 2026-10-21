@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, ChevronsDown, ChevronsUp, Trash2 } from "lucide-react";
 import CollapsiblePanel from "./CollapsiblePanel.jsx";
 import { actions } from "./actions.js";
@@ -27,6 +27,28 @@ export default function PropertiesPanel({ doc, selected, dispatch, onBackToBrief
   const grouped = { onPointerUp: endGroup, onKeyUp: endGroup, onBlur: endGroup };
   const num = (v) => (v === "" ? NaN : Number(v));
 
+  // World Builder: when something is selected its controls come first, so the player never has to
+  // scroll past the mission dashboard to reach them. DOM order matches visual order (keyboard order).
+  const selectedFirst = doc.type === "world-builder" && !!selected;
+  const selectedId = selected?.id;
+  useEffect(() => {
+    if (!selectedFirst) return;
+    const body = document.getElementById("sce-props-body");
+    if (body && body.scrollTop > 0) body.scrollTo({ top: 0 });
+  }, [selectedFirst, selectedId]);
+
+  const selectedSection = (
+      <div className="wb-props-section" data-testid="sce-props-selected">
+        {!selected ? (
+          <p className="sce-hint" data-testid="sce-no-selection">
+            Nothing selected. Click an object, or choose one from the layer list below.
+          </p>
+        ) : (
+          <SelectedControls {...{ doc, selected, dispatch, lock, setLock, grouped, num }} />
+        )}
+      </div>
+  );
+
   return (
     <CollapsiblePanel id="sce-props" title="Properties" className="sce-props" testId="sce-props">
       {doc.type === "world-builder" && (
@@ -44,6 +66,7 @@ export default function PropertiesPanel({ doc, selected, dispatch, onBackToBrief
           ))}
         </nav>
       )}
+      {selectedFirst && selectedSection}
       {doc.type === "world-builder" && (
         <MissionDashboard doc={doc} onBackToBriefing={onBackToBriefing} />
       )}
@@ -51,15 +74,7 @@ export default function PropertiesPanel({ doc, selected, dispatch, onBackToBrief
         <WaterStatusInspector doc={doc} selected={selected} />
       )}
 
-      <div className="wb-props-section" data-testid="sce-props-selected">
-        {!selected ? (
-          <p className="sce-hint" data-testid="sce-no-selection">
-            Nothing selected. Click an object, or choose one from the layer list below.
-          </p>
-        ) : (
-          <SelectedControls {...{ doc, selected, dispatch, lock, setLock, grouped, num }} />
-        )}
-      </div>
+      {!selectedFirst && selectedSection}
 
       <h3 className="sce-subtitle" data-testid="sce-props-layers">Layers (front first)</h3>
       {doc.objects.length === 0 ? (
