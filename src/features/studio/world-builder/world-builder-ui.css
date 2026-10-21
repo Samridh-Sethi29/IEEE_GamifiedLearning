@@ -1,0 +1,155 @@
+/*
+  World Builder workspace UI refresh. Loaded after engine.css and world-builder.css, so it only
+  refines. Every rule is scoped to `.wb-editor-scope`; the Sandbox and the shared engine are untouched.
+
+  Layout by width:
+    < 700px     one column. Canvas first, a swipeable palette rail under it, and a bottom action dock
+                (Undo / Redo / Delete / Reset / Save / Load + a big green Test Village).
+    700-999px   canvas full width, palette | properties underneath, same bottom dock.
+    >= 1000px   palette | canvas | properties; toolbar on top with Test Village as the main action.
+*/
+
+/* ---------- header ---------- */
+.wb-editor-scope .wb-header { align-items: center; gap: 6px 12px; }
+.wb-editor-scope .wb-back-short { display: none; }
+.wb-editor-scope .sce-back { min-height: 40px; }
+.wb-editor-scope .wb-header-title-row { flex-wrap: nowrap; gap: 10px; }
+.wb-editor-scope .sce-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.wb-editor-scope .wb-guide-toggle-btn { flex: none; background: #fff; box-shadow: 0 2px 0 var(--wb-green); }
+@media (max-width: 599px) {
+  .wb-editor-scope .wb-back-full { display: none; }
+  .wb-editor-scope .wb-back-short { display: inline; }
+  .wb-editor-scope .sce-heading { flex-basis: 100%; }
+  .wb-editor-scope .wb-header-title-row { flex-wrap: wrap; }
+  .wb-editor-scope .sce-title { font-size: 1.05rem; white-space: normal; }
+  .wb-editor-scope .sce-shell { padding-inline: 10px; }
+}
+
+/* ---------- "what next" hint bar ---------- */
+.wb-editor-scope .sce-messages { min-height: 44px; }
+.wb-editor-scope .sce-hint-default {
+  background: #fff; color: var(--wb-text); font-size: 15px; font-weight: 700; line-height: 1.3;
+  border: 2px solid var(--wb-brown); border-left: 8px solid var(--wb-green); border-radius: 12px;
+  box-shadow: 0 3px 0 var(--wb-hard-shadow); padding: 8px 14px;
+}
+.wb-editor-scope .sce-notice, .wb-editor-scope .sce-save { border-radius: 12px; box-shadow: 0 3px 0 rgba(15, 23, 42, 0.12); }
+
+/* ---------- toolbar ---------- */
+.wb-editor-scope .sce-toolbar { gap: 8px 12px; padding: 8px 12px; border-radius: 16px; }
+.wb-editor-scope .sce-group + .sce-group { border-left: 2px solid #ead9b7; padding-left: 12px; }
+.wb-editor-scope .sce-btn { border-radius: 12px; }
+.wb-editor-scope .sce-btn:focus-visible { outline: 3px solid var(--wb-green); outline-offset: 2px; box-shadow: 0 0 0 5px #fff; }
+.wb-editor-scope .wb-trial-toolbar-group { margin-left: auto; }
+.wb-editor-scope .sce-count { margin-left: 0; }
+.wb-editor-scope .wb-primary-btn {
+  background: var(--wb-green); color: #fff; border-color: #065f46; box-shadow: 0 3px 0 #065f46;
+  min-height: 44px; padding-inline: 18px; font-size: 15px;
+}
+.wb-editor-scope .wb-primary-btn:hover:not(:disabled) { background: #065f46; border-color: #064e3b; color: #fff; }
+.wb-editor-scope .wb-primary-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #065f46; }
+
+/* Tablets and phones: the toolbar becomes a dock pinned to the bottom of the screen. It is moved
+   to the end of the flex column (order) so `position: sticky; bottom: 0` pins it while scrolling. */
+@media (max-width: 999px) {
+  .wb-editor-scope .sce-workspace > .sce-toolbar {
+    order: 9; position: sticky; bottom: 0; z-index: 30; flex-wrap: nowrap; align-items: center; gap: 6px;
+    margin-inline: -4px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+    border-radius: 18px 18px 0 0; border-bottom-width: 0;
+    box-shadow: 0 -3px 0 var(--wb-hard-shadow), 0 -10px 24px rgba(15, 23, 42, 0.18);
+  }
+  .wb-editor-scope .sce-toolbar .sce-group { display: contents; }
+  .wb-editor-scope .sce-group + .sce-group { border-left: 0; padding-left: 0; }
+  .wb-editor-scope .sce-toolbar .sce-btn { flex: 1 1 0; min-width: 0; padding-inline: 6px; min-height: 44px; }
+  .wb-editor-scope .sce-toolbar .sce-btn-label { display: none; }
+  .wb-editor-scope .sce-toolbar .wb-primary-btn { flex: 0 0 auto; order: 5; margin-left: 4px; }
+  .wb-editor-scope .sce-toolbar .wb-primary-btn .sce-btn-label { display: inline; }
+  .wb-editor-scope .sce-toolbar .sce-count { display: none; }
+}
+@media (min-width: 700px) and (max-width: 999px) {
+  .wb-editor-scope .sce-toolbar .sce-btn { flex: 0 1 auto; padding-inline: 12px; }
+  .wb-editor-scope .sce-toolbar .sce-btn-label { display: inline; }
+  .wb-editor-scope .sce-toolbar .wb-primary-btn { margin-left: auto; }
+}
+
+/* ---------- palette ---------- */
+.wb-editor-scope .sce-palette-btn { min-height: 86px; border-radius: 14px; border-width: 2px; gap: 3px; }
+.wb-editor-scope .sce-palette-btn:active:not(:disabled) { transform: scale(0.97); }
+.wb-editor-scope .sce-palette-hint { font-size: 11.5px; font-weight: 700; color: var(--wb-text-2); line-height: 1.15; }
+.wb-editor-scope .sce-palette-btn:focus-visible { outline: 3px solid var(--wb-green); outline-offset: 2px; box-shadow: 0 0 0 5px #fff; }
+@media (min-width: 700px) and (max-width: 999px) {
+  .wb-editor-scope .sce-palette-list { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+}
+@media (min-width: 1000px) {
+  .wb-editor-scope .sce-layout { grid-template-columns: clamp(196px, 15vw, 228px) minmax(0, 1fr) clamp(300px, 25vw, 380px); }
+}
+/* Phones: a swipeable rail, so the canvas and the palette are on screen together. */
+@media (max-width: 699px) {
+  .wb-editor-scope .sce-palette-list {
+    display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+  }
+  .wb-editor-scope .sce-palette-list li { flex: 0 0 96px; scroll-snap-align: start; }
+  .wb-editor-scope .sce-palette-btn { min-height: 96px; }
+}
+
+/* ---------- canvas: a meadow, so it reads as a village rather than a blank page ---------- */
+.wb-editor-scope .sce-canvas { border-width: 4px; border-radius: 18px; box-shadow: 0 4px 0 var(--wb-hard-shadow); }
+.wb-editor-scope .sce-canvas > rect[data-bg]:first-of-type { fill: #f1f8e4; }
+.wb-editor-scope .sce-canvas pattern path { stroke: rgba(78, 159, 68, 0.22); }
+.wb-editor-scope .sce-empty-title { fill: #3f6f38; }
+.wb-editor-scope .sce-empty-sub { fill: #4b6b45; }
+.wb-editor-scope .sce-keys { border-radius: 14px; }
+
+/* ---------- panels ---------- */
+.wb-editor-scope .sce-panel { border-radius: 16px; padding: 12px 12px 14px; }
+.wb-editor-scope .sce-panel-title { font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+.wb-editor-scope .sce-panel-title::before { content: ""; width: 6px; height: 1.1em; border-radius: 3px; background: var(--wb-green); flex: none; }
+.wb-editor-scope .sce-collapse { gap: 8px; }
+.wb-editor-scope .sce-selected-name { font-size: 16px; }
+.wb-editor-scope .sce-chip { background: var(--wb-green-soft); color: var(--wb-green); }
+.wb-editor-scope .sce-controls { gap: 14px; }
+.wb-editor-scope .sce-slider input[type="range"] { accent-color: var(--wb-green); min-height: 32px; }
+.wb-editor-scope .sce-check input { accent-color: var(--wb-green); }
+.wb-editor-scope .sce-row input[type="number"] { border-color: #ead9b7; border-radius: 12px; }
+.wb-editor-scope .sce-swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--wb-green); }
+.wb-editor-scope .sce-layer-btn { border-radius: 12px; }
+
+/* jump bar: an even segmented control that stays visible while the panel scrolls */
+.wb-editor-scope .wb-props-nav {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 0 0 8px; margin: 0 0 10px;
+  border-bottom: 2px solid #ead9b7;
+}
+.wb-editor-scope .wb-props-nav-btn { min-height: 34px; padding: 2px 4px; font-size: 12.5px; text-overflow: ellipsis; overflow: hidden; }
+.wb-editor-scope .wb-props-nav-btn:focus-visible { outline: 3px solid var(--wb-green); outline-offset: 1px; }
+@media (pointer: coarse) { .wb-editor-scope .wb-props-nav-btn { min-height: 44px; } }
+
+/* the selected object's controls read as the active card */
+.wb-editor-scope .wb-props-section[data-testid="sce-props-selected"] {
+  padding: 10px 12px; margin-bottom: 14px; border-radius: 14px; background: #fff; border: 2px solid #ead9b7;
+}
+
+/* dashboard + water status: same cream family as the rest of the workspace */
+.wb-editor-scope .wb-mission-dashboard,
+.wb-editor-scope .wb-status-inspector {
+  background: #fff; border: 2px solid #ead9b7; border-left: 6px solid var(--wb-green); border-radius: 14px;
+}
+.wb-editor-scope .wb-status-inspector { border-left-color: #0284c7; }
+.wb-editor-scope .wb-trial-card { border-radius: 14px; }
+
+/* ---------- guide ---------- */
+.wb-editor-scope .wb-guide-card { border-radius: 16px; }
+.wb-editor-scope .wb-guide-step { border-radius: 14px; }
+.wb-editor-scope .wb-guide-step-num { width: 26px; height: 26px; font-size: 0.82rem; }
+.wb-editor-scope .wb-guide-step-title { font-size: 0.92rem; }
+.wb-editor-scope .wb-guide-step-desc { font-size: 0.84rem; }
+
+/* ---------- very short landscape screens: give the canvas the room ---------- */
+@media (max-height: 520px) and (min-width: 700px) {
+  .wb-editor-scope .sce-hint-default { padding-block: 4px; font-size: 14px; }
+  .wb-editor-scope .sce-messages { min-height: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wb-editor-scope .sce-palette-btn:active:not(:disabled),
+  .wb-editor-scope .wb-primary-btn:active:not(:disabled) { transform: none; }
+}

@@ -21,24 +21,27 @@ async function loadStudioTools() {
   return import(`data:text/javascript;base64,${Buffer.from(src).toString("base64")}`);
 }
 
-test("D2a. only World Builder is available, at the correct route", async () => {
+test("D2a. World Builder and Story Studio are available, at the correct routes", async () => {
   const { STUDIO_TOOLS } = await loadStudioTools();
   assert.equal(STUDIO_TOOLS.length, 4);
   const available = STUDIO_TOOLS.filter((t) => t.available);
-  assert.deepEqual(available.map((t) => t.id), ["world-builder"]);
-  assert.equal(available[0].route, "/world/studio/world-builder");
-  assert.equal(available[0].route, MISSION.route);
+  assert.deepEqual(available.map((t) => t.id), ["world-builder", "story-studio"]);
+  const wb = available.find((t) => t.id === "world-builder");
+  const ss = available.find((t) => t.id === "story-studio");
+  assert.equal(wb.route, "/world/studio/world-builder");
+  assert.equal(wb.route, MISSION.route);
+  assert.equal(ss.route, "/world/studio/story-studio");
 });
 
-test("D2b. the other three activities stay unavailable and unchanged", async () => {
+test("D2b. Invention Lab and Design Atelier stay unavailable and unchanged", async () => {
   const { STUDIO_TOOLS } = await loadStudioTools();
-  const others = STUDIO_TOOLS.filter((t) => t.id !== "world-builder");
-  assert.deepEqual(others.map((t) => t.id), ["invention-lab", "story-studio", "design-studio"]);
+  const others = STUDIO_TOOLS.filter((t) => !t.available);
+  assert.deepEqual(others.map((t) => t.id), ["invention-lab", "design-studio"]);
   for (const t of others) {
     assert.equal(t.available, false, `${t.id} must stay Coming Soon`);
     assert.equal(t.availabilityNote, undefined);
   }
-  assert.deepEqual(others.map((t) => t.route), ["/world/studio/invention-lab", "/world/studio/story-studio", "/world/studio/design-studio"]);
+  assert.deepEqual(others.map((t) => t.route), ["/world/studio/invention-lab", "/world/studio/design-studio"]);
 });
 
 test("D2c. World Builder text no longer says the mission is unavailable; hub shares mission copy", async () => {
@@ -50,11 +53,12 @@ test("D2c. World Builder text no longer says the mission is unavailable; hub sha
   assert.equal(STUDIO_MISSION.subtitle, MISSION.subtitle);
 });
 
-test("D2d. only World Builder and the engine lab routes are registered under /world/studio", () => {
+test("D2d. World Builder, Story Studio, and engine lab routes are registered under /world/studio", () => {
   const app = readFileSync(join(studioRoot, "..", "..", "App.jsx"), "utf8");
   const routes = [...app.matchAll(/path="(\/world\/studio[^"]*)"/g)].map((m) => m[1]);
-  assert.deepEqual(routes.sort(), ["/world/studio", "/world/studio/engine-lab", "/world/studio/world-builder"]);
+  assert.deepEqual(routes.sort(), ["/world/studio", "/world/studio/engine-lab", "/world/studio/story-studio", "/world/studio/world-builder"]);
   assert.match(app, /path="\/world\/studio\/world-builder" element=\{<WorldBuilderBriefing \/>\}/);
+  assert.match(app, /path="\/world\/studio\/story-studio" element=\{<StoryStudioWorkspace \/>\}/);
 });
 
 test("D2e. mission resources are 100 mission coins and 100 litres/day", () => {

@@ -22,7 +22,12 @@ function defaultStorage() {
 
 const unavailable = { ok: false, code: "storage_unavailable", message: "Saving isn't available in this browser right now." };
 
-export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) {
+export function createDocumentStorage({
+  storage,
+  key = DEMO_STORAGE_KEY,
+  serialize = serializeProject,
+  deserialize = deserializeProject,
+} = {}) {
   const store = () => storage ?? defaultStorage();
   const backupKey = `${key}__backup`;
 
@@ -44,7 +49,11 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
       const read = readRaw(s, key);
       if (!read.ok) return read;
       if (read.raw === null) return { ok: true, empty: true, project: null };
-      return deserializeProject(read.raw);
+      const parsed = deserialize(read.raw);
+      if (parsed.ok && parsed.story && !parsed.project) {
+        return { ...parsed, project: parsed.story };
+      }
+      return parsed;
     },
 
     hasBackup() {
@@ -63,7 +72,11 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
       const read = readRaw(s, backupKey);
       if (!read.ok) return read;
       if (read.raw === null) return { ok: true, empty: true, project: null };
-      return deserializeProject(read.raw);
+      const parsed = deserialize(read.raw);
+      if (parsed.ok && parsed.story && !parsed.project) {
+        return { ...parsed, project: parsed.story };
+      }
+      return parsed;
     },
 
     restoreBackup() {
@@ -72,11 +85,12 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
       const read = readRaw(s, backupKey);
       if (!read.ok) return read;
       if (read.raw === null) return { ok: false, code: "no_backup", message: "No backup document was found." };
-      const parsed = deserializeProject(read.raw);
+      const parsed = deserialize(read.raw);
       if (!parsed.ok) return parsed;
       try {
         s.setItem(key, read.raw);
-        return { ok: true, project: parsed.project };
+        const doc = parsed.project ?? parsed.story;
+        return { ok: true, project: doc, ...(parsed.story ? { story: doc } : {}) };
       } catch (err) {
         const full = err && (err.name === "QuotaExceededError" || err.code === 22);
         return {
@@ -90,13 +104,13 @@ export function createDocumentStorage({ storage, key = DEMO_STORAGE_KEY } = {}) 
     save(project, { replaceUnreadable = false } = {}) {
       const s = store();
       if (!s) return unavailable;
-      const out = serializeProject(project);
+      const out = serialize(project);
       if (!out.ok) return out;
       const read = readRaw(s, key);
       if (!read.ok) return read;
       try {
         if (read.raw !== null) {
-          const existing = deserializeProject(read.raw);
+          const existing = deserialize(read.raw);
           if (!existing.ok) {
             if (!replaceUnreadable) {
               return { ok: false, code: "would_overwrite_unreadable", message: `${existing.message} Saving now would replace it.` };

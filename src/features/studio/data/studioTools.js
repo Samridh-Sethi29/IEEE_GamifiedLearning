@@ -3,9 +3,9 @@ import { MISSION } from "../world-builder/data/mission.js";
 
 // Single source of truth for the Creative Studio Hub.
 //
-// Only World Builder is `available: true` (Phase D2): its route is registered in App.jsx and opens
-// the "Save Our Village" mission briefing. The other three stations stay `available: false`: their
-// activities do not exist yet and NO route is registered for them, so the hub never links there.
+// World Builder and Story Studio are `available: true`: their routes are registered in App.jsx.
+// The other two stations stay `available: false`: their activities do not exist yet and NO route
+// is registered for them, so the hub never links there.
 // When a station ships: register its route, set `available: true`, and the hub renders a live
 // "Enter" link automatically (see StationCard).
 //
@@ -89,7 +89,7 @@ export const STUDIO_TOOLS = [
       "Handle a disagreement kindly",
       "Discover how one choice can change an ending",
     ],
-    available: false,
+    available: true,
     route: "/world/studio/story-studio",
   },
   {
