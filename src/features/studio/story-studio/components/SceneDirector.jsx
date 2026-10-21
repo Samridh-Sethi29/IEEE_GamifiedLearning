@@ -20,6 +20,7 @@ import {
 
 import {
   CHARACTER_EXPRESSIONS,
+  CHARACTER_EXPRESSION_META,
   CHARACTER_FACING,
   CHARACTER_SLOTS,
   DIALOGUE_TYPES,
@@ -395,30 +396,38 @@ export default function SceneDirector({
                           </span>
                         </div>
 
-                        {/* Expression selector */}
+                        {/* Mood picker */}
                         <div className="story-slot-field-row">
-                          <label
-                            htmlFor={`exp-${placed.id}`}
-                            className="story-slot-field-label"
-                          >
-                            Expression:
-                          </label>
-                          <select
-                            id={`exp-${placed.id}`}
-                            className="story-slot-select"
-                            value={placed.expression}
-                            onChange={(e) =>
-                              onUpdateCharacter &&
-                              onUpdateCharacter(placed.id, { expression: e.target.value })
-                            }
+                          <span className="story-slot-field-label" id={`exp-label-${placed.id}`}>
+                            Mood
+                          </span>
+                          <div
+                            className="story-mood-grid"
+                            role="radiogroup"
+                            aria-labelledby={`exp-label-${placed.id}`}
                             data-testid={`story-char-exp-${placed.id}`}
                           >
-                            {CHARACTER_EXPRESSIONS.map((exp) => (
-                              <option key={exp} value={exp}>
-                                {exp.charAt(0).toUpperCase() + exp.slice(1)}
-                              </option>
-                            ))}
-                          </select>
+                            {CHARACTER_EXPRESSIONS.map((exp) => {
+                              const meta = CHARACTER_EXPRESSION_META[exp] || { label: exp, emoji: "🙂" };
+                              const isOn = placed.expression === exp;
+                              return (
+                                <button
+                                  key={exp}
+                                  type="button"
+                                  role="radio"
+                                  aria-checked={isOn}
+                                  className={`story-mood-btn ${isOn ? "story-mood-btn--active" : ""}`}
+                                  onClick={() =>
+                                    onUpdateCharacter && onUpdateCharacter(placed.id, { expression: exp })
+                                  }
+                                  data-testid={`story-char-exp-${placed.id}-${exp}`}
+                                >
+                                  <span className="story-mood-emoji" aria-hidden="true">{meta.emoji}</span>
+                                  <span className="story-mood-label">{meta.label}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
                         </div>
 
                         {/* Facing Direction Toggle */}

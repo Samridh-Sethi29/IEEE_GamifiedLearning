@@ -37,7 +37,24 @@ export const CHARACTER_EXPRESSIONS = Object.freeze([
   "surprised",
   "worried",
   "determined",
+  "excited",
+  "sad",
+  "angry",
+  "sleepy",
 ]);
+
+// Friendly label + emoji for each mood (used by the Scene Director's mood picker).
+export const CHARACTER_EXPRESSION_META = Object.freeze({
+  happy: { label: "Happy", emoji: "😊" },
+  excited: { label: "Excited", emoji: "🤩" },
+  surprised: { label: "Surprised", emoji: "😮" },
+  thoughtful: { label: "Thoughtful", emoji: "🤔" },
+  determined: { label: "Determined", emoji: "😤" },
+  worried: { label: "Worried", emoji: "😟" },
+  sad: { label: "Sad", emoji: "😢" },
+  angry: { label: "Angry", emoji: "😠" },
+  sleepy: { label: "Sleepy", emoji: "😴" },
+});
 
 export const DIALOGUE_TYPES = Object.freeze(["speech", "thought", "shout"]);
 

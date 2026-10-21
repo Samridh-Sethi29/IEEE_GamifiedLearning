@@ -508,6 +508,76 @@ function CharacterFace({ expression = "happy" }) {
           <path d="M 57 67 q 7 3 14 -2" stroke="#9a3412" strokeWidth="2.5" fill="none" strokeLinecap="round" />
         </g>
       );
+    case "excited":
+      return (
+        <g>
+          {/* High happy brows */}
+          <path d="M 49 46 q 6 -7 12 0" stroke="#451a03" strokeWidth="2" fill="none" />
+          <path d="M 67 46 q 6 -7 12 0" stroke="#451a03" strokeWidth="2" fill="none" />
+          {/* Big sparkly eyes */}
+          <circle cx="55" cy="55" r="4.4" fill="#1c1917" />
+          <circle cx="73" cy="55" r="4.4" fill="#1c1917" />
+          <circle cx="56.5" cy="53.2" r="1.6" fill="#fff" />
+          <circle cx="74.5" cy="53.2" r="1.6" fill="#fff" />
+          <circle cx="53.8" cy="57" r="0.9" fill="#fff" />
+          <circle cx="71.8" cy="57" r="0.9" fill="#fff" />
+          {/* Wide open grin */}
+          <path d="M 53 64 q 11 16 22 0 Z" fill="#9a3412" />
+          <path d="M 58 70 q 6 4 12 0" stroke="#fb7185" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          {/* Rosy cheeks */}
+          <circle cx="48" cy="62" r="3.5" fill="#fda4af" opacity="0.6" />
+          <circle cx="80" cy="62" r="3.5" fill="#fda4af" opacity="0.6" />
+        </g>
+      );
+    case "sad":
+      return (
+        <g>
+          {/* Brows tilted up in the middle */}
+          <line x1="50" y1="50" x2="60" y2="46" stroke="#451a03" strokeWidth="2.2" strokeLinecap="round" />
+          <line x1="78" y1="50" x2="68" y2="46" stroke="#451a03" strokeWidth="2.2" strokeLinecap="round" />
+          {/* Watery eyes looking down */}
+          <circle cx="55" cy="57" r="3.2" fill="#1c1917" />
+          <circle cx="73" cy="57" r="3.2" fill="#1c1917" />
+          <circle cx="56" cy="55.8" r="1" fill="#fff" />
+          <circle cx="74" cy="55.8" r="1" fill="#fff" />
+          {/* A tear */}
+          <path d="M 51 62 q -3 5 0 7 q 3 -2 0 -7 Z" fill="#7dd3fc" />
+          {/* Frown */}
+          <path d="M 57 71 q 7 -6 14 0" stroke="#9a3412" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+        </g>
+      );
+    case "angry":
+      return (
+        <g>
+          {/* Steep angry brows */}
+          <line x1="48" y1="44" x2="61" y2="50" stroke="#451a03" strokeWidth="3" strokeLinecap="round" />
+          <line x1="80" y1="44" x2="67" y2="50" stroke="#451a03" strokeWidth="3" strokeLinecap="round" />
+          {/* Glaring eyes */}
+          <circle cx="56" cy="56" r="3" fill="#1c1917" />
+          <circle cx="72" cy="56" r="3" fill="#1c1917" />
+          {/* Flushed cheeks */}
+          <circle cx="49" cy="63" r="3.5" fill="#f87171" opacity="0.55" />
+          <circle cx="79" cy="63" r="3.5" fill="#f87171" opacity="0.55" />
+          {/* Grumpy mouth */}
+          <path d="M 57 71 q 7 -5 14 0" stroke="#9a3412" strokeWidth="2.6" fill="none" strokeLinecap="round" />
+        </g>
+      );
+    case "sleepy":
+      return (
+        <g>
+          {/* Relaxed brows */}
+          <path d="M 50 49 q 5 -2 10 0" stroke="#451a03" strokeWidth="2" fill="none" />
+          <path d="M 68 49 q 5 -2 10 0" stroke="#451a03" strokeWidth="2" fill="none" />
+          {/* Closed eyes */}
+          <path d="M 50 56 q 5 4 10 0" stroke="#1c1917" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+          <path d="M 68 56 q 5 4 10 0" stroke="#1c1917" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+          {/* Little yawn */}
+          <ellipse cx="64" cy="69" rx="3" ry="3.6" fill="#9a3412" />
+          {/* Snoozing z's */}
+          <text x="82" y="44" fontSize="10" fontWeight="bold" fill="#64748b">z</text>
+          <text x="89" y="35" fontSize="8" fontWeight="bold" fill="#94a3b8">z</text>
+        </g>
+      );
     case "happy":
     default:
       return (

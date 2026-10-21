@@ -178,3 +178,50 @@
   .story-scope .story-btn:active:not(:disabled),
   .story-scope .story-slot-pick-char-btn:active { transform: none; }
 }
+
+/* =============================================================================
+   DECLUTTER PASS (Scene Director, right column): fewer nested frames, controls stacked with their
+   label on top instead of squeezed side by side, and a tap-friendly mood picker.
+   ============================================================================= */
+@media (min-width: 1101px) {
+  .story-scope .story-workspace-shell {
+    grid-template-columns: clamp(250px, 19vw, 290px) minmax(0, 1fr) clamp(320px, 26vw, 380px);
+  }
+}
+
+/* one frame per level: the section is a flat group, only the character cards keep a border */
+.story-scope .story-dir-section { border: 0; background: transparent; padding: 0 0 16px; border-radius: 0; border-bottom: 2px dashed var(--story-line-light); }
+.story-scope .story-dir-section:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.story-scope .story-director-body { gap: 16px; }
+
+/* label above control */
+.story-scope .story-slot-field-row { flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 6px; }
+.story-scope .story-slot-field-label { font-size: 0.82rem; font-weight: 800; color: var(--story-ink-muted); }
+.story-scope .story-slot-select { flex: none; width: 100%; max-width: 100%; }
+.story-scope .story-voice-picker-inline { flex: none; width: 100%; gap: 8px; }
+.story-scope .story-voice-picker-inline .story-voice-select,
+.story-scope .story-voice-picker-inline .story-slot-select { flex: 1 1 0; width: 0; min-height: 40px; font-size: 0.9rem; border-width: 2px; border-radius: var(--story-radius-sm); padding: 4px 10px; }
+.story-scope .story-voice-preview-btn { flex: none; min-width: 40px; min-height: 40px; border-radius: 50%; }
+.story-scope .story-facing-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+.story-scope .story-facing-btn { width: 100%; }
+
+/* mood picker */
+.story-scope .story-mood-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.story-scope .story-mood-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 56px; padding: 4px 2px; font-family: inherit; cursor: pointer;
+  background: #fff; border: 2px solid var(--story-line-light); border-radius: var(--story-radius-sm);
+  color: var(--story-ink);
+}
+.story-scope .story-mood-btn:hover { background: var(--story-rose-light); border-color: var(--story-rose); }
+.story-scope .story-mood-btn--active { background: var(--story-rose-soft); border-color: var(--story-rose); box-shadow: 0 3px 0 var(--story-rose-deep); }
+.story-scope .story-mood-emoji { font-size: 1.35rem; line-height: 1; }
+.story-scope .story-mood-label { font-size: 0.74rem; font-weight: 800; line-height: 1.1; }
+
+/* scene strip header + stage text: no cramped wrapping, no shouty caps */
+.story-scope .story-nav-header { flex-wrap: wrap; gap: 8px; }
+.story-scope .story-nav-title-group { flex-wrap: nowrap; }
+.story-scope .story-nav-badge { white-space: nowrap; }
+.story-scope .story-ribbon-header { text-transform: none; letter-spacing: 0; font-size: 0.95rem; flex-wrap: wrap; gap: 2px 10px; }
+.story-scope .story-ribbon-header * { text-transform: none; letter-spacing: 0; }
+.story-scope .story-ribbon-speaker { font-weight: 800; }
