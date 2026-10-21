@@ -83,6 +83,7 @@ import { recordChallengeEvaluation } from "../engine/storyChallengeProgress.js";
 import { createStoryChallengeStorage } from "../engine/storyChallengeStorage.js";
 import { executeChallengeCompletionSync } from "../engine/storyChallengeRewards.js";
 import "../story-studio.css";
+import "../story-studio-ui.css";
 
 /**
  * Story Studio Editing Workspace (S1.2, S1.3, S1.4).

@@ -36,6 +36,7 @@ import {
   resolveCharacterVoice,
   useSystemVoices,
 } from "../engine/storyVoiceEngine.js";
+import { StoryCharacter } from "../art/StoryArtComponents.jsx";
 
 /**
  * Scene Director Inspector for Story Studio (S1.4 & S1.12).
@@ -377,11 +378,20 @@ export default function SceneDirector({
                     {placed ? (
                       <div className="story-slot-placed-controls">
                         <div className="story-slot-char-row">
-                          <strong className="story-slot-char-name">
-                            {charMeta?.name}
-                          </strong>
-                          <span className="story-slot-char-role">
-                            {charMeta?.role}
+                          <span className="story-slot-avatar" aria-hidden="true">
+                            <StoryCharacter
+                              characterId={placed.characterId}
+                              expression={placed.expression}
+                              facing="right"
+                            />
+                          </span>
+                          <span className="story-slot-char-text">
+                            <strong className="story-slot-char-name">
+                              {charMeta?.name}
+                            </strong>
+                            <span className="story-slot-char-role">
+                              {charMeta?.role}
+                            </span>
                           </span>
                         </div>
 
@@ -508,7 +518,14 @@ export default function SceneDirector({
                                 onClick={() => handleAddCharacterToSlot(slot, charId)}
                                 data-testid={`story-pick-${slot}-${charId}`}
                               >
-                                <span>{candidateMeta?.name || charId}</span>
+                                <span className="story-pick-avatar" aria-hidden="true">
+                                  <StoryCharacter
+                                    characterId={charId}
+                                    expression="happy"
+                                    facing="right"
+                                  />
+                                </span>
+                                <span className="story-pick-name">{candidateMeta?.name || charId}</span>
                               </button>
                             );
                           })}

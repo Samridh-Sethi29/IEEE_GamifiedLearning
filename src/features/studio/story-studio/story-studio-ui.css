@@ -1,0 +1,180 @@
+/*
+  Story Studio UI refresh: a friendlier, more storybook look for children (about 11-14), clearer
+  character controls, and tidier layouts on phones and tablets. Loaded after story-studio.css, so it
+  only refines. Every rule is scoped to `.story-scope`; the Reader, Print and engine are untouched.
+
+  Breakpoints (same as the base sheet): > 1100 three columns | 769-1100 scenes + stage/director |
+  <= 768 one column, compact top bar, scene strip scrolls sideways.
+*/
+
+.story-scope {
+  --story-radius-lg: 22px;
+  --story-radius-md: 14px;
+  --story-radius-sm: 10px;
+  --story-hard: 0 4px 0 rgba(139, 94, 60, 0.28);
+  --story-sky-soft: #e0f2fe;
+  --story-sky: #0284c7;
+  --story-leaf-soft: #dcfce7;
+  --story-leaf: #15803d;
+  background-image: radial-gradient(rgba(228, 196, 159, 0.55) 1.5px, transparent 1.6px);
+  background-size: 24px 24px;
+}
+.story-scope h1, .story-scope h2, .story-scope h3 { font-family: var(--font-heading, inherit); }
+
+/* ---------- top bar ---------- */
+.story-scope .story-topbar { padding: 10px 18px; border-bottom-width: 3px; box-shadow: 0 3px 0 rgba(185, 138, 90, 0.18); }
+.story-scope .story-back-btn { min-height: 40px; border-radius: 999px; border-width: 2px; background: #fff; font-size: 0.92rem; box-shadow: var(--story-hard); }
+.story-scope .story-title-input { font-family: var(--font-heading, inherit); font-size: 1.25rem; border-width: 2px; }
+.story-scope .story-btn { min-height: 40px; border-radius: 999px; font-size: 0.92rem; }
+.story-scope .story-btn:active:not(:disabled) { transform: translateY(2px); }
+.story-scope .story-btn--outline { border-width: 2px; background: #fff; box-shadow: var(--story-hard); }
+.story-scope .story-btn--play {
+  min-height: 46px; padding-inline: 20px; font-size: 1rem; font-weight: 800;
+  box-shadow: 0 4px 0 var(--story-rose-deep);
+}
+.story-scope .story-btn--play:active:not(:disabled) { box-shadow: 0 1px 0 var(--story-rose-deep); }
+.story-scope .story-history-controls { border-radius: 999px; padding: 3px; }
+.story-scope .story-save-status { font-size: 0.85rem; }
+
+/* ---------- scene strip (left) ---------- */
+.story-scope .story-nav { border-radius: var(--story-radius-lg); border-width: 3px; box-shadow: var(--story-hard); }
+.story-scope .story-nav-title { font-family: var(--font-heading, inherit); font-size: 1.05rem; }
+.story-scope .story-filmstrip-card { border-radius: var(--story-radius-md); border-width: 3px; padding: 10px; }
+.story-scope .story-filmstrip-card--active { box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.28), var(--story-hard); }
+
+/* ---------- stage ---------- */
+.story-scope .story-stage-header { border-width: 3px; box-shadow: var(--story-hard); }
+.story-scope .story-stage-kicker { text-transform: none; letter-spacing: 0; font-size: 0.9rem; }
+.story-scope .story-stage-title { font-family: var(--font-heading, inherit); font-size: 1.5rem; }
+.story-scope .story-stage-setting-chip { border-width: 2px; border-radius: 999px; padding: 5px 12px; font-weight: 700; background: var(--story-sky-soft); border-color: var(--story-sky); color: #075985; }
+.story-scope .story-stage-viewport { border-width: 5px; border-radius: 26px; box-shadow: 0 6px 0 rgba(139, 94, 60, 0.3); }
+.story-scope .story-actor-label-tag { font-size: 0.82rem; padding: 3px 12px; border-width: 2px; }
+.story-scope .story-staged-actor--speaking { transform: translateY(-8px) scale(1.04); }
+
+/* ---------- director (right): friendly section headers ---------- */
+.story-scope .story-director-aside { border-width: 3px; box-shadow: var(--story-hard); }
+.story-scope .story-director-title { font-family: var(--font-heading, inherit); font-size: 1.15rem; }
+.story-scope .story-director-subtitle { font-size: 0.85rem; }
+.story-scope .story-dir-section { border-width: 2px; border-radius: var(--story-radius-md); padding: 12px 12px 14px; }
+.story-scope .story-dir-section-header--clickable { min-height: 44px; padding: 6px; margin: -6px; border-radius: var(--story-radius-sm); }
+.story-scope .story-dir-sec-icon {
+  box-sizing: content-box; padding: 6px; border-radius: 50%; background: var(--story-rose-soft);
+}
+.story-scope .story-dir-sec-title { font-size: 1.02rem; font-family: var(--font-heading, inherit); }
+.story-scope .story-dir-sec-chevron { width: 32px; height: 32px; justify-content: center; border-radius: 50%; background: #f8fafc; border: 1.5px solid var(--story-line-light); }
+.story-scope .story-char-counter { font-size: 0.8rem; }
+.story-scope .story-dir-toggle-all-btn { min-height: 34px; font-size: 0.82rem; border-radius: 999px; padding-inline: 12px; }
+
+/* backgrounds */
+.story-scope .story-bg-btn { border-width: 2px; border-radius: var(--story-radius-sm); padding: 9px 10px; min-height: 44px; }
+.story-scope .story-bg-btn-tag { font-size: 0.88rem; }
+
+/* ---------- characters: slot cards ---------- */
+.story-scope .story-slots-list { gap: 12px; }
+.story-scope .story-slot-editor { border-width: 2px; border-radius: var(--story-radius-md); padding: 10px; overflow: visible; }
+.story-scope .story-slot-editor--empty { border-style: dashed; background: #fffdf9; }
+.story-scope .story-slot-editor--occupied { border-color: var(--story-rose); box-shadow: var(--story-hard); }
+.story-scope .story-slot-editor-header { margin-bottom: 8px; }
+.story-scope .story-slot-name-badge {
+  text-transform: capitalize; font-size: 0.8rem; font-weight: 800; padding: 3px 12px; border-radius: 999px;
+  background: var(--story-rose-soft); color: var(--story-rose-deep);
+}
+.story-scope .story-slot-add-btn {
+  min-height: 52px; font-size: 0.92rem; font-weight: 800; border-width: 2px; border-radius: var(--story-radius-md);
+  color: var(--story-rose-deep); background: var(--story-rose-light); border-color: #fda4af;
+}
+.story-scope .story-slot-add-btn svg { box-sizing: content-box; padding: 4px; border-radius: 50%; background: #fff; }
+.story-scope .story-slot-add-btn:hover:not(:disabled) { background: var(--story-rose-soft); }
+
+/* placed character: portrait + name */
+.story-scope .story-slot-char-row { flex-wrap: nowrap; align-items: center; gap: 12px; }
+.story-scope .story-slot-avatar {
+  flex: none; width: 56px; height: 84px; display: grid; place-items: center; overflow: hidden;
+  border-radius: 16px; background: linear-gradient(180deg, var(--story-sky-soft), var(--story-leaf-soft));
+  border: 2px solid var(--story-line-light);
+}
+.story-scope .story-slot-avatar .story-character-wrapper { width: 100%; height: 100%; }
+.story-scope .story-slot-avatar .story-char-svg { width: 100%; height: 100%; filter: none; }
+.story-scope .story-slot-char-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.story-scope .story-slot-char-name { font-family: var(--font-heading, inherit); font-size: 1.05rem; white-space: normal; }
+.story-scope .story-slot-char-role { font-size: 0.82rem; white-space: normal; overflow: visible; }
+
+/* picking a character: big tappable portrait cards */
+.story-scope .story-slot-picker-title { font-size: 0.9rem; color: var(--story-ink); }
+.story-scope .story-slot-picker-btns { display: grid; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 10px; }
+.story-scope .story-slot-pick-char-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 44px; padding: 8px 6px 10px;
+  background: #fff; border: 2px solid var(--story-line-light); border-radius: var(--story-radius-md);
+  box-shadow: var(--story-hard); font-family: inherit;
+}
+.story-scope .story-slot-pick-char-btn:hover { background: var(--story-rose-light); border-color: var(--story-rose); }
+.story-scope .story-slot-pick-char-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(139, 94, 60, 0.28); }
+.story-scope .story-pick-avatar {
+  width: 64px; height: 96px; display: grid; place-items: center; border-radius: 14px; overflow: hidden;
+  background: linear-gradient(180deg, var(--story-sky-soft), var(--story-leaf-soft));
+}
+.story-scope .story-pick-avatar .story-character-wrapper { width: 100%; height: 100%; }
+.story-scope .story-pick-avatar .story-char-svg { width: 100%; height: 100%; filter: none; }
+.story-scope .story-pick-name { font-size: 0.92rem; font-weight: 800; color: var(--story-ink); text-align: center; line-height: 1.15; }
+
+/* expression, facing, voice */
+.story-scope .story-slot-field-row { flex-wrap: wrap; gap: 6px 10px; }
+.story-scope .story-slot-field-label { font-size: 0.85rem; }
+.story-scope .story-slot-select { min-height: 40px; font-size: 0.9rem; border-width: 2px; border-radius: var(--story-radius-sm); flex: 1 1 120px; min-width: 0; }
+.story-scope .story-facing-toggle { gap: 6px; }
+.story-scope .story-facing-btn { min-height: 40px; padding: 4px 12px; font-size: 0.85rem; border-width: 2px; border-radius: 999px; }
+.story-scope .story-facing-btn--active { box-shadow: 0 2px 0 var(--story-rose-deep); }
+
+/* props */
+.story-scope .story-prop-chip { min-height: 44px; border-width: 2px; border-radius: 999px; font-size: 0.88rem; padding-inline: 12px; }
+
+/* text inputs */
+.story-scope .story-narration-textarea, .story-scope .story-dialogue-input { font-size: 0.95rem; border-width: 2px; border-radius: var(--story-radius-sm); }
+
+/* ---------- library / templates: same storybook family ---------- */
+.story-scope .story-library-card, .story-scope .story-template-card { border-radius: var(--story-radius-md); border-width: 3px; box-shadow: var(--story-hard); }
+.story-scope .story-library-dialog, .story-scope .story-template-preview-dialog { border-radius: var(--story-radius-lg); }
+.story-scope .story-template-card-title, .story-scope .story-library-card-title { font-family: var(--font-heading, inherit); }
+
+/* ---------- tablets (<= 1100px) ---------- */
+@media (max-width: 1100px) {
+  /* the director sits under the stage here, so give its character picker more room per card */
+  .story-scope .story-slot-picker-btns { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .story-scope .story-slots-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+}
+
+/* ---------- phones (<= 768px) ---------- */
+@media (max-width: 768px) {
+  /* a sticky two-row top bar would eat a third of a phone screen */
+  .story-scope .story-topbar { position: static; padding: 8px 10px; gap: 8px; }
+  .story-scope .story-topbar-left { flex-wrap: wrap; gap: 8px; }
+  .story-scope .story-title-editor { flex: 1 1 100%; order: 9; }
+  .story-scope .story-topbar-right { flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
+  .story-scope .story-save-group { flex: 1 1 100%; flex-wrap: wrap; }
+  .story-scope .story-btn--play { flex: 1 1 140px; }
+  .story-scope .story-btn--outline { flex: 1 1 90px; }
+  .story-scope .story-workspace-shell { padding: 10px 10px 28px; gap: 12px; }
+  .story-scope .story-filmstrip-card { min-width: 168px; }
+  .story-scope .story-stage-title { font-size: 1.25rem; }
+  .story-scope .story-stage-header { padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
+  .story-scope .story-stage-viewport { border-width: 4px; border-radius: 20px; }
+  .story-scope .story-char-svg { width: 84px; height: 126px; }
+  .story-scope .story-slot-picker-btns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .story-scope .story-slots-list { display: flex; }
+}
+@media (max-width: 380px) {
+  .story-scope .story-char-svg { width: 70px; height: 105px; }
+  .story-scope .story-slot-avatar { width: 48px; height: 72px; }
+}
+
+/* very short landscape screens: keep the stage large */
+@media (max-height: 520px) and (min-width: 700px) {
+  .story-scope .story-topbar { padding-block: 6px; }
+  .story-scope .story-slot-avatar { width: 44px; height: 66px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-scope .story-staged-actor--speaking { transform: none; }
+  .story-scope .story-btn:active:not(:disabled),
+  .story-scope .story-slot-pick-char-btn:active { transform: none; }
+}
