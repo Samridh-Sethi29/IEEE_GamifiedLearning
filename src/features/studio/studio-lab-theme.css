@@ -1,0 +1,144 @@
+/*
+  Shared "SkillVerse workshop" theme for the Invention Lab and the Design Atelier.
+  Same family as Story Studio and World Builder: warm cream paper, brown outlines with a hard
+  drop-shadow, chunky pill buttons, big readable type, and soft pastel feedback boxes.
+
+  Both pages import this file. It owns everything the two pages share: tokens, page frame, header,
+  buttons, modals and feedback boxes. Page-specific layout lives in inventionLab.css / designAtelier.css.
+  Every rule is scoped to one of the two page scopes, so nothing leaks into the rest of the app.
+*/
+
+:is(.invention-lab-scope, .canva-studio-scope) {
+  --sl-cream: #fffbea;
+  --sl-cream-2: #f7e7c6;
+  --sl-paper: #fffdf5;
+  --sl-line: #b98a5a;
+  --sl-line-light: #e4c49f;
+  --sl-ink: #452b1b;
+  --sl-ink-2: #6b4a36;
+  --sl-shadow: rgba(139, 94, 60, 0.32);
+  --sl-rose: #f43f5e;
+  --sl-rose-deep: #be123c;
+  --sl-rose-soft: #ffe4e6;
+  --sl-green: #047857;
+  --sl-green-deep: #065f46;
+  --sl-green-soft: #d1fae5;
+  --sl-amber: #f59e0b;
+  --sl-amber-deep: #b45309;
+  --sl-amber-soft: #fef3c7;
+  --sl-sky: #0284c7;
+  --sl-sky-soft: #e0f2fe;
+  --sl-violet: #7c3aed;
+  --sl-violet-deep: #5b21b6;
+  --sl-violet-soft: #ede9fe;
+  --sl-radius-lg: 22px;
+  --sl-radius-md: 14px;
+  --sl-hard: 0 4px 0 var(--sl-shadow);
+
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--sl-cream);
+  background-image: radial-gradient(rgba(228, 196, 159, 0.55) 1.5px, transparent 1.6px);
+  background-size: 24px 24px;
+  color: var(--sl-ink);
+  font-family: inherit;
+  user-select: none;
+}
+:is(.invention-lab-scope, .canva-studio-scope) h1,
+:is(.invention-lab-scope, .canva-studio-scope) h2,
+:is(.invention-lab-scope, .canva-studio-scope) h3,
+:is(.invention-lab-scope, .canva-studio-scope) h4 { font-family: var(--font-heading, inherit); }
+
+/* ---------- header bar ---------- */
+:is(.lab-header, .canva-top-bar) {
+  min-height: 64px;
+  background: #fff;
+  border-bottom: 3px solid var(--sl-line);
+  box-shadow: 0 3px 0 rgba(185, 138, 90, 0.18);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  gap: 8px 14px; padding: 8px 18px; flex-shrink: 0; z-index: 40; height: auto;
+}
+.lab-back-btn {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 6px 16px;
+  border-radius: 999px; border: 2px solid var(--sl-line); background: #fff; color: var(--sl-ink);
+  font-size: 0.95rem; font-weight: 800; text-decoration: none; box-shadow: var(--sl-hard);
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.lab-back-btn:hover { background: var(--sl-cream); }
+.lab-back-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--sl-shadow); }
+:is(.lab-badge, .canva-brand-badge) {
+  display: inline-flex; align-items: center; padding: 4px 14px; border-radius: 999px;
+  font-size: 0.82rem; font-weight: 800; letter-spacing: 0; text-transform: none; border: 2px solid;
+}
+.lab-badge { background: var(--sl-amber-soft); color: var(--sl-amber-deep); border-color: #fcd34d; }
+.canva-brand-badge { background: var(--sl-violet-soft); color: var(--sl-violet-deep); border-color: #c4b5fd; }
+.lab-header-title { font-size: 1.2rem; font-weight: 800; color: var(--sl-ink); margin: 0; }
+
+/* ---------- buttons ---------- */
+.lab-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px;
+  padding: 6px 18px; border-radius: 999px; border: 2px solid var(--sl-line); background: #fff; color: var(--sl-ink);
+  font-size: 0.95rem; font-weight: 800; cursor: pointer; text-decoration: none; box-shadow: var(--sl-hard);
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.lab-btn:hover:not(:disabled) { background: var(--sl-cream); }
+.lab-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--sl-shadow); }
+.lab-btn:disabled { opacity: 0.7; cursor: default; }
+.lab-btn-amber { background: var(--sl-amber); border-color: var(--sl-amber-deep); color: #451a03; box-shadow: 0 4px 0 var(--sl-amber-deep); }
+.lab-btn-amber:hover:not(:disabled) { background: #fbbf24; }
+.lab-btn-violet { background: var(--sl-violet); border-color: var(--sl-violet-deep); color: #fff; box-shadow: 0 4px 0 var(--sl-violet-deep); }
+.lab-btn-violet:hover:not(:disabled) { background: #6d28d9; }
+.lab-btn-test { min-height: 46px; padding-inline: 22px; font-size: 1rem; background: var(--sl-green); border-color: var(--sl-green-deep); color: #fff; box-shadow: 0 4px 0 var(--sl-green-deep); }
+.lab-btn-test:hover:not(:disabled) { background: var(--sl-green-deep); }
+.lab-btn-testing { background: var(--sl-amber) !important; border-color: var(--sl-amber-deep) !important; color: #451a03 !important; box-shadow: 0 4px 0 var(--sl-amber-deep) !important; cursor: wait; }
+:is(.lab-back-btn, .lab-btn, .canva-tool-btn, .lab-tool-btn, .lab-guide-btn, .lab-mission-tab, .lab-hints-btn):focus-visible {
+  outline: 3px solid var(--sl-green); outline-offset: 2px; box-shadow: 0 0 0 5px #fff;
+}
+.lab-tool-btn {
+  width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--sl-line); background: #fff; color: var(--sl-ink);
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.9rem; flex: none;
+}
+.lab-tool-btn:hover { background: var(--sl-cream-2); }
+.lab-tool-btn.danger:hover { background: var(--sl-rose-soft); border-color: var(--sl-rose-deep); color: var(--sl-rose-deep); }
+
+/* ---------- modals ---------- */
+.lab-modal-backdrop {
+  position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  padding: 16px; background: rgba(69, 43, 27, 0.55); backdrop-filter: blur(3px); overflow-y: auto;
+}
+.lab-modal-card {
+  width: 100%; max-width: 540px; max-height: calc(100dvh - 32px); display: flex; flex-direction: column; overflow: hidden;
+  background: var(--sl-paper); border: 4px solid var(--sl-line); border-radius: var(--sl-radius-lg);
+  box-shadow: 0 8px 0 var(--sl-shadow); animation: labPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes labPopIn { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.lab-modal-header { padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 3px solid var(--sl-line-light); flex: none; }
+.lab-modal-header.teaching { background: var(--sl-sky-soft); }
+.lab-modal-header.fail { background: var(--sl-rose-soft); }
+.lab-modal-header.success { background: var(--sl-green-soft); }
+.lab-modal-title { font-size: 1.2rem; font-weight: 800; color: var(--sl-ink); margin: 0; display: flex; align-items: center; gap: 10px; }
+.lab-modal-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; font-size: 1rem; line-height: 1.55; color: var(--sl-ink); overflow-y: auto; flex: 1 1 auto; }
+.lab-modal-footer { padding: 14px 22px; background: var(--sl-cream-2); border-top: 3px solid var(--sl-line-light); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; flex: none; }
+.lab-step-dots { display: flex; gap: 8px; }
+.lab-step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--sl-line-light); transition: transform 0.2s; }
+.lab-step-dot.active { background: var(--sl-green); transform: scale(1.25); }
+.lab-teaching-box, .lab-part-preview-row { background: #fff; border: 2px solid var(--sl-line-light); border-radius: var(--sl-radius-md); padding: 10px 14px; }
+.lab-parts-preview-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+.lab-part-preview-row { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.lab-hint-box, .lab-fail-box, .lab-success-box { border-radius: var(--sl-radius-md); border: 2px solid; padding: 14px 16px; color: var(--sl-ink); font-size: 0.98rem; }
+.lab-hint-box { background: var(--sl-amber-soft); border-color: #fcd34d; display: flex; gap: 10px; align-items: flex-start; }
+.lab-fail-box { background: var(--sl-rose-soft); border-color: #fda4af; display: flex; flex-direction: column; gap: 6px; }
+.lab-success-box { background: var(--sl-green-soft); border-color: #6ee7b7; text-align: center; }
+
+@media (max-width: 599px) {
+  :is(.lab-header, .canva-top-bar) { padding: 8px 10px; }
+  .lab-modal-header, .lab-modal-body, .lab-modal-footer { padding-inline: 16px; }
+  .lab-modal-footer .lab-btn { flex: 1 1 140px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-modal-card { animation: none; }
+  .lab-btn:active:not(:disabled), .lab-back-btn:active { transform: none; }
+}

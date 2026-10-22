@@ -1,0 +1,466 @@
+/* World Builder Mission Success Screen Styles */
+
+.wb-success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top, 1rem)) max(1rem, env(safe-area-inset-right, 1rem)) max(1rem, env(safe-area-inset-bottom, 1rem)) max(1rem, env(safe-area-inset-left, 1rem));
+  overflow-y: auto; /* safety net only (extreme zoom): the dialog's own body is the normal scroller */
+  animation: wbFadeIn 0.25s ease-out;
+  box-sizing: border-box;
+}
+
+@keyframes wbFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wb-success-dialog {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  max-width: 580px;
+  width: 100%;
+  /* Fit the visible viewport (dynamic units for mobile browser chrome) minus the overlay padding. */
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  max-height: 100%; /* of the padded overlay: safe-area insets are respected automatically */
+  min-height: 0;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.2);
+  border: 2px solid #6ee7b7;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  animation: wbPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes wbPopIn {
+  from {
+    transform: scale(0.94) translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Banner */
+.wb-success-banner {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0284c7 100%);
+  color: #ffffff;
+  padding: 1.5rem 1.5rem 1.125rem;
+  text-align: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Scrollable Body */
+.wb-success-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wb-success-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wb-success-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.wb-success-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.wb-success-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+.wb-success-badge-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fef08a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.wb-success-title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.wb-success-message {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #e6fffa;
+  line-height: 1.45;
+  max-width: 440px;
+  margin-inline: auto;
+}
+
+/* Rewards Card */
+.wb-success-rewards-card {
+  margin: 1.25rem 1.25rem 0.5rem;
+  background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+  border: 2px solid #fde047;
+  border-radius: 0.875rem;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.1);
+}
+
+.wb-rewards-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #854d0e;
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wb-rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.wb-reward-badge {
+  background: #ffffff;
+  border: 1px solid #fde047;
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.wb-reward-icon {
+  color: #ca8a04;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wb-reward-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.wb-reward-lbl {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.wb-reward-levelup-notice {
+  margin-top: 0.75rem;
+  background: #f59e0b;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+}
+
+/* Replay Card */
+.wb-success-replay-card {
+  margin: 1.25rem 1.25rem 0.5rem;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.875rem;
+  padding: 1rem 1.25rem;
+}
+
+.wb-replay-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #334155;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wb-replay-card-text {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Challenge Solved Card */
+.wb-success-challenge-card {
+  margin: 1.25rem 1.25rem 0.75rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.875rem;
+  padding: 1rem 1.25rem;
+}
+
+.wb-challenge-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #166534;
+  margin: 0 0 0.375rem;
+}
+
+.wb-challenge-text {
+  font-size: 0.875rem;
+  color: #14532d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Objectives Section */
+.wb-success-objectives-section {
+  padding: 0.75rem 1.25rem 1rem;
+}
+
+.wb-objectives-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wb-success-objectives-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.wb-success-objective-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.875rem;
+}
+
+.wb-objective-icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wb-icon-network {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.wb-icon-households {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.wb-icon-budget {
+  background: #fefce8;
+  color: #d97706;
+}
+
+.wb-icon-supply {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.wb-icon-reserve {
+  background: #f0fdfa;
+  color: #0d9488;
+}
+
+.wb-objective-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.wb-objective-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.125rem;
+}
+
+.wb-objective-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.wb-objective-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.wb-objective-metric {
+  font-size: 0.8125rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.wb-objective-metric strong {
+  color: #0f172a;
+}
+
+.wb-success-planning-disclaimer {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 0.875rem 0 0;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Actions Footer */
+.wb-success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+
+.wb-btn-return-workspace {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  background: #059669;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.wb-btn-return-workspace:hover {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+.wb-btn-return-workspace:active {
+  transform: translateY(0);
+}
+
+.wb-btn-return-briefing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.wb-btn-return-briefing:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+@media (max-height: 640px) {
+  .wb-success-banner {
+    padding: 1rem 1.25rem 0.75rem;
+  }
+  .wb-success-badge-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0.5rem;
+  }
+  .wb-success-badge-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .wb-success-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.25rem;
+  }
+  .wb-success-message {
+    font-size: 0.85rem;
+  }
+  .wb-success-actions {
+    padding: 0.75rem 1.25rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wb-success-dialog {
+    border-radius: 1rem;
+  }
+  .wb-success-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wb-btn-return-workspace,
+  .wb-btn-return-briefing {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
