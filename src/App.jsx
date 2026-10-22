@@ -28,6 +28,7 @@ import TypingLevel1 from "@/features/computer/components/TypingLevel1";
 import BlockCodingLevel1 from "@/features/computer/components/BlockCodingLevel1";
 import BlockCodingChallengeLevel1 from "@/features/computer/components/BlockCodingChallengeLevel1";
 import PythonDebuggingLevel1 from "@/features/computer/components/PythonDebuggingLevel1";
+import PythonDebuggingChallengeLevel1 from "@/features/computer/components/PythonDebuggingChallengeLevel1";
 import ComputerChallenge from "@/features/computer/components/ComputerChallenge";
 import ScienceRouter from "@/features/science/ScienceRouter";
 import SchoolSubScene from "@/pages/SchoolSubScene";
@@ -81,6 +82,7 @@ export default function App() {
         />
 
         <Route path="/world/school/computer" element={<ComputerHub />} />
+        <Route path="/world/school/computer/hub" element={<ComputerHub />} />
         <Route
           path="/world/school/computer/typing"
           element={<TypingLevel1 />}
@@ -96,6 +98,10 @@ export default function App() {
         <Route
           path="/world/school/computer/python-debugging"
           element={<PythonDebuggingLevel1 />}
+        />
+        <Route
+          path="/world/school/computer/python-debugging/challenge"
+          element={<PythonDebuggingChallengeLevel1 />}
         />
         <Route
           path="/world/school/computer/final-challenge"
