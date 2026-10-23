@@ -282,6 +282,7 @@ export default function FarmGame2D() {
     w: false, a: false, s: false, d: false,
     up: false, down: false, left: false, right: false
   });
+  const velRef = useRef({ vx: 0, vy: 0 });
   const mapRef = useRef(null);
 
   // Music Player State
@@ -320,35 +321,75 @@ export default function FarmGame2D() {
     window.addEventListener('keyup', handleKeyUp);
     
     let animationFrameId;
-    const speed = 5;
+    const ACCEL = 0.72;
+    const MAX_SPEED = 6.0;
+    const FRICTION = 0.88;
     
     const loop = () => {
+      let targetDx = 0;
+      let targetDy = 0;
+
+      if (keys.current.w || keys.current.up) targetDy -= 1;
+      if (keys.current.s || keys.current.down) targetDy += 1;
+      if (keys.current.a || keys.current.left) targetDx -= 1;
+      if (keys.current.d || keys.current.right) targetDx += 1;
+
+      // Normalize diagonal intent
+      if (targetDx !== 0 && targetDy !== 0) {
+        targetDx *= 0.7071;
+        targetDy *= 0.7071;
+      }
+
+      const targetVx = targetDx * MAX_SPEED;
+      const targetVy = targetDy * MAX_SPEED;
+
+      let { vx, vy } = velRef.current;
+
+      // Smooth acceleration when steering, smooth gliding friction when released
+      if (targetDx !== 0) {
+        vx += (targetVx - vx) * ACCEL;
+      } else {
+        vx *= FRICTION;
+        if (Math.abs(vx) < 0.05) vx = 0;
+      }
+
+      if (targetDy !== 0) {
+        vy += (targetVy - vy) * ACCEL;
+      } else {
+        vy *= FRICTION;
+        if (Math.abs(vy) < 0.05) vy = 0;
+      }
+
+      velRef.current = { vx, vy };
+
+      if (Math.abs(vx) > 0.3) {
+        setFacing(vx > 0 ? 1 : -1);
+      }
+
       setPlayerPos(p => {
-        let nx = p.x; let ny = p.y;
-        if (keys.current.w || keys.current.up) ny -= speed;
-        if (keys.current.s || keys.current.down) ny += speed;
-        if (keys.current.a || keys.current.left) { nx -= speed; setFacing(-1); }
-        if (keys.current.d || keys.current.right) { nx += speed; setFacing(1); }
+        let nx = p.x + vx;
+        let ny = p.y + vy;
         
         if (mapRef.current) {
           const mapHeight = 1400; // Expanded map height
-          if (nx < 20) nx = 20;
-          if (nx > 1516) nx = 1516; // 1536 - 20
-          if (ny < 100) ny = 100;
-          if (ny > mapHeight - 20) ny = mapHeight - 20;
+          if (nx < 20) { nx = 20; velRef.current.vx = 0; }
+          if (nx > 1516) { nx = 1516; velRef.current.vx = 0; } // 1536 - 20
+          if (ny < 100) { ny = 100; velRef.current.vy = 0; }
+          if (ny > mapHeight - 20) { ny = mapHeight - 20; velRef.current.vy = 0; }
           
           // Auto-scroll vertically if player nears edges of viewport
           const buffer = 150;
-          if (ny > window.scrollY + window.innerHeight - buffer) {
-             window.scrollBy(0, speed);
-          } else if (ny < window.scrollY + buffer) {
-             window.scrollBy(0, -speed);
+          if (ny > window.scrollY + window.innerHeight - buffer && vy > 0) {
+             window.scrollBy(0, vy);
+          } else if (ny < window.scrollY + buffer && vy < 0) {
+             window.scrollBy(0, vy);
           }
         }
         
         if (nx !== p.x || ny !== p.y) return { x: nx, y: ny };
         return p;
       });
+
       animationFrameId = requestAnimationFrame(loop);
     };
     loop();
