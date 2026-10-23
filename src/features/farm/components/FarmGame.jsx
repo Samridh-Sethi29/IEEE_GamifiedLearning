@@ -277,7 +277,10 @@ export default function FarmGame2D() {
   
   const [playerPos, setPlayerPos] = useState({ x: 100, y: 350 });
   const [facing, setFacing] = useState(1);
-  const keys = useRef({ w: false, a: false, s: false, d: false });
+  const keys = useRef({
+    w: false, a: false, s: false, d: false,
+    up: false, down: false, left: false, right: false
+  });
   const mapRef = useRef(null);
 
   // Music Player State
@@ -290,12 +293,26 @@ export default function FarmGame2D() {
 
   useEffect(() => {
     const handleKeyDown = (e) => { 
-      const key = e.key.toLowerCase();
-      if (['w', 'a', 's', 'd'].includes(key)) keys.current[key] = true; 
+      const k = e.key.toLowerCase();
+      if (k === 'w') keys.current.w = true;
+      else if (k === 's') keys.current.s = true;
+      else if (k === 'a') keys.current.a = true;
+      else if (k === 'd') keys.current.d = true;
+      else if (k === 'arrowup' || k === 'up') { e.preventDefault(); keys.current.up = true; }
+      else if (k === 'arrowdown' || k === 'down') { e.preventDefault(); keys.current.down = true; }
+      else if (k === 'arrowleft' || k === 'left') { e.preventDefault(); keys.current.left = true; }
+      else if (k === 'arrowright' || k === 'right') { e.preventDefault(); keys.current.right = true; }
     };
     const handleKeyUp = (e) => { 
-      const key = e.key.toLowerCase();
-      if (['w', 'a', 's', 'd'].includes(key)) keys.current[key] = false; 
+      const k = e.key.toLowerCase();
+      if (k === 'w') keys.current.w = false;
+      else if (k === 's') keys.current.s = false;
+      else if (k === 'a') keys.current.a = false;
+      else if (k === 'd') keys.current.d = false;
+      else if (k === 'arrowup' || k === 'up') keys.current.up = false;
+      else if (k === 'arrowdown' || k === 'down') keys.current.down = false;
+      else if (k === 'arrowleft' || k === 'left') keys.current.left = false;
+      else if (k === 'arrowright' || k === 'right') keys.current.right = false;
     };
     
     window.addEventListener('keydown', handleKeyDown);
@@ -307,10 +324,10 @@ export default function FarmGame2D() {
     const loop = () => {
       setPlayerPos(p => {
         let nx = p.x; let ny = p.y;
-        if (keys.current.w) ny -= speed;
-        if (keys.current.s) ny += speed;
-        if (keys.current.a) { nx -= speed; setFacing(-1); }
-        if (keys.current.d) { nx += speed; setFacing(1); }
+        if (keys.current.w || keys.current.up) ny -= speed;
+        if (keys.current.s || keys.current.down) ny += speed;
+        if (keys.current.a || keys.current.left) { nx -= speed; setFacing(-1); }
+        if (keys.current.d || keys.current.right) { nx += speed; setFacing(1); }
         
         if (mapRef.current) {
           const mapHeight = 1400; // Expanded map height
@@ -1349,6 +1366,10 @@ export default function FarmGame2D() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
           <div style={{ display: 'flex', gap: '4px' }}>
             {['W','A','S','D'].map(k => <kbd key={k} style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '4px 8px', borderRadius: '4px' }}>{k}</kbd>)}
+          </div>
+          <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>or</span>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            {['↑','←','↓','→'].map(k => <kbd key={k} style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '4px 8px', borderRadius: '4px' }}>{k}</kbd>)}
           </div>
           <span>to Move</span>
         </div>
