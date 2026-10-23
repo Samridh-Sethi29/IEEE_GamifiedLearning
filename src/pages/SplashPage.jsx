@@ -2,21 +2,27 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
+import { useAuth } from "@/features/auth/AuthContext";
 
 export default function SplashPage() {
   const navigate = useNavigate();
   const { player } = usePlayer();
+  const { isAuthenticated, isGuest, isLoading } = useAuth();
 
   useEffect(() => {
+    if (isLoading) return;
+
     const timer = setTimeout(() => {
-      if (player.id === "local" && player.day === 1 && player.xp === 0 && !player.flags.onboardingComplete) {
+      if (!isAuthenticated && !isGuest) {
+        navigate("/auth");
+      } else if (player.id === "local" && player.day === 1 && player.xp === 0 && !player.flags?.onboardingComplete) {
         navigate("/onboarding");
       } else {
         navigate("/world");
       }
     }, 2500);
     return () => clearTimeout(timer);
-  }, [navigate, player]);
+  }, [navigate, player, isAuthenticated, isGuest, isLoading]);
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-slate-900 overflow-hidden text-white">
