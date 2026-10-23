@@ -14,7 +14,9 @@ const STAGES = [
     description: 'Python uses print() to show something on the screen. Change "Hello!" to "SkillVerse!" and run the code.',
     initialCode: 'print("Hello!")',
     expectedOutput: 'SkillVerse!',
-    hint: 'Make sure to type exactly "SkillVerse!" inside the quotes.'
+    hint: 'Make sure to type exactly "SkillVerse!" inside the quotes.',
+    bugLine: 1,
+    scannerHint: 'Line 1 currently prints "Hello!". Replace "Hello!" with "SkillVerse!" inside the quotes.'
   },
   {
     id: 2,
@@ -22,7 +24,9 @@ const STAGES = [
     description: 'Something in this code does not match. Look carefully at the variable name in the print statement.',
     initialCode: 'name = "Riya"\nprint(namee)',
     expectedOutput: 'Riya',
-    hint: 'Check if the variable name in the print statement matches the one you created.'
+    hint: 'Check if the variable name in the print statement matches the one you created.',
+    bugLine: 2,
+    scannerHint: 'Line 2 tries to print "namee" with two e\'s, but the variable created on line 1 is "name". Fix the spelling!'
   },
   {
     id: 3,
@@ -30,7 +34,9 @@ const STAGES = [
     description: 'Debugging is not only finding typing mistakes. Sometimes the instruction itself is wrong. Fix the math so the score prints as 15.',
     initialCode: 'score = 10\nbonus = 5\nprint(score - bonus)',
     expectedOutput: '15',
-    hint: 'Should you add or subtract the bonus to get 15?'
+    hint: 'Should you add or subtract the bonus to get 15?',
+    bugLine: 3,
+    scannerHint: 'Line 3 subtracts bonus (10 - 5 = 5). Change the minus sign "-" to plus sign "+" so score + bonus equals 15!'
   }
 ];
 
@@ -65,7 +71,7 @@ export default function PythonDebuggingLevel1() {
       {(!hasStarted || isCompleted) && (
         <div className="pointer-events-auto fixed left-4 top-[100px] z-40">
           <Link
-            to="/world/school/computer/hub"
+            to="/world/school/computer"
             className="flex items-center gap-2 rounded-xl border-2 border-white/90 bg-white/80 px-4 py-2.5 text-[14px] font-bold text-slate-700 shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white"
           >
             <ArrowLeft className="h-4 w-4" strokeWidth={2.5} />
@@ -107,7 +113,7 @@ export default function PythonDebuggingLevel1() {
       ) : !isCompleted ? (
         <div className="bc-page">
           <div className="bc-header">
-            <Link to="/world/school/computer/hub" className="bc-back">
+            <Link to="/world/school/computer" className="bc-back">
               <ArrowLeft size={16} strokeWidth={2.5} /> Back
             </Link>
             <div>
@@ -141,7 +147,7 @@ export default function PythonDebuggingLevel1() {
             </div>
 
             <Link 
-              to="/world/school/computer/hub" 
+              to="/world/school/computer/python-debugging/challenge" 
               className={buttonVariants({ variant: 'default', size: 'lg', className: 'mt-8 w-full rounded-2xl h-14 text-lg shadow-[0_4px_0_0_rgba(0,0,0,0.15)] bg-purple-500 hover:bg-purple-600 hover:translate-y-[2px] hover:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] active:translate-y-[4px] active:shadow-none transition-all' })}
             >
               Take Challenge

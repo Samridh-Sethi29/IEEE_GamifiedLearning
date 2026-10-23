@@ -34,6 +34,7 @@ import TypingLevel1 from "@/features/computer/components/TypingLevel1";
 import BlockCodingLevel1 from "@/features/computer/components/BlockCodingLevel1";
 import BlockCodingChallengeLevel1 from "@/features/computer/components/BlockCodingChallengeLevel1";
 import PythonDebuggingLevel1 from "@/features/computer/components/PythonDebuggingLevel1";
+import PythonDebuggingChallengeLevel1 from "@/features/computer/components/PythonDebuggingChallengeLevel1";
 import ComputerChallenge from "@/features/computer/components/ComputerChallenge";
 
 import ScienceRouter from "@/features/science/ScienceRouter";
@@ -101,10 +102,7 @@ export default function App() {
           element={<MathsPractice />}
         />
 
-        <Route
-          path="/world/school/maths/games"
-          element={<MathsGames />}
-        />
+        <Route path="/world/school/maths/games" element={<MathsGames />} />
 
         <Route
           path="/world/school/maths/games/river"
@@ -116,12 +114,8 @@ export default function App() {
           element={<MathsRiverGame />}
         />
 
-        {/* Computer world */}
-        <Route
-          path="/world/school/computer"
-          element={<ComputerHub />}
-        />
-
+        <Route path="/world/school/computer" element={<ComputerHub />} />
+        <Route path="/world/school/computer/hub" element={<ComputerHub />} />
         <Route
           path="/world/school/computer/typing"
           element={<TypingLevel1 />}
@@ -143,15 +137,16 @@ export default function App() {
         />
 
         <Route
+          path="/world/school/computer/python-debugging/challenge"
+          element={<PythonDebuggingChallengeLevel1 />}
+        />
+        <Route
           path="/world/school/computer/final-challenge"
           element={<ComputerChallenge />}
         />
 
         {/* Science */}
-        <Route
-          path="/world/school/science/*"
-          element={<ScienceRouter />}
-        />
+        <Route path="/world/school/science/*" element={<ScienceRouter />} />
 
         {/* Other school sub-scenes */}
         <Route
@@ -162,20 +157,11 @@ export default function App() {
         {/* Farm world */}
         <Route path="/world/farm" element={<FarmWorld />} />
 
-        <Route
-          path="/world/farm/agriculture"
-          element={<FarmGame2D />}
-        />
+        <Route path="/world/farm/agriculture" element={<FarmGame2D />} />
 
-        <Route
-          path="/world/farm/earn-xp"
-          element={<FarmEarnXP />}
-        />
+        <Route path="/world/farm/earn-xp" element={<FarmEarnXP />} />
 
-        <Route
-          path="/world/farm/:subId"
-          element={<FarmSubScene />}
-        />
+        <Route path="/world/farm/:subId" element={<FarmSubScene />} />
 
         {/* Other worlds */}
         <Route path="/world/home" element={<HomeWorld />} />
@@ -185,10 +171,7 @@ export default function App() {
         {/* Creative Studio */}
         <Route path="/world/studio" element={<StudioHome />} />
 
-        <Route
-          path="/world/studio/engine-lab"
-          element={<EngineLab />}
-        />
+        <Route path="/world/studio/engine-lab" element={<EngineLab />} />
 
         <Route
           path="/world/studio/world-builder"
