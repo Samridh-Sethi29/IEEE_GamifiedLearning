@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import SchoolWorldMap from "@/features/world/components/SchoolWorldMap";
 import GameHUD from "@/features/hud/components/GameHUD";
+import RealisticWater from "@/components/water/RealisticWater";
 
 // The School Hub screen: an interactive SVG map just like the main WorldMap.
 export default function SchoolWorld() {
   return (
     <div className="fixed inset-0 overflow-hidden bg-[#0c699d]" data-testid="school-world-page">
+      <RealisticWater preset="ocean" className="absolute inset-0" causticIntensity={1.15} />
       <SchoolWorldMap />
       <GameHUD objective="Choose a subject." />
       

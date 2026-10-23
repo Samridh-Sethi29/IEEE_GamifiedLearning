@@ -108,8 +108,6 @@ export default function FarmWorldMap() {
             </radialGradient>
           </defs>
 
-          {/* ocean */}
-          <rect x="0" y="0" width={MAP_VIEW.width} height={MAP_VIEW.height} fill="url(#oceanGradFarm)" />
 
           {/* island */}
           <g>

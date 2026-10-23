@@ -107,9 +107,6 @@ export default function SchoolWorldMap() {
             </radialGradient>
           </defs>
 
-          {/* ocean */}
-          <rect x="0" y="0" width={MAP_VIEW.width} height={MAP_VIEW.height} fill="url(#oceanGradSchool)" />
-
           {/* island */}
           <g>
             <path d={ISLAND_PATH} transform="translate(0 32)" fill="#816147" />

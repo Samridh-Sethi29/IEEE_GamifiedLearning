@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, RotateCcw, Clock, Star, Coins, Zap } from "lucide-react";
+import RealisticWater from "@/components/water/RealisticWater";
 
 const TOTAL_STONES = 10;
 const TIME_LIMIT = 60; // Increased slightly to accommodate dynamic difficulty
@@ -255,23 +256,16 @@ export default function MathsRiverGame() {
     <div
       style={{
         position: "fixed", inset: 0, overflow: "hidden",
-        background: "linear-gradient(90deg, #0284c7 0%, #0369a1 100%)",
+        backgroundColor: "#0369a1",
         fontFamily: "'Plus Jakarta Sans Variable', sans-serif",
       }}
     >
-      {/* Animated waves */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.2, pointerEvents: "none" }}>
-        {Array.from({ length: 12 }).map((_, i) => (
-          <motion.div
-            key={i} animate={{ y: ["-10px", "10px", "-10px"] }}
-            transition={{ duration: 3 + (i % 3), repeat: Infinity, ease: "easeInOut" }}
-            style={{
-              position: "absolute", top: `${5 + i * 8}%`, left: "-10%", right: "-10%",
-              height: "4px", background: "#fff", borderRadius: "50%", filter: "blur(4px)",
-            }}
-          />
-        ))}
-      </div>
+      {/* Realistic River Water Simulation */}
+      <RealisticWater
+        preset="river"
+        className="absolute inset-0 pointer-events-none"
+        causticIntensity={1.25}
+      />
 
       {/* Left Bank */}
       <div
