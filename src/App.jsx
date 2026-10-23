@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { Toaster } from "@/components/core/sonner";
 import { AuthProvider } from "@/features/auth/AuthContext";
-import AuthPage from "@/pages/AuthPage";
+import AuthPage from "@/pages/auth/AuthPage";
+import LoginPage from "@/pages/auth/LoginPage";
+import RegisterPage from "@/pages/auth/RegisterPage";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import SplashPage from "@/pages/SplashPage";
 import OnboardingPage from "@/pages/OnboardingPage";
@@ -53,6 +55,11 @@ export default function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<SplashPage />} />
+
+        {/* Auth: separate pages for logging in and creating an account */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        {/* Legacy route: /auth forwards to /login so old links keep working */}
         <Route path="/auth" element={<AuthPage />} />
 
         {/* Protected Game Routes */}
