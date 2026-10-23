@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Save = require("../models/Save");
 const authMiddleware = require("../middleware/auth");
 const { authLimiter } = require("../middleware/rateLimiter");
 const {
@@ -72,6 +73,58 @@ router.post("/register", authLimiter, async (req, res) => {
     });
 
     await user.save();
+
+    // Auto-create initial Save document so the user has cloud state from day 1
+    const DEFAULT_STATE = {
+      id: user._id.toString(),
+      name: rawUsername,
+      level: 1,
+      xp: 0,
+      coins: 150,
+      day: 1,
+      computerProgress: {
+        typing: {
+          unlocked: true,
+          currentLevel: 1,
+          lesson1Completed: false,
+          lesson2Completed: false,
+          completedLevels: [],
+        },
+        blockCoding: { unlocked: false, currentLevel: 0, completedLevels: [] },
+        pythonDebugging: { unlocked: false, currentLevel: 0, completedLevels: [] },
+        finalChallenge: { unlocked: false, completed: false },
+      },
+      water: 100,
+      skills: { life: 0, human: 0, digital: 0, vocational: 0, entrepreneurial: 0 },
+      flags: { onboardingComplete: false },
+      badges: [],
+      starLog: [],
+      starFragments: 0,
+      completedToday: [],
+      english: {
+        maxUnlocked: 1,
+        levels: {},
+        totalPoints: 0,
+        totalCorrect: 0,
+        totalAnswered: 0,
+        streak: 0,
+        bestStreak: 0,
+      },
+    };
+
+    try {
+      await Save.create({
+        userId: user._id,
+        schemaVersion: 1,
+        day: 1,
+        state: DEFAULT_STATE,
+        worldProgress: {},
+        updatedAt: new Date(),
+      });
+    } catch (saveErr) {
+      // Non-blocking: log but don't fail registration if Save creation fails
+      console.warn("[Register] Could not create initial Save document:", saveErr.message);
+    }
 
     const token = createToken(user._id.toString());
 

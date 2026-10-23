@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import api, { ApiError } from "@/services/api";
+import { queryClient } from "@/lib/queryClient";
 
 const AuthContext = createContext(null);
 
@@ -74,6 +75,8 @@ export function AuthProvider({ children }) {
       try {
         localStorage.removeItem(GUEST_KEY);
       } catch {}
+      // Invalidate player cache so usePlayer re-fetches from MongoDB immediately
+      queryClient.invalidateQueries({ queryKey: ["player"] });
       return res;
     } catch (err) {
       const msg = err?.data?.error || err.message || "Failed to log in.";
@@ -92,6 +95,8 @@ export function AuthProvider({ children }) {
       try {
         localStorage.removeItem(GUEST_KEY);
       } catch {}
+      // Invalidate player cache so usePlayer re-fetches from MongoDB immediately
+      queryClient.invalidateQueries({ queryKey: ["player"] });
       return res;
     } catch (err) {
       const msg = err?.data?.error || err.message || "Failed to register.";
