@@ -4,6 +4,7 @@ import { usePlayer } from '@/features/player/hooks/usePlayer';
 import PlayerAvatar from '@/features/player/components/PlayerAvatar';
 import { Droplet, Sun, Snowflake, Leaf, Sprout, Axe, Store, X, ArrowLeft, Play, Pause, SkipForward, Music, Volume2, VolumeX, Info, LogOut, CloudRain, Cloud } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './FarmGame.css';
 
 const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
 const DAYS_PER_SEASON = 4;
@@ -641,7 +642,7 @@ export default function FarmGame2D() {
     
     return (
       <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-        <span style={{ fontSize: plot.state === 'growing' ? '2.5rem' : '3rem', userSelect: 'none' }}>{emoji}</span>
+        <span className={plot.state === 'growing' || plot.state === 'ready' ? 'farm-crop-sway' : ''} style={{ fontSize: plot.state === 'growing' ? '2.5rem' : '3rem', userSelect: 'none', display: 'inline-block' }}>{emoji}</span>
       </div>
     );
   };
@@ -877,23 +878,39 @@ export default function FarmGame2D() {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', minHeight: '1400px', backgroundColor: '#059669', fontFamily: 'sans-serif' }} ref={mapRef}>
+    <div style={{ position: 'relative', width: '100%', minHeight: '1400px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }} ref={mapRef} className="farm-world">
       
+
+      {/* Decorative Environment — purely visual, no interactions */}
+      <div className="farm-deco-tree" style={{ left: '50px', top: '120px' }} />
+      <div className="farm-deco-tree" style={{ left: '1350px', top: '150px' }} />
+      <div className="farm-deco-tree" style={{ left: '700px', top: '80px' }} />
+      <div className="farm-deco-tree" style={{ left: '80px', top: '1200px' }} />
+      <div className="farm-deco-tree" style={{ left: '1400px', top: '900px' }} />
+      <div className="farm-deco-bush" style={{ left: '140px', top: '180px' }} />
+      <div className="farm-deco-bush" style={{ left: '1300px', top: '600px' }} />
+      <div className="farm-deco-bush" style={{ left: '680px', top: '1250px' }} />
+      <div className="farm-deco-rock" style={{ left: '1450px', top: '450px' }} />
+      <div className="farm-deco-rock" style={{ left: '100px', top: '650px' }} />
+      <div className="farm-deco-flower" style={{ left: '1380px', top: '1100px' }} />
+      <div className="farm-deco-flower" style={{ left: '60px', top: '900px' }} />
+      <div className="farm-deco-flower" style={{ left: '720px', top: '1300px' }} />
+
       {/* Rain Animation Styles */}
       <style>
         {`
           @keyframes rainFall {
             0% { background-position: 0px 0px; }
-            100% { background-position: 100px 1000px; }
+            100% { background-position: 80px 800px; }
           }
         `}
       </style>
 
       {/* Background */}
       <div style={{ 
-        position: 'absolute', inset: 0, opacity: 0.2, pointerEvents: 'none',
-        backgroundImage: 'radial-gradient(#047857 2px, transparent 2px)', 
-        backgroundSize: '40px 40px' 
+        position: 'absolute', inset: 0, opacity: 1, pointerEvents: 'none',
+        /* old pattern removed */ 
+        backgroundImage: 'repeating-linear-gradient(85deg, transparent 0px, transparent 3px, rgba(255,255,255,0.03) 3px, rgba(255,255,255,0.03) 4px), repeating-linear-gradient(95deg, transparent 0px, transparent 5px, rgba(0,0,0,0.04) 5px, rgba(0,0,0,0.04) 6px)' 
       }} />
 
       {/* Day/Night Ambient Lighting Overlay */}
@@ -927,7 +944,7 @@ export default function FarmGame2D() {
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.9 }}
-              style={{ backgroundColor: 'rgba(15,23,42,0.95)', color: 'white', padding: '12px 24px', borderRadius: '32px', fontWeight: 'bold', boxShadow: '0 10px 25px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', gap: '8px', border: '2px solid #334155' }}
+              style={{ background: 'linear-gradient(135deg, rgba(60,40,20,0.92) 0%, rgba(30,20,10,0.95) 100%)', color: 'white', padding: '12px 24px', borderRadius: '32px', fontWeight: 'bold', boxShadow: '0 8px 24px rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', gap: '8px', border: '2px solid rgba(160,120,70,0.3)' }}
             >
               {note.message}
             </motion.div>
@@ -946,9 +963,9 @@ export default function FarmGame2D() {
           {/* 2. PLAYER STATUS CARD */}
           <div style={{ 
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            backgroundColor: 'rgba(250,249,246,0.95)', backdropFilter: 'blur(8px)',
-            borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', 
-            border: '1px solid rgba(0,0,0,0.08)',
+            backgroundColor: 'rgba(250,246,238,0.95)', backdropFilter: 'blur(10px)',
+            borderRadius: '16px', boxShadow: '0 4px 16px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.6)', 
+            border: '2px solid rgba(200,180,140,0.4)',
             padding: '12px 0'
           }}>
             {/* Season & Weather */}
@@ -980,7 +997,7 @@ export default function FarmGame2D() {
                   onClick={advanceDay}
                   title="Advance to Next Day"
                   style={{ 
-                    backgroundColor: '#3b82f6', color: 'white', border: 'none', borderBottom: '2px solid #1d4ed8', 
+                    background: 'linear-gradient(180deg, #3b82f6 0%, #2563eb 100%)', color: 'white', border: 'none', borderBottom: '2px solid #1d4ed8', 
                     padding: '4px 6px', borderRadius: '6px', fontWeight: 800, fontSize: '0.6rem', 
                     cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.05em',
                     transform: 'translateY(-1px)'
@@ -1020,13 +1037,13 @@ export default function FarmGame2D() {
           </div>
 
           {/* Compost Bin */}
-          <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(12px)', borderRadius: '16px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', border: '2px solid rgba(255,255,255,0.4)', marginTop: '8px' }}>
+          <div style={{ backgroundColor: 'rgba(250,246,238,0.95)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 16px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.6)', border: '2px solid rgba(200,180,140,0.4)', marginTop: '8px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.8rem', color: '#15803d', display: 'flex', gap: '6px', alignItems: 'center' }}>♻️ COMPOST BIN</h4>
                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b' }}>{inventory.biomass || 0} / 3 Biomass</span>
             </div>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-               <div style={{ flex: 1, backgroundColor: '#e2e8f0', height: '8px', borderRadius: '4px', overflow: 'hidden' }}>
+               <div style={{ flex: 1, backgroundColor: '#d4c5a9', height: '8px', borderRadius: '4px', overflow: 'hidden', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.15)' }}>
                  <div style={{ backgroundColor: '#22c55e', height: '100%', width: `${((inventory.biomass || 0) % 3 / 3) * 100}%`, transition: 'width 0.3s ease' }} />
                </div>
                <span style={{ fontWeight: 900, color: '#8b5e3c', fontSize: '0.8rem' }}>💩 {inventory.fertilizer || 0}</span>
@@ -1071,12 +1088,12 @@ export default function FarmGame2D() {
               </div>
             </div>
 
-            <div style={{ width: '100%', height: '8px', backgroundColor: 'rgba(0,0,0,0.06)', borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div style={{ width: '100%', height: '10px', backgroundColor: 'rgba(0,0,0,0.08)', borderRadius: '5px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.06)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)' }}>
               <motion.div 
                 initial={false} 
                 animate={{ width: `${(player.xp % 100)}%` }} 
                 transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
-                style={{ height: '100%', backgroundColor: '#10b981', borderRadius: '4px' }} 
+                style={{ height: '100%', background: 'linear-gradient(90deg, #34d399 0%, #10b981 60%, #059669 100%)', borderRadius: '5px', boxShadow: '0 0 8px rgba(16,185,129,0.4)' }} 
               />
             </div>
           </div>
@@ -1089,37 +1106,37 @@ export default function FarmGame2D() {
         {/* --- CROP PLOT FENCE 1 (Left Grid) --- */}
         <div style={{
           position: 'absolute', left: '170px', top: '170px', width: '420px', height: '420px',
-          border: '12px dashed #92400e', borderRadius: '16px', pointerEvents: 'none', opacity: 0.8
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
         }} />
 
         {/* --- CROP PLOT FENCE 2 (Right Grid) --- */}
         <div style={{
           position: 'absolute', left: '800px', top: '170px', width: '420px', height: '420px',
-          border: '12px dashed #92400e', borderRadius: '16px', pointerEvents: 'none', opacity: 0.8
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
         }} />
 
         {/* --- CROP PLOT FENCE 3 (Bottom Left Grid) --- */}
         <div style={{
           position: 'absolute', left: '170px', top: '670px', width: '420px', height: '420px',
-          border: '12px dashed #92400e', borderRadius: '16px', pointerEvents: 'none', opacity: 0.8
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
         }} />
 
         {/* --- CROP PLOT FENCE 4 (Bottom Right Grid) --- */}
         <div style={{
           position: 'absolute', left: '800px', top: '670px', width: '420px', height: '420px',
-          border: '12px dashed #92400e', borderRadius: '16px', pointerEvents: 'none', opacity: 0.8
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
         }} />
 
         {/* Farm Plots */}
         {plots.map((plot) => {
           const dist = Math.hypot(plot.x - playerPos.x, plot.y - playerPos.y);
           const isNear = dist < 120;
-          let bg = plot.isWatered ? '#5c4033' : '#8b5e3c';
-          let border = plot.isWatered ? '#3e2b22' : '#6b472b';
+          let bg = plot.isWatered ? '#4a2e15' : '#7a5230';
+          let border = plot.isWatered ? '#3a2210' : '#5c3a1e';
           
           if (plot.isDepleted) {
-            bg = '#78716c'; // Stone/dead dirt
-            border = '#44403c';
+            bg = '#6b6560'; // Depleted cracked soil
+            border = '#524d48';
           }
           
           return (
@@ -1131,12 +1148,17 @@ export default function FarmGame2D() {
               style={{
                 position: 'absolute', width: '110px', height: '110px',
                 transform: 'translate(-50%, -50%)', borderRadius: '16px',
-                border: `4px solid ${border}`, backgroundColor: bg,
+                border: `3px solid ${border}`, backgroundColor: bg,
+                backgroundImage: plot.isDepleted 
+                  ? 'radial-gradient(ellipse 15px 12px at 30% 35%, rgba(80,75,70,0.5) 0%, transparent 70%), radial-gradient(ellipse 10px 14px at 65% 60%, rgba(90,85,80,0.4) 0%, transparent 70%)'
+                  : (plot.isWatered 
+                      ? 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%), repeating-linear-gradient(0deg, transparent 0px, transparent 18px, rgba(0,0,0,0.14) 18px, rgba(0,0,0,0.14) 20px)'
+                      : 'repeating-linear-gradient(0deg, transparent 0px, transparent 18px, rgba(0,0,0,0.1) 18px, rgba(0,0,0,0.1) 20px)'),
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 left: plot.x, top: plot.y,
                 cursor: isNear ? 'pointer' : 'not-allowed',
-                opacity: isNear ? 1 : 0.8,
-                boxShadow: isNear ? '0 0 15px rgba(255,255,255,0.4)' : 'none',
+                opacity: isNear ? 1 : 0.85,
+                boxShadow: isNear ? (plot.state === 'ready' ? '0 0 18px 4px rgba(250,204,21,0.3), inset 0 2px 6px rgba(0,0,0,0.25), 0 3px 8px rgba(30,20,10,0.3)' : '0 0 20px 6px rgba(255,255,255,0.2), inset 0 2px 6px rgba(0,0,0,0.25), 0 3px 8px rgba(30,20,10,0.3)') : 'inset 0 2px 6px rgba(0,0,0,0.3), 0 3px 8px rgba(30,20,10,0.25)',
                 transition: 'all 0.2s'
               }}
             >
@@ -1235,9 +1257,9 @@ export default function FarmGame2D() {
       {/* Harvest Storage Panel */}
       <div style={{ 
         position: 'fixed', right: '16px', top: '150px', bottom: '180px', width: '220px', 
-        backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', 
-        borderRadius: '24px', padding: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', 
-        border: '4px solid #e2e8f0', display: 'flex', flexDirection: 'column', zIndex: 40 
+        backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)', 
+        borderRadius: '24px', padding: '16px', boxShadow: '0 8px 24px rgba(30,20,10,0.25), inset 0 0 0 1px rgba(255,220,150,0.15)', 
+        border: '3px solid #8b6239', display: 'flex', flexDirection: 'column', zIndex: 40 
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px', borderBottom: '3px solid #f1f5f9', paddingBottom: '12px' }}>
           <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1e293b', margin: '0 0 4px 0' }}>
@@ -1253,7 +1275,7 @@ export default function FarmGame2D() {
             if (harvested[cropId] === 0) return null;
             const crop = CROPS[cropId];
             return (
-              <div key={`harvested-${cropId}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#f8fafc', padding: '8px 12px', borderRadius: '12px', border: '2px solid #e2e8f0' }}>
+              <div key={`harvested-${cropId}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#faf6ee', padding: '8px 12px', borderRadius: '12px', border: '2px solid rgba(200,180,140,0.4)', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={{ fontSize: '1.5rem' }}>{EMOJIS[cropId]}</span>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -1265,7 +1287,7 @@ export default function FarmGame2D() {
                 </div>
                 <button 
                   onClick={() => sellAllCrop(cropId)}
-                  style={{ backgroundColor: '#fef3c7', border: '2px solid #fcd34d', color: '#b45309', fontWeight: 800, fontSize: '0.75rem', padding: '4px 8px', borderRadius: '8px', cursor: 'pointer' }}
+                  style={{ background: 'linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)', border: '2px solid #d4a017', color: '#8b6914', fontWeight: 800, fontSize: '0.75rem', padding: '4px 8px', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(180,130,30,0.2)' }}
                 >
                   Sell All
                 </button>
@@ -1285,7 +1307,7 @@ export default function FarmGame2D() {
       <div style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 40, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '12px', width: '60%', minWidth: '600px', maxWidth: '800px' }}>
         
         {/* Tools Panel */}
-        <div style={{ backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', borderRadius: '20px', padding: '8px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.2)', border: '3px solid #e2e8f0', display: 'flex', gap: '6px', flex: 1, justifyContent: 'flex-start', overflowX: 'auto', paddingRight: '12px' }}>
+        <div style={{ backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)', borderRadius: '20px', padding: '8px', boxShadow: '0 -2px 20px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.5)', border: '3px solid #8b6239', display: 'flex', gap: '6px', flex: 1, justifyContent: 'flex-start', overflowX: 'auto', paddingRight: '12px' }}>
           
           <ToolButton 
             active={activeTool === 'water'} 
@@ -1354,7 +1376,7 @@ export default function FarmGame2D() {
         {/* Shop Button */}
         <button
           onClick={() => setIsShopOpen(true)}
-          style={{ display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '64px', height: '64px', borderRadius: '20px', border: '3px solid #fcd34d', backgroundColor: '#fef3c7', color: '#b45309', cursor: 'pointer', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.2)' }}
+          style={{ display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '64px', height: '64px', borderRadius: '20px', border: '3px solid #d4a017', background: 'linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)', color: '#8b6914', cursor: 'pointer', boxShadow: '0 4px 12px rgba(180,130,30,0.3), inset 0 1px 0 rgba(255,255,255,0.4)' }}
         >
           <Store size={24} style={{ marginBottom: '2px' }} />
           <span style={{ fontSize: '0.6rem', fontWeight: 900, letterSpacing: '0.05em' }}>SHOP</span>
@@ -1362,7 +1384,7 @@ export default function FarmGame2D() {
       </div>
 
       {/* Keyboard Controls Hint */}
-      <div style={{ position: 'fixed', bottom: '24px', left: '24px', zIndex: 40, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', borderRadius: '16px', padding: '16px', color: 'white', fontWeight: 500, fontSize: '0.875rem' }}>
+      <div style={{ position: 'fixed', bottom: '24px', left: '24px', zIndex: 40, background: 'linear-gradient(135deg, rgba(60,40,20,0.75) 0%, rgba(40,25,12,0.8) 100%)', backdropFilter: 'blur(8px)', borderRadius: '16px', padding: '16px', color: 'white', fontWeight: 500, fontSize: '0.875rem', border: '2px solid rgba(160,120,70,0.3)', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
           <div style={{ display: 'flex', gap: '4px' }}>
             {['W','A','S','D'].map(k => <kbd key={k} style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '4px 8px', borderRadius: '4px' }}>{k}</kbd>)}
@@ -1388,7 +1410,7 @@ export default function FarmGame2D() {
             display: 'flex', alignItems: 'center', justifyContent: 'center', 
             backgroundColor: '#ef4444', color: 'white', 
             width: '64px', height: '64px', borderRadius: '50%', 
-            boxShadow: '0 10px 25px -5px rgba(239,68,68,0.5)', 
+            boxShadow: '0 6px 20px -4px rgba(239,68,68,0.5), inset 0 1px 0 rgba(255,255,255,0.2)', 
             border: '4px solid #f87171', textDecoration: 'none',
             position: 'relative', transition: 'all 0.2s', cursor: 'pointer'
           }}
@@ -1425,13 +1447,13 @@ export default function FarmGame2D() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}
+            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(20,15,8,0.65)', backdropFilter: 'blur(8px)', zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              style={{ backgroundColor: 'white', padding: '32px', borderRadius: '32px', maxWidth: '600px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', border: '6px solid #10b981' }}
+              style={{ background: 'linear-gradient(180deg, #faf6ee 0%, #f5efe3 100%)', padding: '32px', borderRadius: '32px', maxWidth: '600px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(16,185,129,0.2)', border: '5px solid #10b981' }}
             >
               {activeLesson === 'weeds' && (
                 <>
@@ -1523,7 +1545,7 @@ export default function FarmGame2D() {
 
               <button 
                 onClick={() => setActiveLesson(null)}
-                style={{ width: '100%', padding: '16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '16px', fontSize: '1.25rem', fontWeight: 900, cursor: 'pointer', boxShadow: '0 10px 20px -5px rgba(16, 185, 129, 0.4)' }}
+                style={{ width: '100%', padding: '16px', background: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', color: 'white', border: 'none', borderRadius: '16px', fontSize: '1.25rem', fontWeight: 900, cursor: 'pointer', boxShadow: '0 6px 16px rgba(16,185,129,0.35), inset 0 1px 0 rgba(255,255,255,0.2)' }}
               >
                 Got it! Let's Farm!
               </button>
@@ -1539,7 +1561,7 @@ export default function FarmGame2D() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(20,15,8,0.6)', backdropFilter: 'blur(6px)', zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             onClick={() => setIsShopOpen(false)}
           >
             <motion.div 
@@ -1548,14 +1570,14 @@ export default function FarmGame2D() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
               style={{ 
-                backgroundColor: 'rgba(255,255,255,0.98)', 
+                background: 'linear-gradient(180deg, #faf6ee 0%, #f0e8d8 100%)', 
                 width: '85%', maxWidth: '1000px', 
                 height: '85%', maxHeight: '750px', 
-                borderRadius: '32px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', 
-                display: 'flex', flexDirection: 'column', border: '6px solid #fde68a', overflow: 'hidden' 
+                borderRadius: '32px', boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,220,150,0.15)', 
+                display: 'flex', flexDirection: 'column', border: '5px solid #8b6239', overflow: 'hidden' 
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 32px', borderBottom: '4px solid #f1f5f9', backgroundColor: 'white' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 32px', borderBottom: '3px solid rgba(200,180,140,0.4)', background: 'linear-gradient(180deg, #fdfcf9 0%, #f5efe3 100%)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
                   <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '16px', margin: 0 }}>
                     <Store size={36} color="#f59e0b" />
@@ -1609,23 +1631,23 @@ export default function FarmGame2D() {
 }
 
 function ToolButton({ active, onClick, icon, label, badge }) {
-  const bg = active ? '#eff6ff' : 'white';
-  const borderColor = active ? '#3b82f6' : '#e2e8f0';
-  const borderBottom = active ? '3px solid #3b82f6' : '4px solid #e2e8f0';
+  const bg = active ? 'linear-gradient(180deg, #e8f4fd 0%, #d4ebf8 100%)' : 'linear-gradient(180deg, #fdfcf9 0%, #f5f0e6 100%)';
+  const borderColor = active ? '#3b82f6' : '#c4b89a';
+  const borderBottom = active ? '3px solid #2563eb' : '4px solid #b5a88e';
   const transform = active ? 'translateY(-2px)' : 'none';
 
   return (
     <button
       onClick={onClick}
       style={{
-        position: 'relative', display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '64px', height: '64px', borderRadius: '12px', backgroundColor: bg, border: 'none', borderLeft: `3px solid ${borderColor}`, borderRight: `3px solid ${borderColor}`, borderTop: `3px solid ${borderColor}`, borderBottom, transform, cursor: 'pointer', transition: 'all 0.1s'
+        position: 'relative', display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '64px', height: '64px', borderRadius: '12px', background: bg, border: 'none', borderLeft: `2px solid ${borderColor}`, borderRight: `2px solid ${borderColor}`, borderTop: `2px solid ${borderColor}`, borderBottom, transform, cursor: 'pointer', transition: 'all 0.12s ease', boxShadow: active ? '0 0 12px rgba(59,130,246,0.25)' : '0 2px 4px rgba(0,0,0,0.08)'
       }}
     >
       <div style={{ marginBottom: '2px', transform: 'scale(0.9)' }}>{icon}</div>
       <div style={{ fontSize: '0.55rem', fontWeight: 900, color: '#475569', textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '56px' }}>{label}</div>
       
       {badge !== undefined && (
-        <div style={{ position: 'absolute', top: '-8px', right: '-8px', backgroundColor: badge > 0 ? '#f43f5e' : '#94a3b8', color: 'white', fontSize: '0.65rem', fontWeight: 900, width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid white', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
+        <div style={{ position: 'absolute', top: '-8px', right: '-8px', backgroundColor: badge > 0 ? '#f43f5e' : '#94a3b8', color: 'white', fontSize: '0.65rem', fontWeight: 900, width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid white', boxShadow: '0 0 0 2px white, 0 2px 4px rgba(0,0,0,0.15)' }}>
           {badge}
         </div>
       )}
