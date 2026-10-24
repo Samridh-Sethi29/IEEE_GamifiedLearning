@@ -1261,36 +1261,38 @@ export default function FarmGame2D() {
           style={{ 
             position: 'absolute', zIndex: 20, pointerEvents: 'none',
             left: playerPos.x, top: playerPos.y, 
-            transform: `translate(-50%, -100%) scaleX(${facing})`,
+            transform: 'translate(-50%, -100%)',
             transition: 'transform 0.05s linear'
           }}
         >
           <svg viewBox="-50 -150 100 200" width="100" height="200" style={{ overflow: 'visible' }}>
-            <PlayerAvatar name={player.name} level={player.level} x={0} y={0} />
+            <PlayerAvatar name={player.name} level={player.level} x={0} y={0} facing={facing} />
             
             {/* Equipped Tool Overlay */}
-            {activeTool === 'water' && (
-              <g transform="translate(15, -42)">
-                <rect x="0" y="0" width="14" height="16" rx="3" fill="#3b82f6" />
-                <path d="M 14 8 L 22 2 L 23 5 Z" fill="#93c5fd" />
-                <path d="M -3 3 Q -8 8 -3 13" fill="none" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
-              </g>
-            )}
-            
-            {activeTool === 'harvest' && (
-              <g transform="translate(17, -50)">
-                <rect x="0" y="-15" width="4" height="40" rx="2" fill="#78350f" />
-                <path d="M -2 -12 L 12 -12 L 14 -5 L 4 -5 Z" fill="#94a3b8" />
-              </g>
-            )}
+            <g transform={`scale(${facing}, 1)`}>
+              {activeTool === 'water' && (
+                <g transform="translate(15, -42)">
+                  <rect x="0" y="0" width="14" height="16" rx="3" fill="#3b82f6" />
+                  <path d="M 14 8 L 22 2 L 23 5 Z" fill="#93c5fd" />
+                  <path d="M -3 3 Q -8 8 -3 13" fill="none" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
+                </g>
+              )}
+              
+              {activeTool === 'harvest' && (
+                <g transform="translate(17, -50)">
+                  <rect x="0" y="-15" width="4" height="40" rx="2" fill="#78350f" />
+                  <path d="M -2 -12 L 12 -12 L 14 -5 L 4 -5 Z" fill="#94a3b8" />
+                </g>
+              )}
 
-            {activeTool && activeTool !== 'water' && activeTool !== 'harvest' && (
-              <g transform="translate(14, -38)">
-                <path d="M 0 12 Q 6 22 12 12 L 10 0 L 2 0 Z" fill="#b45309" />
-                <rect x="2" y="-3" width="8" height="4" fill="#fcd34d" rx="1" />
-                <text x="6" y="9" fontSize="8" textAnchor="middle" fill="#fff" fontWeight="bold">S</text>
-              </g>
-            )}
+              {activeTool && activeTool !== 'water' && activeTool !== 'harvest' && (
+                <g transform="translate(14, -38)">
+                  <path d="M 0 12 Q 6 22 12 12 L 10 0 L 2 0 Z" fill="#b45309" />
+                  <rect x="2" y="-3" width="8" height="4" fill="#fcd34d" rx="1" />
+                  <text x="6" y="9" fontSize="8" textAnchor="middle" fill="#fff" fontWeight="bold">S</text>
+                </g>
+              )}
+            </g>
           </svg>
         </div>
       </div>
