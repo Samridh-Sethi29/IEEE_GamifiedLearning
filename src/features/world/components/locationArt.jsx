@@ -9,18 +9,32 @@ const HEADING_FONT = { fontFamily: "var(--font-heading)" };
 export function Tree({ x, y, s = 1, delay = 0, fruit = 0 }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <ellipse cx="2" cy="6" rx="28" ry="9" fill="rgba(15, 23, 42, 0.16)" />
       <g className="anim-sway" style={{ animationDelay: `${delay}s` }}>
-        <ellipse cx="0" cy="4" rx="27" ry="8" fill="rgba(15, 23, 42, 0.12)" />
-        <rect x="-6" y="-40" width="12" height="44" rx="5" fill="#8b5e3c" />
-        <circle cx="-19" cy="-46" r="22" fill="#4e9f44" />
-        <circle cx="19" cy="-48" r="22" fill="#469238" />
-        <circle cx="0" cy="-72" r="24" fill="#63bd55" />
-        <circle cx="0" cy="-52" r="19" fill="#55a948" />
+        {/* Trunk & Roots */}
+        <path d="M -7 4 Q -12 2 -18 6 L -9 -38 L 9 -38 L 18 6 Q 12 2 7 4 Z" fill="#6d472b" />
+        <path d="M -2 2 L -4 -38 L 2 -38 L 3 2 Z" fill="#875b38" />
+        {/* Deep Foliage Shadow */}
+        <circle cx="0" cy="-56" r="32" fill="#2d6e24" />
+        {/* Mid Foliage Clusters */}
+        <circle cx="-20" cy="-52" r="23" fill="#3c8e2f" />
+        <circle cx="20" cy="-54" r="23" fill="#357f2a" />
+        <circle cx="-12" cy="-74" r="22" fill="#4ea839" />
+        <circle cx="12" cy="-76" r="22" fill="#469933" />
+        <circle cx="0" cy="-64" r="24" fill="#58b940" />
+        {/* Sunlight Highlights */}
+        <ellipse cx="-6" cy="-80" rx="14" ry="10" fill="#78d356" opacity="0.85" />
+        <ellipse cx="8" cy="-66" rx="12" ry="8" fill="#6cc94c" opacity="0.7" />
         {fruit > 0 && (
           <g>
-            <circle cx="-14" cy="-42" r="4.5" fill="#e25c4a" />
-            <circle cx="12" cy="-58" r="4.5" fill="#e25c4a" />
-            <circle cx="2" cy="-38" r="4.5" fill="#e25c4a" />
+            <circle cx="-16" cy="-48" r="4.5" fill="#ef4444" />
+            <circle cx="-14.5" cy="-49.5" r="1.5" fill="#fca5a5" />
+            <circle cx="14" cy="-64" r="4.5" fill="#ef4444" />
+            <circle cx="15.5" cy="-65.5" r="1.5" fill="#fca5a5" />
+            <circle cx="2" cy="-44" r="4.5" fill="#ef4444" />
+            <circle cx="3.5" cy="-45.5" r="1.5" fill="#fca5a5" />
+            <circle cx="-8" cy="-68" r="4" fill="#ef4444" />
+            <circle cx="18" cy="-46" r="4" fill="#ef4444" />
           </g>
         )}
       </g>
@@ -31,10 +45,15 @@ export function Tree({ x, y, s = 1, delay = 0, fruit = 0 }) {
 export function Bush({ x, y, s = 1 }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
+      <ellipse cx="0" cy="4" rx="18" ry="6" fill="rgba(15, 23, 42, 0.12)" />
       <g className="anim-sway" style={{ animationDuration: "5.4s" }}>
-        <circle cx="-9" cy="-8" r="11" fill="#4e9f44" />
-        <circle cx="8" cy="-10" r="13" fill="#5fb352" />
-        <circle cx="-1" cy="-14" r="10" fill="#63bd55" />
+        <circle cx="-9" cy="-8" r="13" fill="#2d6e24" />
+        <circle cx="10" cy="-9" r="14" fill="#3c8e2f" />
+        <circle cx="0" cy="-15" r="12" fill="#4ea839" />
+        <circle cx="-2" cy="-16" r="9" fill="#6ecf4c" opacity="0.8" />
+        <circle cx="-6" cy="-10" r="2.2" fill="#f43f5e" />
+        <circle cx="7" cy="-7" r="2.2" fill="#f43f5e" />
+        <circle cx="2" cy="-16" r="2" fill="#fbbf24" />
       </g>
     </g>
   );
@@ -79,20 +98,30 @@ export function Smoke({ x, y }) {
 export function Villager({ x, y, dur = 9, delay = 0, dx = 26, tunic = "#e0705a", hat = false }) {
   return (
     <g transform={`translate(${x} ${y})`}>
-      <ellipse cx="0" cy="2" rx="13" ry="4.5" fill="rgba(15, 23, 42, 0.18)" />
+      <ellipse cx="0" cy="2" rx="14" ry="5" fill="rgba(15, 23, 42, 0.22)" />
       <g
         className="anim-npc"
         style={{ animationDuration: `${dur}s`, animationDelay: `${delay}s`, "--dx": `${dx}px` }}
       >
-        <rect x="-7" y="-10" width="5" height="11" rx="2.5" fill="#4a5b8c" />
-        <rect x="2" y="-10" width="5" height="11" rx="2.5" fill="#3e4e7e" />
+        <ellipse cx="0" cy="0" rx="9" ry="3.5" fill="rgba(15, 23, 42, 0.2)" />
+        <rect x="-6.5" y="-10" width="5" height="11" rx="2" fill="#374151" />
+        <rect x="1.5" y="-10" width="5" height="11" rx="2" fill="#1f2937" />
+        <rect x="-7.5" y="-2" width="6" height="4" rx="1.5" fill="#58351f" />
+        <rect x="1.5" y="-2" width="6" height="4" rx="1.5" fill="#452714" />
         <path d="M -9 -34 Q 0 -39 9 -34 L 8 -8 L -8 -8 Z" fill={tunic} />
+        <rect x="-8.5" y="-16" width="17" height="4" fill="#603813" />
+        <rect x="-3" y="-17.5" width="6" height="7" rx="1" fill="#f59e0b" stroke="#78350f" strokeWidth="1" />
+        <line x1="-8" y1="-34" x2="6" y2="-12" stroke="#452714" strokeWidth="2.5" />
         <circle cx="0" cy="-43" r="10" fill="#f8c89b" />
-        <path d="M -10 -43 a 10 10 0 0 1 20 0 Z" fill="#5b3a29" />
+        <ellipse cx="-3" cy="-43" rx="1" ry="1.4" fill="#374151" />
+        <ellipse cx="3" cy="-43" rx="1" ry="1.4" fill="#374151" />
+        <path d="M -10 -45 Q 0 -54 10 -45 Q 11 -41 8 -41 Q 0 -47 -8 -41 Z" fill="#5b3a29" />
         {hat && (
           <g>
-            <ellipse cx="0" cy="-50" rx="14" ry="4.5" fill="#e9b949" />
-            <path d="M -7 -50 a 7 8 0 0 1 14 0 Z" fill="#f0c24c" />
+            <ellipse cx="0" cy="-51" rx="15" ry="5" fill="#d97706" />
+            <path d="M -8 -51 a 8 9 0 0 1 16 0 Z" fill="#f59e0b" />
+            <rect x="-8" y="-52" width="16" height="2" fill="#92400e" />
+            <circle cx="8" cy="-54" r="2" fill="#ef4444" />
           </g>
         )}
       </g>
@@ -100,12 +129,26 @@ export function Villager({ x, y, dur = 9, delay = 0, dx = 26, tunic = "#e0705a",
   );
 }
 
-export function Sign({ x, y, label, w = 96 }) {
+export function Sign({ x, y, label, w = 104 }) {
   return (
     <g transform={`translate(${x} ${y})`}>
-      <rect x="-3" y="-26" width="6" height="28" rx="2" fill="#a9744f" />
-      <rect x={-w / 2} y="-52" width={w} height="28" rx="8" fill="#f7e7c6" stroke="#b98a5a" strokeWidth="3" />
-      <text x="0" y="-33" textAnchor="middle" fontSize="15" fontWeight="800" fill="#7c4a1e" style={HEADING_FONT}>
+      <ellipse cx="0" cy="3" rx={w * 0.44} ry="6" fill="rgba(15, 23, 42, 0.16)" />
+      <rect x="-4" y="-30" width="8" height="32" rx="2" fill="#6d472b" />
+      <rect x="-2" y="-30" width="4" height="32" rx="1" fill="#8c5b36" />
+      <rect x={-w / 2} y="-58" width={w} height="32" rx="7" fill="#fdf0d5" stroke="#78471e" strokeWidth="3" />
+      <rect x={-w / 2 + 4} y="-54" width={w - 8} height="24" rx="5" fill="#f7e1b5" />
+      <circle cx={-w / 2 + 8} cy="-42" r="1.8" fill="#5c3818" />
+      <circle cx={w / 2 - 8} cy="-42" r="1.8" fill="#5c3818" />
+      <text
+        x="0"
+        y="-37"
+        textAnchor="middle"
+        fontSize="14.5"
+        fontWeight="800"
+        letterSpacing="0.5"
+        fill="#5a310c"
+        style={HEADING_FONT}
+      >
         {label}
       </text>
     </g>
@@ -117,47 +160,125 @@ export function Sign({ x, y, label, w = 96 }) {
 function HomeArt() {
   return (
     <g>
-      <ellipse cx="0" cy="-6" rx="185" ry="95" fill="#8ed67b" />
-      {/* stone walkway down to the plaza */}
-      <ellipse cx="-30" cy="34" rx="13" ry="7" fill="#e7d6b4" />
-      <ellipse cx="-38" cy="18" rx="13" ry="7" fill="#ded0ac" />
-      <ellipse cx="-34" cy="2" rx="13" ry="7" fill="#e7d6b4" />
-      {/* flower garden */}
-      <rect x="-165" y="-64" width="90" height="46" rx="10" fill="#a9713c" />
-      <Flower x="-145" y="-62" c="#f472b6" />
-      <Flower x="-125" y="-66" c="#fbbf24" />
-      <Flower x="-105" y="-61" c="#a78bfa" />
-      <Flower x="-88" y="-65" c="#fb7185" />
-      {/* picket fence */}
-      <g fill="#fdfdf8" stroke="#d9d2c4" strokeWidth="1.5">
-        {[-150, -128, -106, -84, 62, 84, 106, 128, 150].map((fx) => (
-          <path key={fx} d={`M ${fx - 5} 20 L ${fx - 5} 2 L ${fx} -5 L ${fx + 5} 2 L ${fx + 5} 20 Z`} />
-        ))}
-        <rect x="-155" y="6" width="310" height="4" opacity="0.7" />
-      </g>
-      {/* the cottage */}
+      {/* Ground hill base with grass and shadow */}
+      <ellipse cx="0" cy="4" rx="195" ry="102" fill="rgba(15, 23, 42, 0.18)" />
+      <ellipse cx="0" cy="-6" rx="190" ry="98" fill="#88cf72" />
+      <ellipse cx="-20" cy="-14" rx="170" ry="84" fill="#9de086" opacity="0.65" />
+
+      {/* Flagstone walkway down to gate */}
       <g>
-        <rect x="-118" y="-158" width="150" height="120" rx="8" fill="#fff3d6" />
-        <rect x="-118" y="-158" width="26" height="120" rx="8" fill="#f1dfb4" />
-        <rect x="4" y="-208" width="22" height="56" fill="#b98a5a" />
-        <rect x="1" y="-214" width="28" height="10" rx="3" fill="#a06a44" />
-        <polygon points="-134,-148 -44,-220 48,-148" fill="#e2725b" />
-        <path d="M -110 -156 L -46 -210" stroke="#d05842" strokeWidth="4" fill="none" />
-        <rect x="-40" y="-92" width="36" height="54" rx="8" fill="#8b5e3c" />
-        <circle cx="-12" cy="-64" r="3" fill="#f7e7c6" />
-        <rect x="-96" y="-122" width="32" height="30" rx="5" fill="#bde3ff" stroke="#ffffff" strokeWidth="4" />
-        <line x1="-80" y1="-122" x2="-80" y2="-92" stroke="#ffffff" strokeWidth="3" />
-        <rect x="8" y="-122" width="28" height="28" rx="5" fill="#bde3ff" stroke="#ffffff" strokeWidth="4" />
-        <rect x="-98" y="-94" width="36" height="8" rx="3" fill="#a9744f" />
-        <circle cx="-90" cy="-97" r="4" fill="#f472b6" />
-        <circle cx="-78" cy="-97" r="4" fill="#fbbf24" />
-        <circle cx="-68" cy="-97" r="4" fill="#fb7185" />
+        <ellipse cx="-28" cy="46" rx="14" ry="7" fill="#c4ad8e" />
+        <ellipse cx="-28" cy="44" rx="13" ry="6" fill="#ded0b6" />
+        <ellipse cx="-34" cy="28" rx="13" ry="7" fill="#baa383" />
+        <ellipse cx="-34" cy="26" rx="12" ry="6" fill="#d9c9ae" />
+        <ellipse cx="-30" cy="10" rx="14" ry="7" fill="#baa383" />
+        <ellipse cx="-30" cy="8" rx="13" ry="6" fill="#e7dac4" />
+        <ellipse cx="-24" cy="-8" rx="15" ry="7.5" fill="#c4ad8e" />
+        <ellipse cx="-24" cy="-10" rx="14" ry="6.5" fill="#ebdcc8" />
       </g>
-      <Tree x="112" y="8" s="0.95" delay="-1.2" fruit={3} />
-      <Tree x="-178" y="26" s="0.7" delay="-2.6" />
-      <Bush x="60" y="26" />
-      <Smoke x="15" y="-216" />
-      <Sign x="34" y="44" label="Home" />
+
+      {/* Flower gardens around the cottage */}
+      <rect x="-174" y="-62" width="102" height="48" rx="12" fill="#714828" stroke="#523218" strokeWidth="2" />
+      <Flower x="-156" y="-60" c="#ec4899" />
+      <Flower x="-138" y="-66" c="#f59e0b" />
+      <Flower x="-118" y="-60" c="#8b5cf6" />
+      <Flower x="-98" y="-64" c="#38bdf8" />
+      <Flower x="-82" y="-58" c="#ef4444" />
+      <Flower x="-146" y="-46" c="#fbbf24" />
+      <Flower x="-124" y="-44" c="#ec4899" />
+      <Flower x="-104" y="-46" c="#10b981" />
+
+      {/* Picket fence with gate */}
+      <g fill="#fefefe" stroke="#b8af9c" strokeWidth="1.5">
+        {[-165, -145, -125, -105, -85, -65, 45, 65, 85, 105, 125, 145].map((fx) => (
+          <path key={fx} d={`M ${fx - 5} 24 L ${fx - 5} 2 L ${fx} -5 L ${fx + 5} 2 L ${fx + 5} 24 Z`} />
+        ))}
+        <rect x="-170" y="8" width="112" height="4" rx="1" fill="#ffffff" />
+        <rect x="-170" y="16" width="112" height="4" rx="1" fill="#ffffff" />
+        <rect x="40" y="8" width="112" height="4" rx="1" fill="#ffffff" />
+        <rect x="40" y="16" width="112" height="4" rx="1" fill="#ffffff" />
+      </g>
+
+      {/* The 2.5D Cottage */}
+      <g>
+        {/* House Ground Shadow */}
+        <ellipse cx="-15" cy="-28" rx="92" ry="24" fill="rgba(15, 23, 42, 0.28)" />
+
+        {/* Stone foundation */}
+        <rect x="-122" y="-48" width="158" height="24" rx="3" fill="#8c827a" stroke="#635b54" strokeWidth="2" />
+        {[-110, -78, -46, -14, 18].map((sx) => (
+          <line key={sx} x1={sx} y1="-48" x2={sx} y2="-24" stroke="#635b54" strokeWidth="1.5" />
+        ))}
+
+        {/* Main Walls (warm plaster) */}
+        <rect x="-120" y="-168" width="154" height="122" rx="4" fill="#fdf8eb" />
+        {/* Shaded side wall for 2.5D depth */}
+        <rect x="-120" y="-168" width="28" height="122" rx="4" fill="#eeddb8" />
+
+        {/* Timber framing beams */}
+        <rect x="-120" y="-168" width="8" height="122" fill="#6d472b" />
+        <rect x="26" y="-168" width="8" height="122" fill="#6d472b" />
+        <rect x="-56" y="-168" width="8" height="122" fill="#6d472b" />
+        <rect x="-120" y="-112" width="154" height="7" fill="#6d472b" />
+        <line x1="-118" y1="-166" x2="-58" y2="-112" stroke="#6d472b" strokeWidth="6" />
+        <line x1="-54" y1="-166" x2="26" y2="-112" stroke="#6d472b" strokeWidth="6" />
+
+        {/* Stone Chimney */}
+        <rect x="2" y="-226" width="28" height="74" fill="#857a72" stroke="#5a524c" strokeWidth="2" />
+        <rect x="-1" y="-232" width="34" height="10" rx="3" fill="#635a53" />
+        <circle cx="8" cy="-206" r="4" fill="#635a53" />
+        <circle cx="20" cy="-192" r="5" fill="#635a53" />
+        <circle cx="12" cy="-176" r="4" fill="#635a53" />
+        <Smoke x="15" y="-234" />
+
+        {/* Gable Roof with terracotta clay tiles */}
+        <polygon points="-142,-156 -42,-236 56,-156" fill="#c75239" stroke="#9e3a24" strokeWidth="3" />
+        <polygon points="-142,-156 -42,-236 -122,-156" fill="#a83c26" />
+        {[-176, -196, -216].map((ty) => (
+          <line key={ty} x1="-42" y1={ty} x2={ty + 100} y2="-156" stroke="#9e3a24" strokeWidth="3" />
+        ))}
+        {/* Bargeboard / Eaves trim */}
+        <polyline points="-144,-153 -42,-238 58,-153" fill="none" stroke="#6d472b" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+
+        {/* Upper Attic Dormer Window */}
+        <circle cx="-42" cy="-184" r="14" fill="#fff5cc" stroke="#6d472b" strokeWidth="3" />
+        <line x1="-42" y1="-198" x2="-42" y2="-170" stroke="#6d472b" strokeWidth="2.5" />
+        <line x1="-56" y1="-184" x2="-28" y2="-184" stroke="#6d472b" strokeWidth="2.5" />
+
+        {/* Cozy Oak Front Door */}
+        <rect x="-44" y="-102" width="38" height="56" rx="6" fill="#58351f" stroke="#3b2010" strokeWidth="2" />
+        <path d="M -44 -86 Q -25 -100 -6 -86 L -6 -46 L -44 -46 Z" fill="#6d472b" />
+        <circle cx="-12" cy="-72" r="3.5" fill="#f59e0b" stroke="#78350f" strokeWidth="1" />
+        <rect x="-43" y="-94" width="12" height="4" rx="1" fill="#2d2a29" />
+        <rect x="-43" y="-60" width="12" height="4" rx="1" fill="#2d2a29" />
+        <rect x="-48" y="-46" width="46" height="8" rx="2" fill="#ded0b6" stroke="#8c827a" strokeWidth="1.5" />
+
+        {/* Glowing Lantern by the Door */}
+        <line x1="-50" y1="-86" x2="-54" y2="-86" stroke="#374151" strokeWidth="2" />
+        <rect x="-58" y="-92" width="8" height="12" rx="2" fill="#fde047" stroke="#374151" strokeWidth="1.5" />
+        <circle cx="-54" cy="-86" r="10" fill="rgba(253, 224, 71, 0.25)" />
+
+        {/* Windows with warm glowing interior & Flowerboxes */}
+        <rect x="-104" y="-134" width="36" height="34" rx="4" fill="#fef3c7" stroke="#6d472b" strokeWidth="3" />
+        <line x1="-86" y1="-134" x2="-86" y2="-100" stroke="#6d472b" strokeWidth="2.5" />
+        <line x1="-104" y1="-117" x2="-68" y2="-117" stroke="#6d472b" strokeWidth="2.5" />
+        <rect x="-106" y="-100" width="40" height="10" rx="3" fill="#78471e" />
+        <circle cx="-98" cy="-102" r="4" fill="#ec4899" />
+        <circle cx="-88" cy="-103" r="4.5" fill="#f59e0b" />
+        <circle cx="-76" cy="-102" r="4" fill="#38bdf8" />
+
+        <rect x="2" y="-134" width="22" height="34" rx="4" fill="#fef3c7" stroke="#6d472b" strokeWidth="3" />
+        <line x1="13" y1="-134" x2="13" y2="-100" stroke="#6d472b" strokeWidth="2.5" />
+        <line x1="2" y1="-117" x2="24" y2="-117" stroke="#6d472b" strokeWidth="2.5" />
+        <rect x="0" y="-100" width="26" height="10" rx="3" fill="#78471e" />
+        <circle cx="8" cy="-102" r="4" fill="#ef4444" />
+        <circle cx="18" cy="-102" r="4" fill="#a855f7" />
+      </g>
+
+      <Tree x="120" y="14" s="1" delay="-1.2" fruit={4} />
+      <Tree x="-182" y="24" s="0.75" delay="-2.6" />
+      <Bush x="68" y="28" />
+      <Sign x="36" y="48" label="Home" />
     </g>
   );
 }
@@ -165,57 +286,120 @@ function HomeArt() {
 function SchoolArt() {
   return (
     <g>
-      <ellipse cx="0" cy="-4" rx="215" ry="102" fill="#c4e5a4" />
-      {/* hopscotch */}
-      {[-188, -156, -124].map((hx, i) => (
-        <rect key={hx} x={hx} y={-16 - (i % 2) * 22} width="24" height="18" rx="3" fill="none" stroke="#ffffff" strokeWidth="3" opacity="0.85" />
-      ))}
-      {/* swing set */}
-      <g stroke="#8b9bb0" strokeWidth="5" fill="none" strokeLinecap="round">
-        <path d="M 130 -6 L 158 -74" />
-        <path d="M 186 -6 L 158 -74" />
-        <path d="M 136 -28 L 180 -28" />
-        <line x1="152" y1="-62" x2="152" y2="-26" stroke="#b98a5a" strokeWidth="3" />
-        <rect x="146" y="-28" width="12" height="5" fill="#b98a5a" stroke="none" />
-      </g>
-      {/* main building */}
-      <rect x="-140" y="-172" width="250" height="128" rx="8" fill="#fffbea" />
-      <rect x="-140" y="-172" width="30" height="128" rx="8" fill="#f3e7c4" />
-      <polygon points="-156,-172 126,-172 96,-208 -126,-208" fill="#3b82f6" />
-      {/* bell tower */}
-      <rect x="-40" y="-266" width="76" height="98" fill="#fff7e0" />
-      <polygon points="-52,-266 48,-266 -2,-308" fill="#2f6bd6" />
-      <circle cx="-2" cy="-242" r="17" fill="#ffffff" stroke="#b98a5a" strokeWidth="3" />
-      <line x1="-2" y1="-242" x2="-2" y2="-252" stroke="#334155" strokeWidth="2.5" />
-      <line x1="-2" y1="-242" x2="5" y2="-238" stroke="#334155" strokeWidth="2.5" />
-      <path d="M -14 -206 a 12 14 0 0 1 24 0 v 18 h -24 Z" fill="#f59e0b" />
-      {/* windows + door */}
-      {[-112, -58, 56].map((wx) => (
-        <g key={wx}>
-          <rect x={wx} y="-134" width="32" height="36" rx="5" fill="#bde3ff" stroke="#ffffff" strokeWidth="4" />
-          <line x1={wx + 16} y1="-134" x2={wx + 16} y2="-98" stroke="#ffffff" strokeWidth="3" />
-        </g>
-      ))}
-      <rect x="-24" y="-66" width="46" height="62" rx="8" fill="#3b82f6" stroke="#ffffff" strokeWidth="4" />
-      <circle cx="12" cy="-36" r="3" fill="#ffffff" />
-      {/* flagpole */}
-      <line x1="170" y1="0" x2="170" y2="-272" stroke="#94a3b8" strokeWidth="5" strokeLinecap="round" />
-      <g className="anim-flag">
-        <polygon points="172,-268 172,-234 234,-251" fill="#ef4444" />
-      </g>
-      {/* chalkboard sign */}
+      {/* Ground hill base */}
+      <ellipse cx="0" cy="4" rx="225" ry="110" fill="rgba(15, 23, 42, 0.18)" />
+      <ellipse cx="0" cy="-4" rx="220" ry="106" fill="#8ecf75" />
+      <ellipse cx="-15" cy="-12" rx="195" ry="92" fill="#a4e08c" opacity="0.6" />
+
+      {/* Flagstone courtyard & brick pathway */}
       <g>
-        <line x1="-196" y1="-4" x2="-196" y2="-58" stroke="#8b5e3c" strokeWidth="6" />
-        <line x1="-160" y1="-4" x2="-160" y2="-58" stroke="#8b5e3c" strokeWidth="6" />
-        <rect x="-206" y="-96" width="82" height="42" rx="6" fill="#31424e" stroke="#8b5e3c" strokeWidth="4" />
-        <text x="-165" y="-69" textAnchor="middle" fontSize="17" fontWeight="700" fill="#fdf6e3" style={HEADING_FONT}>
-          A+ ✎
-        </text>
+        <ellipse cx="0" cy="28" rx="80" ry="24" fill="#ded0ba" stroke="#b09f87" strokeWidth="2" />
+        <ellipse cx="0" cy="28" rx="72" ry="20" fill="#eddcc4" />
       </g>
-      <Villager x="96" y="30" dur="12" delay="-2" dx="34" tunic="#38bdf8" />
-      <Tree x="216" y="6" s="0.8" delay="-0.8" />
-      <Bush x="-210" y="16" />
-      <Sign x="-80" y="52" label="School" />
+
+      {/* Hopscotch grid on courtyard */}
+      {[-180, -150, -120].map((hx, i) => (
+        <rect key={hx} x={hx} y={-14 - (i % 2) * 20} width="24" height="18" rx="3" fill="none" stroke="#ffffff" strokeWidth="2.5" opacity="0.8" />
+      ))}
+      <text x="-168" y="-2" fontSize="11" fontWeight="bold" fill="#ffffff" opacity="0.85" textAnchor="middle">1</text>
+      <text x="-138" y="-22" fontSize="11" fontWeight="bold" fill="#ffffff" opacity="0.85" textAnchor="middle">2</text>
+      <text x="-108" y="-2" fontSize="11" fontWeight="bold" fill="#ffffff" opacity="0.85" textAnchor="middle">3</text>
+
+      {/* Academy Building (Collegiate Neoclassical architecture) */}
+      <g>
+        {/* Building Ground Shadow */}
+        <ellipse cx="-5" cy="-28" rx="135" ry="28" fill="rgba(15, 23, 42, 0.28)" />
+
+        {/* Foundation & Steps */}
+        <rect x="-146" y="-52" width="276" height="26" rx="4" fill="#9ca3af" stroke="#6b7280" strokeWidth="2" />
+        <rect x="-42" y="-36" width="70" height="10" rx="2" fill="#d1d5db" stroke="#9ca3af" strokeWidth="1.5" />
+        <rect x="-36" y="-44" width="58" height="10" rx="2" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="1.5" />
+
+        {/* Main Facade (warm academic stone brick) */}
+        <rect x="-140" y="-182" width="264" height="134" rx="6" fill="#fffdf5" />
+        <rect x="-140" y="-182" width="34" height="134" rx="6" fill="#f0e9d2" />
+        {[-176, -154, -132, -110, -88, -66].map((qy) => (
+          <g key={qy}>
+            <rect x="-140" y={qy} width="16" height="10" fill="#e2d8be" stroke="#cfc3a5" strokeWidth="1" />
+            <rect x="108" y={qy} width="16" height="10" fill="#e2d8be" stroke="#cfc3a5" strokeWidth="1" />
+          </g>
+        ))}
+
+        {/* Neoclassical Pediment & Central Entry */}
+        <polygon points="-52,-182 40,-182 -6,-218" fill="#f8f4e6" stroke="#cfc3a5" strokeWidth="2" />
+        <rect x="-40" y="-146" width="10" height="96" rx="2" fill="#f3ede0" stroke="#cfc3a5" strokeWidth="1.5" />
+        <rect x="16" y="-146" width="10" height="96" rx="2" fill="#f3ede0" stroke="#cfc3a5" strokeWidth="1.5" />
+
+        {/* Double Entrance Doors */}
+        <rect x="-26" y="-120" width="38" height="70" rx="6" fill="#1e40af" stroke="#e5e7eb" strokeWidth="3" />
+        <line x1="-7" y1="-120" x2="-7" y2="-50" stroke="#e5e7eb" strokeWidth="2.5" />
+        <circle cx="-13" cy="-84" r="3" fill="#facc15" />
+        <circle cx="-1" cy="-84" r="3" fill="#facc15" />
+        <path d="M -26 -120 Q -7 -142 12 -120 Z" fill="#93c5fd" stroke="#e5e7eb" strokeWidth="2" />
+
+        {/* Academic Sash Windows (First & Second Floor) */}
+        {[-114, -68, 48, 92].map((wx) => (
+          <g key={wx}>
+            <rect x={wx} y="-116" width="32" height="42" rx="4" fill="#eff6ff" stroke="#cfc3a5" strokeWidth="2.5" />
+            <line x1={wx + 16} y1="-116" x2={wx + 16} y2="-74" stroke="#cfc3a5" strokeWidth="2" />
+            <line x1={wx} y1="-95" x2={wx + 32} y2="-95" stroke="#cfc3a5" strokeWidth="2" />
+            <path d={`M ${wx} -148 Q ${wx + 16} -162 ${wx + 32} -148 L ${wx + 32} -128 L ${wx} -128 Z`} fill="#fef08a" stroke="#cfc3a5" strokeWidth="2" />
+            <line x1={wx + 16} y1="-155" x2={wx + 16} y2="-128" stroke="#cfc3a5" strokeWidth="2" />
+          </g>
+        ))}
+
+        {/* Roof (Slate Blue Hip Roof) */}
+        <polygon points="-156,-182 140,-182 108,-218 -124,-218" fill="#2563eb" stroke="#1d4ed8" strokeWidth="2" />
+        <line x1="-124" y1="-218" x2="108" y2="-218" stroke="#93c5fd" strokeWidth="3" />
+
+        {/* Grand Clock & Bell Tower */}
+        <g>
+          <rect x="-42" y="-282" width="70" height="76" fill="#fffef7" stroke="#cfc3a5" strokeWidth="2" />
+          <rect x="-46" y="-286" width="78" height="8" rx="2" fill="#e2d8be" />
+
+          {/* Clock Face */}
+          <circle cx="-7" cy="-256" r="20" fill="#ffffff" stroke="#d97706" strokeWidth="3.5" />
+          <circle cx="-7" cy="-256" r="17" fill="#fffdf0" />
+          <line x1="-7" y1="-256" x2="-7" y2="-268" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" />
+          <line x1="-7" y1="-256" x2="3" y2="-252" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" />
+          <circle cx="-7" cy="-256" r="2.5" fill="#d97706" />
+
+          {/* Open Belfry Arch & Bell */}
+          <path d="M -22 -220 a 15 16 0 0 1 30 0 v 18 h -30 Z" fill="#374151" />
+          <g className="anim-sway" style={{ animationDuration: "3s" }}>
+            <path d="M -16 -210 Q -7 -222 2 -210 L 4 -200 L -18 -200 Z" fill="#d97706" stroke="#b45309" strokeWidth="1.5" />
+            <circle cx="-7" cy="-198" r="3" fill="#78350f" />
+          </g>
+
+          {/* Tower Spire */}
+          <polygon points="-46,-286 32,-286 -7,-336" fill="#1d4ed8" stroke="#1e40af" strokeWidth="2" />
+          <line x1="-7" y1="-336" x2="-7" y2="-352" stroke="#d97706" strokeWidth="3" strokeLinecap="round" />
+          <circle cx="-7" cy="-354" r="4.5" fill="#facc15" stroke="#d97706" strokeWidth="1.5" />
+        </g>
+
+        {/* Flagpole & School Flag */}
+        <line x1="174" y1="0" x2="174" y2="-278" stroke="#9ca3af" strokeWidth="5" strokeLinecap="round" />
+        <circle cx="174" cy="-280" r="4.5" fill="#facc15" />
+        <g className="anim-flag">
+          <polygon points="176,-276 176,-238 244,-257" fill="#ef4444" stroke="#b91c1c" strokeWidth="2" />
+          <polygon points="176,-276 176,-238 214,-257" fill="#dc2626" />
+        </g>
+
+        {/* Chalkboard Sign on Easel */}
+        <g>
+          <line x1="-202" y1="-4" x2="-202" y2="-62" stroke="#6d472b" strokeWidth="6" strokeLinecap="round" />
+          <line x1="-164" y1="-4" x2="-164" y2="-62" stroke="#6d472b" strokeWidth="6" strokeLinecap="round" />
+          <rect x="-212" y="-102" width="88" height="46" rx="6" fill="#1e293b" stroke="#78471e" strokeWidth="4" />
+          <text x="-168" y="-73" textAnchor="middle" fontSize="16" fontWeight="700" fill="#fef08a" style={HEADING_FONT}>
+            A+ ✎ 🧮
+          </text>
+        </g>
+      </g>
+
+      <Villager x="96" y="32" dur="12" delay="-2" dx="34" tunic="#38bdf8" />
+      <Tree x="218" y="10" s="0.85" delay="-0.8" />
+      <Bush x="-214" y="20" />
+      <Sign x="-80" y="56" label="School" />
     </g>
   );
 }
@@ -224,144 +408,247 @@ function FarmArt() {
   const rows = [-96, -64, -32, 0];
   return (
     <g>
-      <ellipse cx="0" cy="-2" rx="212" ry="98" fill="#9ccb6b" />
-      {/* crop field with swaying rows */}
-      <rect x="-196" y="-116" width="216" height="136" rx="12" fill="#a9713c" />
+      {/* Ground hill base */}
+      <ellipse cx="0" cy="4" rx="225" ry="106" fill="rgba(15, 23, 42, 0.18)" />
+      <ellipse cx="0" cy="-2" rx="220" ry="102" fill="#8ece6d" />
+      <ellipse cx="-15" cy="-10" rx="198" ry="88" fill="#9fe07e" opacity="0.6" />
+
+      {/* Split rail wooden fence around the farm */}
+      <g stroke="#6d472b" strokeWidth="4" strokeLinecap="round">
+        {[-196, -140, -84, -28].map((fx) => (
+          <line key={fx} x1={fx} y1="-12" x2={fx} y2="16" strokeWidth="6" />
+        ))}
+        <line x1="-202" y1="-6" x2="-22" y2="-6" strokeWidth="3.5" />
+        <line x1="-202" y1="6" x2="-22" y2="6" strokeWidth="3.5" />
+      </g>
+
+      {/* Tilled Crop Field */}
+      <rect x="-204" y="-124" width="224" height="142" rx="14" fill="#6d4427" stroke="#4a2c16" strokeWidth="3" />
       {rows.map((ry, ri) => (
         <g key={ry}>
-          <rect x="-186" y={ry} width="196" height="14" rx="7" fill="#8f5d2f" />
+          <rect x="-194" y={ry} width="204" height="16" rx="8" fill="#54331b" />
           <g className="anim-crop" style={{ animationDelay: `${ri * -0.42}s` }}>
-            {[-178, -158, -138, -118, -98, -78, -58, -38, -18, 2].map((cx) => (
+            {[-184, -164, -144, -124, -104, -84, -64, -44, -24, -4].map((cx, ci) => (
               <g key={cx}>
-                <line x1={cx} y1={ry + 2} x2={cx} y2={ry - 10} stroke="#4e9f44" strokeWidth="3" />
-                <circle cx={cx} cy={ry - 13} r="5" fill="#e9b949" />
+                {ci % 3 === 0 ? (
+                  <g>
+                    <line x1={cx} y1={ry + 4} x2={cx} y2={ry - 12} stroke="#65a30d" strokeWidth="3" strokeLinecap="round" />
+                    <circle cx={cx} cy={ry - 15} r="5" fill="#facc15" stroke="#ca8a04" strokeWidth="1" />
+                    <circle cx={cx - 3} cy={ry - 12} r="3" fill="#eab308" />
+                    <circle cx={cx + 3} cy={ry - 12} r="3" fill="#eab308" />
+                  </g>
+                ) : ci % 3 === 1 ? (
+                  <g>
+                    <ellipse cx={cx} cy={ry - 4} rx="7" ry="5.5" fill="#f97316" stroke="#c2410c" strokeWidth="1.5" />
+                    <line x1={cx} y1={ry - 9} x2={cx + 2} y2={ry - 12} stroke="#15803d" strokeWidth="2" strokeLinecap="round" />
+                  </g>
+                ) : (
+                  <g>
+                    <circle cx={cx} cy={ry - 5} r="6" fill="#22c55e" stroke="#15803d" strokeWidth="1.5" />
+                    <circle cx={cx} cy={ry - 5} r="3" fill="#86efac" />
+                  </g>
+                )}
               </g>
             ))}
           </g>
         </g>
       ))}
-      {/* barn */}
+
+      {/* The Big Red Barn */}
       <g>
-        <rect x="42" y="-152" width="136" height="108" rx="6" fill="#c94f3d" />
-        <polygon points="28,-152 192,-152 110,-202" fill="#8f3a2d" />
-        <rect x="52" y="-152" width="8" height="108" fill="#f8f4e8" />
-        <rect x="160" y="-152" width="8" height="108" fill="#f8f4e8" />
-        <rect x="84" y="-106" width="52" height="62" rx="4" fill="#8f3a2d" stroke="#f8f4e8" strokeWidth="4" />
-        <path d="M 84 -106 L 136 -44 M 136 -106 L 84 -44" stroke="#f8f4e8" strokeWidth="4" />
-        <circle cx="110" cy="-132" r="10" fill="#f8f4e8" />
+        <ellipse cx="115" cy="-28" rx="84" ry="24" fill="rgba(15, 23, 42, 0.28)" />
+        <rect x="42" y="-164" width="146" height="120" rx="8" fill="#b91c1c" stroke="#7f1d1d" strokeWidth="2.5" />
+        <rect x="42" y="-164" width="28" height="120" rx="8" fill="#991b1b" />
+        {[-150, -136, -122, -108, -94, -80, -66].map((ly) => (
+          <line key={ly} x1="44" y1={ly} x2="186" y2={ly} stroke="#7f1d1d" strokeWidth="1.5" />
+        ))}
+        <rect x="48" y="-164" width="9" height="120" fill="#f8fafc" />
+        <rect x="171" y="-164" width="9" height="120" fill="#f8fafc" />
+
+        <rect x="80" y="-112" width="68" height="68" rx="4" fill="#7f1d1d" stroke="#f8fafc" strokeWidth="4" />
+        <line x1="114" y1="-112" x2="114" y2="-44" stroke="#f8fafc" strokeWidth="3" />
+        <path d="M 80 -112 L 114 -44 M 114 -112 L 80 -44" stroke="#f8fafc" strokeWidth="3.5" />
+        <path d="M 114 -112 L 148 -44 M 148 -112 L 114 -44" stroke="#f8fafc" strokeWidth="3.5" />
+        <ellipse cx="114" cy="-44" rx="14" ry="4" fill="#facc15" />
+
+        <rect x="94" y="-154" width="40" height="34" rx="3" fill="#521515" stroke="#f8fafc" strokeWidth="3" />
+        <line x1="114" y1="-154" x2="114" y2="-120" stroke="#f8fafc" strokeWidth="2" />
+        <line x1="114" y1="-168" x2="114" y2="-146" stroke="#ca8a04" strokeWidth="3" strokeLinecap="round" />
+        <circle cx="114" cy="-144" r="3" fill="#ca8a04" />
+        <path d="M 98 -134 Q 114 -126 130 -134" stroke="#facc15" strokeWidth="4" fill="none" strokeLinecap="round" />
+
+        <polygon points="26,-164 202,-164 176,-204 114,-224 52,-204" fill="#831843" stroke="#500724" strokeWidth="2" />
+        <polygon points="26,-164 114,-224 52,-204" fill="#701a38" />
+        <line x1="52" y1="-204" x2="176" y2="-204" stroke="#f8fafc" strokeWidth="3" />
+        <line x1="114" y1="-224" x2="114" y2="-204" stroke="#f8fafc" strokeWidth="3" />
+
+        <rect x="100" y="-242" width="28" height="18" fill="#f8fafc" stroke="#94a3b8" strokeWidth="1.5" />
+        <polygon points="96,-242 132,-242 114,-254" fill="#831843" />
+        <line x1="114" y1="-254" x2="114" y2="-270" stroke="#f59e0b" strokeWidth="2.5" />
+        <circle cx="114" cy="-271" r="3" fill="#f59e0b" />
+        <path d="M 114 -271 L 122 -273 L 114 -275 Z" fill="#ef4444" />
       </g>
-      {/* stone well */}
+
+      {/* Stone Wishing Well */}
       <g>
-        <ellipse cx="-160" cy="-14" rx="30" ry="12" fill="rgba(15, 23, 42, 0.15)" />
-        <rect x="-186" y="-56" width="52" height="42" fill="#c7c1b4" />
-        <ellipse cx="-160" cy="-56" rx="26" ry="10" fill="#d8d3c6" />
-        <ellipse cx="-160" cy="-56" rx="16" ry="6" fill="#2c7da0" />
-        <line x1="-186" y1="-56" x2="-186" y2="-96" stroke="#8b5e3c" strokeWidth="5" />
-        <line x1="-134" y1="-56" x2="-134" y2="-96" stroke="#8b5e3c" strokeWidth="5" />
-        <polygon points="-198,-94 -122,-94 -160,-118" fill="#c94f3d" />
-        <line x1="-160" y1="-94" x2="-160" y2="-72" stroke="#7c4a1e" strokeWidth="2.5" />
-        <rect x="-167" y="-72" width="14" height="10" rx="2" fill="#b98a5a" />
+        <ellipse cx="-150" cy="-12" rx="32" ry="14" fill="rgba(15, 23, 42, 0.22)" />
+        <rect x="-176" y="-56" width="52" height="42" rx="4" fill="#9ca3af" stroke="#4b5563" strokeWidth="2" />
+        <ellipse cx="-150" cy="-56" rx="26" ry="11" fill="#cbd5e1" stroke="#4b5563" strokeWidth="2" />
+        <ellipse cx="-150" cy="-56" rx="18" ry="7" fill="#0284c7" />
+        <line x1="-172" y1="-56" x2="-172" y2="-102" stroke="#6d472b" strokeWidth="6" strokeLinecap="round" />
+        <line x1="-128" y1="-56" x2="-128" y2="-102" stroke="#6d472b" strokeWidth="6" strokeLinecap="round" />
+        <polygon points="-186,-100 -114,-100 -150,-126" fill="#b91c1c" stroke="#7f1d1d" strokeWidth="2" />
+        <line x1="-172" y1="-86" x2="-128" y2="-86" stroke="#ca8a04" strokeWidth="4" />
+        <line x1="-150" y1="-86" x2="-150" y2="-68" stroke="#ca8a04" strokeWidth="2.5" />
+        <rect x="-156" y="-68" width="12" height="12" rx="2" fill="#78350f" stroke="#ca8a04" strokeWidth="1" />
       </g>
-      {/* scarecrow */}
+
+      {/* Scarecrow */}
       <g>
-        <line x1="215" y1="-6" x2="215" y2="-64" stroke="#8b5e3c" strokeWidth="5" />
-        <line x1="196" y1="-52" x2="234" y2="-52" stroke="#8b5e3c" strokeWidth="5" />
-        <polygon points="203,-52 227,-52 223,-26 207,-26" fill="#e0705a" />
-        <circle cx="215" cy="-70" r="10" fill="#f8c89b" />
-        <path d="M 201 -74 a 14 6 0 0 1 28 0 Z" fill="#e9b949" />
+        <line x1="212" y1="-4" x2="212" y2="-68" stroke="#6d472b" strokeWidth="5" strokeLinecap="round" />
+        <line x1="192" y1="-54" x2="232" y2="-54" stroke="#6d472b" strokeWidth="5" strokeLinecap="round" />
+        <polygon points="198,-54 226,-54 222,-24 202,-24" fill="#ea580c" stroke="#9a3412" strokeWidth="1.5" />
+        <circle cx="212" cy="-72" r="11" fill="#fde68a" stroke="#d97706" strokeWidth="1.5" />
+        <ellipse cx="212" cy="-78" rx="17" ry="6" fill="#d97706" />
+        <path d="M 203 -78 a 9 10 0 0 1 18 0 Z" fill="#f59e0b" />
       </g>
-      {/* hay bales */}
+
+      {/* Golden Hay Bales */}
       <g>
-        <circle cx="16" cy="-18" r="17" fill="#e9c46a" />
-        <path d="M 4 -22 q 12 8 24 0" stroke="#d4a94e" strokeWidth="2.5" fill="none" />
-        <circle cx="46" cy="-10" r="14" fill="#efc97e" />
+        <ellipse cx="20" cy="-16" rx="18" ry="12" fill="#eab308" stroke="#ca8a04" strokeWidth="2" />
+        <line x1="6" y1="-16" x2="34" y2="-16" stroke="#a16207" strokeWidth="2" />
+        <ellipse cx="48" cy="-8" rx="16" ry="10" fill="#facc15" stroke="#ca8a04" strokeWidth="2" />
       </g>
-      <Tree x="150" y="34" s="1.05" delay="-1.8" fruit={3} />
-      <Tree x="-60" y="38" s="0.8" delay="-3" />
-      <Villager x="-40" y="30" dur="11" delay="-4" dx="30" tunic="#4e9f44" hat />
-      <Sign x="80" y="56" label="Farm" />
+
+      <Tree x="160" y="36" s="1.05" delay="-1.8" fruit={4} />
+      <Tree x="-50" y="42" s="0.8" delay="-3" />
+      <Villager x="-30" y="32" dur="11" delay="-4" dx="30" tunic="#16a34a" hat />
+      <Sign x="80" y="60" label="Farm" />
     </g>
   );
 }
 
 function MarketArt() {
   const pennants = [
-    [-146, -127], [-120, -121], [-94, -117], [-68, -115], [-42, -117], [-16, -121],
+    [-156, -135], [-128, -128], [-100, -124], [-72, -122], [-44, -124], [-16, -128], [12, -134]
   ];
   return (
     <g>
-      <ellipse cx="0" cy="-4" rx="205" ry="96" fill="#e3d2b4" />
-      {[-160, -110, -60, -10, 40, 90, 140].map((cx, i) => (
-        <ellipse key={cx} cx={cx} cy={i % 2 === 0 ? 24 : 40} rx="14" ry="6" fill="#d6c3a0" />
+      {/* Ground cobblestone square */}
+      <ellipse cx="0" cy="4" rx="220" ry="106" fill="rgba(15, 23, 42, 0.18)" />
+      <ellipse cx="0" cy="-4" rx="215" ry="100" fill="#edd6b6" />
+      <ellipse cx="-10" cy="-12" rx="192" ry="86" fill="#f5e4cd" opacity="0.6" />
+
+      {/* Decorative flagstone pavement rounds */}
+      {[-160, -110, -60, -10, 40, 90, 140, 180].map((cx, i) => (
+        <ellipse key={cx} cx={cx} cy={i % 2 === 0 ? 24 : 42} rx="16" ry="7" fill="#debfa0" />
       ))}
-      {/* bunting between the stalls */}
-      <path d="M -166 -132 Q -85 -100 -6 -132" stroke="#b98a5a" strokeWidth="3" fill="none" />
+
+      {/* Festive Pennant Bunting between stalls */}
+      <path d="M -176 -142 Q -80 -105 32 -142" stroke="#6d472b" strokeWidth="3" fill="none" />
       {pennants.map(([px, py], i) => (
-        <polygon key={i} points={`${px},${py} ${px + 16},${py} ${px + 8},${py + 14}`} fill={["#ef4444", "#fbbf24", "#22c55e", "#3b82f6", "#ec4899", "#8b5cf6"][i]} />
+        <polygon
+          key={i}
+          points={`${px},${py} ${px + 18},${py} ${px + 9},${py + 18}`}
+          fill={["#ef4444", "#f59e0b", "#10b981", "#3b82f6", "#ec4899", "#8b5cf6", "#f97316"][i % 7]}
+          stroke="rgba(0,0,0,0.15)"
+          strokeWidth="1"
+        />
       ))}
-      {/* left stall — red stripes */}
+
+      {/* LEFT STALL — Fresh Farm Produce */}
       <g>
-        <rect x="-166" y="-70" width="112" height="34" rx="4" fill="#c08a57" />
-        <rect x="-162" y="-124" width="8" height="58" fill="#a9744f" />
-        <rect x="-60" y="-124" width="8" height="58" fill="#a9744f" />
+        <ellipse cx="-110" cy="-30" rx="66" ry="18" fill="rgba(15, 23, 42, 0.25)" />
+        <rect x="-172" y="-76" width="124" height="42" rx="4" fill="#a16207" stroke="#713f12" strokeWidth="2.5" />
+        <rect x="-168" y="-72" width="116" height="8" rx="2" fill="#ca8a04" />
+        <rect x="-168" y="-134" width="8" height="64" fill="#713f12" />
+        <rect x="-56" y="-134" width="8" height="64" fill="#713f12" />
+
+        {/* 3D Scalloped Candy-Striped Awning */}
         <g className="anim-sway" style={{ animationDuration: "6s" }}>
-          <rect x="-172" y="-122" width="124" height="24" fill="#f87171" />
-          {[-152, -132, -112, -92, -72].map((sx) => (
-            <rect key={sx} x={sx} y="-122" width="12" height="24" fill="#ffffff" />
+          <rect x="-180" y="-134" width="138" height="32" rx="2" fill="#ef4444" stroke="#b91c1c" strokeWidth="2" />
+          {[-158, -136, -114, -92, -70].map((sx) => (
+            <rect key={sx} x={sx} y="-134" width="12" height="32" fill="#ffffff" />
           ))}
-          {[-172, -150, -128, -106, -84, -62].map((sx) => (
-            <circle key={sx} cx={sx + 6} cy="-98" r="6" fill="#f87171" />
+          {[-180, -157, -134, -111, -88, -65].map((sx) => (
+            <circle key={sx} cx={sx + 11} cy="-102" r="7.5" fill="#ef4444" />
           ))}
         </g>
-        <circle cx="-146" cy="-76" r="9" fill="#fb923c" />
-        <circle cx="-128" cy="-74" r="9" fill="#fb923c" />
-        <circle cx="-110" cy="-76" r="9" fill="#ef4444" />
-        <circle cx="-92" cy="-74" r="9" fill="#22c55e" />
-        <circle cx="-74" cy="-76" r="9" fill="#fbbf24" />
+
+        {/* Produce Crates & Baskets on Counter */}
+        <rect x="-164" y="-84" width="34" height="18" rx="3" fill="#854d0e" stroke="#713f12" strokeWidth="1.5" />
+        <circle cx="-154" cy="-86" r="6" fill="#ef4444" />
+        <circle cx="-142" cy="-88" r="6" fill="#ef4444" />
+        <rect x="-124" y="-84" width="34" height="18" rx="3" fill="#854d0e" stroke="#713f12" strokeWidth="1.5" />
+        <circle cx="-114" cy="-86" r="6" fill="#f97316" />
+        <circle cx="-102" cy="-88" r="6" fill="#f59e0b" />
+        <rect x="-84" y="-84" width="34" height="18" rx="3" fill="#854d0e" stroke="#713f12" strokeWidth="1.5" />
+        <circle cx="-74" cy="-86" r="6" fill="#22c55e" />
+        <circle cx="-62" cy="-88" r="6" fill="#8b5cf6" />
       </g>
-      {/* right stall — green stripes */}
+
+      {/* RIGHT STALL — Potions & Wonders */}
       <g>
-        <rect x="10" y="-70" width="112" height="34" rx="4" fill="#c08a57" />
-        <rect x="14" y="-124" width="8" height="58" fill="#a9744f" />
-        <rect x="116" y="-124" width="8" height="58" fill="#a9744f" />
+        <ellipse cx="68" cy="-30" rx="66" ry="18" fill="rgba(15, 23, 42, 0.25)" />
+        <rect x="6" y="-76" width="124" height="42" rx="4" fill="#a16207" stroke="#713f12" strokeWidth="2.5" />
+        <rect x="10" y="-72" width="116" height="8" rx="2" fill="#ca8a04" />
+        <rect x="10" y="-134" width="8" height="64" fill="#713f12" />
+        <rect x="122" y="-134" width="8" height="64" fill="#713f12" />
+
+        {/* 3D Scalloped Awning (Emerald & White) */}
         <g className="anim-sway" style={{ animationDuration: "6.8s", animationDelay: "-2s" }}>
-          <rect x="4" y="-122" width="124" height="24" fill="#22c55e" />
-          {[24, 44, 64, 84, 104].map((sx) => (
-            <rect key={sx} x={sx} y="-122" width="12" height="24" fill="#ffffff" />
+          <rect x="-2" y="-134" width="138" height="32" rx="2" fill="#10b981" stroke="#047857" strokeWidth="2" />
+          {[-2, 20, 42, 64, 86, 108].map((sx) => (
+            <rect key={sx} x={sx} y="-134" width="12" height="32" fill="#ffffff" />
           ))}
-          {[4, 26, 48, 70, 92, 114].map((sx) => (
-            <circle key={sx} cx={sx + 6} cy="-98" r="6" fill="#22c55e" />
+          {[-2, 21, 44, 67, 90, 113].map((sx) => (
+            <circle key={sx} cx={sx + 11} cy="-102" r="7.5" fill="#10b981" />
           ))}
         </g>
-        <circle cx="30" cy="-76" r="9" fill="#fbbf24" />
-        <circle cx="48" cy="-74" r="9" fill="#ef4444" />
-        <circle cx="66" cy="-76" r="9" fill="#fb923c" />
-        <circle cx="84" cy="-74" r="9" fill="#a78bfa" />
-        <circle cx="102" cy="-76" r="9" fill="#22c55e" />
+
+        {/* Potions & Magical Geodes on Shelves */}
+        <path d="M 22 -76 C 18 -84, 30 -84, 26 -76 Z" fill="#ef4444" />
+        <circle cx="24" cy="-82" r="6" fill="#ef4444" stroke="#b91c1c" strokeWidth="1" />
+        <rect x="22" y="-91" width="4" height="5" fill="#ca8a04" />
+
+        <circle cx="48" cy="-82" r="6.5" fill="#38bdf8" stroke="#0284c7" strokeWidth="1" />
+        <rect x="46" y="-91" width="4" height="5" fill="#ca8a04" />
+
+        <circle cx="72" cy="-82" r="6.5" fill="#facc15" stroke="#d97706" strokeWidth="1" />
+        <rect x="70" y="-91" width="4" height="5" fill="#ca8a04" />
+
+        <polygon points="94,-76 102,-92 110,-76 102,-72" fill="#a855f7" stroke="#7e22ce" strokeWidth="1.5" />
       </g>
-      {/* crates of produce */}
+
+      {/* Crates & Barrels of Goods */}
       <g>
-        <rect x="150" y="-52" width="52" height="30" rx="3" fill="#c08a57" stroke="#a9744f" strokeWidth="3" />
-        <circle cx="162" cy="-52" r="7" fill="#fb923c" />
-        <circle cx="176" cy="-54" r="7" fill="#ef4444" />
-        <circle cx="190" cy="-52" r="7" fill="#fbbf24" />
-        <rect x="156" y="-84" width="44" height="28" rx="3" fill="#b07b4c" stroke="#a9744f" strokeWidth="3" />
-        <circle cx="166" cy="-84" r="6" fill="#22c55e" />
-        <circle cx="180" cy="-86" r="6" fill="#ef4444" />
-        <circle cx="192" cy="-84" r="6" fill="#fb923c" />
+        <ellipse cx="162" cy="-42" rx="14" ry="24" fill="#a16207" stroke="#713f12" strokeWidth="2" />
+        <line x1="148" y1="-50" x2="176" y2="-50" stroke="#475569" strokeWidth="2.5" />
+        <line x1="148" y1="-34" x2="176" y2="-34" stroke="#475569" strokeWidth="2.5" />
+        <rect x="156" y="-76" width="54" height="34" rx="3" fill="#ca8a04" stroke="#854d0e" strokeWidth="2.5" />
+        <line x1="156" y1="-76" x2="210" y2="-42" stroke="#854d0e" strokeWidth="2" />
+        <rect x="162" y="-108" width="44" height="32" rx="3" fill="#b45309" stroke="#78350f" strokeWidth="2.5" />
+        <circle cx="174" cy="-110" r="6" fill="#22c55e" />
+        <circle cx="188" cy="-112" r="6" fill="#ef4444" />
+        <circle cx="200" cy="-110" r="6" fill="#f97316" />
       </g>
-      {/* hanging market sign */}
+
+      {/* Hanging Market Signpost */}
       <g>
-        <line x1="182" y1="-4" x2="182" y2="-92" stroke="#8b5e3c" strokeWidth="6" />
-        <rect x="146" y="-124" width="76" height="34" rx="8" fill="#f7e7c6" stroke="#b98a5a" strokeWidth="3" />
-        <text x="184" y="-101" textAnchor="middle" fontSize="16" fontWeight="800" fill="#7c4a1e" style={HEADING_FONT}>
+        <line x1="192" y1="-4" x2="192" y2="-106" stroke="#6d472b" strokeWidth="7" strokeLinecap="round" />
+        <line x1="192" y1="-98" x2="242" y2="-98" stroke="#6d472b" strokeWidth="5" strokeLinecap="round" />
+        <line x1="206" y1="-98" x2="206" y2="-112" stroke="#475569" strokeWidth="2" />
+        <line x1="234" y1="-98" x2="234" y2="-112" stroke="#475569" strokeWidth="2" />
+        <rect x="194" y="-138" width="86" height="38" rx="8" fill="#fef3c7" stroke="#92400e" strokeWidth="3.5" />
+        <text x="237" y="-113" textAnchor="middle" fontSize="16" fontWeight="800" fill="#78350f" style={HEADING_FONT}>
           MARKET
         </text>
       </g>
-      <Villager x="-30" y="34" dur="8" delay="-1" dx="26" tunic="#7c5cc4" />
-      <Villager x="60" y="42" dur="9" delay="-5" dx="22" tunic="#f59e0b" />
-      <circle className="anim-twinkle" cx="200" cy="-96" r="5" fill="#fbbf24" />
-      <circle className="anim-twinkle" cx="216" cy="-40" r="4" fill="#fbbf24" style={{ animationDelay: "-0.9s" }} />
+
+      <Villager x="-30" y="36" dur="8" delay="-1" dx="26" tunic="#7c3aed" />
+      <Villager x="60" y="44" dur="9" delay="-5" dx="22" tunic="#f59e0b" hat />
+      <circle className="anim-twinkle" cx="212" cy="-106" r="5" fill="#facc15" />
+      <circle className="anim-twinkle" cx="228" cy="-50" r="4.5" fill="#facc15" style={{ animationDelay: "-0.9s" }} />
     </g>
   );
 }
@@ -369,65 +656,81 @@ function MarketArt() {
 function MarketingArt() {
   return (
     <g>
-      <ellipse cx="0" cy="-2" rx="208" ry="98" fill="#dcd7ea" />
-      <line x1="-190" y1="18" x2="190" y2="18" stroke="#cbc4e0" strokeWidth="4" />
-      <line x1="-150" y1="-30" x2="150" y2="-30" stroke="#cbc4e0" strokeWidth="4" />
-      {/* paint splashes */}
-      <ellipse cx="-40" cy="26" rx="12" ry="5" fill="#f59e0b" opacity="0.5" />
-      <ellipse cx="120" cy="34" rx="10" ry="4" fill="#22c55e" opacity="0.5" />
-      <ellipse cx="190" cy="10" rx="9" ry="4" fill="#3b82f6" opacity="0.4" />
-      {/* studio building */}
+      {/* Ground hill base */}
+      <ellipse cx="0" cy="4" rx="220" ry="106" fill="rgba(15, 23, 42, 0.18)" />
+      <ellipse cx="0" cy="-2" rx="215" ry="102" fill="#d8cfe6" />
+      <ellipse cx="-15" cy="-10" rx="192" ry="88" fill="#e8e0f5" opacity="0.6" />
+
+      {/* Decorative paint splashes & stone terrace */}
+      <line x1="-196" y1="20" x2="196" y2="20" stroke="#beb2d6" strokeWidth="4" />
+      <line x1="-160" y1="-32" x2="160" y2="-32" stroke="#beb2d6" strokeWidth="4" />
+      <ellipse cx="-42" cy="28" rx="14" ry="6" fill="#f59e0b" opacity="0.75" />
+      <ellipse cx="122" cy="36" rx="12" ry="5" fill="#10b981" opacity="0.75" />
+      <ellipse cx="192" cy="12" rx="11" ry="5" fill="#3b82f6" opacity="0.75" />
+      <ellipse cx="-120" cy="34" rx="10" ry="4.5" fill="#ec4899" opacity="0.75" />
+
+      {/* Studio Workshop Building */}
       <g>
-        <rect x="-156" y="-162" width="184" height="116" rx="8" fill="#fdfdff" />
-        <rect x="-166" y="-176" width="204" height="16" rx="7" fill="#ec4899" />
-        <rect x="-142" y="-146" width="158" height="42" rx="5" fill="#a5c8f5" stroke="#ffffff" strokeWidth="4" />
-        <line x1="-103" y1="-146" x2="-103" y2="-104" stroke="#ffffff" strokeWidth="3" />
-        <line x1="-64" y1="-146" x2="-64" y2="-104" stroke="#ffffff" strokeWidth="3" />
-        <line x1="-142" y1="-125" x2="16" y2="-125" stroke="#ffffff" strokeWidth="3" />
-        <rect x="-96" y="-92" width="36" height="46" rx="6" fill="#7c5cc4" />
-        <circle cx="-68" cy="-68" r="3" fill="#fde68a" />
-        <rect x="-46" y="-92" width="56" height="40" rx="5" fill="#c7dfff" stroke="#ffffff" strokeWidth="4" />
+        <ellipse cx="-60" cy="-28" rx="105" ry="24" fill="rgba(15, 23, 42, 0.28)" />
+        <rect x="-164" y="-170" width="194" height="122" rx="8" fill="#ffffff" stroke="#cbd5e1" strokeWidth="2.5" />
+        <rect x="-174" y="-184" width="214" height="18" rx="7" fill="#db2777" stroke="#be185d" strokeWidth="2" />
+
+        <rect x="-150" y="-154" width="166" height="48" rx="6" fill="#dbeafe" stroke="#ffffff" strokeWidth="4" />
+        <line x1="-110" y1="-154" x2="-110" y2="-106" stroke="#ffffff" strokeWidth="3" />
+        <line x1="-70" y1="-154" x2="-70" y2="-106" stroke="#ffffff" strokeWidth="3" />
+        <line x1="-30" y1="-154" x2="-30" y2="-106" stroke="#ffffff" strokeWidth="3" />
+        <rect x="-142" y="-146" width="26" height="32" rx="2" fill="#f43f5e" />
+        <circle cx="-129" cy="-132" r="5" fill="#fde047" />
+
+        <rect x="-102" y="-98" width="40" height="50" rx="6" fill="#7c3aed" stroke="#ffffff" strokeWidth="2.5" />
+        <circle cx="-72" cy="-73" r="3.5" fill="#fde047" />
+        <rect x="-50" y="-98" width="62" height="42" rx="6" fill="#e0e7ff" stroke="#ffffff" strokeWidth="4" />
+        <polygon points="-38,-68 -24,-90 -10,-68" fill="#db2777" />
       </g>
-      {/* broadcast antenna */}
+
+      {/* Domed Observatory with Telescope */}
       <g>
-        <line x1="-120" y1="-176" x2="-120" y2="-252" stroke="#64748b" strokeWidth="5" strokeLinecap="round" />
-        <line x1="-136" y1="-234" x2="-104" y2="-234" stroke="#64748b" strokeWidth="4" />
-        <line x1="-130" y1="-246" x2="-110" y2="-246" stroke="#64748b" strokeWidth="4" />
-        <circle className="anim-twinkle" cx="-120" cy="-258" r="6" fill="#ef4444" style={{ animationDuration: "1.3s" }} />
+        <path d="M -156 -184 A 36 36 0 0 1 -84 -184 Z" fill="#d97706" stroke="#92400e" strokeWidth="2.5" />
+        <path d="M -146 -184 A 26 26 0 0 1 -94 -184 Z" fill="#f59e0b" />
+        <line x1="-120" y1="-184" x2="-120" y2="-220" stroke="#78350f" strokeWidth="5" />
+        <line x1="-128" y1="-214" x2="-104" y2="-242" stroke="#ca8a04" strokeWidth="7" strokeLinecap="round" />
+        <circle cx="-102" cy="-244" r="5" fill="#38bdf8" />
       </g>
-      {/* billboard */}
+
+      {/* Broadcast / Creative Antenna */}
       <g>
-        <rect x="70" y="-88" width="9" height="90" fill="#94a3b8" />
-        <rect x="146" y="-88" width="9" height="90" fill="#94a3b8" />
-        <rect x="52" y="-238" width="152" height="92" rx="10" fill="#ffffff" stroke="#ec4899" strokeWidth="6" />
-        <polygon points="84,-178 124,-198 124,-158" fill="#ec4899" />
-        <rect x="74" y="-186" width="12" height="16" rx="4" fill="#be185d" />
-        <path d="M 132 -196 q 10 18 0 36" stroke="#f59e0b" strokeWidth="4" fill="none" strokeLinecap="round" />
-        <path d="M 144 -204 q 16 26 0 52" stroke="#f59e0b" strokeWidth="4" fill="none" strokeLinecap="round" />
-        <circle className="anim-twinkle" cx="188" cy="-222" r="5" fill="#fbbf24" />
-        <circle className="anim-twinkle" cx="196" cy="-166" r="4" fill="#ec4899" style={{ animationDelay: "-0.8s" }} />
+        <line x1="-40" y1="-184" x2="-40" y2="-268" stroke="#475569" strokeWidth="5" strokeLinecap="round" />
+        <line x1="-58" y1="-248" x2="-22" y2="-248" stroke="#475569" strokeWidth="4" />
+        <line x1="-50" y1="-260" x2="-30" y2="-260" stroke="#475569" strokeWidth="4" />
+        <circle className="anim-twinkle" cx="-40" cy="-274" r="7" fill="#ef4444" style={{ animationDuration: "1.3s" }} />
       </g>
-      {/* poster boards */}
-      <g transform="rotate(-6 -170 -32)">
-        <rect x="-196" y="-64" width="52" height="64" rx="6" fill="#fce7f3" stroke="#ec4899" strokeWidth="4" />
-        <circle cx="-182" cy="-46" r="10" fill="#3b82f6" />
-        <rect x="-192" y="-30" width="34" height="7" rx="3" fill="#f59e0b" />
-      </g>
-      <g transform="rotate(5 -109 -29)">
-        <rect x="-132" y="-58" width="46" height="58" rx="6" fill="#eff6ff" stroke="#3b82f6" strokeWidth="4" />
-        <path d="M -122 -24 l 10 -16 8 10 7 -12 9 18 Z" fill="#22c55e" />
-      </g>
-      {/* easel */}
+
+      {/* Large Creative Billboard Display */}
       <g>
-        <line x1="-30" y1="-2" x2="-48" y2="-78" stroke="#8b5e3c" strokeWidth="4" />
-        <line x1="-30" y1="-2" x2="-12" y2="-78" stroke="#8b5e3c" strokeWidth="4" />
-        <rect x="-58" y="-118" width="56" height="44" rx="4" fill="#ffffff" stroke="#cbd5e1" strokeWidth="3" />
-        <circle cx="-40" cy="-98" r="9" fill="#ec4899" />
-        <path d="M -30 -108 l 14 22 h -28 Z" fill="#22c55e" />
+        <rect x="74" y="-92" width="10" height="96" rx="2" fill="#64748b" />
+        <rect x="156" y="-92" width="10" height="96" rx="2" fill="#64748b" />
+        <rect x="54" y="-246" width="162" height="98" rx="10" fill="#ffffff" stroke="#db2777" strokeWidth="7" />
+        <polygon points="90,-182 134,-204 134,-160" fill="#db2777" />
+        <rect x="78,-192" width="14" height="20" rx="4" fill="#9d174d" />
+        <path d="M 144 -202 q 12 20 0 40" stroke="#f59e0b" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+        <path d="M 158 -212 q 18 30 0 60" stroke="#f59e0b" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+        <circle className="anim-twinkle" cx="196" cy="-230" r="5.5" fill="#facc15" />
+        <circle className="anim-twinkle" cx="204" cy="-170" r="4.5" fill="#ec4899" style={{ animationDelay: "-0.8s" }} />
       </g>
-      <Villager x="30" y="36" dur="10" delay="-3" dx="30" tunic="#ec4899" />
-      <Bush x="210" y="10" />
-      <Sign x="-160" y="44" label="Studio" />
+
+      {/* Artist's Outdoor Easel with Scenic Painting */}
+      <g>
+        <line x1="-30" y1="-2" x2="-50" y2="-82" stroke="#6d472b" strokeWidth="4.5" strokeLinecap="round" />
+        <line x1="-30" y1="-2" x2="-10" y2="-82" stroke="#6d472b" strokeWidth="4.5" strokeLinecap="round" />
+        <rect x="-62" y="-124" width="62" height="48" rx="4" fill="#ffffff" stroke="#94a3b8" strokeWidth="3" />
+        <polygon points="-60,-80 -40,-104 -20,-80" fill="#3b82f6" />
+        <polygon points="-40,-80 -22,-110 -2,-80" fill="#10b981" />
+        <circle cx="-50" cy="-110" r="7" fill="#f59e0b" />
+      </g>
+
+      <Villager x="30" y="38" dur="10" delay="-3" dx="30" tunic="#ec4899" />
+      <Bush x="214" y="12" />
+      <Sign x="-160" y="48" label="Studio" />
     </g>
   );
 }
