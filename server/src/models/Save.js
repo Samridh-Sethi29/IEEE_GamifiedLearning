@@ -7,7 +7,6 @@ const saveSchema = new mongoose.Schema(
       ref: "User",
       required: true,
       unique: true,
-      index: true,
     },
     schemaVersion: {
       type: Number,
