@@ -5,7 +5,7 @@ export const DEFAULT_PLAYER = {
   name: "Explorer",
   level: 1,
   xp: 0,
-  coins: 150,
+  coins: 250,
   day: 1,
   computerProgress: {
     typing: {

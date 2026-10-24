@@ -39,71 +39,71 @@ const EMOJIS = {
 const CROPS = {
   // --- CROPS ---
   wheat: {
-    id: 'wheat', name: 'Wheat', type: 'crop', seasons: ['Spring', 'Summer'], daysToGrow: 2, buyPrice: 5, sellPrice: 15, xp: 10,
+    id: 'wheat', name: 'Wheat', type: 'crop', seasons: ['Spring', 'Summer'], daysToGrow: 2, buyPrice: 8, sellPrice: 22, xp: 12,
     sowMonth: 'October-November (Winter)', sowWay: 'Line sowing (drill)', nutrition: 'Carbs, Protein (Gluten), Vit B',
     description: 'A major cereal grain. Crucial for global food security.', soil: 'Well-drained loam or clay loam', waterNeeds: 'Moderate'
   },
   millet: {
-    id: 'millet', name: 'Millet', type: 'crop', seasons: ['Summer'], daysToGrow: 2, buyPrice: 4, sellPrice: 12, xp: 8,
+    id: 'millet', name: 'Millet', type: 'crop', seasons: ['Summer'], daysToGrow: 2, buyPrice: 5, sellPrice: 14, xp: 8,
     sowMonth: 'June-July (Monsoon)', sowWay: 'Broadcasting or drilling', nutrition: 'High Fiber, Magnesium, Calcium',
     description: 'Drought-resistant grain, excellent for dryland farming.', soil: 'Sandy loam to clay loam', waterNeeds: 'Low (Drought tolerant)'
   },
   mustard: {
-    id: 'mustard', name: 'Mustard', type: 'crop', seasons: ['Autumn', 'Winter'], daysToGrow: 2, buyPrice: 6, sellPrice: 18, xp: 12,
+    id: 'mustard', name: 'Mustard', type: 'crop', seasons: ['Autumn', 'Winter'], daysToGrow: 2, buyPrice: 10, sellPrice: 26, xp: 14,
     sowMonth: 'October (Autumn)', sowWay: 'Line sowing in shallow depths', nutrition: 'Omega-3, Vitamin E, Calcium',
     description: 'Important oilseed crop with bright yellow flowers.', soil: 'Light to heavy loamy soils', waterNeeds: 'Low to Moderate'
   },
   bajra: {
-    id: 'bajra', name: 'Bajra', type: 'crop', seasons: ['Summer'], daysToGrow: 2, buyPrice: 4, sellPrice: 14, xp: 10,
+    id: 'bajra', name: 'Bajra', type: 'crop', seasons: ['Summer'], daysToGrow: 2, buyPrice: 6, sellPrice: 16, xp: 10,
     sowMonth: 'July (Summer)', sowWay: 'Shallow sowing in rows', nutrition: 'High Protein, Iron, Zinc',
     description: 'Pearl millet, highly adapted to extreme heat and poor soils.', soil: 'Light sandy soils', waterNeeds: 'Very Low'
   },
 
   // --- FRUITS ---
   banana: {
-    id: 'banana', name: 'Banana', type: 'fruit', seasons: ['Spring', 'Summer', 'Autumn'], daysToGrow: 3, buyPrice: 15, sellPrice: 45, xp: 20,
+    id: 'banana', name: 'Banana', type: 'fruit', seasons: ['Spring', 'Summer', 'Autumn'], daysToGrow: 3, buyPrice: 25, sellPrice: 80, xp: 30,
     sowMonth: 'February-March', sowWay: 'Planting suckers or tissue culture', nutrition: 'Potassium, Vitamin B6, Vitamin C',
     description: 'A fast-growing herbaceous plant, highly nutrient-demanding.', soil: 'Deep, rich, well-drained loam', waterNeeds: 'High'
   },
   carrot: {
-    id: 'carrot', name: 'Carrot', type: 'fruit', seasons: ['Autumn', 'Winter'], daysToGrow: 2, buyPrice: 10, sellPrice: 25, xp: 15,
+    id: 'carrot', name: 'Carrot', type: 'fruit', seasons: ['Autumn', 'Winter'], daysToGrow: 2, buyPrice: 16, sellPrice: 46, xp: 20,
     sowMonth: 'August-October', sowWay: 'Direct sowing on ridges/beds', nutrition: 'Beta-carotene (Vit A), Vitamin K1',
     description: 'A root vegetable requiring loose soil to grow straight.', soil: 'Deep, loose, sandy loam', waterNeeds: 'Moderate'
   },
   mango: {
-    id: 'mango', name: 'Mango', type: 'fruit', seasons: ['Summer'], daysToGrow: 4, buyPrice: 30, sellPrice: 100, xp: 40,
+    id: 'mango', name: 'Mango', type: 'fruit', seasons: ['Summer'], daysToGrow: 4, buyPrice: 50, sellPrice: 180, xp: 60,
     sowMonth: 'July-August', sowWay: 'Grafting, planted in large pits', nutrition: 'Vitamin C, Vitamin A, Folate',
     description: 'The king of fruits, requires tropical/subtropical climates.', soil: 'Lateritic, alluvial, well-drained', waterNeeds: 'Moderate'
   },
   watermelon: {
-    id: 'watermelon', name: 'Watermelon', type: 'fruit', seasons: ['Summer'], daysToGrow: 3, buyPrice: 12, sellPrice: 40, xp: 18,
+    id: 'watermelon', name: 'Watermelon', type: 'fruit', seasons: ['Summer'], daysToGrow: 3, buyPrice: 20, sellPrice: 65, xp: 25,
     sowMonth: 'February-March', sowWay: 'Hill planting (2-3 seeds per mound)', nutrition: 'Vitamin C, Vitamin A, Hydration',
     description: 'A sprawling vine plant that thrives in intense summer heat.', soil: 'Sandy loam (rich in organic matter)', waterNeeds: 'High'
   },
   grapes: {
-    id: 'grapes', name: 'Grapes', type: 'fruit', seasons: ['Summer', 'Autumn'], daysToGrow: 3, buyPrice: 20, sellPrice: 70, xp: 25,
+    id: 'grapes', name: 'Grapes', type: 'fruit', seasons: ['Summer', 'Autumn'], daysToGrow: 3, buyPrice: 35, sellPrice: 120, xp: 45,
     sowMonth: 'October-January', sowWay: 'Hardwood stem cuttings', nutrition: 'Antioxidants, Vit C, Vit K',
     description: 'A woody vine crop requiring trellising and regular pruning.', soil: 'Well-drained gravelly loam', waterNeeds: 'Moderate'
   },
 
   // --- VEGETABLES ---
   ladyfinger: {
-    id: 'ladyfinger', name: 'Ladyfinger', type: 'vegetable', seasons: ['Spring', 'Summer'], daysToGrow: 2, buyPrice: 8, sellPrice: 24, xp: 12,
+    id: 'ladyfinger', name: 'Ladyfinger', type: 'vegetable', seasons: ['Spring', 'Summer'], daysToGrow: 2, buyPrice: 14, sellPrice: 40, xp: 18,
     sowMonth: 'February-March', sowWay: 'Dibbling seeds on raised beds', nutrition: 'Dietary Fiber, Vitamin C, Vitamin K',
     description: 'Also known as Okra. Thrives in warm, humid climates.', soil: 'Sandy to clay loam', waterNeeds: 'Moderate'
   },
   tomato: {
-    id: 'tomato', name: 'Tomato', type: 'vegetable', seasons: ['Summer', 'Autumn'], daysToGrow: 2, buyPrice: 7, sellPrice: 22, xp: 10,
+    id: 'tomato', name: 'Tomato', type: 'vegetable', seasons: ['Summer', 'Autumn'], daysToGrow: 2, buyPrice: 12, sellPrice: 34, xp: 15,
     sowMonth: 'May-June', sowWay: 'Nursery raising & transplanting', nutrition: 'Lycopene, Vitamin C, Potassium',
     description: 'A staple nightshade crop requiring staking and pruning.', soil: 'Well-drained sandy loam', waterNeeds: 'Moderate'
   },
   lemon: {
-    id: 'lemon', name: 'Lemon', type: 'vegetable', seasons: ['Summer', 'Autumn'], daysToGrow: 3, buyPrice: 15, sellPrice: 50, xp: 22,
+    id: 'lemon', name: 'Lemon', type: 'vegetable', seasons: ['Summer', 'Autumn'], daysToGrow: 3, buyPrice: 30, sellPrice: 100, xp: 35,
     sowMonth: 'July-August', sowWay: 'Seeds or vegetative budding', nutrition: 'High Vitamin C, Citric Acid',
     description: 'A small evergreen citrus tree. Highly sensitive to frost.', soil: 'Medium to light loamy soils', waterNeeds: 'Moderate'
   },
   cucumber: {
-    id: 'cucumber', name: 'Cucumber', type: 'vegetable', seasons: ['Summer'], daysToGrow: 2, buyPrice: 6, sellPrice: 18, xp: 9,
+    id: 'cucumber', name: 'Cucumber', type: 'vegetable', seasons: ['Summer'], daysToGrow: 2, buyPrice: 10, sellPrice: 28, xp: 12,
     sowMonth: 'February-March', sowWay: 'Direct sowing on mounds/ridges', nutrition: 'Vitamin K, Potassium, 95% Water',
     description: 'A creeping vine plant. Highly responsive to organic manure.', soil: 'Rich sandy loam', waterNeeds: 'High'
   }
@@ -111,41 +111,41 @@ const CROPS = {
 
 const EQUIPMENT = {
   scythe: {
-    id: 'scythe', name: 'Scythe', type: 'equipment', buyPrice: 150,
+    id: 'scythe', name: 'Scythe', type: 'equipment', buyPrice: 45,
     icon: '🗡️',
     description: 'A traditional hand tool with a curved blade used for mowing grass or reaping crops.',
     educationalFact: 'Historically, scythes revolutionized farming by allowing one person to harvest much more grain in a day compared to a sickle. Modern agriculture uses combine harvesters, but scythes are still used for managing weeds in small farms.',
     action: 'Clears all dead crops instantly.'
   },
   pickaxe: {
-    id: 'pickaxe', name: 'Pickaxe', type: 'equipment', buyPrice: 200,
+    id: 'pickaxe', name: 'Pickaxe', type: 'equipment', buyPrice: 80,
     icon: '⛏️',
     description: 'A T-shaped hand tool used for prying and breaking hard soil or rocks.',
     educationalFact: 'Pickaxes are essential for breaking up hard, compacted soil (hardpan) and removing large rocks to prepare land for plowing. Good soil aeration allows roots to penetrate deeper and access more nutrients.',
     action: 'Breaks rocks/debris.' 
   },
   sprinkler: {
-    id: 'sprinkler', name: 'Sprinkler', type: 'equipment', buyPrice: 500,
+    id: 'sprinkler', name: 'Sprinkler', type: 'equipment', buyPrice: 250,
     icon: '🚿',
     description: 'An automated device that sprays water over crops.',
     educationalFact: 'Sprinkler irrigation mimics natural rainfall and is much more efficient than traditional flood irrigation. It prevents soil erosion, reduces water wastage, and ensures even distribution of water across large crop fields.',
     action: 'Waters a 3x3 grid of crops automatically.'
   },
   scarecrow: {
-    id: 'scarecrow', name: 'Scarecrow', type: 'equipment', buyPrice: 300,
+    id: 'scarecrow', name: 'Scarecrow', type: 'equipment', buyPrice: 130,
     icon: '🧍',
     description: 'A decoy or mannequin placed in a field to deter birds.',
     educationalFact: 'Birds can decimate freshly sown seeds and ripe crops. Scarecrows are one of the oldest forms of pest control. Modern farms often use reflective tapes, noise cannons, or drones instead of traditional scarecrows.',
     action: 'Prevents crows from eating crops.'
   },
   neem_oil: {
-    id: 'neem_oil', name: 'Neem Oil', type: 'equipment', buyPrice: 100, icon: '🧴',
+    id: 'neem_oil', name: 'Neem Oil', type: 'equipment', buyPrice: 35, icon: '🧴',
     description: 'Organic pest control extracted from the Neem tree.',
     educationalFact: 'Unlike harsh chemical pesticides that kill beneficial insects and degrade soil, Neem oil acts as a natural repellent and disrupts the life cycle of pests while keeping ladybugs and earthworms safe.',
     action: 'Cures crops infected by pests.'
   },
   fertilizer: {
-    id: 'fertilizer', name: 'Organic Fertilizer', type: 'equipment', buyPrice: 50, icon: '💩',
+    id: 'fertilizer', name: 'Organic Fertilizer', type: 'equipment', buyPrice: 20, icon: '💩',
     description: 'Rich organic matter made from composted weeds.',
     educationalFact: 'Plants absorb Nitrogen, Phosphorus, and Potassium from the soil to grow. Without fertilizer, the dirt becomes depleted and dead. Composting creates a circular ecosystem where dead plants feed new plants!',
     action: 'Heals depleted soil so crops can grow again.'
