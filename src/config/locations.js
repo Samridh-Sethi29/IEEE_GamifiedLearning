@@ -104,7 +104,7 @@ export const LOCATIONS = [
     colorDeep: "#BE185D",
     colorSoft: "#FCE7F3",
     description: "Design campaigns, test creative pitches and grow your audience.",
-    route: "/world/marketing",
+    route: "/world/studio",
     position: { x: 800, y: 845 },
     hit: { w: 440, top: -295, h: 335 },
     tooltipY: -350,

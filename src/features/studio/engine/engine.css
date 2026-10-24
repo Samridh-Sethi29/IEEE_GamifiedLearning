@@ -1,0 +1,233 @@
+/*
+  Creation engine workspace. Every class is namespaced `sce-` (shared creation engine); nothing
+  here styles other worlds or the Studio hub. Plain CSS, like studio.css.
+
+  Layout (grid areas, so DOM order stays palette -> canvas -> properties for keyboard users):
+    < 700px      stacked: canvas, palette, properties (panels collapse into sections)
+    700-999px    canvas full width, palette | properties underneath (page scrolls)
+    >= 1000px    palette | canvas | properties
+    >= 1000px and >= 600px tall: "app mode": the page itself does not scroll. The canvas takes
+                 all remaining space and the side panels scroll on their own if they need to.
+*/
+
+.sce-scope {
+  --sce-ink: #1e1b4b;
+  --sce-body: #334155;
+  --sce-accent: #4f46e5;
+  --sce-line: #c7d2fe;
+  --sce-radius: 12px;
+  --sce-control: 40px;
+  position: fixed;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: var(--sce-ink);
+  background: radial-gradient(ellipse at 50% 40%, #4aa3e0 0%, #3a8bd0 70%, #2f78bd 100%);
+}
+@media (pointer: coarse) { .sce-scope { --sce-control: 44px; } }
+.sce-scope *, .sce-scope *::before, .sce-scope *::after { box-sizing: border-box; }
+.sce-scope h1, .sce-scope h2, .sce-scope h3 { font-family: var(--font-heading); margin: 0; color: #0f172a; }
+.sce-scope p, .sce-scope ul, .sce-scope ol { margin: 0; }
+.sce-scope ul, .sce-scope ol { padding: 0; list-style: none; }
+.sce-scope button, .sce-scope input { font: inherit; }
+
+.sce-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.sce-shell { max-width: 1600px; margin: 0 auto; padding: 10px 14px 24px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+
+/* ---- header (compact) ---- */
+.sce-header { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.sce-back {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px; border-radius: 999px;
+  background: #fff; color: var(--sce-ink); font-weight: 700; font-size: 14px; text-decoration: none;
+  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.18);
+}
+.sce-back:hover { background: #eef2ff; }
+.sce-heading { flex: 1 1 260px; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 12px; }
+.sce-title { display: flex; align-items: center; gap: 8px; font-size: clamp(1.15rem, 2.2vw, 1.5rem); color: #fff !important; text-shadow: 0 2px 0 rgba(15, 23, 42, 0.25); }
+.sce-lead { color: #eaf4ff; font-size: 13px; line-height: 1.35; min-width: 0; }
+
+/* ---- focus ---- */
+.sce-scope a:focus-visible, .sce-scope button:focus-visible, .sce-scope input:focus-visible,
+.sce-scope summary:focus-visible { outline: 3px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 5px #4f46e5; }
+.sce-panel a:focus-visible, .sce-panel button:focus-visible, .sce-panel input:focus-visible,
+.sce-toolbar button:focus-visible, .sce-keys summary:focus-visible { outline: 3px solid #4f46e5; box-shadow: 0 0 0 5px #fff; }
+.sce-object:focus { outline: none; }
+.sce-object:focus-visible .sce-selection { stroke: #1d4ed8; stroke-width: 5; }
+.sce-canvas:focus-within { border-color: #fff; }
+
+/* ---- buttons (one family: same height, radius, states) ---- */
+.sce-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: var(--sce-control);
+  padding: 6px 12px; border-radius: 10px; border: 2px solid var(--sce-line); background: #eef2ff;
+  color: var(--sce-ink); font-weight: 700; font-size: 14px; line-height: 1.2; cursor: pointer; white-space: nowrap;
+  transition: background-color 0.12s, border-color 0.12s, transform 0.05s;
+}
+.sce-btn:hover:not(:disabled) { background: #e0e7ff; border-color: #a5b4fc; }
+.sce-btn:active:not(:disabled) { transform: translateY(1px); background: #c7d2fe; }
+.sce-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.sce-btn--danger { border-color: #fecaca; background: #fef2f2; color: #991b1b; width: 100%; }
+.sce-btn--danger:hover:not(:disabled) { background: #fee2e2; border-color: #fca5a5; }
+.sce-btn--danger:active:not(:disabled) { background: #fecaca; }
+.sce-link { background: none; border: 0; padding: 0; color: var(--sce-accent); font-weight: 700; text-decoration: underline; cursor: pointer; min-height: 0; }
+
+/* ---- toolbar ---- */
+.sce-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 12px;
+  background: #fff; border-radius: var(--sce-radius); box-shadow: 0 2px 0 rgba(15, 23, 42, 0.15); min-width: 0;
+}
+.sce-group { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.sce-count { margin-left: auto; font-size: 13px; color: var(--sce-body); font-weight: 700; padding: 4px 10px; background: #f1f5f9; border-radius: 999px; white-space: nowrap; }
+@media (max-width: 699px) {
+  .sce-toolbar { gap: 8px; }
+  .sce-group { display: contents; }
+  .sce-btn { flex: 1 1 calc(33.333% - 8px); min-width: 0; padding-inline: 6px; }
+  .sce-count { flex: 1 1 100%; margin-left: 0; text-align: center; }
+}
+
+/* ---- status area: reserves its height so the layout never jumps ---- */
+.sce-messages { display: flex; flex-direction: column; gap: 6px; min-height: 40px; justify-content: center; }
+.sce-notice, .sce-save, .sce-hint-default {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 14px; font-weight: 600;
+  border-radius: 10px; padding: 8px 12px; border-left: 5px solid transparent; line-height: 1.3;
+}
+.sce-notice:empty { display: none; }
+.sce-hint-default { background: rgba(255, 255, 255, 0.85); color: var(--sce-body); border-left-color: #94a3b8; }
+.sce-notice--info, .sce-save--info { background: #e0f2fe; color: #075985; border-left-color: #0284c7; }
+.sce-notice--warning { background: #fef3c7; color: #92400e; border-left-color: #d97706; }
+.sce-save--ok { background: #dcfce7; color: #166534; border-left-color: #16a34a; }
+.sce-save--error { background: #fee2e2; color: #991b1b; border-left-color: #dc2626; }
+
+/* ---- layout ---- */
+.sce-layout {
+  display: grid; gap: 12px; min-width: 0; min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "stage" "palette" "props";
+}
+.sce-palette { grid-area: palette; }
+.sce-stage { grid-area: stage; }
+.sce-props { grid-area: props; }
+@media (min-width: 700px) {
+  .sce-layout {
+    grid-template-columns: minmax(200px, 2fr) minmax(0, 3fr);
+    grid-template-areas: "stage stage" "palette props";
+    align-items: start;
+  }
+}
+@media (min-width: 1000px) {
+  .sce-layout {
+    grid-template-columns: 204px minmax(0, 1fr) minmax(280px, 316px);
+    grid-template-areas: "palette stage props";
+    align-items: start;
+  }
+}
+/* App mode: fixed-height editor, panels scroll independently, page does not scroll. */
+@media (min-width: 1000px) and (min-height: 600px) {
+  .sce-scope { overflow: hidden; }
+  .sce-shell { height: 100%; padding-bottom: 12px; }
+  .sce-layout { flex: 1 1 auto; grid-template-rows: minmax(0, 1fr); align-items: stretch; }
+  /* Each side panel is a column: its title stays put and its body is the scroll region. */
+  .sce-palette, .sce-props { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .sce-palette > .sce-panel-body, .sce-props > .sce-panel-body {
+    flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable;
+    scroll-padding-top: 8px; scroll-padding-bottom: 8px;
+  }
+  .sce-stage { min-height: 0; }
+  .sce-canvas-wrap { flex: 1 1 auto; min-height: 0; container-type: size; align-items: center; }
+  .sce-canvas-wrap .sce-canvas { width: min(100cqw, 100cqh * var(--sce-ratio, 1.6)); height: auto; }
+}
+.sce-workspace { display: flex; flex-direction: column; gap: 10px; flex: 1 1 auto; min-height: 0; min-width: 0; }
+
+.sce-stage { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.sce-panel { background: #fff; border-radius: var(--sce-radius); padding: 12px; box-shadow: 0 2px 0 rgba(15, 23, 42, 0.15); min-width: 0; }
+.sce-panel-title { font-size: 1.05rem; margin-bottom: 10px !important; }
+.sce-subtitle { font-size: 0.9rem; margin: 16px 0 6px !important; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+.sce-hint { font-size: 13px; color: var(--sce-body); line-height: 1.4; }
+.sce-panel-body[hidden] { display: none; }
+
+.sce-collapse {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; min-height: var(--sce-control);
+  background: none; border: 0; padding: 0; color: inherit; font: inherit; font-weight: inherit; cursor: pointer; text-align: left;
+}
+.sce-chevron { transition: transform 0.15s; }
+.sce-chevron[data-open="false"] { transform: rotate(-90deg); }
+@media (max-width: 699px) { .sce-panel-title { margin-bottom: 0 !important; } .sce-panel-body:not([hidden]) { margin-top: 10px; } }
+
+/* ---- palette: cards never overflow their column ---- */
+.sce-palette-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; }
+.sce-palette-list li { min-width: 0; }
+@media (min-width: 1000px) { .sce-palette-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sce-palette-btn {
+  width: 100%; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 4px; border-radius: 10px; border: 2px solid #e2e8f0; background: #f8fafc; color: var(--sce-ink);
+  font-size: 13px; font-weight: 700; line-height: 1.2; cursor: pointer; min-width: 0;
+}
+.sce-palette-btn svg { flex: none; }
+.sce-palette-btn:hover:not(:disabled) { border-color: #a5b4fc; background: #eef2ff; }
+.sce-palette-btn:active:not(:disabled) { background: #e0e7ff; }
+
+/* ---- canvas ---- */
+.sce-canvas-wrap { display: flex; align-items: flex-start; justify-content: center; min-width: 0; }
+.sce-canvas {
+  display: block; width: 100%; height: auto; max-width: 100%; background: #f8fafc; border-radius: var(--sce-radius);
+  border: 3px solid rgba(255, 255, 255, 0.9); box-shadow: 0 2px 0 rgba(15, 23, 42, 0.2);
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  /* touch-action is only honoured on the outer <svg>, not on its child shapes, so without this a
+     touch drag on an object is taken over by page scrolling. Scroll the page from outside the canvas. */
+  touch-action: none;
+}
+.sce-object { cursor: grab; }
+.sce-object:active { cursor: grabbing; }
+.sce-selection { stroke: #4f46e5; stroke-width: 3.5; stroke-dasharray: 9 5; fill: rgba(79, 70, 229, 0.1); }
+.sce-empty-title { font-size: 26px; font-weight: 800; fill: #475569; font-family: var(--font-heading); }
+.sce-empty-sub { font-size: 17px; fill: #64748b; }
+
+.sce-keys { flex: none; background: rgba(255, 255, 255, 0.94); border-radius: 10px; padding: 6px 12px; font-size: 13px; color: var(--sce-body); max-height: 34vh; overflow-y: auto; }
+.sce-keys summary { cursor: pointer; font-weight: 700; color: var(--sce-ink); min-height: 32px; display: flex; align-items: center; }
+.sce-keys ul { display: grid; gap: 6px; padding: 4px 0 8px; }
+@media (min-width: 700px) { .sce-keys ul { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } }
+.sce-keys kbd {
+  display: inline-block; min-width: 1.6em; text-align: center; padding: 0 5px; margin: 0 1px; border-radius: 5px;
+  border: 1px solid #cbd5e1; border-bottom-width: 2px; background: #f1f5f9; font: 600 12px/1.6 ui-monospace, monospace;
+}
+
+/* ---- properties ---- */
+.sce-controls { display: flex; flex-direction: column; gap: 12px; }
+.sce-selected-name { font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.sce-chip { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #e0e7ff; color: #3730a3; }
+.sce-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sce-row label, .sce-slider { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 700; color: var(--sce-body); min-width: 0; }
+.sce-slider span { display: flex; justify-content: space-between; }
+.sce-row input[type="number"] { width: 100%; min-height: var(--sce-control); padding: 4px 8px; border-radius: 10px; border: 2px solid #cbd5e1; color: var(--sce-ink); background: #fff; }
+.sce-row input[type="number"]:hover { border-color: #a5b4fc; }
+.sce-slider input[type="range"] { width: 100%; accent-color: #4f46e5; min-height: 28px; margin: 0; }
+.sce-check { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--sce-body); min-height: 32px; }
+.sce-check input { width: 18px; height: 18px; accent-color: #4f46e5; }
+.sce-btn-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 6px; }
+.sce-btn-row .sce-btn { padding: 4px 8px; font-size: 13px; white-space: normal; }
+.sce-swatches { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.sce-swatches legend { font-size: 13px; font-weight: 700; color: var(--sce-body); margin-bottom: 6px; padding: 0; }
+.sce-swatch {
+  position: relative; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #94a3b8;
+  cursor: pointer; padding: 0;
+}
+@media (pointer: coarse) { .sce-swatch { width: 40px; height: 40px; } }
+.sce-swatch:hover { box-shadow: 0 0 0 2px #64748b; }
+.sce-swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px #4f46e5; }
+.sce-swatch[aria-pressed="true"]::after {
+  content: ""; position: absolute; left: 50%; top: 46%; width: 8px; height: 14px; border: solid #fff; border-width: 0 3px 3px 0;
+  transform: translate(-50%, -50%) rotate(45deg); filter: drop-shadow(0 0 1.5px #0f172a);
+}
+
+.sce-layers { display: flex; flex-direction: column; gap: 4px; max-height: 200px; overflow-y: auto; }
+.sce-layer-btn {
+  width: 100%; text-align: left; padding: 6px 10px; border-radius: 10px; border: 2px solid transparent;
+  background: #f1f5f9; color: var(--sce-ink); font-size: 13px; font-weight: 600; cursor: pointer; min-height: var(--sce-control);
+}
+.sce-layer-btn:hover { background: #e0e7ff; }
+.sce-layer-btn[aria-pressed="true"] { border-color: #4f46e5; background: #eef2ff; font-weight: 800; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sce-scope * { transition: none !important; animation: none !important; }
+}

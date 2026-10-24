@@ -5,13 +5,16 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import './tailwind-supplement.css'
 import App from './App'
+import LoaderGate from './components/LoaderGate'
 import { queryClient } from './lib/queryClient'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <LoaderGate>
+          <App />
+        </LoaderGate>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,

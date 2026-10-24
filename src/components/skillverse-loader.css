@@ -1,0 +1,292 @@
+/* SkillverseLoader — all motion is CSS transforms/opacity (compositor friendly). */
+
+.svl-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 38%, #fffdf6 0%, #fff4de 100%);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+  overflow: hidden;
+}
+.svl-loader.svl-exiting {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+.svl-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.svl-stage {
+  container-type: inline-size;
+  width: min(92vw, 560px, calc(80vh / 1.12));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.svl-art {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 600 / 400;
+  overflow: visible;
+  display: block;
+}
+/* Only classed (animated) nodes get a bbox origin; attribute-transformed groups keep theirs. */
+:where(.svl-art) [class] {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------- Phase 1: spark ---------- */
+.svl-spark {
+  animation: svl-spark 0.6s ease-out both;
+}
+@keyframes svl-spark {
+  0% { transform: scale(0) rotate(0); opacity: 0; }
+  30% { transform: scale(1.3) rotate(45deg); opacity: 1; }
+  55% { transform: scale(0.8) rotate(70deg); opacity: 1; }
+  100% { transform: scale(0.1) rotate(120deg); opacity: 0; }
+}
+.svl-ripple {
+  animation: svl-ripple 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) 0.12s both;
+}
+@keyframes svl-ripple {
+  0% { transform: scale(0.2); opacity: 0.9; }
+  100% { transform: scale(11); opacity: 0; }
+}
+.svl-part {
+  transform-origin: left center;
+  animation: svl-part 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(0.06s + var(--k) * 0.045s);
+}
+@keyframes svl-part {
+  0% { transform: translateX(30px) scaleX(0.3); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateX(var(--dist)) scaleX(1.5); opacity: 0; }
+}
+
+/* ---------- Phase 2: universe ---------- */
+.svl-planet {
+  animation: svl-planet 0.75s cubic-bezier(0.34, 1.35, 0.64, 1) 0.2s both;
+}
+@keyframes svl-planet {
+  0% { transform: scale(0.1); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.svl-breathe {
+  animation: svl-breathe 4.2s ease-in-out 1.9s infinite;
+}
+@keyframes svl-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.018); }
+}
+.svl-land {
+  animation: svl-land 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+  animation-delay: calc(0.5s + var(--i) * 0.09s);
+}
+@keyframes svl-land {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.svl-ring {
+  stroke-dasharray: 100;
+  animation: svl-ring 0.75s cubic-bezier(0.4, 0.1, 0.2, 1) both;
+  animation-delay: var(--rd);
+}
+@keyframes svl-ring {
+  0% { stroke-dashoffset: 100; opacity: 0; }
+  15% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+.svl-flag {
+  transform-origin: 50% 100%;
+  animation: svl-flag 0.5s cubic-bezier(0.34, 1.5, 0.64, 1) 0.8s both;
+}
+@keyframes svl-flag {
+  0% { transform: translateY(36px) scaleY(0.2); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+/* icons travel on two nested axes with different easing => curved path */
+.svl-ix {
+  animation: svl-ix 0.85s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+  animation-delay: var(--d);
+}
+.svl-iy {
+  animation: svl-iy 0.85s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+  animation-delay: var(--d);
+}
+@keyframes svl-ix {
+  0% { transform: translateX(var(--fx)); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+@keyframes svl-iy {
+  0% { transform: translateY(var(--fy)) scale(0.6); }
+  100% { transform: translateY(0) scale(1); }
+}
+.svl-float {
+  animation: svl-float var(--fd) ease-in-out var(--fo) infinite;
+}
+@keyframes svl-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* ---------- Phase 3: characters ---------- */
+.svl-char {
+  animation: svl-char 0.85s cubic-bezier(0.3, 1.3, 0.55, 1) both;
+  animation-delay: var(--d);
+}
+@keyframes svl-char {
+  0% { transform: translateY(70px) scale(0.9); opacity: 0; }
+  40% { opacity: 1; }
+  70% { transform: translateY(-6px) scale(1.01); }
+  100% { transform: none; opacity: 1; }
+}
+.svl-cfloat {
+  animation: svl-cfloat 3.6s ease-in-out var(--fo) infinite;
+}
+@keyframes svl-cfloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3.5px); }
+}
+.svl-bob {
+  animation: svl-bob 3.2s ease-in-out var(--fo) infinite;
+}
+@keyframes svl-bob {
+  0%, 100% { transform: rotate(0) translateY(0); }
+  50% { transform: rotate(1.2deg) translateY(-1px); }
+}
+.svl-body {
+  transform-origin: 50% 100%;
+  animation: svl-body 3.8s ease-in-out var(--fo) infinite;
+}
+@keyframes svl-body {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.014); }
+}
+.svl-eye {
+  animation: svl-blink 5.2s ease-in-out var(--bo) infinite;
+}
+@keyframes svl-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95.5% { transform: scaleY(0.08); }
+}
+
+/* ---------- Phase 4: wordmark ---------- */
+.svl-word {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: -1cqw;
+  font-family: "Baloo 2", "Fredoka", "Nunito", "Arial Rounded MT Bold",
+    "Trebuchet MS", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 15.5cqw;
+  line-height: 1.05;
+  user-select: none;
+}
+.svl-letter {
+  display: inline-block;
+  color: var(--c);
+  -webkit-text-stroke: 1cqw #5b2a9e;
+  paint-order: stroke fill;
+  text-shadow: 0 0.9cqw 0 #5b2a9e;
+  animation: svl-letter 0.55s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+  animation-delay: calc(0.9s + var(--i) * 0.065s);
+}
+@keyframes svl-letter {
+  0% { transform: translate(-3cqw, 5cqw) scale(0.6); opacity: 0; }
+  55% { transform: translate(0.3cqw, -1cqw) scale(1.06); opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+.svl-star {
+  position: absolute;
+  width: var(--sz);
+  height: var(--sz);
+  left: var(--l);
+  top: var(--t);
+  animation: svl-starin 0.5s cubic-bezier(0.34, 1.6, 0.64, 1) var(--sd) both;
+}
+.svl-star svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: svl-twinkle var(--td) ease-in-out var(--to) infinite;
+}
+@keyframes svl-starin {
+  0% { transform: scale(0) rotate(-40deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes svl-twinkle {
+  0%, 70%, 100% { transform: scale(1) rotate(0); opacity: 1; }
+  82% { transform: scale(1.3) rotate(14deg); opacity: 1; }
+  90% { transform: scale(0.85) rotate(-6deg); opacity: 0.75; }
+}
+
+.svl-pad {
+  width: 27cqw;
+  height: auto;
+  margin-top: 1.5cqw;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  animation: svl-pop 0.7s cubic-bezier(0.3, 1.2, 0.5, 1) 1.35s both;
+}
+@keyframes svl-pop {
+  0% { transform: translateY(45%) scale(0.7); opacity: 0; }
+  55% { transform: translateY(-12%) scale(1.04); opacity: 1; }
+  80% { transform: translateY(2%) scale(0.995); }
+  100% { transform: none; opacity: 1; }
+}
+.svl-btn {
+  animation:
+    svl-btn-light 0.45s ease-out calc(1.95s + var(--bi) * 0.12s) both,
+    svl-btn-idle 6.5s ease-in-out calc(3s + var(--bi) * 1.1s) infinite;
+}
+@keyframes svl-btn-light {
+  0%, 100% { transform: scale(1); filter: none; }
+  45% { transform: scale(1.3); filter: brightness(1.35); }
+}
+@keyframes svl-btn-idle {
+  0%, 88%, 100% { transform: scale(1); filter: none; }
+  94% { transform: scale(1.22); filter: brightness(1.3); }
+}
+
+/* ---------- Reduced motion: show the finished logo, gentle fade only ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .svl-stage {
+    animation: svl-rm-fade 0.4s ease-out both;
+  }
+  .svl-stage *,
+  .svl-stage *::before,
+  .svl-stage *::after {
+    animation: none !important;
+  }
+  .svl-part,
+  .svl-spark,
+  .svl-ripple,
+  .svl-sparkle {
+    display: none;
+  }
+  .svl-loader {
+    transition: opacity 0.2s ease;
+  }
+  .svl-loader.svl-exiting {
+    transform: none;
+  }
+}
+@keyframes svl-rm-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

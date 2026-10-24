@@ -1,0 +1,207 @@
+import { useEffect, useState } from "react";
+import { ArrowDown, ArrowUp, ChevronsDown, ChevronsUp, Trash2 } from "lucide-react";
+import CollapsiblePanel from "./CollapsiblePanel.jsx";
+import { actions } from "./actions.js";
+import { ROTATE_STEP } from "./constants.js";
+import { COLOR_CHOICES, OBJECT_TYPES } from "./objectTypes.js";
+import WaterStatusInspector from "../world-builder/components/WaterStatusInspector.jsx";
+import MissionDashboard from "../world-builder/components/MissionDashboard.jsx";
+import { navigateToGuideTarget } from "../world-builder/engine/guideNavigation.js";
+
+// World Builder only: quick jumps inside the (scrollable) Properties panel.
+const WB_PROPS_JUMPS = [
+  { label: "Mission", selector: '[data-testid="wb-mission-dashboard"]' },
+  { label: "Inputs", title: "Water planning inputs", selector: '[data-testid="wb-planning-inputs"]' },
+  { label: "Water", selector: '[data-testid="wb-status-inspector"]' },
+  { label: "Object", selector: '[data-testid="sce-props-selected"]' },
+  { label: "Layers", selector: '[data-testid="sce-props-layers"]' },
+];
+
+// Accessible controls for the selected object: number fields + sliders (no dragging needed),
+// colour swatches, layer buttons, delete, and a layer list to pick any object without a pointer.
+
+export default function PropertiesPanel({ doc, selected, dispatch, onBackToBriefing }) {
+  const [lock, setLock] = useState(true);
+  const endGroup = () => dispatch(actions.endGroup());
+  // Spread onto controls so one slider drag / typing burst is a single undo step.
+  const grouped = { onPointerUp: endGroup, onKeyUp: endGroup, onBlur: endGroup };
+  const num = (v) => (v === "" ? NaN : Number(v));
+
+  // World Builder: when something is selected its controls come first, so the player never has to
+  // scroll past the mission dashboard to reach them. DOM order matches visual order (keyboard order).
+  const selectedFirst = doc.type === "world-builder" && !!selected;
+  const selectedId = selected?.id;
+  useEffect(() => {
+    if (!selectedFirst) return;
+    const body = document.getElementById("sce-props-body");
+    if (body && body.scrollTop > 0) body.scrollTo({ top: 0 });
+  }, [selectedFirst, selectedId]);
+
+  const selectedSection = (
+      <div className="wb-props-section" data-testid="sce-props-selected">
+        {!selected ? (
+          <p className="sce-hint" data-testid="sce-no-selection">
+            Nothing selected. Click an object, or choose one from the layer list below.
+          </p>
+        ) : (
+          <SelectedControls {...{ doc, selected, dispatch, lock, setLock, grouped, num }} />
+        )}
+      </div>
+  );
+
+  return (
+    <CollapsiblePanel id="sce-props" title="Properties" className="sce-props" testId="sce-props">
+      {doc.type === "world-builder" && (
+        <nav className="wb-props-nav" aria-label="Jump to a section of the Properties panel" data-testid="wb-props-nav">
+          {WB_PROPS_JUMPS.map((j) => (
+            <button
+              key={j.label}
+              type="button"
+              className="wb-props-nav-btn"
+              title={j.title}
+              onClick={() => navigateToGuideTarget(j.selector, { highlight: false, focus: false })}
+            >
+              {j.label}
+            </button>
+          ))}
+        </nav>
+      )}
+      {selectedFirst && selectedSection}
+      {doc.type === "world-builder" && (
+        <MissionDashboard doc={doc} onBackToBriefing={onBackToBriefing} />
+      )}
+      {doc.type === "world-builder" && (
+        <WaterStatusInspector doc={doc} selected={selected} />
+      )}
+
+      {!selectedFirst && selectedSection}
+
+      <h3 className="sce-subtitle" data-testid="sce-props-layers">Layers (front first)</h3>
+      {doc.objects.length === 0 ? (
+        <p className="sce-hint">No objects yet.</p>
+      ) : (
+        <ol className="sce-layers" reversed data-testid="sce-layers">
+          {[...doc.objects].reverse().map((o) => (
+            <li key={o.id}>
+              <button
+                type="button"
+                className="sce-layer-btn"
+                aria-pressed={o.id === selected?.id}
+                onClick={() => dispatch(actions.select(o.id))}
+              >
+                {OBJECT_TYPES[o.type].label}
+              </button>
+            </li>
+          ))}
+        </ol>
+      )}
+    </CollapsiblePanel>
+  );
+}
+
+function SelectedControls({ doc, selected, dispatch, lock, setLock, grouped, num }) {
+  const def = OBJECT_TYPES[selected.type];
+  const maxSide = Math.min(def.maxSize, doc.canvas.width, doc.canvas.height);
+  const g = (kind) => `ui-${kind}-${selected.id}`;
+  const setSize = (which, raw) => {
+    const v = num(raw);
+    if (Number.isNaN(v)) return;
+    const ratio = selected.width / selected.height;
+    if (!lock) return dispatch(actions.resizeTo(which === "w" ? v : selected.width, which === "h" ? v : selected.height, g("size")));
+    dispatch(which === "w" ? actions.resizeTo(v, v / ratio, g("size")) : actions.resizeTo(v * ratio, v, g("size")));
+  };
+
+  return (
+    <div className="sce-controls" data-testid="sce-selected">
+      <p className="sce-selected-name">
+        {def.label} <span className="sce-chip">selected</span>
+      </p>
+
+      <div className="sce-row">
+        <label>
+          X
+          <input type="number" value={Math.round(selected.x)} onChange={(e) => { const v = num(e.target.value); if (!Number.isNaN(v)) dispatch(actions.moveTo(v, selected.y, { group: g("move") })); }} {...grouped} data-testid="sce-x" />
+        </label>
+        <label>
+          Y
+          <input type="number" value={Math.round(selected.y)} onChange={(e) => { const v = num(e.target.value); if (!Number.isNaN(v)) dispatch(actions.moveTo(selected.x, v, { group: g("move") })); }} {...grouped} data-testid="sce-y" />
+        </label>
+      </div>
+
+      <label className="sce-slider">
+        <span>Rotation <b>{Math.round(selected.rotation)}°</b></span>
+        <input type="range" min={0} max={359} step={1} value={Math.round(selected.rotation)} onChange={(e) => dispatch(actions.rotateTo(Number(e.target.value), g("rotate")))} {...grouped} data-testid="sce-rotation" />
+      </label>
+      <div className="sce-btn-row">
+        <button type="button" className="sce-btn" onClick={() => dispatch(actions.rotateBy(-ROTATE_STEP))}>Rotate −{ROTATE_STEP}°</button>
+        <button type="button" className="sce-btn" onClick={() => dispatch(actions.rotateBy(ROTATE_STEP))}>Rotate +{ROTATE_STEP}°</button>
+      </div>
+
+      <label className="sce-slider">
+        <span>Width <b>{Math.round(selected.width)}</b></span>
+        <input type="range" min={def.minSize} max={maxSide} step={1} value={Math.round(selected.width)} onChange={(e) => setSize("w", e.target.value)} {...grouped} data-testid="sce-width" />
+      </label>
+      <label className="sce-slider">
+        <span>Height <b>{Math.round(selected.height)}</b></span>
+        <input type="range" min={def.minSize} max={maxSide} step={1} value={Math.round(selected.height)} onChange={(e) => setSize("h", e.target.value)} {...grouped} data-testid="sce-height" />
+      </label>
+      <label className="sce-check">
+        <input type="checkbox" checked={lock} onChange={(e) => setLock(e.target.checked)} /> Keep proportions
+      </label>
+
+      {Object.entries(def.props).map(([key, pdef]) =>
+        pdef.kind === "color" ? (
+          <fieldset className="sce-swatches" key={key}>
+            <legend>{pdef.label}</legend>
+            {COLOR_CHOICES.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className="sce-swatch"
+                style={{ background: c }}
+                aria-label={`${pdef.label} ${c}`}
+                aria-pressed={selected.props[key].toLowerCase() === c}
+                onClick={() => dispatch(actions.setProp(key, c))}
+              />
+            ))}
+          </fieldset>
+        ) : pdef.kind === "enum" ? (
+          <fieldset className="sce-btn-row" key={key} style={{ border: 0, padding: 0, margin: 0 }}>
+            <legend style={{ fontSize: "13px", fontWeight: 700, color: "var(--sce-body)", marginBottom: "6px" }}>{pdef.label}</legend>
+            {(pdef.options || pdef.values || []).map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                className="sce-btn"
+                aria-label={`${pdef.label}: ${opt}`}
+                aria-pressed={selected.props[key] === opt}
+                data-selected={selected.props[key] === opt ? "true" : undefined}
+                data-testid={`sce-prop-${key}-${opt}`}
+                style={selected.props[key] === opt ? { fontWeight: 700, borderColor: "#4f46e5", background: "#e0e7ff", color: "#3730a3" } : undefined}
+                onClick={() => dispatch(actions.setProp(key, opt))}
+              >
+                {opt.charAt(0).toUpperCase() + opt.slice(1)}
+              </button>
+            ))}
+          </fieldset>
+        ) : (
+          <label className="sce-slider" key={key}>
+            <span>{pdef.label} <b>{selected.props[key]}</b></span>
+            <input type="range" min={pdef.min} max={pdef.max} step={1} value={selected.props[key]} onChange={(e) => dispatch(actions.setProp(key, Number(e.target.value), g(key)))} {...grouped} />
+          </label>
+        ),
+      )}
+
+      <div className="sce-btn-row" role="group" aria-label="Layer order">
+        <button type="button" className="sce-btn" onClick={() => dispatch(actions.reorder("front"))} title="Bring to front"><ChevronsUp size={16} aria-hidden="true" /> Front</button>
+        <button type="button" className="sce-btn" onClick={() => dispatch(actions.reorder("forward"))} title="Move forward"><ArrowUp size={16} aria-hidden="true" /> Forward</button>
+        <button type="button" className="sce-btn" onClick={() => dispatch(actions.reorder("backward"))} title="Move backward"><ArrowDown size={16} aria-hidden="true" /> Back one</button>
+        <button type="button" className="sce-btn" onClick={() => dispatch(actions.reorder("back"))} title="Send to back"><ChevronsDown size={16} aria-hidden="true" /> Back</button>
+      </div>
+
+      <button type="button" className="sce-btn sce-btn--danger" onClick={() => dispatch(actions.remove())} data-testid="sce-delete-side">
+        <Trash2 size={16} aria-hidden="true" /> Delete object
+      </button>
+    </div>
+  );
+}
