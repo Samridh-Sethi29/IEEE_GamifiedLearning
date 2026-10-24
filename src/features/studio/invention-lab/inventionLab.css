@@ -83,7 +83,9 @@
 }
 
 /* ---------- items on the bench ---------- */
-.lab-canvas-item { position: absolute; touch-action: none; user-select: none; cursor: grab; border-radius: 12px; transition: box-shadow 0.15s ease; }
+.lab-canvas-item { position: absolute; touch-action: none !important; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: grab; border-radius: 12px; transition: box-shadow 0.15s ease; }
+.lab-canvas-item * { touch-action: none !important; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; }
+.lab-item-toolbar, .lab-item-toolbar button { touch-action: manipulation !important; }
 .lab-canvas-item:active { cursor: grabbing; }
 .lab-canvas-item.selected { outline: 3px solid var(--sl-green); outline-offset: 5px; }
 .lab-item-body {
@@ -129,9 +131,16 @@
 
 /* terminals + wires */
 .lab-port-dot {
-  position: absolute; width: 15px; height: 15px; border-radius: 50%; transform: translate(-50%, -50%);
-  background: var(--sl-sky); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--sl-sky); cursor: pointer; z-index: 5;
+  position: absolute; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%);
+  background: var(--sl-sky); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--sl-sky); cursor: pointer; z-index: 25;
   transition: transform 0.15s ease, background 0.15s ease;
+  touch-action: manipulation;
+}
+.lab-port-dot::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
 }
 .lab-port-dot:hover { background: #16a34a; box-shadow: 0 0 0 2px #16a34a; transform: translate(-50%, -50%) scale(1.35); }
 .lab-port-dot.active-wire { background: var(--sl-amber); box-shadow: 0 0 0 3px var(--sl-amber-deep), 0 0 12px var(--sl-amber); }
@@ -212,20 +221,74 @@
 /* ---------------------------------------------------------------------------
    Tablets and phones: parts become a swipeable rail above the workbench; the page scrolls.
    --------------------------------------------------------------------------- */
-@media (max-width: 820px) {
-  .invention-lab-scope { position: fixed; inset: 0; height: auto; width: auto; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-  .lab-mission-bar { padding: 8px 12px; }
+@media (max-width: 960px), (max-height: 600px) and (orientation: landscape), (pointer: coarse) and (max-height: 600px) {
+  .invention-lab-scope { position: fixed; inset: 0; height: 100dvh; width: 100%; overflow-y: auto !important; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .lab-mission-bar { padding: 6px 12px; }
   .lab-mission-summary { justify-content: flex-start; flex-basis: 100%; }
-  .lab-mission-goal { text-align: left; }
+  .lab-mission-goal { text-align: left; font-size: 0.92rem; }
   .lab-main { flex-direction: column; overflow: visible; flex: none; }
   .lab-drawer { width: 100%; border-right: 0; border-bottom: 3px solid var(--sl-line); }
-  .lab-drawer-header { padding: 10px 14px; }
-  .lab-parts-list { flex-direction: row; overflow-x: auto; overflow-y: hidden; padding: 12px 14px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
-  .lab-part-card { flex: 0 0 min(260px, 78vw); scroll-snap-align: start; }
+  .lab-drawer-header { padding: 8px 12px; }
+  .lab-parts-list {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 12px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  .lab-part-card {
+    flex: 0 0 min(240px, 72vw);
+    scroll-snap-align: start;
+    padding: 8px 10px;
+    touch-action: pan-x;
+  }
   .lab-main > div:last-child { min-height: 520px; }
-  .lab-bench-container { min-height: 520px; overflow: auto; -webkit-overflow-scrolling: touch; }
+  .lab-bench-container { min-height: 520px; min-width: 600px; overflow: auto; -webkit-overflow-scrolling: touch; }
   .lab-workbench-guide { position: sticky; top: 8px; left: auto; right: auto; width: auto; margin: 8px 10px 0; }
   .lab-testing-banner { top: 12px; }
+}
+
+/* Touch Ghost & Toast */
+.lab-touch-ghost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 3px solid var(--sl-amber-deep);
+  border-radius: var(--sl-radius-md);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  font-weight: 800;
+  color: var(--sl-ink);
+}
+.lab-toast-pill {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9000;
+  background: var(--sl-green);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--sl-green-deep);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  animation: fadeInOutToast 1.4s ease-out forwards;
+}
+@keyframes fadeInOutToast {
+  0% { opacity: 0; transform: translate(-50%, 10px); }
+  20% { opacity: 1; transform: translate(-50%, 0); }
+  80% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -10px); }
 }
 @media (max-width: 480px) {
   .lab-header-title { font-size: 1.02rem; }

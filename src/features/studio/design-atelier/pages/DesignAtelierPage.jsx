@@ -76,14 +76,15 @@ export default function DesignAtelierPage() {
   };
 
   const handleAddSticker = (iconKey, icon, name) => {
+    const offset = (elements.length % 5) * 20;
     const newEl = {
       id: `sticker_${Date.now()}`,
       type: "sticker",
       iconKey,
       icon,
       name,
-      x: 190,
-      y: 230,
+      x: 180 + offset,
+      y: 220 + offset,
       scale: 1,
       rotation: 0,
     };
@@ -92,6 +93,7 @@ export default function DesignAtelierPage() {
   };
 
   const handleAddShape = (shape, name) => {
+    const offset = (elements.length % 5) * 15;
     const newEl = {
       id: `shape_${Date.now()}`,
       type: "shape",
@@ -99,8 +101,8 @@ export default function DesignAtelierPage() {
       name,
       width: shape === "circle" ? 160 : shape === "pill" ? 220 : shape === "divider" ? 320 : 180,
       height: shape === "circle" ? 160 : shape === "pill" ? 60 : shape === "divider" ? 8 : 120,
-      x: 140,
-      y: 260,
+      x: 130 + offset,
+      y: 250 + offset,
       scale: 1,
       rotation: 0,
     };

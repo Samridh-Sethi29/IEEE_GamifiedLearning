@@ -63,9 +63,13 @@ export default function InventionLab() {
   }, [components, wires, guideStep, mission.workbenchGuides]);
 
   // Add new component to workbench
-  const handleAddPart = (partType, x = 220, y = 200) => {
+  const handleAddPart = (partType, customX, customY) => {
     const meta = COMPONENT_CATALOG[partType];
     if (!meta) return;
+
+    const count = components.length;
+    const x = customX !== undefined ? customX : Math.min(380, 150 + (count % 4) * 45);
+    const y = customY !== undefined ? customY : Math.min(300, 130 + (count % 3) * 50);
 
     const newComp = {
       id: `${partType}_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
@@ -229,6 +233,7 @@ export default function InventionLab() {
         <ComponentDrawer
           allowedPartIds={mission.allowedParts}
           onAddPart={handleAddPart}
+          onDropNewPart={handleAddPart}
         />
 
         {/* Center: Build Canvas with Workbench Guide & Simulation Animations */}

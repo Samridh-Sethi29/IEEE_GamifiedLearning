@@ -52,6 +52,37 @@
 :is(.invention-lab-scope, .canva-studio-scope) h3,
 :is(.invention-lab-scope, .canva-studio-scope) h4 { font-family: var(--font-heading, inherit); }
 
+@media (max-width: 960px), (max-height: 600px) {
+  :is(.invention-lab-scope, .canva-studio-scope) {
+    height: 100dvh;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-height: 520px) {
+  :is(.lab-header, .canva-top-bar) {
+    min-height: 48px !important;
+    padding: 4px 12px !important;
+    gap: 6px 10px !important;
+  }
+  .lab-back-btn {
+    min-height: 36px !important;
+    padding: 4px 12px !important;
+    font-size: 0.85rem !important;
+  }
+  .lab-btn {
+    min-height: 36px !important;
+    padding: 4px 12px !important;
+    font-size: 0.85rem !important;
+  }
+  .lab-btn-test {
+    min-height: 38px !important;
+    padding-inline: 16px !important;
+  }
+}
+
 /* ---------- header bar ---------- */
 :is(.lab-header, .canva-top-bar) {
   min-height: 64px;

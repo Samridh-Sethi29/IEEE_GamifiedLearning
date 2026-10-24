@@ -35,8 +35,12 @@ export default function CanvaCanvas({
     }
 
     e.stopPropagation();
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {}
     setDragState({
       elId: el.id,
+      pointerId: e.pointerId,
       startX: e.clientX,
       startY: e.clientY,
       initX: el.x,
@@ -49,12 +53,16 @@ export default function CanvaCanvas({
     e.stopPropagation();
     e.preventDefault();
     onSelect(el.id);
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {}
 
     const initWidth = el.width || (el.type === "image" ? 180 : el.type === "shape" ? 160 : 200);
     const initHeight = el.height || (el.type === "image" ? 180 : el.type === "shape" ? 100 : 80);
 
     setResizeState({
       elId: el.id,
+      pointerId: e.pointerId,
       corner: handleCorner,
       startX: e.clientX,
       startY: e.clientY,
@@ -68,6 +76,7 @@ export default function CanvaCanvas({
 
   const handlePointerMove = (e) => {
     if (dragState && artboardRef.current) {
+      if (dragState.pointerId !== undefined && e.pointerId !== undefined && e.pointerId !== dragState.pointerId) return;
       const dx = e.clientX - dragState.startX;
       const dy = e.clientY - dragState.startY;
       const rect = artboardRef.current.getBoundingClientRect();
@@ -80,6 +89,7 @@ export default function CanvaCanvas({
     }
 
     if (resizeState && artboardRef.current) {
+      if (resizeState.pointerId !== undefined && e.pointerId !== undefined && e.pointerId !== resizeState.pointerId) return;
       const dx = e.clientX - resizeState.startX;
       const dy = e.clientY - resizeState.startY;
 
@@ -98,7 +108,12 @@ export default function CanvaCanvas({
     }
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e) => {
+    if (e?.currentTarget?.releasePointerCapture) {
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {}
+    }
     setDragState(null);
     setResizeState(null);
   };
@@ -121,6 +136,7 @@ export default function CanvaCanvas({
       className="canva-artboard-stage"
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       onClick={() => onSelect(null)}
     >
       <div
@@ -166,10 +182,13 @@ export default function CanvaCanvas({
                 height: typeof height === "number" ? `${height}px` : height,
               }}
               onPointerDown={(e) => handlePointerDown(e, el)}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
             >
               {/* Canva Transform Bar on Selected */}
               {isSelected && (
-                <div className="canva-transform-bar">
+                <div className="canva-transform-bar" onPointerDown={(e) => e.stopPropagation()}>
                   <button
                     className="canva-mini-btn"
                     onClick={(e) => handleRotate(e, el)}
@@ -210,21 +229,33 @@ export default function CanvaCanvas({
                   <div
                     className="canva-resize-handle nw"
                     onPointerDown={(e) => handleResizePointerDown(e, el, "nw")}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerCancel={handlePointerUp}
                     title="Drag to resize"
                   />
                   <div
                     className="canva-resize-handle ne"
                     onPointerDown={(e) => handleResizePointerDown(e, el, "ne")}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerCancel={handlePointerUp}
                     title="Drag to resize"
                   />
                   <div
                     className="canva-resize-handle sw"
                     onPointerDown={(e) => handleResizePointerDown(e, el, "sw")}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerCancel={handlePointerUp}
                     title="Drag to resize"
                   />
                   <div
                     className="canva-resize-handle se"
                     onPointerDown={(e) => handleResizePointerDown(e, el, "se")}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerCancel={handlePointerUp}
                     title="Drag to resize"
                   />
                 </>

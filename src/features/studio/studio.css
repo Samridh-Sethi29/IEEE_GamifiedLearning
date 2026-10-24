@@ -192,3 +192,48 @@
 @media (prefers-reduced-motion: reduce) {
   .studio-scope *, .studio-scope *::before, .studio-scope *::after { animation: none !important; transition: none !important; }
 }
+
+/* Landscape mobile optimizations */
+@media (max-height: 520px) {
+  .studio-top {
+    padding: 6px 12px 4px;
+    gap: 6px;
+  }
+  .studio-back {
+    min-height: 36px;
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+  .studio-titleplate {
+    padding: 4px 14px;
+  }
+  .studio-title {
+    font-size: 1.15rem;
+  }
+  .studio-lead {
+    display: none;
+  }
+  .studio-stage {
+    min-height: 220px;
+    padding-bottom: 24px;
+  }
+  .studio-card {
+    top: 50px;
+    bottom: 8px;
+    max-height: calc(100dvh - 58px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 12px;
+  }
+  .studio-card-title {
+    font-size: 1.15rem;
+    margin-right: 32px !important;
+  }
+  .studio-chips {
+    margin: 6px 0 !important;
+  }
+  .studio-cta {
+    min-height: 38px;
+    padding: 6px 14px;
+  }
+}

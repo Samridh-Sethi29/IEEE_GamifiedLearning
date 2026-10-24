@@ -53,8 +53,12 @@ export default function BuildBench({
     if (e.target.closest(".lab-item-toolbar") || e.target.closest(".lab-port-dot")) return;
     e.stopPropagation();
     onSelect(comp.id);
+    try {
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+    } catch {}
     setDragState({
       compId: comp.id,
+      pointerId: e.pointerId,
       startX: e.clientX,
       startY: e.clientY,
       initCompX: comp.x,
@@ -64,6 +68,7 @@ export default function BuildBench({
 
   const handlePointerMove = (e) => {
     if (!dragState || !benchRef.current) return;
+    if (dragState.pointerId !== undefined && e.pointerId !== undefined && e.pointerId !== dragState.pointerId) return;
     const dx = e.clientX - dragState.startX;
     const dy = e.clientY - dragState.startY;
     const rect = benchRef.current.getBoundingClientRect();
@@ -74,7 +79,12 @@ export default function BuildBench({
     onUpdateComponent(dragState.compId, { x: Math.round(newX), y: Math.round(newY) });
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e) => {
+    if (dragState?.pointerId !== undefined && e?.currentTarget?.releasePointerCapture) {
+      try {
+        e.currentTarget.releasePointerCapture(dragState.pointerId);
+      } catch {}
+    }
     setDragState(null);
   };
 
@@ -140,6 +150,7 @@ export default function BuildBench({
       onDrop={handleDrop}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       onClick={() => {
         onSelect(null);
         setWireStart(null);
@@ -281,11 +292,14 @@ export default function BuildBench({
                 : "transform 0.3s ease-out, width 0.15s ease, height 0.15s ease",
             }}
             onPointerDown={(e) => handlePointerDown(e, comp)}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
             onClick={(e) => handleToggleState(e, comp)}
           >
             {/* Quick Action Toolbar on Selected */}
             {isSelected && (
-              <div className="lab-item-toolbar">
+              <div className="lab-item-toolbar" onPointerDown={(e) => e.stopPropagation()}>
                 <button
                   className="lab-tool-btn"
                   onClick={(e) => handleRotate(e, comp)}
@@ -447,6 +461,7 @@ export default function BuildBench({
                         top: `${py}px`,
                       }}
                       title={`Wire Terminal: ${port.label}`}
+                      onPointerDown={(e) => e.stopPropagation()}
                       onClick={(e) => handlePortClick(e, comp, port)}
                     />
                   );
