@@ -312,7 +312,7 @@ export default function FarmGame2D() {
       else if (k === 'arrowleft' || k === 'left') { e.preventDefault(); keys.current.left = true; }
       else if (k === 'arrowright' || k === 'right') { e.preventDefault(); keys.current.right = true; }
       else if (k === 'e') {
-        const dist = Math.hypot(1290 - playerPosRef.current.x, 350 - playerPosRef.current.y);
+        const dist = Math.hypot(1330 - playerPosRef.current.x, 210 - playerPosRef.current.y);
         if (dist < 165) {
           setIsStorageOpen(prev => !prev);
         }
@@ -1031,7 +1031,7 @@ export default function FarmGame2D() {
 
       {/* Scenic Fruit & Forest Trees */}
       <DecoTree x={90} y={150} variant="apple" scale={1.15} />
-      <DecoTree x={1340} y={170} variant="oak" scale={1.2} />
+      <DecoTree x={1460} y={180} variant="oak" scale={1.2} />
       <DecoTree x={695} y={120} variant="maple" scale={1.1} />
       <DecoTree x={75} y={380} variant="oak" scale={0.95} />
       <DecoTree x={1410} y={430} variant="pine" scale={1.1} />
@@ -1044,11 +1044,11 @@ export default function FarmGame2D() {
 
       {/* Rustic Granary & Silo Storage Structure */}
       <DecoFarmStorage 
-        x={1290} 
-        y={350} 
+        x={1330} 
+        y={210} 
         totalStored={totalStored} 
         onClick={() => setIsStorageOpen(true)} 
-        isNear={Math.hypot(1290 - playerPos.x, 350 - playerPos.y) < 165} 
+        isNear={Math.hypot(1330 - playerPos.x, 210 - playerPos.y) < 165} 
       />
 
       {/* Central Crossroads Signpost */}
