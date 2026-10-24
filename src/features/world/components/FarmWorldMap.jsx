@@ -108,6 +108,19 @@ export default function FarmWorldMap() {
             </radialGradient>
           </defs>
 
+          {/* shore ripples */}
+          {[1.06, 1.12, 1.19].map((s, i) => (
+            <g key={s} transform={scaleAbout(800, 500, s)}>
+              <path
+                className="anim-ripple"
+                style={{ animationDelay: `${-i * 1.8}s` }}
+                d={ISLAND_PATH}
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.28)"
+                strokeWidth="3.5"
+              />
+            </g>
+          ))}
 
           {/* island */}
           <g>

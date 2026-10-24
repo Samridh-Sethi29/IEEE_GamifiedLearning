@@ -143,7 +143,18 @@ export default function WorldMap() {
             </radialGradient>
           </defs>
 
-          {/* shore ripples lapping against beach */}
+          {/* ambient flowing water wave crests */}
+          {WAVE_ARCS.map((w, i) => (
+            <g key={i} transform={`translate(${w.x} ${w.y})`} className="anim-wave" style={{ animationDelay: `${w.d}s` }}>
+              <path
+                d="M -22 0 Q -11 -6 0 0 Q 11 -6 22 0"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.22)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </g>
+          ))}
 
           {/* shore ripples */}
           {[1.05, 1.11, 1.18].map((s, i) => (
@@ -153,8 +164,8 @@ export default function WorldMap() {
                 style={{ animationDelay: `${-i * 1.8}s` }}
                 d={ISLAND_PATH}
                 fill="none"
-                stroke="rgba(255, 255, 255, 0.55)"
-                strokeWidth="5"
+                stroke="rgba(255, 255, 255, 0.28)"
+                strokeWidth="3.5"
               />
             </g>
           ))}
