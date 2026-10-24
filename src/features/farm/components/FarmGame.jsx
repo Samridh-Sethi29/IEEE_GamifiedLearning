@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { usePlayer } from '@/features/player/hooks/usePlayer';
-import PlayerAvatar from '@/features/player/components/PlayerAvatar';
+import HomeAvatar from '@/features/home/components/HomeAvatar';
 import { Droplet, Sun, Snowflake, Leaf, Sprout, Axe, Store, X, ArrowLeft, Play, Pause, SkipForward, Music, Volume2, VolumeX, Info, LogOut, CloudRain, Cloud } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './FarmGame.css';
@@ -284,6 +284,12 @@ export default function FarmGame2D() {
   const [playerPos, setPlayerPos] = useState({ x: 100, y: 350 });
   const playerPosRef = useRef(playerPos);
   useEffect(() => { playerPosRef.current = playerPos; }, [playerPos]);
+  const [direction, setDirection] = useState('down');
+  const [velocity, setVelocity] = useState({ vx: 0, vy: 0 });
+  const [isWalking, setIsWalking] = useState(false);
+  const directionRef = useRef('down');
+  const isWalkingRef = useRef(false);
+  const publishedVelRef = useRef({ vx: 0, vy: 0 });
   const [facing, setFacing] = useState(1);
   const keys = useRef({
     w: false, a: false, s: false, d: false,
@@ -330,8 +336,16 @@ export default function FarmGame2D() {
       else if (k === 'arrowright' || k === 'right') keys.current.right = false;
     };
     
+    const handleBlur = () => {
+      keys.current = {
+        w: false, a: false, s: false, d: false,
+        up: false, down: false, left: false, right: false
+      };
+    };
+    
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleBlur);
     
     let animationFrameId;
     const ACCEL = 0.72;
@@ -379,6 +393,33 @@ export default function FarmGame2D() {
         setFacing(vx > 0 ? 1 : -1);
       }
 
+      // Update direction based on velocity (identical to useHomeEngine.js)
+      let nextDirection = directionRef.current;
+      if (Math.abs(vx) > 0.3 || Math.abs(vy) > 0.3) {
+        if (Math.abs(vx) > Math.abs(vy)) {
+          nextDirection = vx > 0 ? 'right' : 'left';
+        } else {
+          nextDirection = vy > 0 ? 'down' : 'up';
+        }
+      }
+
+      if (nextDirection !== directionRef.current) {
+        directionRef.current = nextDirection;
+        setDirection(nextDirection);
+      }
+
+      const currentSpeed = Math.hypot(vx, vy);
+      const walking = currentSpeed > 0.2;
+      if (walking !== isWalkingRef.current) {
+        isWalkingRef.current = walking;
+        setIsWalking(walking);
+      }
+
+      if (Math.hypot(vx - publishedVelRef.current.vx, vy - publishedVelRef.current.vy) > 0.1) {
+        publishedVelRef.current = { vx, vy };
+        setVelocity({ vx, vy });
+      }
+
       setPlayerPos(p => {
         let nx = p.x + vx;
         let ny = p.y + vy;
@@ -410,8 +451,9 @@ export default function FarmGame2D() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleBlur);
       cancelAnimationFrame(animationFrameId);
-    }
+    };
   }, []);
 
   const handlePlotInteraction = (plot) => {
@@ -1143,14 +1185,44 @@ export default function FarmGame2D() {
         {/* Left Side: Navigation & Status */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', pointerEvents: 'auto', width: 'auto', alignItems: 'flex-start', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
           
-          {/* 1. SLIM STATUS BAR (Season, Weather, Day, Next Day, Clock, Coins, Water) */}
-          <div style={{ 
-            display: 'flex', alignItems: 'center', gap: '8px',
-            backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)',
-            borderRadius: '14px', boxShadow: '0 4px 14px rgba(30,20,10,0.18), inset 0 1px 0 rgba(255,255,255,0.7)', 
-            border: '2px solid rgba(200,180,140,0.45)',
-            padding: '5px 12px'
-          }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* Back to Farm Button */}
+            <Link
+              to="/world/farm"
+              onClick={() => markWorldCompleted('farm')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: 'rgba(250,246,238,0.96)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '14px',
+                boxShadow: '0 4px 14px rgba(30,20,10,0.18), inset 0 1px 0 rgba(255,255,255,0.7)',
+                border: '2px solid rgba(200,180,140,0.45)',
+                padding: '5px 12px',
+                color: '#1e293b',
+                fontWeight: 800,
+                fontSize: '0.8rem',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.04)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              title="Return to Farm World"
+            >
+              <ArrowLeft size={16} strokeWidth={2.5} color="#059669" />
+              <span>Back to Farm</span>
+            </Link>
+
+            {/* 1. SLIM STATUS BAR (Season, Weather, Day, Next Day, Clock, Coins, Water) */}
+            <div style={{ 
+              display: 'flex', alignItems: 'center', gap: '8px',
+              backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)',
+              borderRadius: '14px', boxShadow: '0 4px 14px rgba(30,20,10,0.18), inset 0 1px 0 rgba(255,255,255,0.7)', 
+              border: '2px solid rgba(200,180,140,0.45)',
+              padding: '5px 12px'
+            }}>
             {/* Season & Weather */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
               <div style={{ display: 'flex', alignItems: 'center', transform: 'scale(0.85)' }}>
@@ -1218,6 +1290,7 @@ export default function FarmGame2D() {
               <Droplet size={15} fill="#bfdbfe" />
               <span style={{ fontWeight: 900, fontSize: '0.82rem' }}>{player.water}L</span>
             </div>
+          </div>
           </div>
 
           {/* 2. SLIM COMPOST BAR */}
@@ -1448,45 +1521,17 @@ export default function FarmGame2D() {
           );
         })}
 
-        {/* Player Sprite */}
-        <div 
-          style={{ 
-            position: 'absolute', zIndex: 20, pointerEvents: 'none',
-            left: playerPos.x, top: playerPos.y, 
-            transform: 'translate(-50%, -100%)',
-            transition: 'transform 0.05s linear'
-          }}
-        >
-          <svg viewBox="-50 -150 100 200" width="100" height="200" style={{ overflow: 'visible' }}>
-            <PlayerAvatar name={player.name} level={player.level} x={0} y={0} facing={facing} />
-            
-            {/* Equipped Tool Overlay */}
-            <g transform={`scale(${facing}, 1)`}>
-              {activeTool === 'water' && (
-                <g transform="translate(15, -42)">
-                  <rect x="0" y="0" width="14" height="16" rx="3" fill="#3b82f6" />
-                  <path d="M 14 8 L 22 2 L 23 5 Z" fill="#93c5fd" />
-                  <path d="M -3 3 Q -8 8 -3 13" fill="none" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
-                </g>
-              )}
-              
-              {activeTool === 'harvest' && (
-                <g transform="translate(17, -50)">
-                  <rect x="0" y="-15" width="4" height="40" rx="2" fill="#78350f" />
-                  <path d="M -2 -12 L 12 -12 L 14 -5 L 4 -5 Z" fill="#94a3b8" />
-                </g>
-              )}
-
-              {activeTool && activeTool !== 'water' && activeTool !== 'harvest' && (
-                <g transform="translate(14, -38)">
-                  <path d="M 0 12 Q 6 22 12 12 L 10 0 L 2 0 Z" fill="#b45309" />
-                  <rect x="2" y="-3" width="8" height="4" fill="#fcd34d" rx="1" />
-                  <text x="6" y="9" fontSize="8" textAnchor="middle" fill="#fff" fontWeight="bold">S</text>
-                </g>
-              )}
-            </g>
-          </svg>
-        </div>
+        {/* Player Avatar with HomeWorld Animations */}
+        <HomeAvatar
+          pos={{ x: playerPos.x - 26, y: playerPos.y - 75 }}
+          velocity={velocity}
+          direction={direction}
+          isWalking={isWalking}
+          name={player.name}
+          level={player.level}
+          activeTool={activeTool}
+          style={{ zIndex: 20 }}
+        />
       </div>
 
       {/* Bottom Toolbar & Shop Wrapper (60% width, centered) */}
@@ -1619,7 +1664,7 @@ export default function FarmGame2D() {
 
       {/* Leave Farm Button (Bottom Right) */}
       <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 50, pointerEvents: 'auto', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
-        <Link to="/world" 
+        <Link to="/world/farm" 
           onClick={() => markWorldCompleted('farm')}
           onMouseEnter={() => setHoveredLeave(true)}
           onMouseLeave={() => setHoveredLeave(false)}
@@ -1648,7 +1693,7 @@ export default function FarmGame2D() {
                   boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
                 }}
               >
-                Leave Farm
+                Back to Farm
                 {/* Arrow */}
                 <div style={{ position: 'absolute', top: '50%', left: '100%', transform: 'translateY(-50%)', borderTop: '6px solid transparent', borderBottom: '6px solid transparent', borderLeft: '6px solid rgba(15,23,42,0.95)' }} />
               </motion.div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import '@/features/home/styles/home.css';
 
 export default function HomeAvatar({
   pos,
@@ -8,6 +9,8 @@ export default function HomeAvatar({
   nearbyStation = null,
   name = 'lavi',
   level = 2,
+  activeTool = null,
+  style = {},
 }) {
   const speed = Math.hypot(velocity.vx || 0, velocity.vy || 0);
 
@@ -27,6 +30,7 @@ export default function HomeAvatar({
       className="home-avatar"
       style={{
         transform: `translate3d(${pos.x}px, ${pos.y}px, 0) rotate(${tilt}deg)`,
+        ...style,
       }}
     >
       {/* Floating Username & Level Badge (Exact match with user image) */}
@@ -132,16 +136,57 @@ export default function HomeAvatar({
               rx="3.75"
               fill="#1f8e51"
             />
-            {/* Right Arm */}
-            <rect
-              className="avatar-arm-right"
-              x="35.5"
-              y="39"
-              width="7.5"
-              height="24"
-              rx="3.75"
-              fill="#1f8e51"
-            />
+            {/* Right Arm & Equipped Tool */}
+            <g className="avatar-arm-right">
+              <rect
+                x="35.5"
+                y="39"
+                width="7.5"
+                height="24"
+                rx="3.75"
+                fill="#1f8e51"
+              />
+              {/* Equipped Tool attached to Right Hand */}
+              {activeTool === 'water' && (
+                <g transform="translate(36, 48) scale(0.85)">
+                  <rect x="0" y="0" width="14" height="16" rx="3" fill="#3b82f6" />
+                  <path d="M 14 8 L 22 2 L 23 5 Z" fill="#93c5fd" />
+                  <path d="M -3 3 Q -8 8 -3 13" fill="none" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
+                </g>
+              )}
+              {(activeTool === 'harvest' || activeTool === 'scythe') && (
+                <g transform="translate(37, 38) scale(0.8)">
+                  <rect x="0" y="-15" width="4" height="40" rx="2" fill="#78350f" />
+                  <path d="M -2 -12 L 14 -12 L 16 -4 L 4 -4 Z" fill="#94a3b8" />
+                </g>
+              )}
+              {activeTool === 'neem_oil' && (
+                <g transform="translate(36, 47) scale(0.8)">
+                  <rect x="0" y="4" width="12" height="16" rx="3" fill="#15803d" />
+                  <path d="M 3 4 L 3 0 L 9 0 L 9 4 Z" fill="#22c55e" />
+                  <rect x="9" y="-1" width="5" height="3" rx="1" fill="#86efac" />
+                </g>
+              )}
+              {activeTool === 'fertilizer' && (
+                <g transform="translate(36, 48) scale(0.85)">
+                  <path d="M 0 12 Q 6 20 12 12 L 11 1 L 1 1 Z" fill="#78350f" />
+                  <rect x="2" y="-1" width="8" height="3" fill="#d97706" rx="1" />
+                  <text x="6" y="10" fontSize="7" textAnchor="middle" fill="#fef3c7" fontWeight="bold">F</text>
+                </g>
+              )}
+              {activeTool &&
+                activeTool !== 'water' &&
+                activeTool !== 'harvest' &&
+                activeTool !== 'scythe' &&
+                activeTool !== 'neem_oil' &&
+                activeTool !== 'fertilizer' && (
+                  <g transform="translate(36, 49) scale(0.85)">
+                    <path d="M 0 12 Q 6 22 12 12 L 10 0 L 2 0 Z" fill="#b45309" />
+                    <rect x="2" y="-3" width="8" height="4" fill="#fcd34d" rx="1" />
+                    <text x="6" y="9" fontSize="8" textAnchor="middle" fill="#fff" fontWeight="bold">S</text>
+                  </g>
+                )}
+            </g>
           </g>
 
           {/* Head & Face (front and side views) */}
