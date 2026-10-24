@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Volume2, VolumeX, RotateCcw, ClipboardList, Check } from "lucide-react";
+import { ArrowLeft, Volume2, VolumeX, RotateCcw, ClipboardList, Check, Building2 } from "lucide-react";
 import "../market-ui.css";
 
 export default function MarketHUD({
@@ -13,7 +13,7 @@ export default function MarketHUD({
   return (
     <header className="sv-root sv-hud">
       <div className="sv-hud-group">
-        <Link to="/world" title="Return to Skillz World Selection" aria-label="Back" className="sv-glass sv-iconbtn">
+        <Link to="/world/market" title="Return to Market District Hub" aria-label="Back" className="sv-glass sv-iconbtn">
           <ArrowLeft />
         </Link>
 

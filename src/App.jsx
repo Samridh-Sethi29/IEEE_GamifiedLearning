@@ -15,6 +15,8 @@ import FarmGame2D from "@/features/farm/components/FarmGame";
 import FarmEarnXP from "@/pages/FarmEarnXP";
 import HomeWorld from "@/pages/HomeWorld";
 import MarketWorld from "@/pages/MarketWorld";
+import SkillzMarketGame from "@/features/market/components/SkillzMarketGame";
+import CEODecisionRoom from "@/features/market/ceo-room/CEODecisionRoom";
 import MarketingWorld from "@/pages/MarketingWorld";
 
 import NightPage from "@/pages/NightPage";
@@ -171,6 +173,9 @@ export default function App() {
           {/* Other worlds */}
           <Route path="/world/home" element={<HomeWorld />} />
           <Route path="/world/market" element={<MarketWorld />} />
+          <Route path="/world/market/store" element={<SkillzMarketGame />} />
+          <Route path="/world/market/ceo-decision-room" element={<CEODecisionRoom />} />
+          <Route path="/world/market/ceo" element={<CEODecisionRoom />} />
           <Route path="/world/marketing" element={<MarketingWorld />} />
 
           {/* Creative Studio */}
