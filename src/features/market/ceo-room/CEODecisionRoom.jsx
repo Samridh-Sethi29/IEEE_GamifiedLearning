@@ -16,25 +16,26 @@ import CEOAnnualReport from "./components/CEOAnnualReport";
 import "./ceo-company.css";
 import "./ceo-room.css";
 
-const STORAGE_KEY = "skillverse_ceo_company_session_v2";
+const STORAGE_KEY = "skillverse_ceo_company_session_v3";
 
 export default function CEODecisionRoom() {
   const { player, earnXP, addCoins, updatePlayer } = usePlayer();
+  const [showBriefingModal, setShowBriefingModal] = useState(false);
 
-  // Full company simulation state
+  // Full company simulation state - defaults directly to planning command center
   const [gameState, setGameState] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && parsed.companyState && parsed.screen) {
+        if (parsed && parsed.companyState && parsed.screen && parsed.screen !== "welcome") {
           return parsed;
         }
       }
     } catch (e) {}
 
     return {
-      screen: "welcome", // welcome | planning | simulating | analytics | annual
+      screen: "planning", // planning | simulating | analytics | annual
       companyState: { ...INITIAL_COMPANY_STATE },
       lastQuarterResult: null,
     };
@@ -46,18 +47,6 @@ export default function CEODecisionRoom() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
     } catch (e) {}
   }, [gameState]);
-
-  // Start Simulation from Welcome Screen
-  const handleStartSimulation = () => {
-    try {
-      marketAudio.playClick();
-    } catch (e) {}
-    setGameState({
-      screen: "planning",
-      companyState: { ...INITIAL_COMPANY_STATE },
-      lastQuarterResult: null,
-    });
-  };
 
   // Reset Simulation back to Q1
   const handleResetSession = () => {
@@ -141,22 +130,18 @@ export default function CEODecisionRoom() {
     }
   };
 
-  // Screen 1: Welcome Screen
-  if (gameState.screen === "welcome") {
-    return <CEOWelcomeScreen onStartSimulation={handleStartSimulation} />;
-  }
-
   return (
     <div className="ceo-corp-root">
       {/* Executive Header & Live Ticker */}
       <CEOExecutiveHeader
         state={gameState.companyState}
         onResetSession={handleResetSession}
+        onOpenBriefing={() => setShowBriefingModal(true)}
       />
 
       {/* Main Executive War Room Canvas */}
       <main className="ceo-corp-main">
-        {/* Screen 2: Department Capital Planning (Quarterly Budget Sliders & Toggles) */}
+        {/* Screen: Department Capital Planning (Quarterly Budget Sliders & Toggles) */}
         {gameState.screen === "planning" && (
           <CEODepartmentPlanning
             state={gameState.companyState}
@@ -164,7 +149,7 @@ export default function CEODecisionRoom() {
           />
         )}
 
-        {/* Screen 3: Quarter in Motion (Animated 4-Stage Simulation & Customer Sentiment) */}
+        {/* Screen: Quarter in Motion (Animated 4-Stage Simulation & Customer Sentiment) */}
         {gameState.screen === "simulating" && gameState.lastQuarterResult && (
           <CEOSimulationRunning
             quarterResult={gameState.lastQuarterResult}
@@ -172,7 +157,7 @@ export default function CEODecisionRoom() {
           />
         )}
 
-        {/* Screen 4: Audited Analytics & Graphs (P&L Table, SVG Financials, Funnel) */}
+        {/* Screen: Audited Analytics & Graphs (P&L Table, SVG Financials, Funnel) */}
         {gameState.screen === "analytics" && gameState.lastQuarterResult && (
           <CEOQuarterAnalytics
             state={gameState.companyState}
@@ -181,7 +166,7 @@ export default function CEODecisionRoom() {
           />
         )}
 
-        {/* Screen 5: Annual Shareholder Meeting & Final Board Review */}
+        {/* Screen: Annual Shareholder Meeting & Final Board Review */}
         {gameState.screen === "annual" && (
           <CEOAnnualReport
             state={gameState.companyState}
@@ -190,6 +175,33 @@ export default function CEODecisionRoom() {
           />
         )}
       </main>
+
+      {/* Optional Company Dossier / Briefing Modal */}
+      {showBriefingModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+          <div className="relative w-full max-w-2xl p-6 bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl text-slate-100 space-y-4">
+            <h3 className="font-heading text-xl font-bold text-white flex items-center gap-2">
+              <span>🏢 Nexora Mobility Corp. • Executive Briefing</span>
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              You are the CEO managing Nexora Mobility, an innovative Indian electric vehicle manufacturer. Your challenge is to steer the company through 4 fiscal quarters by balancing:
+            </p>
+            <ul className="text-xs text-slate-300 space-y-2 list-disc pl-5">
+              <li><strong>Marketing & Ad Spend:</strong> Generates customer demand and showroom footfall.</li>
+              <li><strong>R&D & Engineering Quality:</strong> Protects battery safety, drops defect rates, and prevents warranty repair bills.</li>
+              <li><strong>Logistics Fulfillment:</strong> Choose between a 3PL Outsourced Agency (₹0 CapEx, but 320 unit cap) vs. buying your own In-House EV Fleet (₹12,00,000 CapEx, but 900 unit capacity).</li>
+            </ul>
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={() => setShowBriefingModal(false)}
+                className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm"
+              >
+                Return to War Room
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

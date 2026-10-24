@@ -8,10 +8,11 @@ import {
   ShieldCheck,
   PieChart,
   RotateCcw,
+  HelpCircle,
 } from "lucide-react";
 import { formatRupees } from "../data/simulationEngine";
 
-export default function CEOExecutiveHeader({ state, onResetSession }) {
+export default function CEOExecutiveHeader({ state, onResetSession, onOpenBriefing }) {
   const isCashCritical = state.cash < 1500000;
   const isCashWarning = state.cash < 2500000;
 
@@ -39,8 +40,18 @@ export default function CEOExecutiveHeader({ state, onResetSession }) {
           </div>
         </div>
 
-        {/* Right: Quarter Indicator & Reset */}
+        {/* Right: Quarter Indicator, Briefing & Reset */}
         <div className="flex items-center gap-3">
+          {onOpenBriefing && (
+            <button
+              onClick={onOpenBriefing}
+              className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="hidden sm:inline">Briefing</span>
+            </button>
+          )}
+
           <div className="px-3 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-black uppercase tracking-wider">
             Quarter {Math.min(state.quarter, state.maxQuarters)} of {state.maxQuarters}
           </div>
@@ -48,7 +59,7 @@ export default function CEOExecutiveHeader({ state, onResetSession }) {
           <button
             onClick={onResetSession}
             title="Reset Simulation"
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-colors"
+            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
