@@ -1,8 +1,14 @@
 /* Realistic Executive Company Styling – Nexora Mobility CEO War Room */
 
 .ceo-corp-root {
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   background-color: #070b14;
   background-image: 
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.15), rgba(0, 0, 0, 0)),
@@ -12,6 +18,22 @@
   user-select: none;
   display: flex;
   flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6, 182, 212, 0.3) rgba(7, 11, 20, 0.8);
+}
+
+.ceo-corp-root::-webkit-scrollbar {
+  width: 8px;
+}
+.ceo-corp-root::-webkit-scrollbar-track {
+  background: rgba(7, 11, 20, 0.9);
+}
+.ceo-corp-root::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.35);
+  border-radius: 4px;
+}
+.ceo-corp-root::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.65);
 }
 
 /* Executive Top Bar */
@@ -125,7 +147,7 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 24px 20px 48px;
+  padding: 24px 20px 64px;
   flex: 1;
   display: flex;
   flex-direction: column;

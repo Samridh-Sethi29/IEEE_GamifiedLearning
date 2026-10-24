@@ -1,14 +1,34 @@
 /* Market District Hub Styling – 100% self-contained plain CSS (no Tailwind dependency) */
 
 .mhub-root {
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   width: 100%;
-  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   background: linear-gradient(160deg, #f1f5f9 0%, #e2e8f0 40%, #ede9fe 100%);
   color: #0f172a;
   font-family: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
   user-select: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.3) rgba(226, 232, 240, 0.5);
+}
+
+.mhub-root::-webkit-scrollbar {
+  width: 8px;
+}
+.mhub-root::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.6);
+}
+.mhub-root::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 4px;
+}
+.mhub-root::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
 }
 
 /* Ambient luminous background decorations */
@@ -43,7 +63,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px 20px 32px;
+  padding: 24px 20px 48px;
   box-sizing: border-box;
 }
 
