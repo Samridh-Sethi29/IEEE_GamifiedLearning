@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, Users, MessageCircle, Code, Terminal, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Users, MessageCircle, Code, Terminal, CheckCircle2, XCircle } from "lucide-react";
 import GameHUD from "@/features/hud/components/GameHUD";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
 import EnglishAdventurePage from "@/pages/EnglishAdventurePage";

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Activity } from "lucide-react";
+import { ArrowLeft, Activity, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
 
