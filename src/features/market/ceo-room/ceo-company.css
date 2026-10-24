@@ -672,3 +672,56 @@
 .ceo-grade-B { background: linear-gradient(135deg, #06b6d4, #2563eb); }
 .ceo-grade-C { background: linear-gradient(135deg, #f59e0b, #d97706); }
 .ceo-grade-F { background: linear-gradient(135deg, #f43f5e, #be123c); }
+
+/* ============================================================
+   MOBILE & SHORT LANDSCAPE SCREENS (CEO WAR ROOM)
+   ============================================================ */
+
+@media screen and (max-height: 520px) and (orientation: landscape) {
+  .ceo-corp-header {
+    padding: 8px 16px;
+  }
+  .ceo-corp-header-inner {
+    gap: 8px;
+  }
+  .ceo-brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+  .ceo-corp-main {
+    padding: 12px 16px 40px;
+    gap: 16px;
+  }
+  .ceo-dept-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .ceo-dept-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  .ceo-analytics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .ceo-analytics-panel {
+    padding: 16px;
+    gap: 12px;
+  }
+  .ceo-annual-card {
+    padding: 20px;
+    gap: 16px;
+    margin: 10px auto;
+  }
+  .ceo-grade-badge {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .ceo-dept-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}

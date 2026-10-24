@@ -92,7 +92,7 @@ export default function GameHUD({ objective }) {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-x-0 top-0 z-30 flex items-start justify-between gap-3 p-3 sm:p-4">
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-30 flex items-start justify-between gap-3 p-3 sm:p-4" style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))", paddingTop: "max(12px, env(safe-area-inset-top))" }}>
         {/* Left: Player Identity & Sync Indicator */}
         <div className="pointer-events-auto flex flex-wrap items-center gap-2">
           <div

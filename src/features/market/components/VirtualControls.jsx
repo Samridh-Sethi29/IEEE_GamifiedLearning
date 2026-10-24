@@ -67,7 +67,7 @@ export default function VirtualControls({
   }, [touching]);
 
   return (
-    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-end p-3 md:p-5 overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none select-none z-20 flex flex-col justify-end p-3 md:p-5 overflow-hidden" style={{ paddingLeft: "max(16px, env(safe-area-inset-left))", paddingRight: "max(16px, env(safe-area-inset-right))", paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}>
       <div className="w-full flex items-end justify-between">
         
         {/* Virtual Joystick (Bottom Left: Hand Movement) - Light Pastel Sky Blue */}

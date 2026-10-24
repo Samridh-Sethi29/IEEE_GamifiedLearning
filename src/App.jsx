@@ -10,6 +10,7 @@ import OnboardingPage from "@/pages/OnboardingPage";
 import WorldMapPage from "@/pages/WorldMapPage";
 import ProfilePage from "@/features/profile/ProfilePage";
 import AchievementNotification from "@/features/achievements/components/AchievementNotification";
+import LandscapeOrientationNotice from "@/components/common/LandscapeOrientationNotice";
 
 import SchoolWorld from "@/pages/SchoolWorld";
 import FarmWorld from "@/pages/FarmWorld";
@@ -216,6 +217,7 @@ export default function App() {
 
       <Toaster />
       <AchievementNotification />
+      <LandscapeOrientationNotice />
     </AuthProvider>
   );
 }

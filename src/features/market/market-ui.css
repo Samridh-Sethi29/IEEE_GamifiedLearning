@@ -217,7 +217,7 @@
 .sv-hud {
   position: absolute; top: 0; left: 0; right: 0; z-index: 30;
   display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-  padding: 12px 16px; pointer-events: none; user-select: none;
+  padding: 12px 16px; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); pointer-events: none; user-select: none;
 }
 .sv-hud-group { display: flex; align-items: center; gap: 10px; pointer-events: auto; }
 .sv-hud-group.right { flex-shrink: 0; }

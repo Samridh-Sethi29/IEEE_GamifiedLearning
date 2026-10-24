@@ -5,6 +5,7 @@ import HomeAvatar from '@/features/home/components/HomeAvatar';
 import { Droplet, Sun, Snowflake, Leaf, Sprout, Axe, Store, X, ArrowLeft, Play, Pause, SkipForward, Music, Volume2, VolumeX, Info, LogOut, CloudRain, Cloud } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import './FarmGame.css';
+import FarmVirtualControls from './FarmVirtualControls';
 
 const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
 const DAYS_PER_SEASON = 4;
@@ -455,6 +456,13 @@ export default function FarmGame2D() {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
+  const handleVirtualDirection = (dx, dy) => {
+    keys.current.a = dx < -0.3;
+    keys.current.d = dx > 0.3;
+    keys.current.w = dy < -0.3;
+    keys.current.s = dy > 0.3;
+  };
 
   const handlePlotInteraction = (plot) => {
     const dist = Math.hypot(plot.x - playerPos.x, plot.y - playerPos.y);
@@ -1646,7 +1654,7 @@ export default function FarmGame2D() {
       </div>
 
       {/* Keyboard Controls Hint */}
-      <div style={{ position: 'fixed', bottom: '24px', left: '24px', zIndex: 40, background: 'linear-gradient(135deg, rgba(60,40,20,0.75) 0%, rgba(40,25,12,0.8) 100%)', backdropFilter: 'blur(8px)', borderRadius: '16px', padding: '16px', color: 'white', fontWeight: 500, fontSize: '0.875rem', border: '2px solid rgba(160,120,70,0.3)', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
+      <div className="hidden md:block" style={{ position: 'fixed', bottom: '24px', left: '24px', zIndex: 40, background: 'linear-gradient(135deg, rgba(60,40,20,0.75) 0%, rgba(40,25,12,0.8) 100%)', backdropFilter: 'blur(8px)', borderRadius: '16px', padding: '16px', color: 'white', fontWeight: 500, fontSize: '0.875rem', border: '2px solid rgba(160,120,70,0.3)', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
           <div style={{ display: 'flex', gap: '4px' }}>
             {['W','A','S','D'].map(k => <kbd key={k} style={{ backgroundColor: 'rgba(255,255,255,0.2)', padding: '4px 8px', borderRadius: '4px' }}>{k}</kbd>)}
@@ -2074,6 +2082,9 @@ export default function FarmGame2D() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Virtual touch controls for mobile landscape */} 
+      <FarmVirtualControls onDirectionChange={handleVirtualDirection} />
     </div>
   );
 }
