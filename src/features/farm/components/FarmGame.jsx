@@ -995,19 +995,48 @@ export default function FarmGame2D() {
       
 
       {/* Decorative Environment — purely visual, no interactions */}
-      <div className="farm-deco-tree" style={{ left: '50px', top: '120px' }} />
-      <div className="farm-deco-tree" style={{ left: '1350px', top: '150px' }} />
-      <div className="farm-deco-tree" style={{ left: '700px', top: '80px' }} />
-      <div className="farm-deco-tree" style={{ left: '80px', top: '1200px' }} />
-      <div className="farm-deco-tree" style={{ left: '1400px', top: '900px' }} />
-      <div className="farm-deco-bush" style={{ left: '140px', top: '180px' }} />
-      <div className="farm-deco-bush" style={{ left: '1300px', top: '600px' }} />
-      <div className="farm-deco-bush" style={{ left: '680px', top: '1250px' }} />
-      <div className="farm-deco-rock" style={{ left: '1450px', top: '450px' }} />
-      <div className="farm-deco-rock" style={{ left: '100px', top: '650px' }} />
-      <div className="farm-deco-flower" style={{ left: '1380px', top: '1100px' }} />
-      <div className="farm-deco-flower" style={{ left: '60px', top: '900px' }} />
-      <div className="farm-deco-flower" style={{ left: '720px', top: '1300px' }} />
+      <DecoCobblestonePaths />
+
+      {/* Scenic Fruit & Forest Trees */}
+      <DecoTree x={90} y={150} variant="apple" scale={1.15} />
+      <DecoTree x={1340} y={170} variant="oak" scale={1.2} />
+      <DecoTree x={695} y={120} variant="maple" scale={1.1} />
+      <DecoTree x={75} y={380} variant="oak" scale={0.95} />
+      <DecoTree x={1410} y={430} variant="pine" scale={1.1} />
+      <DecoTree x={95} y={1200} variant="maple" scale={1.15} />
+      <DecoTree x={695} y={1250} variant="apple" scale={1.1} />
+      <DecoTree x={1380} y={930} variant="oak" scale={1.1} />
+
+      {/* Central Water Well & Washing Trough Area */}
+      <DecoWaterWell x={695} y={290} />
+
+      {/* Central Crossroads Signpost */}
+      <DecoSignpost x={695} y={630} />
+
+      {/* Cozy Amber Lantern Posts */}
+      <DecoLanternPost x={565} y={540} />
+      <DecoLanternPost x={825} y={540} />
+      <DecoLanternPost x={565} y={705} />
+      <DecoLanternPost x={825} y={705} />
+
+      {/* Flower Gardens with Animated Butterflies */}
+      <DecoFlowerBed x={100} y={630} />
+      <DecoFlowerBed x={1340} y={1120} />
+
+      {/* Rustic Hay Bales & Produce Storage Corner */}
+      <DecoStorageCorner x={95} y={920} />
+
+      {/* Tranquil Duck Pond with Reeds & Water Lotus */}
+      <DecoDuckPond x={1260} y={680} />
+
+      {/* Accent Natural Bushes & Rocks */}
+      <div className="farm-deco-bush" style={{ left: '160px', top: '190px' }} />
+      <div className="farm-deco-bush" style={{ left: '1290px', top: '560px' }} />
+      <div className="farm-deco-bush" style={{ left: '630px', top: '1280px' }} />
+      <div className="farm-deco-rock" style={{ left: '1440px', top: '480px' }} />
+      <div className="farm-deco-rock" style={{ left: '120px', top: '690px' }} />
+      <div className="farm-deco-flower" style={{ left: '60px', top: '990px' }} />
+      <div className="farm-deco-flower" style={{ left: '760px', top: '1280px' }} />
 
       {/* Rain Animation Styles */}
       <style>
@@ -1804,5 +1833,450 @@ function ToolButton({ active, onClick, icon, label, badge }) {
         </div>
       )}
     </button>
+  );
+}
+
+
+/* ==========================================================
+   SCENIC FARM ENVIRONMENTAL DECORATIONS (Purely Presentation)
+   ========================================================== */
+
+function DecoTree({ x, y, variant = 'apple', scale = 1 }) {
+  const isApple = variant === 'apple';
+  const isMaple = variant === 'maple';
+  const isPine = variant === 'pine';
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: `translate(-50%, -85%) scale(${scale})`,
+        pointerEvents: 'none',
+        zIndex: 6,
+      }}
+    >
+      <svg width="100" height="130" viewBox="0 0 100 130" fill="none" style={{ overflow: 'visible' }}>
+        {/* Ground cast shadow */}
+        <ellipse cx="50" cy="118" rx="42" ry="12" fill="rgba(20, 35, 15, 0.32)" />
+
+        {/* Tree Trunk */}
+        {!isPine ? (
+          <g>
+            {/* Roots */}
+            <path d="M 44 116 Q 36 120 28 122 Q 40 118 45 112 Z" fill="#45230e" />
+            <path d="M 56 116 Q 64 120 72 122 Q 60 118 55 112 Z" fill="#3a1b0a" />
+            {/* Main Trunk with bark shading */}
+            <path d="M 43 75 L 43 118 L 57 118 L 57 75 Z" fill="#5c3116" />
+            <path d="M 50 75 L 50 118 L 57 118 L 57 75 Z" fill="#43220c" opacity="0.6" />
+            <path d="M 46 88 Q 47 96 46 104" stroke="#361a08" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 53 82 Q 54 92 53 100" stroke="#361a08" strokeWidth="1.5" strokeLinecap="round" />
+          </g>
+        ) : (
+          <rect x="46" y="90" width="8" height="28" fill="#45230e" rx="2" />
+        )}
+
+        {/* Canopy with gentle wind sway */}
+        <g className="farm-tree-sway">
+          {isPine ? (
+            <g>
+              <polygon points="50,15 22,60 78,60" fill="#14532d" />
+              <polygon points="50,15 50,60 78,60" fill="#0f3d21" />
+              <polygon points="50,42 16,84 84,84" fill="#166534" />
+              <polygon points="50,42 50,84 84,84" fill="#114b27" />
+              <polygon points="50,68 12,106 88,106" fill="#15803d" />
+              <polygon points="50,68 50,106 88,106" fill="#14532d" />
+            </g>
+          ) : isMaple ? (
+            <g>
+              <circle cx="50" cy="55" r="38" fill="#b45309" />
+              <circle cx="34" cy="58" r="26" fill="#d97706" />
+              <circle cx="66" cy="58" r="26" fill="#92400e" />
+              <circle cx="50" cy="40" r="28" fill="#f59e0b" />
+              <circle cx="42" cy="38" r="18" fill="#fbbf24" opacity="0.8" />
+              <circle cx="60" cy="46" r="16" fill="#d97706" opacity="0.9" />
+              <ellipse cx="26" cy="98" rx="3" ry="1.8" fill="#d97706" transform="rotate(25 26 98)" />
+              <ellipse cx="76" cy="104" rx="3" ry="1.6" fill="#f59e0b" transform="rotate(-30 76 104)" />
+            </g>
+          ) : (
+            <g>
+              <circle cx="50" cy="55" r="38" fill="#1b4332" />
+              <circle cx="34" cy="58" r="26" fill="#2d6a4f" />
+              <circle cx="66" cy="58" r="26" fill="#1e4d38" />
+              <circle cx="50" cy="38" r="28" fill="#40916c" />
+              <circle cx="40" cy="36" r="18" fill="#52b788" opacity="0.8" />
+              <circle cx="62" cy="44" r="18" fill="#2d6a4f" opacity="0.9" />
+              <circle cx="48" cy="28" r="14" fill="#74c69d" opacity="0.75" />
+
+              {isApple && (
+                <g>
+                  <circle cx="32" cy="48" r="4.2" fill="#dc2626" />
+                  <circle cx="31" cy="46.5" r="1.2" fill="#fecaca" />
+                  <circle cx="64" cy="44" r="4.5" fill="#ef4444" />
+                  <circle cx="63" cy="42.5" r="1.2" fill="#fecaca" />
+                  <circle cx="46" cy="62" r="4.2" fill="#dc2626" />
+                  <circle cx="45" cy="60.5" r="1.2" fill="#fecaca" />
+                  <circle cx="56" cy="32" r="3.8" fill="#ef4444" />
+                  <circle cx="38" cy="72" r="4" fill="#b91c1c" />
+                  <circle cx="70" cy="116" r="3.5" fill="#dc2626" />
+                  <ellipse cx="69" cy="114.5" rx="1" ry="0.6" fill="#fecaca" />
+                </g>
+              )}
+            </g>
+          )}
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function DecoWaterWell({ x, y }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 7,
+      }}
+    >
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" style={{ filter: 'drop-shadow(0 8px 12px rgba(20,25,15,0.35))' }}>
+        {/* Cobblestone paving around well */}
+        <ellipse cx="60" cy="98" rx="52" ry="18" fill="#57534e" opacity="0.4" />
+        <ellipse cx="32" cy="95" rx="7" ry="4" fill="#78716c" opacity="0.7" />
+        <ellipse cx="88" cy="96" rx="8" ry="4.5" fill="#78716c" opacity="0.7" />
+        <ellipse cx="60" cy="108" rx="9" ry="5" fill="#a8a29e" opacity="0.6" />
+        <ellipse cx="44" cy="103" rx="6" ry="3.5" fill="#78716c" opacity="0.7" />
+        <ellipse cx="76" cy="103" rx="7" ry="4" fill="#655f58" opacity="0.7" />
+
+        {/* Well Stone Base Cylinder */}
+        <ellipse cx="60" cy="92" rx="32" ry="14" fill="#44403c" />
+        <path d="M 28 72 L 28 92 C 28 102 92 102 92 92 L 92 72 Z" fill="#57534e" />
+        {/* Stone texture bricks */}
+        <path d="M 36 78 C 48 83 72 83 84 78" stroke="#44403c" strokeWidth="2" fill="none" />
+        <path d="M 32 86 C 46 92 74 92 88 86" stroke="#44403c" strokeWidth="2" fill="none" />
+        <line x1="46" y1="72" x2="46" y2="78" stroke="#44403c" strokeWidth="1.8" />
+        <line x1="68" y1="72" x2="68" y2="78" stroke="#44403c" strokeWidth="1.8" />
+        <line x1="56" y1="78" x2="56" y2="86" stroke="#44403c" strokeWidth="1.8" />
+        <line x1="78" y1="78" x2="78" y2="86" stroke="#44403c" strokeWidth="1.8" />
+        <line x1="42" y1="86" x2="42" y2="96" stroke="#44403c" strokeWidth="1.8" />
+        <line x1="66" y1="86" x2="66" y2="97" stroke="#44403c" strokeWidth="1.8" />
+        {/* Top Rim of Well */}
+        <ellipse cx="60" cy="72" rx="32" ry="12" fill="#78716c" stroke="#44403c" strokeWidth="2.5" />
+        {/* Inside Water Basin with Ripple */}
+        <ellipse cx="60" cy="72" rx="24" ry="8" fill="#0284c7" />
+        <ellipse cx="60" cy="72" rx="16" ry="5" fill="#38bdf8" opacity="0.6" className="farm-water-ripple" />
+        <ellipse cx="60" cy="72" rx="8" ry="2.5" fill="#bae6fd" opacity="0.8" />
+
+        {/* Wooden Posts */}
+        <rect x="32" y="32" width="7" height="46" fill="#78350f" rx="1" />
+        <rect x="32" y="32" width="3" height="46" fill="#92400e" opacity="0.7" />
+        <rect x="81" y="32" width="7" height="46" fill="#542407" rx="1" />
+        <rect x="81" y="32" width="3" height="46" fill="#78350f" opacity="0.7" />
+
+        {/* Crossbeam with Winch & Rope */}
+        <rect x="29" y="36" width="62" height="5" fill="#78350f" rx="1" />
+        <rect x="54" y="34" width="12" height="8" fill="#d97706" rx="2" />
+        <line x1="60" y1="42" x2="60" y2="58" stroke="#d97706" strokeWidth="2" />
+
+        {/* Hanging Wooden Bucket */}
+        <g transform="translate(54, 56)">
+          <path d="M 1 4 L 3 14 L 9 14 L 11 4 Z" fill="#92400e" stroke="#451a03" strokeWidth="1" />
+          <path d="M 0 4 Q 6 0 12 4" stroke="#78716c" strokeWidth="1.2" fill="none" />
+          <ellipse cx="6" cy="5" rx="4" ry="1.5" fill="#0284c7" />
+        </g>
+
+        {/* Wooden Shingled Peaked Roof */}
+        <polygon points="60,6 20,38 100,38" fill="#854d0e" stroke="#451a03" strokeWidth="2" />
+        <polygon points="60,6 60,38 100,38" fill="#713f12" />
+        <line x1="42" y1="20" x2="36" y2="38" stroke="#451a03" strokeWidth="1.5" />
+        <line x1="52" y1="12" x2="50" y2="38" stroke="#451a03" strokeWidth="1.5" />
+        <line x1="68" y1="12" x2="70" y2="38" stroke="#451a03" strokeWidth="1.5" />
+        <line x1="78" y1="20" x2="84" y2="38" stroke="#451a03" strokeWidth="1.5" />
+        <polygon points="60,4 56,8 64,8" fill="#a16207" />
+
+        {/* Cute resting bird on top */}
+        <text x="60" y="5" fontSize="11" textAnchor="middle">🐦</text>
+
+        {/* Wooden Water Trough beside well */}
+        <g transform="translate(86, 78)">
+          <rect x="0" y="6" width="30" height="15" rx="3" fill="#78350f" stroke="#451a03" strokeWidth="1.5" />
+          <rect x="3" y="8" width="24" height="11" rx="2" fill="#0ea5e9" />
+          <ellipse cx="15" cy="13" rx="10" ry="3.5" fill="#38bdf8" opacity="0.7" />
+          <ellipse cx="9" cy="11" rx="1.5" ry="1" fill="#ffffff" opacity="0.8" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function DecoDuckPond({ x, y }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 5,
+      }}
+    >
+      <svg width="200" height="160" viewBox="0 0 200 160" fill="none" style={{ filter: 'drop-shadow(0 6px 14px rgba(10,30,35,0.35))' }}>
+        {/* Sandy/Pebble Shoreline */}
+        <path
+          d="M 25 75 C 20 40 60 20 110 24 C 160 28 190 55 185 95 C 180 135 140 152 90 148 C 45 144 30 110 25 75 Z"
+          fill="#c2b59b"
+        />
+        {/* Water Pond Basin */}
+        <path
+          d="M 32 75 C 28 46 64 28 110 32 C 154 36 180 60 176 94 C 172 128 136 143 92 140 C 52 136 36 104 32 75 Z"
+          fill="url(#pondGradient)"
+        />
+
+        <defs>
+          <linearGradient id="pondGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0284c7" />
+            <stop offset="50%" stopColor="#0369a1" />
+            <stop offset="100%" stopColor="#0f766e" />
+          </linearGradient>
+        </defs>
+
+        {/* Water Ripple rings */}
+        <ellipse cx="105" cy="85" rx="55" ry="26" fill="none" stroke="#7dd3fc" strokeWidth="1.2" opacity="0.4" className="farm-water-ripple" />
+        <ellipse cx="105" cy="85" rx="35" ry="16" fill="none" stroke="#e0f2fe" strokeWidth="1" opacity="0.5" />
+
+        {/* Shoreline Rocks */}
+        <ellipse cx="28" cy="58" rx="7" ry="4.5" fill="#78716c" />
+        <ellipse cx="40" cy="38" rx="8" ry="5" fill="#655f58" />
+        <ellipse cx="145" cy="30" rx="9" ry="5" fill="#78716c" />
+        <ellipse cx="178" cy="65" rx="7" ry="4" fill="#a8a29e" />
+        <ellipse cx="165" cy="125" rx="8" ry="5" fill="#655f58" />
+        <ellipse cx="120" cy="144" rx="7" ry="4" fill="#78716c" />
+        <ellipse cx="50" cy="132" rx="9" ry="5.5" fill="#57534e" />
+
+        {/* Cattails / Water Reeds */}
+        <g transform="translate(162, 70)">
+          <path d="M 0 35 Q 5 15 2 0" stroke="#15803d" strokeWidth="2" fill="none" />
+          <rect x="0" y="4" width="4" height="14" rx="2" fill="#78350f" />
+          <path d="M 8 35 Q 12 18 10 2" stroke="#16a34a" strokeWidth="1.8" fill="none" />
+          <rect x="8" y="7" width="3.5" height="12" rx="1.8" fill="#5c2e0b" />
+        </g>
+
+        {/* Lily pad 1 with pink lotus */}
+        <g transform="translate(60, 68)">
+          <ellipse cx="10" cy="8" rx="11" ry="6" fill="#15803d" />
+          <path d="M 10 8 L 21 6" stroke="#0369a1" strokeWidth="1.5" />
+          <text x="10" y="10" fontSize="13" textAnchor="middle">🪷</text>
+        </g>
+
+        {/* Lily pad 2 */}
+        <g transform="translate(125, 96)">
+          <ellipse cx="9" cy="6" rx="9" ry="5" fill="#16a34a" />
+          <path d="M 9 6 L 17 5" stroke="#0369a1" strokeWidth="1.2" />
+        </g>
+
+        {/* Peaceful Swimming Duck */}
+        <g transform="translate(92, 74)">
+          <text x="0" y="0" fontSize="22" style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.3))' }}>🦆</text>
+          <path d="M -8 2 Q -16 -2 -22 2" stroke="#bae6fd" strokeWidth="1.2" fill="none" opacity="0.6" />
+          <path d="M -8 6 Q -14 10 -20 8" stroke="#bae6fd" strokeWidth="1.2" fill="none" opacity="0.6" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+function DecoFlowerBed({ x, y }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 6,
+      }}
+    >
+      <div style={{ position: 'relative', width: '130px', height: '80px' }}>
+        <div
+          style={{
+            position: 'absolute', inset: 0,
+            borderRadius: '16px',
+            backgroundColor: '#45220c',
+            border: '4px solid #8b6239',
+            boxShadow: 'inset 0 4px 8px rgba(0,0,0,0.5), 0 6px 14px rgba(20,25,15,0.3)',
+            backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)'
+          }}
+        />
+
+        <div style={{ position: 'absolute', inset: '4px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-around', padding: '2px' }}>
+          <span style={{ fontSize: '1.5rem', filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>🌻</span>
+          <span style={{ fontSize: '1.4rem', filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>🌷</span>
+          <span style={{ fontSize: '1.3rem', filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>🪻</span>
+          <span style={{ fontSize: '1.4rem', filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>🌼</span>
+          <span style={{ fontSize: '1.4rem', filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>🌷</span>
+          <span style={{ fontSize: '1.5rem', filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))' }}>🌻</span>
+        </div>
+
+        <div style={{ position: 'absolute', top: '-14px', left: '20px' }} className="farm-butterfly-1">
+          <span style={{ fontSize: '1.1rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🦋</span>
+        </div>
+        <div style={{ position: 'absolute', top: '-6px', right: '15px' }} className="farm-butterfly-2">
+          <span style={{ fontSize: '1rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}>🦋</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DecoStorageCorner({ x, y }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 6,
+      }}
+    >
+      <div style={{ position: 'relative', width: '130px', height: '100px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+        <div style={{ position: 'absolute', bottom: '0px', width: '124px', height: '36px', borderRadius: '50%', backgroundColor: 'rgba(50, 30, 15, 0.35)', filter: 'blur(2px)' }} />
+
+        <div style={{ position: 'absolute', left: '10px', bottom: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ width: '40px', height: '24px', borderRadius: '6px', background: 'linear-gradient(180deg, #fef08a 0%, #eab308 100%)', border: '2px solid #ca8a04', boxShadow: 'inset 0 0 0 2px rgba(254,240,138,0.4), 0 3px 6px rgba(0,0,0,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '-4px', zIndex: 2 }}>
+            <span style={{ fontSize: '0.65rem' }}>🌾</span>
+          </div>
+          <div style={{ display: 'flex', gap: '3px' }}>
+            <div style={{ width: '38px', height: '24px', borderRadius: '6px', background: 'linear-gradient(180deg, #fef08a 0%, #ca8a04 100%)', border: '2px solid #a16207', boxShadow: '0 3px 6px rgba(0,0,0,0.3)' }} />
+            <div style={{ width: '38px', height: '24px', borderRadius: '6px', background: 'linear-gradient(180deg, #fef08a 0%, #ca8a04 100%)', border: '2px solid #a16207', boxShadow: '0 3px 6px rgba(0,0,0,0.3)' }} />
+          </div>
+        </div>
+
+        <div style={{ position: 'absolute', right: '12px', bottom: '10px', width: '42px', height: '32px', borderRadius: '6px', background: 'linear-gradient(180deg, #a16207 0%, #78350f 100%)', border: '2px solid #451a03', boxShadow: '0 4px 8px rgba(0,0,0,0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px' }}>
+          <div style={{ display: 'flex', gap: '2px', marginTop: '-12px' }}>
+            <span style={{ fontSize: '0.9rem' }}>🥕</span>
+            <span style={{ fontSize: '0.9rem' }}>🍎</span>
+          </div>
+          <div style={{ width: '100%', height: '3px', backgroundColor: '#451a03', margin: '2px 0' }} />
+        </div>
+
+        <div style={{ position: 'absolute', left: '72px', bottom: '14px', transform: 'rotate(18deg)', zIndex: 4 }}>
+          <div style={{ width: '3px', height: '54px', backgroundColor: '#78350f', borderRadius: '2px' }}>
+            <div style={{ position: 'absolute', top: '0', left: '-5px', fontSize: '0.8rem' }}>🍴</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DecoSignpost({ x, y }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+        zIndex: 7,
+      }}
+    >
+      <div style={{ position: 'relative', width: '100px', height: '90px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ position: 'absolute', bottom: '2px', width: '38px', height: '14px', borderRadius: '50%', backgroundColor: 'rgba(30, 20, 10, 0.4)', filter: 'blur(1px)' }} />
+        <div style={{ position: 'absolute', bottom: '4px', width: '8px', height: '70px', background: 'linear-gradient(90deg, #78350f 0%, #542407 100%)', borderRadius: '2px', border: '1px solid #3b1803' }} />
+
+        <div style={{ position: 'absolute', top: '10px', left: '-4px', background: 'linear-gradient(180deg, #d4a373 0%, #bc6c25 100%)', border: '1.5px solid #542407', borderRadius: '4px 0 0 4px', padding: '1px 6px', fontSize: '0.58rem', fontWeight: 900, color: '#fefae0', textShadow: '0 1px 2px rgba(0,0,0,0.7)', boxShadow: '0 2px 4px rgba(0,0,0,0.3)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '2px' }}>
+          <span>◀</span> W. Fields
+        </div>
+
+        <div style={{ position: 'absolute', top: '26px', right: '-4px', background: 'linear-gradient(180deg, #d4a373 0%, #bc6c25 100%)', border: '1.5px solid #542407', borderRadius: '0 4px 4px 0', padding: '1px 6px', fontSize: '0.58rem', fontWeight: 900, color: '#fefae0', textShadow: '0 1px 2px rgba(0,0,0,0.7)', boxShadow: '0 2px 4px rgba(0,0,0,0.3)', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '2px' }}>
+          E. Fields <span>▶</span>
+        </div>
+
+        <div style={{ position: 'absolute', top: '42px', left: '6px', background: 'linear-gradient(180deg, #e9edc9 0%, #ccd5ae 100%)', border: '1.5px solid #542407', borderRadius: '4px', padding: '1px 5px', fontSize: '0.55rem', fontWeight: 900, color: '#283618', boxShadow: '0 2px 4px rgba(0,0,0,0.25)', whiteSpace: 'nowrap' }}>
+          ▲ Water Well
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DecoLanternPost({ x, y }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -80%)',
+        pointerEvents: 'none',
+        zIndex: 7,
+      }}
+    >
+      <div style={{ position: 'relative', width: '36px', height: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ position: 'absolute', bottom: '0', width: '6px', height: '70px', background: 'linear-gradient(90deg, #78350f 0%, #451a03 100%)', borderRadius: '2px' }} />
+        <div style={{ position: 'absolute', top: '4px', right: '4px', width: '18px', height: '14px', borderTop: '3px solid #1e293b', borderRight: '3px solid #1e293b', borderRadius: '0 8px 0 0' }} />
+        <div style={{ position: 'absolute', top: '16px', right: '-4px', width: '16px', height: '22px', borderRadius: '4px', background: 'linear-gradient(180deg, #fef08a 0%, #f59e0b 100%)', border: '1.5px solid #1e293b', boxShadow: '0 0 16px 6px rgba(251, 191, 36, 0.65), 0 2px 4px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="farm-lantern-glow">
+          <div style={{ width: '6px', height: '10px', borderRadius: '2px', backgroundColor: '#ffffff', opacity: 0.9 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DecoCobblestonePaths() {
+  const stones = [
+    { x: 685, y: 390, rx: 14, ry: 9, rot: 10 },
+    { x: 710, y: 430, rx: 16, ry: 10, rot: -15 },
+    { x: 690, y: 475, rx: 15, ry: 9, rot: 5 },
+    { x: 705, y: 520, rx: 17, ry: 10, rot: -8 },
+    { x: 690, y: 565, rx: 15, ry: 9, rot: 12 },
+    { x: 650, y: 620, rx: 18, ry: 11, rot: -5 },
+    { x: 730, y: 620, rx: 18, ry: 11, rot: 8 },
+    { x: 660, y: 645, rx: 16, ry: 10, rot: 15 },
+    { x: 725, y: 645, rx: 17, ry: 10, rot: -12 },
+    { x: 695, y: 685, rx: 16, ry: 10, rot: 6 },
+    { x: 710, y: 730, rx: 15, ry: 9, rot: -10 },
+    { x: 685, y: 775, rx: 17, ry: 10, rot: 14 },
+    { x: 705, y: 820, rx: 15, ry: 9, rot: -7 },
+    { x: 690, y: 865, rx: 16, ry: 10, rot: 9 },
+    { x: 710, y: 910, rx: 15, ry: 9, rot: -12 },
+    { x: 695, y: 955, rx: 16, ry: 10, rot: 5 },
+    { x: 705, y: 1000, rx: 17, ry: 10, rot: -15 },
+    { x: 575, y: 625, rx: 16, ry: 9, rot: 5 },
+    { x: 610, y: 635, rx: 15, ry: 10, rot: -10 },
+    { x: 780, y: 625, rx: 16, ry: 9, rot: -8 },
+    { x: 815, y: 635, rx: 15, ry: 10, rot: 12 },
+  ];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 4 }}>
+      {stones.map((s, i) => (
+        <div
+          key={`stone-${i}`}
+          style={{
+            position: 'absolute',
+            left: `${s.x}px`,
+            top: `${s.y}px`,
+            width: `${s.rx * 2}px`,
+            height: `${s.ry * 2}px`,
+            borderRadius: '50%',
+            transform: `translate(-50%, -50%) rotate(${s.rot}deg)`,
+            background: 'linear-gradient(135deg, #d6d3d1 0%, #a8a29e 60%, #78716c 100%)',
+            border: '1.5px solid #57534e',
+            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.4), 0 2px 4px rgba(20,20,15,0.25)',
+            opacity: 0.85
+          }}
+        />
+      ))}
+    </div>
   );
 }

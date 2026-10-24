@@ -551,3 +551,65 @@
 .farm-plot-compact:hover {
   transform: translate(-50%, -50%) scale(1.02);
 }
+
+
+/* ---------- Butterfly Flutter Animation ---------- */
+@keyframes butterfly1 {
+  0% { transform: translate(0, 0) scaleX(1) rotate(0deg); }
+  25% { transform: translate(12px, -8px) scaleX(0.7) rotate(6deg); }
+  50% { transform: translate(20px, -2px) scaleX(1) rotate(-4deg); }
+  75% { transform: translate(8px, 6px) scaleX(0.7) rotate(8deg); }
+  100% { transform: translate(0, 0) scaleX(1) rotate(0deg); }
+}
+
+@keyframes butterfly2 {
+  0% { transform: translate(0, 0) scaleX(-1) rotate(0deg); }
+  25% { transform: translate(-10px, -10px) scaleX(-0.7) rotate(-8deg); }
+  50% { transform: translate(-18px, -4px) scaleX(-1) rotate(6deg); }
+  75% { transform: translate(-6px, 4px) scaleX(-0.7) rotate(-5deg); }
+  100% { transform: translate(0, 0) scaleX(-1) rotate(0deg); }
+}
+
+.farm-butterfly-1 {
+  animation: butterfly1 4.5s ease-in-out infinite;
+  display: inline-block;
+  transform-origin: center;
+}
+
+.farm-butterfly-2 {
+  animation: butterfly2 5.2s ease-in-out infinite;
+  display: inline-block;
+  transform-origin: center;
+}
+
+/* ---------- Water Ripple Animation ---------- */
+@keyframes waterRipplePulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 0.3; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.farm-water-ripple {
+  animation: waterRipplePulse 3.5s ease-in-out infinite;
+}
+
+/* ---------- Lantern Ambient Glow ---------- */
+@keyframes lanternPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.55)); opacity: 0.95; }
+  50% { filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.85)); opacity: 1; }
+}
+
+.farm-lantern-glow {
+  animation: lanternPulse 3s ease-in-out infinite;
+}
+
+/* ---------- Tree Foliage Sway ---------- */
+@keyframes treeSwaySoft {
+  0%, 100% { transform: rotate(-0.8deg); }
+  50% { transform: rotate(0.8deg); }
+}
+
+.farm-tree-sway {
+  animation: treeSwaySoft 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
