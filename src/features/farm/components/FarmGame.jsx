@@ -1730,22 +1730,64 @@ export default function FarmGame2D() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(20,15,8,0.65)', backdropFilter: 'blur(8px)', zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}
+            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(20,15,8,0.7)', backdropFilter: 'blur(8px)', zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px', boxSizing: 'border-box' }}
+            onClick={() => setActiveLesson(null)}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              style={{ background: 'linear-gradient(180deg, #faf6ee 0%, #f5efe3 100%)', padding: '32px', borderRadius: '32px', maxWidth: '600px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(16,185,129,0.2)', border: '5px solid #10b981' }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ 
+                background: 'linear-gradient(180deg, #faf6ee 0%, #f5efe3 100%)', 
+                padding: '20px 24px', 
+                borderRadius: '24px', 
+                maxWidth: '560px', 
+                width: '100%', 
+                maxHeight: 'min(560px, 92vh)',
+                overflowY: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(16,185,129,0.2)', 
+                border: '4px solid #10b981',
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                boxSizing: 'border-box'
+              }}
             >
+              {/* Quick Close Button */}
+              <button
+                type="button"
+                onClick={() => setActiveLesson(null)}
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(0,0,0,0.07)',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#475569',
+                  zIndex: 10,
+                  transition: 'background-color 0.15s ease'
+                }}
+                title="Close"
+              >
+                <X size={18} />
+              </button>
               {activeLesson === 'weeds' && (
                 <>
-                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px' }}>🌿</div>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#064e3b', textAlign: 'center', margin: '0 0 16px 0' }}>New Challenge: Weeds!</h2>
-                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                  <div style={{ fontSize: '2.4rem', textAlign: 'center', marginBottom: '6px' }}>🌿</div>
+                  <h2 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#064e3b', textAlign: 'center', margin: '0 0 8px 0' }}>New Challenge: Weeds!</h2>
+                  <p style={{ fontSize: '0.95rem', color: '#334155', lineHeight: 1.5, marginBottom: '12px' }}>
                     A weed has sprouted on your farm! In agriculture, this causes <strong>Resource Competition</strong>.
                   </p>
-                  <div style={{ backgroundColor: '#f0fdf4', padding: '20px', borderRadius: '16px', border: '2px solid #bbf7d0', marginBottom: '24px' }}>
+                  <div style={{ backgroundColor: '#f0fdf4', padding: '12px 16px', borderRadius: '14px', border: '2px solid #bbf7d0', marginBottom: '12px' }}>
                     <h3 style={{ color: '#166534', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '1.5rem' }}>📚</span> The Science
                     </h3>
@@ -1754,7 +1796,7 @@ export default function FarmGame2D() {
                       Because of this, your crop will <strong>stop growing</strong> until you remove the weed!
                     </p>
                   </div>
-                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '12px' }}>
                     Equip your <strong style={{ color: '#0f172a' }}>Scythe</strong> and click on the plot to clear it.
                   </p>
                 </>
@@ -1762,12 +1804,12 @@ export default function FarmGame2D() {
 
               {activeLesson === 'pests' && (
                 <>
-                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px', animation: 'bounce 1s infinite alternate' }}>🐛</div>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#b45309', textAlign: 'center', margin: '0 0 16px 0' }}>New Challenge: Pests!</h2>
-                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                  <div style={{ fontSize: '2.4rem', textAlign: 'center', marginBottom: '6px', animation: 'bounce 1s infinite alternate' }}>🐛</div>
+                  <h2 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#b45309', textAlign: 'center', margin: '0 0 8px 0' }}>New Challenge: Pests!</h2>
+                  <p style={{ fontSize: '0.95rem', color: '#334155', lineHeight: 1.5, marginBottom: '12px' }}>
                     Insects are attacking your crops! If you leave them alone, your plant will die tomorrow.
                   </p>
-                  <div style={{ backgroundColor: '#fffbeb', padding: '20px', borderRadius: '16px', border: '2px solid #fde68a', marginBottom: '24px' }}>
+                  <div style={{ backgroundColor: '#fffbeb', padding: '12px 16px', borderRadius: '14px', border: '2px solid #fde68a', marginBottom: '12px' }}>
                     <h3 style={{ color: '#92400e', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '1.5rem' }}>🔬</span> Integrated Pest Management (IPM)
                     </h3>
@@ -1776,7 +1818,7 @@ export default function FarmGame2D() {
                       you can use <strong>Organic Neem Oil</strong>. It repels pests naturally while keeping helpful insects (like Ladybugs) alive!
                     </p>
                   </div>
-                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '12px' }}>
                     Buy <strong style={{ color: '#0f172a' }}>Neem Oil</strong> from the Equipment Shop and use it to cure the plant!
                   </p>
                 </>
@@ -1784,12 +1826,12 @@ export default function FarmGame2D() {
 
               {activeLesson === 'soil' && (
                 <>
-                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px' }}>🍂</div>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#78716c', textAlign: 'center', margin: '0 0 16px 0' }}>Depleted Soil!</h2>
-                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                  <div style={{ fontSize: '2.4rem', textAlign: 'center', marginBottom: '6px' }}>🍂</div>
+                  <h2 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#78716c', textAlign: 'center', margin: '0 0 8px 0' }}>Depleted Soil!</h2>
+                  <p style={{ fontSize: '0.95rem', color: '#334155', lineHeight: 1.5, marginBottom: '12px' }}>
                     You just harvested a crop, but look at the dirt! It has turned grey and cracked. 
                   </p>
-                  <div style={{ backgroundColor: '#fafaf9', padding: '20px', borderRadius: '16px', border: '2px solid #e7e5e4', marginBottom: '24px' }}>
+                  <div style={{ backgroundColor: '#fafaf9', padding: '12px 16px', borderRadius: '14px', border: '2px solid #e7e5e4', marginBottom: '12px' }}>
                     <h3 style={{ color: '#57534e', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '1.5rem' }}>🧪</span> The Nitrogen Cycle
                     </h3>
@@ -1798,7 +1840,7 @@ export default function FarmGame2D() {
                       Use your Scythe to cut weeds (adding Biomass to your Compost Bin). When you have 3 Biomass, it turns into Organic Fertilizer overnight!
                     </p>
                   </div>
-                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '12px' }}>
                     Equip <strong style={{ color: '#0f172a' }}>Organic Fertilizer</strong> (💩) to heal the depleted plot!
                   </p>
                 </>
@@ -1806,12 +1848,12 @@ export default function FarmGame2D() {
 
               {activeLesson === 'economics' && (
                 <>
-                  <div style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '16px' }}>📈</div>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#0369a1', textAlign: 'center', margin: '0 0 16px 0' }}>Market Shift!</h2>
-                  <p style={{ fontSize: '1.1rem', color: '#334155', lineHeight: 1.6, marginBottom: '24px' }}>
+                  <div style={{ fontSize: '2.4rem', textAlign: 'center', marginBottom: '6px' }}>📈</div>
+                  <h2 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#0369a1', textAlign: 'center', margin: '0 0 8px 0' }}>Market Shift!</h2>
+                  <p style={{ fontSize: '0.95rem', color: '#334155', lineHeight: 1.5, marginBottom: '12px' }}>
                     Did you see that Market Alert? The prices of crops just changed drastically!
                   </p>
-                  <div style={{ backgroundColor: '#f0f9ff', padding: '20px', borderRadius: '16px', border: '2px solid #bae6fd', marginBottom: '24px' }}>
+                  <div style={{ backgroundColor: '#f0f9ff', padding: '12px 16px', borderRadius: '14px', border: '2px solid #bae6fd', marginBottom: '12px' }}>
                     <h3 style={{ color: '#0c4a6e', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '1.5rem' }}>📊</span> Supply and Demand
                     </h3>
@@ -1820,15 +1862,29 @@ export default function FarmGame2D() {
                       When farmers grow way too much of one thing (<strong>Surplus</strong>), the price crashes DOWN! 
                     </p>
                   </div>
-                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '32px' }}>
+                  <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: 600, textAlign: 'center', marginBottom: '12px' }}>
                     Check your Silo Storage to see the real-time prices. Sell when prices are green (High)!
                   </p>
                 </>
               )}
 
               <button 
+                type="button"
                 onClick={() => setActiveLesson(null)}
-                style={{ width: '100%', padding: '16px', background: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', color: 'white', border: 'none', borderRadius: '16px', fontSize: '1.25rem', fontWeight: 900, cursor: 'pointer', boxShadow: '0 6px 16px rgba(16,185,129,0.35), inset 0 1px 0 rgba(255,255,255,0.2)' }}
+                style={{ 
+                  width: '100%', 
+                  padding: '12px 20px', 
+                  background: 'linear-gradient(180deg, #10b981 0%, #059669 100%)', 
+                  color: 'white', 
+                  border: 'none', 
+                  borderRadius: '16px', 
+                  fontSize: '1.1rem', 
+                  fontWeight: 900, 
+                  cursor: 'pointer', 
+                  boxShadow: '0 6px 16px rgba(16,185,129,0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
+                  flexShrink: 0,
+                  marginTop: '12px'
+                }}
               >
                 Got it! Let's Farm!
               </button>
