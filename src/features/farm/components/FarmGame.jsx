@@ -163,53 +163,57 @@ const getSeasonIcon = (season) => {
 };
 
 const INITIAL_PLOTS = [
-  // --- GRID 1 (Left side) ---
-  { id: 0, x: 250, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 1, x: 380, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 2, x: 510, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  // --- GRID 1 (Top-Left) ---
+  { id: 0, x: 278, y: 278, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 1, x: 380, y: 278, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 2, x: 482, y: 278, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 3, x: 250, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 3, x: 278, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   { id: 4, x: 380, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 5, x: 510, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 5, x: 482, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 6, x: 250, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 7, x: 380, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 8, x: 510, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 6, x: 278, y: 482, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 7, x: 380, y: 482, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 8, x: 482, y: 482, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 
-  // --- GRID 2 (Right side) ---
-  { id: 9, x: 880, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 10, x: 1010, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 11, x: 1140, y: 250, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  // --- GRID 2 (Top-Right) ---
+  { id: 9, x: 908, y: 278, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 10, x: 1010, y: 278, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 11, x: 1112, y: 278, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 12, x: 880, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 12, x: 908, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   { id: 13, x: 1010, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 14, x: 1140, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 14, x: 1112, y: 380, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   
-  { id: 15, x: 880, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 16, x: 1010, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 17, x: 1140, y: 510, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 15, x: 908, y: 482, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 16, x: 1010, y: 482, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 17, x: 1112, y: 482, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 
-  // --- GRID 3 (Bottom Left) ---
-  { id: 18, x: 250, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 19, x: 380, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 20, x: 510, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 21, x: 250, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  // --- GRID 3 (Bottom-Left) ---
+  { id: 18, x: 278, y: 778, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 19, x: 380, y: 778, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 20, x: 482, y: 778, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  
+  { id: 21, x: 278, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   { id: 22, x: 380, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 23, x: 510, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 24, x: 250, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 25, x: 380, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 26, x: 510, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 23, x: 482, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  
+  { id: 24, x: 278, y: 982, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 25, x: 380, y: 982, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 26, x: 482, y: 982, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 
-  // --- GRID 4 (Bottom Right) ---
-  { id: 27, x: 880, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 28, x: 1010, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 29, x: 1140, y: 750, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 30, x: 880, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  // --- GRID 4 (Bottom-Right) ---
+  { id: 27, x: 908, y: 778, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 28, x: 1010, y: 778, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 29, x: 1112, y: 778, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  
+  { id: 30, x: 908, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
   { id: 31, x: 1010, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 32, x: 1140, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 33, x: 880, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 34, x: 1010, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
-  { id: 35, x: 1140, y: 1010, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 32, x: 1112, y: 880, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  
+  { id: 33, x: 908, y: 982, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 34, x: 1010, y: 982, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
+  { id: 35, x: 1112, y: 982, state: 'empty', cropId: null, daysPlanted: 0, isWatered: false, hasWeed: false, hasPests: false, isDepleted: false },
 ];
 
 const MUSIC_TRACKS = [
@@ -677,13 +681,81 @@ export default function FarmGame2D() {
     return vars[state] || EMOJIS.seed;
   };
 
+  const renderSeedStructure = (cropId) => {
+    const isGrain = ['wheat', 'millet', 'bajra', 'mustard'].includes(cropId);
+    const isTree = ['banana', 'mango', 'lemon'].includes(cropId);
+    const isVine = ['carrot', 'watermelon', 'grapes', 'cucumber'].includes(cropId);
+
+    return (
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <svg width="46" height="36" viewBox="0 0 46 36" fill="none" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.45))' }}>
+          {/* Soil furrow mound */}
+          <ellipse cx="23" cy="28" rx="19" ry="6" fill="#351d0d" />
+          <ellipse cx="23" cy="27" rx="15" ry="4.5" fill="#4a2c15" />
+          <path d="M 10 27 Q 23 29 36 27" stroke="#241207" strokeWidth="1.5" strokeLinecap="round" />
+
+          {isGrain && (
+            <g>
+              <ellipse cx="18" cy="24" rx="3.5" ry="2" fill="#d97706" stroke="#b45309" strokeWidth="0.8" transform="rotate(-20 18 24)" />
+              <ellipse cx="27" cy="25" rx="3" ry="1.8" fill="#f59e0b" stroke="#d97706" strokeWidth="0.8" transform="rotate(15 27 25)" />
+              <path d="M 22 24 Q 21 14 26 10" stroke="#16a34a" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+              <path d="M 26 10 Q 30 8 31 12 Q 27 14 26 10" fill="#4ade80" />
+            </g>
+          )}
+
+          {isTree && (
+            <g>
+              <path d="M 23 26 L 23 13" stroke="#78350f" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M 23 18 Q 14 15 15 20 Q 20 21 23 18" fill="#16a34a" />
+              <path d="M 23 15 Q 32 12 31 17 Q 26 18 23 15" fill="#22c55e" />
+              <ellipse cx="23" cy="12" rx="2.5" ry="3.5" fill="#86efac" />
+            </g>
+          )}
+
+          {isVine && (
+            <g>
+              <ellipse cx="19" cy="24" rx="3.8" ry="2.2" fill="#451a03" stroke="#290f02" strokeWidth="0.8" transform="rotate(-15 19 24)" />
+              <path d="M 22 24 Q 20 15 24 11" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" fill="none" />
+              <path d="M 24 11 Q 29 9 28 14 Q 25 14 24 11" fill="#4ade80" />
+              <circle cx="24" cy="11" r="1.5" fill="#86efac" />
+            </g>
+          )}
+
+          {!isGrain && !isTree && !isVine && (
+            <g>
+              <path d="M 23 26 Q 23 18 23 12" stroke="#15803d" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+              <path d="M 23 16 Q 16 12 17 17 Q 21 18 23 16" fill="#22c55e" />
+              <path d="M 23 15 Q 30 11 29 16 Q 25 17 23 15" fill="#4ade80" />
+            </g>
+          )}
+        </svg>
+      </div>
+    );
+  };
+
   const renderCrop = (plot) => {
     if (plot.state === 'empty') return null;
+    if (plot.state === 'seed') {
+      return renderSeedStructure(plot.cropId);
+    }
     const emoji = getCropEmoji(plot.cropId, plot.state);
     
     return (
       <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-        <span className={plot.state === 'growing' || plot.state === 'ready' ? 'farm-crop-sway' : ''} style={{ fontSize: plot.state === 'growing' ? '2.5rem' : '3rem', userSelect: 'none', display: 'inline-block' }}>{emoji}</span>
+        <span 
+          className={plot.state === 'growing' || plot.state === 'ready' ? 'farm-crop-sway' : ''} 
+          style={{ 
+            fontSize: plot.state === 'growing' ? '2.1rem' : plot.state === 'ready' ? '2.4rem' : '1.9rem', 
+            userSelect: 'none', 
+            display: 'inline-block',
+            filter: plot.state === 'ready' 
+              ? 'drop-shadow(0 4px 6px rgba(0,0,0,0.35)) drop-shadow(0 0 10px rgba(250,204,21,0.45))' 
+              : 'drop-shadow(0 3px 4px rgba(0,0,0,0.3))',
+            transformOrigin: 'bottom center'
+          }}
+        >
+          {emoji}
+        </span>
       </div>
     );
   };
@@ -1144,41 +1216,44 @@ export default function FarmGame2D() {
       {/* The World / Canvas */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
         
-        {/* --- CROP PLOT FENCE 1 (Left Grid) --- */}
+        {/* --- CROP PLOT FENCE 1 (Top-Left Grid) --- */}
         <div style={{
-          position: 'absolute', left: '170px', top: '170px', width: '420px', height: '420px',
-          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
+          position: 'absolute', left: '210px', top: '210px', width: '340px', height: '340px',
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '14px'
         }} />
 
-        {/* --- CROP PLOT FENCE 2 (Right Grid) --- */}
+        {/* --- CROP PLOT FENCE 2 (Top-Right Grid) --- */}
         <div style={{
-          position: 'absolute', left: '800px', top: '170px', width: '420px', height: '420px',
-          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
+          position: 'absolute', left: '840px', top: '210px', width: '340px', height: '340px',
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '14px'
         }} />
 
-        {/* --- CROP PLOT FENCE 3 (Bottom Left Grid) --- */}
+        {/* --- CROP PLOT FENCE 3 (Bottom-Left Grid) --- */}
         <div style={{
-          position: 'absolute', left: '170px', top: '670px', width: '420px', height: '420px',
-          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
+          position: 'absolute', left: '210px', top: '710px', width: '340px', height: '340px',
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '14px'
         }} />
 
-        {/* --- CROP PLOT FENCE 4 (Bottom Right Grid) --- */}
+        {/* --- CROP PLOT FENCE 4 (Bottom-Right Grid) --- */}
         <div style={{
-          position: 'absolute', left: '800px', top: '670px', width: '420px', height: '420px',
-          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '12px'
+          position: 'absolute', left: '840px', top: '710px', width: '340px', height: '340px',
+          pointerEvents: 'none', opacity: 1, boxShadow: 'inset 0 0 0 4px #5c3a1e, inset 0 0 0 8px #8b6239, inset 0 0 0 10px rgba(255,220,150,0.25), 4px 6px 12px rgba(30,20,10,0.3)', borderRadius: '14px'
         }} />
 
         {/* Farm Plots */}
         {plots.map((plot) => {
           const dist = Math.hypot(plot.x - playerPos.x, plot.y - playerPos.y);
-          const isNear = dist < 120;
-          let bg = plot.isWatered ? '#4a2e15' : '#7a5230';
-          let border = plot.isWatered ? '#3a2210' : '#5c3a1e';
+          const isNear = dist < 95;
+          let bg = plot.isWatered ? '#422812' : '#734c2a';
+          let border = plot.isWatered ? '#301c0c' : '#573418';
           
           if (plot.isDepleted) {
-            bg = '#6b6560'; // Depleted cracked soil
-            border = '#524d48';
+            bg = '#635d58'; // Depleted cracked soil
+            border = '#4a4541';
           }
+
+          const cropData = CROPS[plot.cropId];
+          const daysRemaining = cropData ? Math.max(1, cropData.daysToGrow - plot.daysPlanted) : 1;
           
           return (
             <div
@@ -1187,22 +1262,48 @@ export default function FarmGame2D() {
               onMouseEnter={() => setHoveredPlot(plot.id)}
               onMouseLeave={() => setHoveredPlot(null)}
               style={{
-                position: 'absolute', width: '110px', height: '110px',
-                transform: 'translate(-50%, -50%)', borderRadius: '16px',
+                position: 'absolute', width: '84px', height: '84px',
+                transform: 'translate(-50%, -50%)', borderRadius: '14px',
                 border: `3px solid ${border}`, backgroundColor: bg,
                 backgroundImage: plot.isDepleted 
-                  ? 'radial-gradient(ellipse 15px 12px at 30% 35%, rgba(80,75,70,0.5) 0%, transparent 70%), radial-gradient(ellipse 10px 14px at 65% 60%, rgba(90,85,80,0.4) 0%, transparent 70%)'
+                  ? 'radial-gradient(ellipse 12px 10px at 30% 35%, rgba(70,65,60,0.5) 0%, transparent 70%), radial-gradient(ellipse 8px 10px at 65% 60%, rgba(80,75,70,0.4) 0%, transparent 70%)'
                   : (plot.isWatered 
-                      ? 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%), repeating-linear-gradient(0deg, transparent 0px, transparent 18px, rgba(0,0,0,0.14) 18px, rgba(0,0,0,0.14) 20px)'
-                      : 'repeating-linear-gradient(0deg, transparent 0px, transparent 18px, rgba(0,0,0,0.1) 18px, rgba(0,0,0,0.1) 20px)'),
+                      ? 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%), repeating-linear-gradient(0deg, transparent 0px, transparent 13px, rgba(0,0,0,0.16) 13px, rgba(0,0,0,0.16) 15px)'
+                      : 'repeating-linear-gradient(0deg, transparent 0px, transparent 13px, rgba(0,0,0,0.11) 13px, rgba(0,0,0,0.11) 15px)'),
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 left: plot.x, top: plot.y,
                 cursor: isNear ? 'pointer' : 'not-allowed',
-                opacity: isNear ? 1 : 0.85,
-                boxShadow: isNear ? (plot.state === 'ready' ? '0 0 18px 4px rgba(250,204,21,0.3), inset 0 2px 6px rgba(0,0,0,0.25), 0 3px 8px rgba(30,20,10,0.3)' : '0 0 20px 6px rgba(255,255,255,0.2), inset 0 2px 6px rgba(0,0,0,0.25), 0 3px 8px rgba(30,20,10,0.3)') : 'inset 0 2px 6px rgba(0,0,0,0.3), 0 3px 8px rgba(30,20,10,0.25)',
-                transition: 'all 0.2s'
+                opacity: isNear ? 1 : 0.88,
+                boxShadow: isNear 
+                  ? (plot.state === 'ready' 
+                      ? '0 0 16px 4px rgba(250,204,21,0.4), inset 0 2px 5px rgba(0,0,0,0.25), 0 3px 8px rgba(30,20,10,0.35)' 
+                      : '0 0 16px 5px rgba(255,255,255,0.25), inset 0 2px 5px rgba(0,0,0,0.25), 0 3px 8px rgba(30,20,10,0.35)') 
+                  : 'inset 0 2px 5px rgba(0,0,0,0.3), 0 2px 6px rgba(30,20,10,0.25)',
+                transition: 'all 0.18s ease'
               }}
             >
+              {/* Floating Growth / Status Countdown Badge */}
+              {plot.state !== 'empty' && (
+                <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', zIndex: 25, pointerEvents: 'none' }}>
+                  {plot.state === 'ready' ? (
+                    <div className="farm-ready-badge">
+                      <span style={{ fontSize: '0.62rem' }}>✨</span>
+                      <span>HARVEST</span>
+                    </div>
+                  ) : plot.state === 'dead' ? (
+                    <div className="farm-dead-badge">
+                      <span style={{ fontSize: '0.6rem' }}>🥀</span>
+                      <span>Withered</span>
+                    </div>
+                  ) : (
+                    <div className="farm-growth-badge">
+                      <span style={{ fontSize: '0.62rem' }}>⏳</span>
+                      <span>{daysRemaining}d left</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <motion.div
                 key={`${plot.state}-${plot.isWatered}`}
                 initial={{ scale: 0.5, opacity: 0 }}
@@ -1214,43 +1315,46 @@ export default function FarmGame2D() {
 
               {/* Crop Info Tooltip */}
               <AnimatePresence>
-                {hoveredPlot === plot.id && plot.state !== 'empty' && plot.state !== 'dead' && CROPS[plot.cropId] && (
+                {hoveredPlot === plot.id && plot.state !== 'empty' && plot.state !== 'dead' && cropData && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     style={{
                       position: 'absolute', bottom: '110%', backgroundColor: 'rgba(15,23,42,0.95)',
-                      color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem',
+                      color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '0.78rem',
                       fontWeight: 'bold', zIndex: 50, whiteSpace: 'nowrap', pointerEvents: 'none',
                       boxShadow: '0 4px 6px rgba(0,0,0,0.3)', border: '2px solid rgba(255,255,255,0.1)'
                     }}
                   >
-                    {CROPS[plot.cropId].name} <span style={{ color: '#94a3b8', fontSize: '0.7rem', marginLeft: '4px' }}>({plot.state})</span>
+                    {cropData.name} <span style={{ color: '#94a3b8', fontSize: '0.7rem', marginLeft: '4px' }}>({plot.state})</span>
+                    {plot.state !== 'ready' && (
+                      <span style={{ color: '#fbbf24', fontSize: '0.7rem', marginLeft: '6px' }}>• {daysRemaining}d left</span>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
 
               {plot.isWatered && (
                 <div style={{ position: 'absolute', top: '4px', right: '4px' }}>
-                  <Droplet size={20} color="#60a5fa" fill="#60a5fa" />
+                  <Droplet size={16} color="#60a5fa" fill="#60a5fa" />
                 </div>
               )}
               
               {plot.hasWeed && (
-                <div style={{ position: 'absolute', bottom: '-4px', left: '-4px', fontSize: '1.8rem', zIndex: 12, pointerEvents: 'none' }}>🌿</div>
+                <div style={{ position: 'absolute', bottom: '-4px', left: '-4px', fontSize: '1.4rem', zIndex: 12, pointerEvents: 'none' }}>🌿</div>
               )}
               
               {plot.hasPests && (
-                <div style={{ position: 'absolute', top: '-4px', left: '-4px', fontSize: '1.5rem', zIndex: 12, pointerEvents: 'none', animation: 'bounce 1s infinite alternate' }}>🐛</div>
+                <div style={{ position: 'absolute', top: '-4px', left: '-4px', fontSize: '1.25rem', zIndex: 12, pointerEvents: 'none', animation: 'bounce 1s infinite alternate' }}>🐛</div>
               )}
               
               {plot.state === 'ready' && (
-                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(250,204,21,0.2)', borderRadius: '12px', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(250,204,21,0.22)', borderRadius: '11px', pointerEvents: 'none' }} />
               )}
               
               {isNear && activeTool && (
-                <div style={{ position: 'absolute', inset: 0, border: '4px solid rgba(255,255,255,0.4)', borderRadius: '12px', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', inset: 0, border: '3px solid rgba(255,255,255,0.45)', borderRadius: '11px', pointerEvents: 'none' }} />
               )}
             </div>
           );
@@ -1397,7 +1501,12 @@ export default function FarmGame2D() {
                 key={`inv-${crop.id}`}
                 active={activeTool === crop.id}
                 onClick={() => setActiveTool(crop.id)}
-                icon={<span style={{ fontSize: '1.5rem', lineHeight: 1 }}>{EMOJIS[crop.id]}</span>}
+                icon={
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>{EMOJIS[crop.id]}</span>
+                    <span style={{ position: 'absolute', bottom: '-3px', right: '-6px', fontSize: '0.7rem', filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.5))' }}>🌱</span>
+                  </div>
+                }
                 label={crop.name}
                 badge={inventory[crop.id]}
               />
@@ -1674,16 +1783,16 @@ export default function FarmGame2D() {
 }
 
 function ToolButton({ active, onClick, icon, label, badge }) {
-  const bg = active ? 'linear-gradient(180deg, #e8f4fd 0%, #d4ebf8 100%)' : 'linear-gradient(180deg, #fdfcf9 0%, #f5f0e6 100%)';
-  const borderColor = active ? '#3b82f6' : '#c4b89a';
-  const borderBottom = active ? '3px solid #2563eb' : '4px solid #b5a88e';
+  const bg = active ? 'linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)' : 'linear-gradient(180deg, #fdfcf9 0%, #f5f0e6 100%)';
+  const borderColor = active ? '#d97706' : '#c4b89a';
+  const borderBottom = active ? '3px solid #b45309' : '4px solid #b5a88e';
   const transform = active ? 'translateY(-2px)' : 'none';
 
   return (
     <button
       onClick={onClick}
       style={{
-        position: 'relative', display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '64px', height: '64px', borderRadius: '12px', background: bg, border: 'none', borderLeft: `2px solid ${borderColor}`, borderRight: `2px solid ${borderColor}`, borderTop: `2px solid ${borderColor}`, borderBottom, transform, cursor: 'pointer', transition: 'all 0.12s ease', boxShadow: active ? '0 0 12px rgba(59,130,246,0.25)' : '0 2px 4px rgba(0,0,0,0.08)'
+        position: 'relative', display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '64px', height: '64px', borderRadius: '12px', background: bg, border: 'none', borderLeft: `2px solid ${borderColor}`, borderRight: `2px solid ${borderColor}`, borderTop: `2px solid ${borderColor}`, borderBottom, transform, cursor: 'pointer', transition: 'all 0.12s ease', boxShadow: active ? '0 0 14px rgba(245,158,11,0.4), 0 2px 6px rgba(0,0,0,0.1)' : '0 2px 4px rgba(0,0,0,0.08)'
       }}
     >
       <div style={{ marginBottom: '2px', transform: 'scale(0.9)' }}>{icon}</div>
