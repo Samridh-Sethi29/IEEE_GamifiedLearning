@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import SplashPage from "@/pages/SplashPage";
 import OnboardingPage from "@/pages/OnboardingPage";
 import WorldMapPage from "@/pages/WorldMapPage";
+import ProfilePage from "@/features/profile/ProfilePage";
 
 import SchoolWorld from "@/pages/SchoolWorld";
 import FarmWorld from "@/pages/FarmWorld";
@@ -93,6 +94,7 @@ export default function App() {
         >
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/world" element={<WorldMapPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
           {/* School world */}
           <Route path="/world/school" element={<SchoolWorld />} />

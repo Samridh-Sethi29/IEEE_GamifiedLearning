@@ -10,6 +10,7 @@ import {
   Loader2,
   AlertCircle,
   Cloud,
+  User,
 } from "lucide-react";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
 import { useAuth } from "@/features/auth/AuthContext";
@@ -95,7 +96,12 @@ export default function GameHUD({ objective }) {
         {/* Left: Player Identity & Sync Indicator */}
         <div className="pointer-events-auto flex flex-wrap items-center gap-2">
           <div
-            className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/90 py-2 pl-2.5 pr-4 shadow-lg shadow-emerald-950/15 backdrop-blur"
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate("/profile")}
+            onKeyDown={(e) => e.key === "Enter" && navigate("/profile")}
+            title="View Player Profile & Progress"
+            className="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/90 py-2 pl-2.5 pr-4 shadow-lg shadow-emerald-950/15 backdrop-blur cursor-pointer hover:bg-emerald-50/90 hover:border-emerald-300 transition-all active:scale-[0.98]"
             data-testid="hud-player-card"
           >
             <MiniAvatar />
@@ -198,6 +204,18 @@ export default function GameHUD({ objective }) {
               Day {player.day || 1}
             </span>
           </div>
+
+          {/* Profile Navigation Button */}
+          <button
+            type="button"
+            onClick={() => navigate("/profile")}
+            title="View Player Profile & Progress"
+            className="flex items-center gap-1.5 rounded-2xl border border-white/70 bg-white/90 px-3 py-2.5 shadow-lg shadow-emerald-950/15 backdrop-blur hover:bg-emerald-50 hover:border-emerald-300 text-slate-700 hover:text-emerald-700 font-bold text-xs transition-colors"
+            data-testid="hud-profile-btn"
+          >
+            <User className="h-4 w-4 text-emerald-600" />
+            <span className="hidden sm:inline">Profile</span>
+          </button>
 
           {/* Account Action: Logout if authenticated, or Sign In if Guest */}
           {isAuthenticated ? (
