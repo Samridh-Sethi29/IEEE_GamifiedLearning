@@ -1,0 +1,420 @@
+/* Market District Hub Styling – 100% self-contained plain CSS (no Tailwind dependency) */
+
+.mhub-root {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  background: linear-gradient(160deg, #f1f5f9 0%, #e2e8f0 40%, #ede9fe 100%);
+  color: #0f172a;
+  font-family: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
+  user-select: none;
+}
+
+/* Ambient luminous background decorations */
+.mhub-glow-1 {
+  position: fixed;
+  top: -100px;
+  right: -50px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0) 70%);
+  pointer-events: none;
+}
+
+.mhub-glow-2 {
+  position: fixed;
+  bottom: -100px;
+  left: -50px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0) 70%);
+  pointer-events: none;
+}
+
+.mhub-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1080px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 20px 32px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.mhub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(203, 213, 225, 0.6);
+}
+
+.mhub-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  color: #1e293b;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  transition: all 0.2s ease;
+}
+
+.mhub-back-btn:hover {
+  transform: translateY(-2px);
+  border-color: #94a3b8;
+  background: #f8fafc;
+  color: #0f172a;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.mhub-back-btn svg {
+  width: 18px;
+  height: 18px;
+  color: #475569;
+}
+
+.mhub-player-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  font-size: 13px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.mhub-level-tag {
+  background: #e0e7ff;
+  color: #3730a3;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 900;
+  border: 1px solid #c7d2fe;
+}
+
+.mhub-coin-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #b45309;
+  font-weight: 900;
+}
+
+.mhub-coin-tag svg {
+  width: 15px;
+  height: 15px;
+  color: #d97706;
+}
+
+.mhub-day-tag {
+  color: #64748b;
+  font-weight: 700;
+}
+
+/* Main Hero Section */
+.mhub-main {
+  margin: auto 0;
+  padding: 36px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.mhub-hero-text {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.mhub-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #fef3c7;
+  border: 2px solid #fde047;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+}
+
+.mhub-kicker svg {
+  width: 14px;
+  height: 14px;
+  color: #d97706;
+}
+
+.mhub-title {
+  font-family: 'Outfit Variable', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  font-size: clamp(30px, 4.5vw, 46px);
+  font-weight: 950;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 14px 0;
+}
+
+.mhub-title-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mhub-subtitle {
+  font-size: clamp(14px, 1.8vw, 16px);
+  color: #334155;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 580px;
+  font-weight: 600;
+}
+
+/* Card Grid */
+.mhub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Card Base */
+.mhub-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 14px 35px -8px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(203, 213, 225, 0.4);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mhub-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 50px -10px rgba(15, 23, 42, 0.16);
+}
+
+/* Specific Card Themes */
+.mhub-card-retail {
+  border: 3px solid #fde68a;
+}
+
+.mhub-card-retail:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 24px 50px -10px rgba(245, 158, 11, 0.22);
+}
+
+.mhub-card-ceo {
+  border: 3px solid #a5f3fc;
+}
+
+.mhub-card-ceo:hover {
+  border-color: #06b6d4;
+  box-shadow: 0 24px 50px -10px rgba(6, 182, 212, 0.22);
+}
+
+/* Card Header */
+.mhub-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.mhub-pill {
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+.mhub-pill-retail {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1.5px solid #fcd34d;
+}
+
+.mhub-pill-ceo {
+  background: #cffafe;
+  color: #0e7490;
+  border: 1.5px solid #67e8f9;
+}
+
+.mhub-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.mhub-card:hover .mhub-icon-box {
+  transform: scale(1.1);
+}
+
+.mhub-icon-box-retail {
+  background: #fffbeb;
+  border: 2px solid #fde68a;
+  color: #d97706;
+}
+
+.mhub-icon-box-retail svg {
+  width: 26px;
+  height: 26px;
+}
+
+.mhub-icon-box-ceo {
+  background: #ecfeff;
+  border: 2px solid #a5f3fc;
+  color: #0891b2;
+}
+
+.mhub-icon-box-ceo svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* Card Body */
+.mhub-card-title {
+  font-family: 'Outfit Variable', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: #0f172a;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.02em;
+}
+
+.mhub-card-desc {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0 0 18px 0;
+  font-weight: 500;
+}
+
+/* Feature Bullets */
+.mhub-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 2px dashed #f1f5f9;
+}
+
+.mhub-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.mhub-feature-item svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.mhub-feature-item-retail svg {
+  color: #d97706;
+}
+
+.mhub-feature-item-ceo svg {
+  color: #0891b2;
+}
+
+/* Action Buttons */
+.mhub-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.mhub-btn:active {
+  transform: scale(0.98);
+}
+
+.mhub-btn-retail {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.35);
+  border: none;
+}
+
+.mhub-btn-retail:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+  box-shadow: 0 12px 28px rgba(234, 88, 12, 0.45);
+  transform: translateY(-2px);
+}
+
+.mhub-btn-ceo {
+  background: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+  border: none;
+}
+
+.mhub-btn-ceo:hover {
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.45);
+  transform: translateY(-2px);
+}
+
+.mhub-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Footer */
+.mhub-footer {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  padding-top: 20px;
+  border-top: 2px solid rgba(203, 213, 225, 0.6);
+}
