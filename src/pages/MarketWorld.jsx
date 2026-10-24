@@ -6,7 +6,6 @@ import {
   Building2,
   Sparkles,
   TrendingUp,
-  Award,
   ChevronRight,
   Package,
   ShieldCheck,
@@ -15,18 +14,19 @@ import {
   Briefcase,
 } from "lucide-react";
 import { usePlayer } from "@/features/player/hooks/usePlayer";
-import RealisticWater from "@/components/water/RealisticWater";
 
 export default function MarketWorld() {
   const { player } = usePlayer();
 
   return (
-    <div className="fixed inset-0 overflow-y-auto bg-[#0f172a] text-slate-100 select-none">
-      {/* Ambient background water & gradient */}
-      <RealisticWater preset="ocean" className="absolute inset-0 opacity-40 pointer-events-none" causticIntensity={0.8} />
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/90 to-slate-950 pointer-events-none" />
+    <div className="fixed inset-0 overflow-y-auto bg-[#090d16] text-slate-100 select-none">
+      {/* Ambient subtle decorative background glows (Pure CSS - 100% reliable) */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,116,144,0.22),rgba(255,255,255,0))] pointer-events-none" />
+      <div className="fixed top-1/4 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-10 right-10 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-b from-slate-950/70 via-[#090d16]/90 to-[#060911] pointer-events-none" />
 
-      <div className="relative min-h-screen flex flex-col justify-between p-4 sm:p-8 max-w-6xl mx-auto">
+      <div className="relative z-10 min-h-screen flex flex-col justify-between p-4 sm:p-8 max-w-6xl mx-auto">
         {/* Top Navigation Header */}
         <header className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800/80">
           <Link
@@ -44,7 +44,7 @@ export default function MarketWorld() {
             </span>
             <span className="flex items-center gap-1 text-amber-400">
               <Coins className="w-3.5 h-3.5" />
-              <span>{player?.coins || 0}</span>
+              <span>{player?.coins ?? 250}</span>
             </span>
             <span className="text-slate-400">Day {player?.day || 1}</span>
           </div>
@@ -103,7 +103,7 @@ export default function MarketWorld() {
               <div className="pt-6">
                 <Link
                   to="/world/market/store"
-                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-base shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-base shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
                 >
                   <ShoppingCart className="w-5 h-5" />
                   <span>Open Store Simulator</span>
@@ -148,7 +148,7 @@ export default function MarketWorld() {
               <div className="pt-6">
                 <Link
                   to="/world/market/ceo-decision-room"
-                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black text-base shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 transition-all active:scale-95"
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black text-base shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
                 >
                   <Briefcase className="w-5 h-5" />
                   <span>Play CEO Decision Room</span>
