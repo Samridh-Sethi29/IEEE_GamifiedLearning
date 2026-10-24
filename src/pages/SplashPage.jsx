@@ -18,13 +18,7 @@ export default function SplashPage() {
       return;
     }
 
-    const first =
-      player.id === "local" &&
-      player.day === 1 &&
-      player.xp === 0 &&
-      !player.flags?.onboardingComplete;
-
-    navigate(first ? "/onboarding" : "/world", {
+    navigate("/world", {
       replace: true,
     });
   }, [navigate, player, isAuthenticated, isGuest, isLoading]);

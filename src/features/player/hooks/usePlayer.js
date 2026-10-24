@@ -38,7 +38,7 @@ export const DEFAULT_PLAYER = {
     vocational: 0,
     entrepreneurial: 0,
   },
-  flags: {},
+  flags: { onboardingComplete: true },
   badges: [],
   starLog: [],
   starFragments: 0,

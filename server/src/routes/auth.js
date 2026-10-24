@@ -96,7 +96,7 @@ router.post("/register", authLimiter, async (req, res) => {
       },
       water: 100,
       skills: { life: 0, human: 0, digital: 0, vocational: 0, entrepreneurial: 0 },
-      flags: { onboardingComplete: false },
+      flags: { onboardingComplete: true },
       badges: [],
       starLog: [],
       starFragments: 0,

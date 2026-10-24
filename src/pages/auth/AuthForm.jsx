@@ -46,15 +46,6 @@ export default function AuthForm({ mode }) {
       const loaded = await saveManager.load();
       if (loaded?.state) {
         queryClient.setQueryData(["player"], loaded.state);
-        // Check if player is brand new
-        if (
-          loaded.state.day === 1 &&
-          loaded.state.xp === 0 &&
-          !loaded.state.flags?.onboardingComplete
-        ) {
-          navigate("/onboarding", { replace: true });
-          return;
-        }
       }
     } catch (e) {
       console.warn("Failed to hydrate save during auth:", e);
