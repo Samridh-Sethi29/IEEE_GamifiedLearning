@@ -1,0 +1,652 @@
+/* Realistic Executive Company Styling – Nexora Mobility CEO War Room */
+
+.ceo-corp-root {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #070b14;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.15), rgba(0, 0, 0, 0)),
+    radial-gradient(ellipse 60% 40% at 85% 100%, rgba(16, 185, 129, 0.1), rgba(0, 0, 0, 0));
+  color: #f8fafc;
+  font-family: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Executive Top Bar */
+.ceo-corp-header {
+  background: rgba(13, 19, 34, 0.92);
+  border-bottom: 1.5px solid rgba(51, 65, 85, 0.65);
+  backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 12px 20px;
+}
+
+.ceo-corp-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ceo-brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ceo-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.35);
+  flex-shrink: 0;
+}
+
+.ceo-brand-text h1 {
+  font-family: 'Outfit Variable', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ceo-brand-text span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #06b6d4;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+}
+
+/* Ticker Ribbon */
+.ceo-ticker-bar {
+  background: rgba(15, 23, 42, 0.85);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  padding: 10px 20px;
+}
+
+.ceo-ticker-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.ceo-ticker-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 14px;
+}
+
+.ceo-ticker-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ceo-ticker-value {
+  font-family: 'Outfit Variable', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.ceo-ticker-value.positive { color: #34d399; }
+.ceo-ticker-value.warning  { color: #fbbf24; }
+.ceo-ticker-value.critical { color: #f87171; }
+
+/* Main Stage */
+.ceo-corp-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px 20px 48px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* Department Command Grid */
+.ceo-dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+/* Department Card */
+.ceo-dept-card {
+  background: rgba(13, 21, 38, 0.9);
+  border: 1.5px solid rgba(51, 65, 85, 0.65);
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s ease;
+}
+
+.ceo-dept-card:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+}
+
+.ceo-dept-card.card-mkt { border-top: 4px solid #06b6d4; }
+.ceo-dept-card.card-rd  { border-top: 4px solid #10b981; }
+.ceo-dept-card.card-log { border-top: 4px solid #f59e0b; }
+
+/* Department Officer Head */
+.ceo-dept-officer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.ceo-avatar-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ceo-avatar-mkt { background: rgba(6, 182, 212, 0.15); border: 1.5px solid #06b6d4; color: #06b6d4; }
+.ceo-avatar-rd  { background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10b981; color: #10b981; }
+.ceo-avatar-log { background: rgba(245, 158, 11, 0.15); border: 1.5px solid #f59e0b; color: #f59e0b; }
+
+.ceo-dept-info h3 {
+  font-size: 15px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+}
+
+.ceo-dept-info span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: block;
+}
+
+.ceo-dept-brief {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+/* Slider Controls */
+.ceo-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ceo-slider-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ceo-slider-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ceo-slider-val {
+  font-family: 'Outfit Variable', system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #38bdf8;
+}
+
+.ceo-range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  background: #1e293b;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ceo-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #38bdf8;
+  border: 3px solid #0f172a;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.ceo-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Preset Buttons */
+.ceo-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ceo-preset-btn {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ceo-preset-btn:hover {
+  background: #334155;
+  color: #ffffff;
+  border-color: #94a3b8;
+}
+
+/* Projected Metric Pill */
+.ceo-projection-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px dashed rgba(71, 85, 105, 0.6);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ceo-projection-box span {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.ceo-projection-box b {
+  font-size: 13px;
+  font-weight: 900;
+  color: #34d399;
+}
+
+/* Logistics Selection Options */
+.ceo-transport-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ceo-transport-card {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(17, 24, 39, 0.7);
+  border: 2px solid rgba(51, 65, 85, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ceo-transport-card:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: rgba(17, 24, 39, 0.95);
+}
+
+.ceo-transport-card.active {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+}
+
+.ceo-radio-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #64748b;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ceo-transport-card.active .ceo-radio-circle {
+  border-color: #f59e0b;
+}
+
+.ceo-transport-card.active .ceo-radio-circle::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+}
+
+.ceo-transport-details h4 {
+  font-size: 13.5px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+}
+
+.ceo-transport-details p {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}
+
+/* Allocation Action Bar */
+.ceo-allocation-bar {
+  background: rgba(13, 21, 38, 0.95);
+  border: 2px solid rgba(51, 65, 85, 0.7);
+  border-radius: 20px;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ceo-alloc-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ceo-alloc-col span {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #94a3b8;
+  display: block;
+}
+
+.ceo-alloc-col b {
+  font-family: 'Outfit Variable', system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.ceo-btn-execute {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+  transition: all 0.2s ease;
+}
+
+.ceo-btn-execute:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.5);
+  background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);
+}
+
+.ceo-btn-execute:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Simulation Running Animation Screen */
+.ceo-sim-screen {
+  background: rgba(13, 21, 38, 0.95);
+  border: 2px solid rgba(51, 65, 85, 0.7);
+  border-radius: 24px;
+  padding: 40px 24px;
+  text-align: center;
+  max-width: 800px;
+  margin: 40px auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.ceo-sim-progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 9999px;
+  background: #1e293b;
+  overflow: hidden;
+  margin: 24px 0 16px 0;
+}
+
+.ceo-sim-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #06b6d4, #10b981, #3b82f6);
+  transition: width 0.3s ease;
+}
+
+.ceo-sim-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.ceo-sim-step {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ceo-sim-step.done {
+  border-color: #10b981;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.ceo-sim-step.active {
+  border-color: #06b6d4;
+  color: #38bdf8;
+  background: rgba(6, 182, 212, 0.1);
+  animation: pulse 1.5s infinite;
+}
+
+/* Reviews Ticker */
+.ceo-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.ceo-review-card {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.ceo-review-card.positive { border-left: 4px solid #34d399; }
+.ceo-review-card.neutral  { border-left: 4px solid #fbbf24; }
+.ceo-review-card.negative { border-left: 4px solid #f87171; }
+
+.ceo-review-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.ceo-review-top b { font-size: 12.5px; color: #ffffff; }
+.ceo-review-top span { font-size: 11px; color: #94a3b8; }
+.ceo-review-text { font-size: 13px; color: #cbd5e1; line-height: 1.5; margin: 0; }
+
+/* Analytics Results Screen */
+.ceo-analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.ceo-analytics-panel {
+  background: rgba(13, 21, 38, 0.9);
+  border: 1.5px solid rgba(51, 65, 85, 0.65);
+  border-radius: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ceo-analytics-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.ceo-analytics-head h3 {
+  font-size: 16px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Audited P&L Table */
+.ceo-pnl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ceo-pnl-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: #94a3b8;
+  font-size: 11px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.ceo-pnl-table td {
+  padding: 9px 10px;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+.ceo-pnl-table tr.total-row td {
+  font-weight: 900;
+  font-size: 14px;
+  color: #ffffff;
+  border-top: 2px solid rgba(51, 65, 85, 0.8);
+  border-bottom: 2px solid rgba(51, 65, 85, 0.8);
+}
+
+.ceo-pnl-table tr.profit-row td {
+  font-weight: 900;
+  font-size: 15px;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+/* SVG Chart Elements */
+.ceo-chart-box {
+  width: 100%;
+  background: rgba(10, 16, 30, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 14px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Annual Report Card */
+.ceo-annual-card {
+  max-width: 900px;
+  margin: 20px auto;
+  background: rgba(13, 21, 38, 0.95);
+  border: 2px solid rgba(51, 65, 85, 0.8);
+  border-radius: 28px;
+  padding: 36px 32px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.ceo-grade-badge {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit Variable', system-ui, sans-serif;
+  font-size: 38px;
+  font-weight: 950;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.ceo-grade-A { background: linear-gradient(135deg, #10b981, #059669); }
+.ceo-grade-B { background: linear-gradient(135deg, #06b6d4, #2563eb); }
+.ceo-grade-C { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.ceo-grade-F { background: linear-gradient(135deg, #f43f5e, #be123c); }

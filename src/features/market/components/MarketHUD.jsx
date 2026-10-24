@@ -113,6 +113,16 @@ export default function MarketHUD({
           })}
         </div>
 
+        <Link
+          to="/world/market/ceo-decision-room"
+          title="Switch to CEO Decision Room"
+          aria-label="CEO Decision Room"
+          className="sv-glass sv-iconbtn"
+          style={{ color: "#06b6d4" }}
+        >
+          <Building2 />
+        </Link>
+
         <button
           onClick={onOpenBusinessGrowth}
           title="Store Expansion & Business Strategy Lab"
