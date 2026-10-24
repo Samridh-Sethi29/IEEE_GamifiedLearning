@@ -19,12 +19,12 @@ export default function DesignCoachModal({ result, onClose, onNextProject, hasNe
           <div className="lab-modal-title">
             {result.passed ? (
               <>
-                <CheckCircle size={22} className="text-emerald-400" />
+                <CheckCircle size={24} className="atl-icon-good" />
                 <span>{hasNextProject ? "Design Coach Approved! 🎨" : "Master Designer Certified! 🏆"}</span>
               </>
             ) : (
               <>
-                <AlertCircle size={22} className="text-rose-400" />
+                <AlertCircle size={24} className="atl-icon-bad" />
                 <span>Coach Feedback: {result.failureTitle}</span>
               </>
             )}
@@ -35,27 +35,27 @@ export default function DesignCoachModal({ result, onClose, onNextProject, hasNe
         <div className="lab-modal-body">
           {result.passed ? (
             <div className="lab-success-box">
-              <h4 className="text-lg font-bold text-emerald-300 mb-2">{result.title}</h4>
-              <p className="text-sm text-slate-200">{result.summary}</p>
+              <h4 className="atl-result-title">{result.title}</h4>
+              <p className="atl-result-text">{result.summary}</p>
               {!hasNextProject && (
-                <div className="mt-4 p-3 bg-emerald-950/60 border border-emerald-500/40 rounded-xl text-xs text-emerald-200">
+                <div className="atl-celebrate">
                   🎉 Fantastic visual communication! You have created posters for awareness, community, events, and digital safety like a professional designer!
                 </div>
               )}
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="atl-stack">
               <div className="lab-fail-box">
-                <span className="font-bold text-rose-300 text-sm">What can be improved:</span>
-                <span className="text-slate-200 text-xs">{result.failureReason}</span>
+                <strong className="atl-result-label">What can be improved</strong>
+                <span className="atl-result-text">{result.failureReason}</span>
               </div>
 
               {result.hint && (
                 <div className="lab-hint-box">
-                  <Wrench size={18} className="shrink-0 text-amber-400 mt-0.5" />
+                  <Wrench size={20} className="atl-icon-hint" />
                   <div>
-                    <span className="font-bold text-amber-300 block text-xs">How to fix it:</span>
-                    <span className="text-slate-200 text-xs">{result.hint}</span>
+                    <strong className="atl-result-label">How to fix it</strong>
+                    <span className="atl-result-text">{result.hint}</span>
                   </div>
                 </div>
               )}
@@ -72,8 +72,7 @@ export default function DesignCoachModal({ result, onClose, onNextProject, hasNe
 
           {result.passed && hasNextProject && (
             <button
-              className="lab-btn lab-btn-amber"
-              style={{ background: "#8b5cf6", color: "#fff", borderColor: "#7c3aed" }}
+              className="lab-btn lab-btn-violet"
               onClick={onNextProject}
             >
               <span>Next Project 🚀</span>
@@ -81,7 +80,7 @@ export default function DesignCoachModal({ result, onClose, onNextProject, hasNe
           )}
 
           {result.passed && !hasNextProject && (
-            <Link to="/world/studio" className="lab-btn lab-btn-test flex items-center gap-1.5" onClick={onExitStudio}>
+            <Link to="/world/studio" className="lab-btn lab-btn-test" onClick={onExitStudio}>
               <LogOut size={15} />
               <span>Exit to Studio Campus</span>
             </Link>

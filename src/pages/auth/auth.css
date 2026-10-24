@@ -1,0 +1,350 @@
+/* Auth pages. Plain CSS on purpose: spacing, sizing and layout don't depend on Tailwind. */
+
+.sv-auth {
+  --sv-bg: #1c1a38;
+  --sv-card: #fbf8f2;
+  --sv-ink: #1f1d36;
+  --sv-muted: #5b5873;
+  --sv-line: #d8d2e4;
+  --sv-accent: #4338ca;
+  --sv-accent-hover: #3730a3;
+  --sv-sun: #fbbf24;
+
+  /* Own scroll container: works even if the app root has overflow:hidden
+     or a fixed height (common in game layouts). */
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 16px;
+  color: var(--sv-ink);
+  font-family:
+    "Nunito",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    Roboto,
+    sans-serif;
+  background:
+    radial-gradient(900px 500px at 50% -10%, #3a3478 0%, transparent 70%),
+    var(--sv-bg);
+}
+
+.sv-auth *,
+.sv-auth *::before,
+.sv-auth *::after {
+  box-sizing: border-box;
+}
+
+.sv-wrap {
+  width: 100%;
+  max-width: 440px;
+  /* margin:auto centers when there is room and lets the page scroll
+     (without clipping the top) when the content is taller than the screen */
+  margin: auto;
+}
+
+/* ---------- Brand ---------- */
+.sv-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.sv-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 16px;
+  background: var(--sv-sun);
+  color: var(--sv-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sv-brand h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.sv-brand p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: #cfcbf0;
+}
+
+/* ---------- Card ---------- */
+.sv-card {
+  background: var(--sv-card);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 24px 60px rgba(8, 6, 30, 0.45);
+}
+.sv-card h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+.sv-sub {
+  margin: 6px 0 24px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--sv-muted);
+}
+
+/* ---------- Alerts ---------- */
+.sv-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.sv-alert svg {
+  flex: none;
+  margin-top: 2px;
+}
+.sv-alert--error {
+  background: #fdecec;
+  border-color: #e8a6a6;
+  color: #7a1f1f;
+}
+.sv-alert--success {
+  background: #e6f6ec;
+  border-color: #9fd3b2;
+  color: #14532d;
+}
+
+/* ---------- Form ---------- */
+.sv-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.sv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sv-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sv-ink);
+}
+.sv-input-wrap {
+  position: relative;
+  height: 52px;
+}
+.sv-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #6b6785;
+  pointer-events: none;
+}
+.sv-input {
+  width: 100%;
+  height: 100%;
+  padding: 0 16px 0 48px;
+  background: #fff;
+  color: var(--sv-ink);
+  font: inherit;
+  font-size: 16px;
+  border: 1.5px solid var(--sv-line);
+  border-radius: 12px;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.sv-input::placeholder {
+  color: #77738f;
+}
+.sv-input:hover {
+  border-color: #b9b1cc;
+}
+.sv-input:focus {
+  border-color: var(--sv-accent);
+  box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.18);
+}
+.sv-input:disabled {
+  opacity: 0.6;
+}
+.sv-input--password {
+  padding-right: 52px;
+}
+.sv-hint {
+  margin: 0;
+  font-size: 14px;
+  color: var(--sv-muted);
+}
+.sv-eye {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: var(--sv-muted);
+  cursor: pointer;
+}
+.sv-eye:hover {
+  background: #efeaf7;
+  color: var(--sv-ink);
+}
+
+/* ---------- Buttons ---------- */
+.sv-btn {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+/* The app's global CSS appears to style <button> elements (the old screenshot
+   showed white text where the classes asked for dark). The doubled selector and
+   !important below make these colors win no matter what. */
+.sv-auth .sv-btn.sv-btn--primary {
+  background-color: #4338ca !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #4338ca !important;
+  margin-top: 4px;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.sv-auth .sv-btn.sv-btn--primary:hover:not(:disabled) {
+  background-color: #3730a3 !important;
+  border-color: #3730a3 !important;
+}
+.sv-auth .sv-btn.sv-btn--primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.sv-auth .sv-btn.sv-btn--outline {
+  height: 48px;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #4338ca !important;
+  -webkit-text-fill-color: #4338ca !important;
+  border-color: #4338ca !important;
+  box-shadow: none !important;
+}
+.sv-auth .sv-btn.sv-btn--outline:hover {
+  background-color: #eeedfc !important;
+}
+/* Text and icons inside buttons always follow the button's color */
+.sv-auth .sv-btn span,
+.sv-auth .sv-btn svg {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+.sv-auth button:focus-visible,
+.sv-auth a:focus-visible {
+  outline: 3px solid var(--sv-sun);
+  outline-offset: 2px;
+}
+
+/* ---------- Divider + guest ---------- */
+.sv-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 28px 0;
+  font-size: 14px;
+  color: var(--sv-muted);
+}
+.sv-divider::before,
+.sv-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--sv-line);
+}
+.sv-guest {
+  padding: 20px;
+  text-align: center;
+  background: #f3effa;
+  border-radius: 14px;
+}
+.sv-guest h3 {
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 800;
+}
+.sv-guest p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--sv-muted);
+}
+
+/* ---------- Footer ---------- */
+.sv-switch {
+  margin: 28px 0 0;
+  text-align: center;
+  font-size: 16px;
+  color: var(--sv-muted);
+}
+.sv-switch a {
+  color: var(--sv-accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.sv-note {
+  margin: 14px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--sv-muted);
+}
+
+@media (max-width: 480px) {
+  .sv-card {
+    padding: 24px 20px;
+  }
+  .sv-brand h1 {
+    font-size: 30px;
+  }
+}

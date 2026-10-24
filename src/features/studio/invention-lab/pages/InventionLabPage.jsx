@@ -15,6 +15,7 @@ import BuildBench from "../components/BuildBench";
 import WorkbenchGuidePopup from "../components/WorkbenchGuidePopup";
 import TestResultModal from "../components/TestResultModal";
 import MissionHintsModal from "../components/MissionHintsModal";
+import "../../studio-lab-theme.css";
 import "../inventionLab.css";
 
 export default function InventionLab() {

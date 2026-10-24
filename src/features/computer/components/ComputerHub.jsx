@@ -146,7 +146,19 @@ export default function ComputerHub() {
       subtitle: "Find and fix code mistakes",
       icon: <Bug className="h-10 w-10" />,
       status: "AVAILABLE",
-      customBody: progress.pythonDebugging?.completedLevels?.includes(1) ? (
+      customBody: progress.pythonDebugging?.challengePassed ? (
+        <div className="mt-4 rounded-2xl bg-white/60 p-3 shadow-inner border border-purple-100/50">
+          <div className="flex items-center justify-between text-[13px] font-bold text-emerald-600">
+            <span>Cyber Challenge — Completed</span>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+              ✓
+            </span>
+          </div>
+          <div className="mt-2 text-[12px] font-bold text-purple-600 text-right">
+            +40 XP Earned
+          </div>
+        </div>
+      ) : progress.pythonDebugging?.completedLevels?.includes(1) ? (
         <div className="mt-4 rounded-2xl bg-white/60 p-3 shadow-inner border border-purple-100/50">
           <div className="flex items-center justify-between text-[13px] font-bold text-emerald-600">
             <span>Level 1 — Learning Done</span>
@@ -175,12 +187,16 @@ export default function ComputerHub() {
           </div>
         </div>
       ),
-      link: progress.pythonDebugging?.completedLevels?.includes(1)
-        ? "#"
-        : "/world/school/computer/python-debugging",
-      buttonText: progress.pythonDebugging?.completedLevels?.includes(1)
-        ? "Take Challenge"
-        : "Start Learning",
+      link:
+        progress.pythonDebugging?.completedLevels?.includes(1) ||
+        progress.pythonDebugging?.challengePassed
+          ? "/world/school/computer/python-debugging/challenge"
+          : "/world/school/computer/python-debugging",
+      buttonText: progress.pythonDebugging?.challengePassed
+        ? "Review Challenge"
+        : progress.pythonDebugging?.completedLevels?.includes(1)
+          ? "Take Challenge"
+          : "Start Learning",
       theme: {
         bg: "bg-gradient-to-b from-purple-400 to-purple-500",
         light: "bg-purple-50",

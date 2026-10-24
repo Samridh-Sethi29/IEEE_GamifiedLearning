@@ -1,11 +1,11 @@
 // The hero, idling at the village plaza: shadow, breathing bob, blinking eyes
 // and a floating nameplate with the current level.
 
-export default function PlayerAvatar({ name, level, x, y }) {
+export default function PlayerAvatar({ name, level, x, y, facing = 1 }) {
   return (
     <g transform={`translate(${x} ${y})`} data-testid="player-avatar">
       <ellipse className="anim-shadow" cx="0" cy="7" rx="25" ry="9" fill="rgba(15, 23, 42, 0.3)" />
-      <g className="anim-idle">
+      <g className="anim-idle" transform={`scale(${facing} 1)`}>
         <rect x="-11" y="-26" width="8.5" height="21" rx="4" fill="#3e5c9a" />
         <rect x="2.5" y="-26" width="8.5" height="21" rx="4" fill="#344e88" />
         <path d="M -14 -58 Q 0 -65 14 -58 L 12.5 -24 Q 0 -19 -12.5 -24 Z" fill="#22a45d" />
