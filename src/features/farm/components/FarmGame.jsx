@@ -431,13 +431,26 @@ export default function FarmGame2D() {
           if (nx > 1516) { nx = 1516; velRef.current.vx = 0; } // 1536 - 20
           if (ny < 100) { ny = 100; velRef.current.vy = 0; }
           if (ny > mapHeight - 20) { ny = mapHeight - 20; velRef.current.vy = 0; }
-          
+          // Auto-scroll horizontally if player nears edges of viewport
+          const hBuffer = Math.min(220, window.innerWidth * 0.35);
+          const rightEdge = window.scrollX + window.innerWidth - hBuffer;
+          const leftEdge = window.scrollX + hBuffer;
+
+          if (nx > rightEdge && vx > 0) {
+            window.scrollBy(Math.max(vx, nx - rightEdge), 0);
+          } else if (nx < leftEdge && vx < 0) {
+            window.scrollBy(Math.min(vx, nx - leftEdge), 0);
+          }
+
           // Auto-scroll vertically if player nears edges of viewport
-          const buffer = 150;
-          if (ny > window.scrollY + window.innerHeight - buffer && vy > 0) {
-             window.scrollBy(0, vy);
-          } else if (ny < window.scrollY + buffer && vy < 0) {
-             window.scrollBy(0, vy);
+          const vBuffer = 150;
+          const bottomEdge = window.scrollY + window.innerHeight - vBuffer;
+          const topEdge = window.scrollY + vBuffer;
+
+          if (ny > bottomEdge && vy > 0) {
+            window.scrollBy(0, Math.max(vy, ny - bottomEdge));
+          } else if (ny < topEdge && vy < 0) {
+            window.scrollBy(0, Math.min(vy, ny - topEdge));
           }
         }
         
@@ -1073,7 +1086,7 @@ export default function FarmGame2D() {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', minHeight: '1400px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }} ref={mapRef} className="farm-world">
+    <div style={{ position: 'relative', width: '100%', minWidth: '1536px', minHeight: '1400px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }} ref={mapRef} className="farm-world">
       
 
       {/* Decorative Environment — purely visual, no interactions */}
@@ -1543,7 +1556,7 @@ export default function FarmGame2D() {
       </div>
 
       {/* Bottom Toolbar & Shop Wrapper (60% width, centered) */}
-      <div style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 40, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '12px', width: '60%', minWidth: '600px', maxWidth: '800px' }}>
+      <div style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 40, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '12px', width: '60%', minWidth: 'min(600px, 86vw)', maxWidth: 'min(800px, 94vw)' }}>
         
         {/* Tools Panel */}
         <div style={{ backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)', borderRadius: '20px', padding: '8px', boxShadow: '0 -2px 20px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.5)', border: '3px solid #8b6239', display: 'flex', gap: '6px', flex: 1, justifyContent: 'flex-start', overflowX: 'auto', paddingRight: '12px' }}>
