@@ -243,6 +243,7 @@ export default function FarmGame2D() {
 
   const [activeTool, setActiveTool] = useState(null);
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const [isStorageOpen, setIsStorageOpen] = useState(false);
   const [shopTab, setShopTab] = useState('seeds');
   const [hoveredInfoId, setHoveredInfoId] = useState(null);
   const [hoveredLeave, setHoveredLeave] = useState(false);
@@ -281,6 +282,8 @@ export default function FarmGame2D() {
   };
   
   const [playerPos, setPlayerPos] = useState({ x: 100, y: 350 });
+  const playerPosRef = useRef(playerPos);
+  useEffect(() => { playerPosRef.current = playerPos; }, [playerPos]);
   const [facing, setFacing] = useState(1);
   const keys = useRef({
     w: false, a: false, s: false, d: false,
@@ -308,6 +311,12 @@ export default function FarmGame2D() {
       else if (k === 'arrowdown' || k === 'down') { e.preventDefault(); keys.current.down = true; }
       else if (k === 'arrowleft' || k === 'left') { e.preventDefault(); keys.current.left = true; }
       else if (k === 'arrowright' || k === 'right') { e.preventDefault(); keys.current.right = true; }
+      else if (k === 'e') {
+        const dist = Math.hypot(1290 - playerPosRef.current.x, 350 - playerPosRef.current.y);
+        if (dist < 140) {
+          setIsStorageOpen(prev => !prev);
+        }
+      }
     };
     const handleKeyUp = (e) => { 
       const k = e.key.toLowerCase();
@@ -486,15 +495,38 @@ export default function FarmGame2D() {
     }));
   };
 
-  const sellAllCrop = (cropId) => {
+    const sellAllCrop = (cropId) => {
     const qty = harvested[cropId];
     if (qty > 0) {
       setHarvested(prev => ({ ...prev, [cropId]: 0 }));
-      const profit = marketPrices[cropId] * qty;
+      const profit = (marketPrices[cropId] || CROPS[cropId]?.sellPrice || 10) * qty;
       addCoins(profit);
       addNotification(`Sold ${qty}x ${CROPS[cropId].name} for ${profit} coins!`);
     }
   };
+
+  const sellAllHarvest = () => {
+    let totalProfit = 0;
+    let totalSold = 0;
+    const newHarvested = { ...harvested };
+    
+    Object.keys(harvested).forEach(cropId => {
+      const qty = harvested[cropId];
+      if (qty > 0) {
+        totalProfit += (marketPrices[cropId] || CROPS[cropId]?.sellPrice || 10) * qty;
+        totalSold += qty;
+        newHarvested[cropId] = 0;
+      }
+    });
+
+    if (totalSold > 0) {
+      setHarvested(newHarvested);
+      addCoins(totalProfit);
+      addNotification(`Sold ${totalSold} crops for ${totalProfit} coins! 💰`);
+    }
+  };
+
+  const totalStored = Object.values(harvested).reduce((a, b) => a + b, 0);
 
   const [gameTime, setGameTime] = useState(360); // 360 = 6:00 AM
 
@@ -1010,6 +1042,15 @@ export default function FarmGame2D() {
       {/* Central Water Well & Washing Trough Area */}
       <DecoWaterWell x={695} y={290} />
 
+      {/* Rustic Granary & Silo Storage Structure */}
+      <DecoFarmStorage 
+        x={1290} 
+        y={350} 
+        totalStored={totalStored} 
+        onClick={() => setIsStorageOpen(true)} 
+        isNear={Math.hypot(1290 - playerPos.x, 350 - playerPos.y) < 140} 
+      />
+
       {/* Central Crossroads Signpost */}
       <DecoSignpost x={695} y={630} />
 
@@ -1430,55 +1471,6 @@ export default function FarmGame2D() {
         </div>
       </div>
 
-      {/* Harvest Storage Panel */}
-      <div style={{ 
-        position: 'fixed', right: '16px', top: '150px', bottom: '180px', width: '220px', 
-        backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)', 
-        borderRadius: '24px', padding: '16px', boxShadow: '0 8px 24px rgba(30,20,10,0.25), inset 0 0 0 1px rgba(255,220,150,0.15)', 
-        border: '3px solid #8b6239', display: 'flex', flexDirection: 'column', zIndex: 40 
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px', borderBottom: '3px solid #f1f5f9', paddingBottom: '12px' }}>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1e293b', margin: '0 0 4px 0' }}>
-            📦 Silo Storage
-          </h3>
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: Object.values(harvested).reduce((a, b) => a + b, 0) >= 30 ? '#ef4444' : '#64748b' }}>
-            Capacity: {Object.values(harvested).reduce((a, b) => a + b, 0)} / 30
-          </span>
-        </div>
-        
-        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {Object.keys(harvested).map(cropId => {
-            if (harvested[cropId] === 0) return null;
-            const crop = CROPS[cropId];
-            return (
-              <div key={`harvested-${cropId}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#faf6ee', padding: '8px 12px', borderRadius: '12px', border: '2px solid rgba(200,180,140,0.4)', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '1.5rem' }}>{EMOJIS[cropId]}</span>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.875rem' }}>{crop.name}</span>
-                    <span style={{ fontWeight: 600, color: '#64748b', fontSize: '0.7rem' }}>
-                      x{harvested[cropId]} | <span style={{ color: marketPrices[cropId] > crop.sellPrice ? '#10b981' : (marketPrices[cropId] < crop.sellPrice ? '#ef4444' : '#64748b') }}>{marketPrices[cropId]} coins/ea</span>
-                    </span>
-                  </div>
-                </div>
-                <button 
-                  onClick={() => sellAllCrop(cropId)}
-                  style={{ background: 'linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)', border: '2px solid #d4a017', color: '#8b6914', fontWeight: 800, fontSize: '0.75rem', padding: '4px 8px', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 4px rgba(180,130,30,0.2)' }}
-                >
-                  Sell All
-                </button>
-              </div>
-            );
-          })}
-          
-          {Object.values(harvested).every(v => v === 0) && (
-            <div style={{ textAlign: 'center', color: '#94a3b8', fontWeight: 600, fontSize: '0.875rem', marginTop: '24px' }}>
-              Your silo is empty!<br/>Harvest crops to store them.
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Bottom Toolbar & Shop Wrapper (60% width, centered) */}
       <div style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 40, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '12px', width: '60%', minWidth: '600px', maxWidth: '800px' }}>
         
@@ -1553,6 +1545,32 @@ export default function FarmGame2D() {
             />
           ))}
         </div>
+
+        {/* Silo Storage Button */}
+        <button
+          onClick={() => setIsStorageOpen(true)}
+          style={{ 
+            position: 'relative', display: 'flex', flexShrink: 0, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', 
+            width: '64px', height: '64px', borderRadius: '20px', border: '3px solid #8b6239', 
+            background: 'linear-gradient(180deg, #faf6ee 0%, #f0e8d8 100%)', color: '#5c3a1e', 
+            cursor: 'pointer', boxShadow: '0 4px 12px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <span style={{ fontSize: '1.4rem', lineHeight: 1, marginBottom: '2px' }}>📦</span>
+          <span style={{ fontSize: '0.58rem', fontWeight: 900, letterSpacing: '0.04em' }}>SILO</span>
+          
+          {totalStored > 0 && (
+            <div style={{ 
+              position: 'absolute', top: '-6px', right: '-6px', 
+              backgroundColor: '#10b981', color: 'white', fontSize: '0.65rem', fontWeight: 900, 
+              padding: '1px 6px', borderRadius: '10px', border: '2px solid white', 
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)' 
+            }}>
+              {totalStored}
+            </div>
+          )}
+        </button>
 
         {/* Shop Button */}
         <button
@@ -1730,6 +1748,192 @@ export default function FarmGame2D() {
               >
                 Got it! Let's Farm!
               </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Silo & Granary Storage Modal */}
+      <AnimatePresence>
+        {isStorageOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ 
+              position: 'fixed', inset: 0, backgroundColor: 'rgba(20,15,8,0.65)', 
+              backdropFilter: 'blur(6px)', zIndex: 50, display: 'flex', 
+              alignItems: 'center', justifyContent: 'center', padding: '16px' 
+            }}
+            onClick={() => setIsStorageOpen(false)}
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ 
+                background: 'linear-gradient(180deg, #faf6ee 0%, #f0e8d8 100%)', 
+                width: '100%', maxWidth: '750px', 
+                maxHeight: '85vh', 
+                borderRadius: '32px', boxShadow: '0 25px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,220,150,0.15)', 
+                display: 'flex', flexDirection: 'column', border: '5px solid #8b6239', overflow: 'hidden' 
+              }}
+            >
+              {/* Modal Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 28px', borderBottom: '3px solid rgba(200,180,140,0.4)', background: 'linear-gradient(180deg, #fdfcf9 0%, #f5efe3 100%)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{ width: '48px', height: '48px', borderRadius: '14px', backgroundColor: '#fef3c7', border: '2px solid #d4a017', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', boxShadow: '0 2px 6px rgba(180,130,30,0.2)' }}>
+                    📦
+                  </div>
+                  <div>
+                    <h2 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#1e293b', margin: 0 }}>
+                      Granary & Silo Storage
+                    </h2>
+                    <p style={{ margin: '2px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>
+                      Sell your harvested crops to town markets at live commodity prices.
+                    </p>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => setIsStorageOpen(false)}
+                  style={{ background: '#f1f5f9', border: 'none', borderRadius: '50%', width: '38px', height: '38px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b' }}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Capacity & Market Trends Bar */}
+              <div style={{ padding: '16px 28px', backgroundColor: '#fcfaf6', borderBottom: '2px solid rgba(200,180,140,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: '220px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', fontWeight: 800 }}>
+                    <span style={{ color: '#475569' }}>Silo Storage Capacity:</span>
+                    <span style={{ color: totalStored >= 30 ? '#ef4444' : '#10b981' }}>{totalStored} / 30 items</span>
+                  </div>
+                  <div style={{ width: '100%', height: '10px', backgroundColor: '#e2e8f0', borderRadius: '5px', overflow: 'hidden' }}>
+                    <div 
+                      style={{ 
+                        height: '100%', 
+                        width: `${Math.min(100, (totalStored / 30) * 100)}%`,
+                        background: totalStored >= 30 ? 'linear-gradient(90deg, #f87171, #ef4444)' : 'linear-gradient(90deg, #34d399, #10b981)',
+                        transition: 'width 0.3s ease'
+                      }} 
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', backgroundColor: marketTrend.type === 'boom' ? '#dcfce7' : '#fef2f2', border: `1.5px solid ${marketTrend.type === 'boom' ? '#86efac' : '#fecaca'}`, padding: '6px 14px', borderRadius: '12px' }}>
+                  <span style={{ fontSize: '1rem' }}>{marketTrend.type === 'boom' ? '📈' : '📉'}</span>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 800, color: marketTrend.type === 'boom' ? '#166534' : '#991b1b' }}>
+                    {marketTrend.text}
+                  </span>
+                </div>
+              </div>
+
+              {/* Crop Items List */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '20px 28px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {totalStored > 0 ? (
+                  Object.keys(harvested).map(cropId => {
+                    const qty = harvested[cropId];
+                    if (qty <= 0) return null;
+                    const crop = CROPS[cropId];
+                    const unitPrice = marketPrices[cropId] || crop.sellPrice;
+                    const totalBatchPayout = unitPrice * qty;
+                    const isAboveBase = unitPrice > crop.sellPrice;
+                    const isBelowBase = unitPrice < crop.sellPrice;
+
+                    return (
+                      <div 
+                        key={`silo-item-${cropId}`}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                          backgroundColor: '#ffffff', padding: '14px 18px', borderRadius: '16px',
+                          border: '2px solid rgba(200,180,140,0.4)',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                          <div style={{ fontSize: '2.4rem', width: '56px', height: '56px', borderRadius: '14px', backgroundColor: '#faf6ee', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #e5e7eb' }}>
+                            {EMOJIS[cropId]}
+                          </div>
+                          <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 900, color: '#1e293b' }}>{crop.name}</h4>
+                              <span style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', padding: '2px 8px', borderRadius: '8px', backgroundColor: '#f1f5f9', color: '#64748b' }}>
+                                {crop.type}
+                              </span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px', fontSize: '0.82rem', fontWeight: 700, color: '#64748b' }}>
+                              <span>Stored: <strong style={{ color: '#0f172a' }}>x{qty}</strong></span>
+                              <span>•</span>
+                              <span>
+                                Price: <strong style={{ color: isAboveBase ? '#059669' : (isBelowBase ? '#dc2626' : '#475569') }}>
+                                  {unitPrice} coins
+                                </strong> {isAboveBase && '🔥'} {isBelowBase && '❄️'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                          <div style={{ textAlign: 'right' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', display: 'block' }}>Batch Total</span>
+                            <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#d97706' }}>+{totalBatchPayout} coins</span>
+                          </div>
+                          <button
+                            onClick={() => sellAllCrop(cropId)}
+                            style={{
+                              background: 'linear-gradient(180deg, #fef3c7 0%, #fde68a 100%)',
+                              border: '2px solid #d4a017', borderBottom: '4px solid #b45309',
+                              color: '#8b6914', fontWeight: 900, fontSize: '0.85rem',
+                              padding: '10px 18px', borderRadius: '14px', cursor: 'pointer',
+                              boxShadow: '0 2px 6px rgba(180,130,30,0.25)',
+                              transition: 'all 0.12s ease'
+                            }}
+                          >
+                            Sell All
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '48px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '3.5rem', marginBottom: '12px' }}>🌾</span>
+                    <h3 style={{ margin: '0 0 6px 0', fontSize: '1.25rem', fontWeight: 900, color: '#334155' }}>Your Silo is Empty</h3>
+                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#64748b', maxWidth: '360px', lineHeight: 1.5 }}>
+                      Harvest mature crops in your fields using the Scythe/Hand tool, and they will be automatically stored here for trading!
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Modal Footer with Sell All Everything Button */}
+              {totalStored > 0 && (
+                <div style={{ padding: '16px 28px', backgroundColor: 'rgba(250,246,238,0.98)', borderTop: '3px solid rgba(200,180,140,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', display: 'block' }}>Total Silo Value</span>
+                    <span style={{ fontSize: '1.3rem', fontWeight: 900, color: '#d97706' }}>
+                      {Object.keys(harvested).reduce((acc, cid) => acc + (marketPrices[cid] || CROPS[cid]?.sellPrice || 10) * harvested[cid], 0)} coins
+                    </span>
+                  </div>
+                  <button
+                    onClick={sellAllHarvest}
+                    style={{
+                      background: 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
+                      border: 'none', borderBottom: '4px solid #047857',
+                      color: 'white', fontWeight: 900, fontSize: '0.95rem',
+                      padding: '12px 28px', borderRadius: '16px', cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(16,185,129,0.3)',
+                      transition: 'all 0.12s ease'
+                    }}
+                  >
+                    Sell Everything 💰
+                  </button>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
@@ -2277,6 +2481,145 @@ function DecoCobblestonePaths() {
           }}
         />
       ))}
+    </div>
+  );
+}
+
+
+function DecoFarmStorage({ x, y, totalStored, onClick, isNear }) {
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: 'translate(-50%, -50%)',
+        cursor: 'pointer',
+        zIndex: 8,
+      }}
+      className="farm-storage-building"
+    >
+      {/* Floating Status Pill Above Roof */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: totalStored > 0 ? 'rgba(30, 20, 10, 0.94)' : 'rgba(30, 20, 10, 0.85)',
+          border: totalStored > 0 ? '2px solid #f59e0b' : '1.5px solid #8b6239',
+          borderRadius: '14px',
+          padding: '2px 10px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px',
+          boxShadow: totalStored > 0 ? '0 0 14px rgba(245,158,11,0.5), 0 3px 6px rgba(0,0,0,0.35)' : '0 3px 6px rgba(0,0,0,0.3)',
+          whiteSpace: 'nowrap',
+          zIndex: 10,
+        }}
+      >
+        <span style={{ fontSize: '0.75rem' }}>📦</span>
+        <span style={{ fontSize: '0.7rem', fontWeight: 800, color: totalStored > 0 ? '#fef08a' : '#e2e8f0' }}>
+          {totalStored > 0 ? `Silo: ${totalStored}/30 • Click to Sell` : 'Silo Storage (0/30)'}
+        </span>
+      </div>
+
+      {/* Proximity prompt when player is nearby */}
+      {isNear && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-18px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#10b981',
+            color: 'white',
+            borderRadius: '10px',
+            padding: '2px 8px',
+            fontSize: '0.65rem',
+            fontWeight: 900,
+            boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+            whiteSpace: 'nowrap',
+            zIndex: 12,
+            animation: 'bounce 1s infinite alternate',
+          }}
+        >
+          [Click or Press E] Open Silo
+        </div>
+      )}
+
+      <svg width="175" height="155" viewBox="0 0 175 155" fill="none" style={{ overflow: 'visible', filter: 'drop-shadow(0 10px 18px rgba(20,25,15,0.4))' }}>
+        {/* Ground shadow */}
+        <ellipse cx="88" cy="144" rx="82" ry="14" fill="rgba(20, 30, 15, 0.38)" />
+
+        {/* --- SILO TOWER (Right side) --- */}
+        <g transform="translate(112, 18)">
+          <rect x="0" y="28" width="50" height="100" rx="3" fill="#cbd5e1" stroke="#475569" strokeWidth="2" />
+          <line x1="0" y1="48" x2="50" y2="48" stroke="#94a3b8" strokeWidth="2.5" />
+          <line x1="0" y1="68" x2="50" y2="68" stroke="#94a3b8" strokeWidth="2.5" />
+          <line x1="0" y1="88" x2="50" y2="88" stroke="#94a3b8" strokeWidth="2.5" />
+          <line x1="0" y1="108" x2="50" y2="108" stroke="#94a3b8" strokeWidth="2.5" />
+          <rect x="0" y="28" width="10" height="100" fill="#f8fafc" opacity="0.6" />
+          <rect x="36" y="28" width="14" height="100" fill="#64748b" opacity="0.4" />
+          <line x1="12" y1="36" x2="12" y2="126" stroke="#475569" strokeWidth="1.8" />
+          <line x1="20" y1="36" x2="20" y2="126" stroke="#475569" strokeWidth="1.8" />
+          {[42, 52, 62, 72, 82, 92, 102, 112, 122].map(ly => (
+            <line key={`ladder-${ly}`} x1="12" y1={ly} x2="20" y2={ly} stroke="#475569" strokeWidth="1.8" />
+          ))}
+          <path d="M 0 28 C 0 8 50 8 50 28 Z" fill="#94a3b8" stroke="#475569" strokeWidth="2" />
+          <path d="M 5 28 C 5 12 45 12 45 28 Z" fill="#e2e8f0" opacity="0.4" />
+          <rect x="23" y="2" width="4" height="8" fill="#475569" rx="1" />
+        </g>
+
+        {/* --- MAIN BARN STRUCTURE (Left/Center) --- */}
+        <rect x="12" y="58" width="112" height="86" fill="#991b1b" stroke="#450a0a" strokeWidth="2.5" />
+        {[26, 40, 54, 68, 82, 96, 110].map(px => (
+          <line key={`plank-${px}`} x1={px} y1="58" x2={px} y2="144" stroke="#7f1d1d" strokeWidth="2" />
+        ))}
+        <rect x="10" y="138" width="116" height="8" fill="#57534e" stroke="#292524" strokeWidth="1.5" rx="1" />
+
+        <polygon points="68,14 10,58 126,58" fill="#542407" stroke="#291102" strokeWidth="2.5" />
+        <polygon points="68,14 68,58 126,58" fill="#3b1803" />
+        <line x1="39" y1="36" x2="35" y2="58" stroke="#291102" strokeWidth="2" />
+        <line x1="97" y1="36" x2="101" y2="58" stroke="#291102" strokeWidth="2" />
+        <polygon points="68,11 6,58 12,61 68,17 124,61 130,58" fill="#d97706" />
+        <rect x="66" y="4" width="4" height="10" fill="#291102" />
+        <text x="68" y="5" fontSize="14" textAnchor="middle">🐓</text>
+
+        <rect x="58" y="30" width="20" height="20" fill="#3b1803" stroke="#d97706" strokeWidth="2" rx="2" />
+        <line x1="68" y1="30" x2="68" y2="50" stroke="#d97706" strokeWidth="1.5" />
+        <line x1="58" y1="40" x2="78" y2="40" stroke="#d97706" strokeWidth="1.5" />
+
+        <rect x="42" y="86" width="52" height="54" fill="#3b1803" stroke="#291102" strokeWidth="2" />
+        <rect x="44" y="88" width="23" height="50" fill="#7f1d1d" stroke="#f8fafc" strokeWidth="1.8" />
+        <line x1="44" y1="88" x2="67" y2="138" stroke="#f8fafc" strokeWidth="2" />
+        <line x1="67" y1="88" x2="44" y2="138" stroke="#f8fafc" strokeWidth="2" />
+        <rect x="69" y="88" width="23" height="50" fill="#7f1d1d" stroke="#f8fafc" strokeWidth="1.8" />
+        <line x1="69" y1="88" x2="92" y2="138" stroke="#f8fafc" strokeWidth="2" />
+        <line x1="92" y1="88" x2="69" y2="138" stroke="#f8fafc" strokeWidth="2" />
+
+        <rect x="36" y="66" width="64" height="15" rx="3" fill="#faf6ee" stroke="#8b6239" strokeWidth="2" />
+        <text x="68" y="77" fontSize="8" fontWeight="900" fill="#5c3a1e" textAnchor="middle" letterSpacing="0.5">GRANARY & SILO</text>
+
+        <g transform="translate(100, 72)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#1e293b" strokeWidth="1.5" />
+          <rect x="-4" y="6" width="8" height="11" rx="2" fill="#f59e0b" stroke="#1e293b" strokeWidth="1" className="farm-lantern-glow" />
+          <circle cx="0" cy="11.5" r="2" fill="#ffffff" />
+        </g>
+
+        <g transform="translate(18, 120)">
+          <path d="M 2 24 C 0 16 2 8 8 6 C 14 8 16 16 14 24 Z" fill="#d4a373" stroke="#8b5a2b" strokeWidth="1.5" />
+          <ellipse cx="8" cy="7" rx="4" ry="2" fill="#bc6c25" />
+          <text x="8" y="18" fontSize="8" textAnchor="middle">🌾</text>
+        </g>
+        <g transform="translate(98, 118)">
+          <ellipse cx="10" cy="5" rx="9" ry="4" fill="#a16207" stroke="#451a03" strokeWidth="1.5" />
+          <path d="M 1 5 L 3 24 L 17 24 L 19 5 Z" fill="#78350f" stroke="#451a03" strokeWidth="1.5" />
+          <line x1="2" y1="12" x2="18" y2="12" stroke="#1e293b" strokeWidth="1.8" />
+          <line x1="3" y1="18" x2="17" y2="18" stroke="#1e293b" strokeWidth="1.8" />
+        </g>
+      </svg>
     </div>
   );
 }

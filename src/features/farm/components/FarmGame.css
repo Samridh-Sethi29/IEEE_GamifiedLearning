@@ -613,3 +613,14 @@
   animation: treeSwaySoft 5s ease-in-out infinite;
   transform-origin: bottom center;
 }
+
+
+/* ---------- Farm Storage Granary Building ---------- */
+.farm-storage-building {
+  transition: transform 0.18s ease;
+}
+
+.farm-storage-building:hover {
+  transform: translate(-50%, -50%) scale(1.03) !important;
+  filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.45));
+}
