@@ -1,0 +1,116 @@
+/* CEO Decision Room - Executive Business Simulator Styling */
+
+.ceo-root {
+  --ceo-bg-dark: #090d16;
+  --ceo-bg-card: #111827;
+  --ceo-bg-card-hover: #1f2937;
+  --ceo-border: #1e293b;
+  --ceo-border-bright: #334155;
+  --ceo-text-main: #f8fafc;
+  --ceo-text-muted: #94a3b8;
+  --ceo-cyan: #06b6d4;
+  --ceo-cyan-light: #67e8f9;
+  --ceo-emerald: #10b981;
+  --ceo-emerald-light: #6ee7b7;
+  --ceo-amber: #f59e0b;
+  --ceo-amber-light: #fde047;
+  --ceo-rose: #f43f5e;
+  --ceo-rose-light: #fda4af;
+  --ceo-blue: #3b82f6;
+
+  font-family: var(--font-body, "Plus Jakarta Sans", system-ui, sans-serif);
+  color: var(--ceo-text-main);
+  background-color: var(--ceo-bg-dark);
+}
+
+.ceo-glass-panel {
+  background: rgba(17, 24, 39, 0.88);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+}
+
+.ceo-card-interactive {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1.5px solid rgba(51, 65, 85, 0.75);
+}
+
+.ceo-card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 0 12px 28px -6px rgba(6, 182, 212, 0.18);
+}
+
+.ceo-stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.ceo-stat-badge.positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ceo-stat-badge.negative {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+}
+
+.ceo-stat-badge.neutral {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Animations */
+@keyframes ceo-pulse-soft {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.ceo-pulse {
+  animation: ceo-pulse-soft 2.4s ease-in-out infinite;
+}
+
+/* Metric Gauge Bar */
+.ceo-gauge-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(30, 41, 59, 0.9);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.ceo-gauge-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Custom scrollbars */
+.ceo-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.ceo-scroll::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+.ceo-scroll::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.8);
+  border-radius: 4px;
+}
+.ceo-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 1);
+}

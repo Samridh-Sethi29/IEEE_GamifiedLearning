@@ -9,6 +9,17 @@ export default function MapLocation({ location, active, onHover, onEnter }) {
   const Art = LOCATION_ART[id] || FARM_LOCATION_ART[id] || SCHOOL_LOCATION_ART[id];
   return (
     <g transform={`translate(${position.x} ${position.y})`} data-testid={`map-location-${id}`}>
+      {/* Soft ground ambient radial glow */}
+      <ellipse
+        cx="0"
+        cy="-14"
+        rx={hit.w * 0.54}
+        ry={hit.h * 0.28}
+        fill={color}
+        opacity={active ? 0.22 : 0}
+        style={{ transition: "opacity 0.3s ease" }}
+      />
+      {/* Outer magical rotating dashed ring */}
       <ellipse
         className={`loc-ring${active ? " is-on" : ""}`}
         cx="0"
@@ -17,9 +28,22 @@ export default function MapLocation({ location, active, onHover, onEnter }) {
         ry={hit.h * 0.3}
         fill="none"
         stroke={color}
-        strokeWidth="5"
+        strokeWidth="4.5"
         strokeDasharray="16 14"
         strokeLinecap="round"
+      />
+      {/* Inner thin precision rune ring */}
+      <ellipse
+        className={`loc-ring${active ? " is-on" : ""}`}
+        cx="0"
+        cy="-14"
+        rx={hit.w * 0.45}
+        ry={hit.h * 0.23}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeDasharray="5 7"
+        opacity="0.6"
       />
       <g className={`loc-art${active ? " is-active" : ""}`}>
         <Art />
