@@ -1138,146 +1138,164 @@ export default function FarmGame2D() {
       <audio ref={audioRef} src={MUSIC_TRACKS[trackIndex].url} onEnded={nextTrack} loop={false} />
 
       {/* Top HUD */}
-      <div style={{ position: 'fixed', top: '16px', left: '16px', right: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', top: '12px', left: '16px', right: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 40, pointerEvents: 'none' }}>
         
         {/* Left Side: Navigation & Status */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', pointerEvents: 'auto', width: '320px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', pointerEvents: 'auto', width: 'auto', alignItems: 'flex-start', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
           
-          {/* 2. PLAYER STATUS CARD */}
+          {/* 1. SLIM STATUS BAR (Season, Weather, Day, Next Day, Clock, Coins, Water) */}
           <div style={{ 
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            backgroundColor: 'rgba(250,246,238,0.95)', backdropFilter: 'blur(10px)',
-            borderRadius: '16px', boxShadow: '0 4px 16px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.6)', 
-            border: '2px solid rgba(200,180,140,0.4)',
-            padding: '12px 0'
+            display: 'flex', alignItems: 'center', gap: '8px',
+            backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)',
+            borderRadius: '14px', boxShadow: '0 4px 14px rgba(30,20,10,0.18), inset 0 1px 0 rgba(255,255,255,0.7)', 
+            border: '2px solid rgba(200,180,140,0.45)',
+            padding: '5px 12px'
           }}>
             {/* Season & Weather */}
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', transform: 'scale(0.9)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', transform: 'scale(0.85)' }}>
                 {getSeasonIcon(currentSeason)}
               </div>
-              <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.9rem' }}>{currentSeason}</span>
-              <div style={{ display: 'flex', alignItems: 'center', marginLeft: '4px' }}>
+              <span style={{ fontWeight: 800, color: '#334155', fontSize: '0.8rem' }}>{currentSeason}</span>
+              <div style={{ display: 'flex', alignItems: 'center', marginLeft: '1px' }}>
                 {weather === 'rainy' ? (
-                  <CloudRain size={18} color="#3b82f6" title="Rainy" />
+                  <CloudRain size={15} color="#3b82f6" title="Rainy" />
                 ) : (
-                  <Sun size={18} color="#f59e0b" title="Sunny" />
+                  <Sun size={15} color="#f59e0b" title="Sunny" />
                 )}
               </div>
             </div>
             
             {/* Divider */}
-            <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
+            <div style={{ width: '1px', height: '18px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
             
-            {/* Day & Time & Next Button */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                  <span style={{ fontWeight: 700, color: '#64748b', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Day</span>
-                  <span style={{ fontWeight: 800, color: '#064e3b', fontSize: '1.1rem' }}>{day}</span>
-                </div>
-                <button 
-                  onClick={advanceDay}
-                  title="Advance to Next Day"
-                  style={{ 
-                    background: 'linear-gradient(180deg, #3b82f6 0%, #2563eb 100%)', color: 'white', border: 'none', borderBottom: '2px solid #1d4ed8', 
-                    padding: '4px 6px', borderRadius: '6px', fontWeight: 800, fontSize: '0.6rem', 
-                    cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.05em',
-                    transform: 'translateY(-1px)'
-                  }}
-                >
-                  Next ➔
-                </button>
-              </div>
-              {/* REAL TIME CLOCK */}
-              <div style={{ fontWeight: 800, color: '#475569', fontSize: '0.85rem', letterSpacing: '0.02em', backgroundColor: 'rgba(241,245,249,0.8)', padding: '2px 8px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                {(() => {
-                  let h = Math.floor(gameTime / 60);
-                  const m = gameTime % 60;
-                  const ampm = h >= 12 && h < 24 ? 'PM' : 'AM';
-                  h = h % 12;
-                  if (h === 0) h = 12;
-                  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
-                })()}
-              </div>
+            {/* Day & Next Button */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontWeight: 800, color: '#064e3b', fontSize: '0.82rem' }}>Day {day}</span>
+              <button 
+                onClick={advanceDay}
+                title="Advance to Next Day"
+                style={{ 
+                  background: 'linear-gradient(180deg, #3b82f6 0%, #2563eb 100%)', color: 'white', border: 'none', borderBottom: '2px solid #1d4ed8', 
+                  padding: '2px 6px', borderRadius: '6px', fontWeight: 900, fontSize: '0.55rem', 
+                  cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.04em',
+                  transition: 'all 0.1s ease'
+                }}
+              >
+                Next ➔
+              </button>
             </div>
 
             {/* Divider */}
-            <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
+            <div style={{ width: '1px', height: '18px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+
+            {/* Clock */}
+            <div style={{ fontWeight: 800, color: '#475569', fontSize: '0.78rem', letterSpacing: '0.02em', backgroundColor: 'rgba(241,245,249,0.85)', padding: '2px 6px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+              {(() => {
+                let h = Math.floor(gameTime / 60);
+                const m = gameTime % 60;
+                const ampm = h >= 12 && h < 24 ? 'PM' : 'AM';
+                h = h % 12;
+                if (h === 0) h = 12;
+                return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+              })()}
+            </div>
+
+            {/* Divider */}
+            <div style={{ width: '1px', height: '18px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
             
             {/* Coins */}
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '1rem', lineHeight: 1 }}>{EMOJIS.coin}</span>
-              <span style={{ fontWeight: 800, color: '#b45309', fontSize: '1.1rem' }}>{player.coins}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '0.85rem', lineHeight: 1 }}>{EMOJIS.coin}</span>
+              <span style={{ fontWeight: 900, color: '#b45309', fontSize: '0.85rem' }}>{player.coins}</span>
             </div>
             
+            {/* Divider */}
+            <div style={{ width: '1px', height: '18px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+
             {/* Water */}
-            <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0,0,0,0.08)' }} />
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#2563eb' }}>
-              <Droplet size={18} />
-              <span style={{ fontWeight: 800, fontSize: '1.1rem' }}>{player.water}L</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '3px', color: '#2563eb' }}>
+              <Droplet size={15} fill="#bfdbfe" />
+              <span style={{ fontWeight: 900, fontSize: '0.82rem' }}>{player.water}L</span>
             </div>
           </div>
 
-          {/* Compost Bin */}
-          <div style={{ backgroundColor: 'rgba(250,246,238,0.95)', backdropFilter: 'blur(10px)', borderRadius: '16px', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '8px', boxShadow: '0 4px 16px rgba(30,20,10,0.2), inset 0 1px 0 rgba(255,255,255,0.6)', border: '2px solid rgba(200,180,140,0.4)', marginTop: '8px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.8rem', color: '#15803d', display: 'flex', gap: '6px', alignItems: 'center' }}>♻️ COMPOST BIN</h4>
-               <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b' }}>{inventory.biomass || 0} / 3 Biomass</span>
+          {/* 2. SLIM COMPOST BAR */}
+          <div style={{ 
+            backgroundColor: 'rgba(250,246,238,0.95)', backdropFilter: 'blur(10px)', 
+            borderRadius: '12px', padding: '4px 10px', display: 'flex', alignItems: 'center', gap: '8px', 
+            boxShadow: '0 3px 10px rgba(30,20,10,0.15), inset 0 1px 0 rgba(255,255,255,0.6)', 
+            border: '1.5px solid rgba(200,180,140,0.45)', width: 'fit-content' 
+          }}>
+            <span style={{ margin: 0, fontWeight: 900, fontSize: '0.72rem', color: '#15803d', display: 'flex', gap: '4px', alignItems: 'center' }}>
+              ♻️ Compost:
+            </span>
+            <div style={{ width: '56px', backgroundColor: '#d4c5a9', height: '6px', borderRadius: '3px', overflow: 'hidden', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.15)' }}>
+              <div style={{ backgroundColor: '#22c55e', height: '100%', width: `${((inventory.biomass || 0) % 3 / 3) * 100}%`, transition: 'width 0.3s ease' }} />
             </div>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-               <div style={{ flex: 1, backgroundColor: '#d4c5a9', height: '8px', borderRadius: '4px', overflow: 'hidden', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.15)' }}>
-                 <div style={{ backgroundColor: '#22c55e', height: '100%', width: `${((inventory.biomass || 0) % 3 / 3) * 100}%`, transition: 'width 0.3s ease' }} />
-               </div>
-               <span style={{ fontWeight: 900, color: '#8b5e3c', fontSize: '0.8rem' }}>💩 {inventory.fertilizer || 0}</span>
-            </div>
+            <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#64748b' }}>
+              {inventory.biomass || 0}/3
+            </span>
+            <div style={{ width: '1px', height: '14px', backgroundColor: 'rgba(0,0,0,0.1)' }} />
+            <span style={{ fontWeight: 900, color: '#8b5e3c', fontSize: '0.75rem' }}>
+              💩 {inventory.fertilizer || 0}
+            </span>
           </div>
           
-          {/* Market Alert Banner */}
+          {/* Market Alert Banner (Compact) */}
           {marketTrend.message && (
              <motion.div 
                initial={{ opacity: 0, scale: 0.9 }}
                animate={{ opacity: 1, scale: 1 }}
-               style={{ backgroundColor: marketTrend.type === 'shortage' ? '#fff1f2' : '#f0fdfa', borderRadius: '16px', padding: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', border: `2px solid ${marketTrend.type === 'shortage' ? '#fecdd3' : '#ccfbf1'}`, marginTop: '8px' }}
+               style={{ backgroundColor: marketTrend.type === 'shortage' ? '#fff1f2' : '#f0fdfa', borderRadius: '12px', padding: '4px 10px', boxShadow: '0 3px 10px rgba(0,0,0,0.05)', border: `1.5px solid ${marketTrend.type === 'shortage' ? '#fecdd3' : '#ccfbf1'}`, display: 'flex', alignItems: 'center', gap: '6px', width: 'fit-content' }}
              >
-               <h4 style={{ margin: 0, fontWeight: 900, fontSize: '0.75rem', color: marketTrend.type === 'shortage' ? '#be123c' : '#0f766e', display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '4px' }}>📈 MARKET {marketTrend.type.toUpperCase()}</h4>
-               <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700, color: '#334155' }}>{marketTrend.message}</p>
+               <span style={{ fontSize: '0.8rem' }}>{marketTrend.type === 'shortage' ? '📉' : '📈'}</span>
+               <span style={{ fontSize: '0.75rem', fontWeight: 800, color: marketTrend.type === 'shortage' ? '#be123c' : '#0f766e' }}>
+                 {marketTrend.message}
+               </span>
              </motion.div>
           )}
         </div>
 
         {/* Right Side: Player Level & Actions */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '12px', pointerEvents: 'auto', width: '320px', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', pointerEvents: 'auto', width: 'auto', fontFamily: '"Inter", system-ui, -apple-system, sans-serif' }}>
           
-          {/* 3. PLAYER LEVEL / XP CARD */}
+          {/* 3. SLIM PLAYER LEVEL / XP BAR */}
           <div style={{ 
-            backgroundColor: 'rgba(250,249,246,0.95)', backdropFilter: 'blur(8px)',
-            borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', 
-            border: '1px solid rgba(0,0,0,0.08)', width: '100%',
-            padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '14px'
+            backgroundColor: 'rgba(250,246,238,0.96)', backdropFilter: 'blur(10px)',
+            borderRadius: '14px', boxShadow: '0 4px 14px rgba(30,20,10,0.18), inset 0 1px 0 rgba(255,255,255,0.7)', 
+            border: '2px solid rgba(200,180,140,0.45)',
+            padding: '5px 12px', display: 'flex', alignItems: 'center', gap: '10px'
           }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <div style={{ fontWeight: 800, fontSize: '0.85rem', color: '#064e3b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Level {player.level} Farmer
-              </div>
-              
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 600, fontSize: '0.8rem', color: '#64748b' }}>
-                  {player.name} Lv.{player.level}
+            {/* Level Badge */}
+            <div style={{ 
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
+              color: 'white', fontWeight: 900, fontSize: '0.75rem', 
+              padding: '3px 8px', borderRadius: '8px', border: '1.5px solid #6ee7b7', 
+              boxShadow: '0 2px 4px rgba(16,185,129,0.3)', whiteSpace: 'nowrap' 
+            }}>
+              Lv.{player.level}
+            </div>
+
+            {/* Name, XP & Progress Bar */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: '110px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontWeight: 800, fontSize: '0.75rem', color: '#1e293b' }}>
+                  {player.name}
                 </span>
-                <span style={{ fontWeight: 700, fontSize: '0.8rem', color: '#334155' }}>
+                <span style={{ fontWeight: 800, fontSize: '0.7rem', color: '#059669' }}>
                   {player.xp % 100} / 100 XP
                 </span>
               </div>
-            </div>
 
-            <div style={{ width: '100%', height: '10px', backgroundColor: 'rgba(0,0,0,0.08)', borderRadius: '5px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.06)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)' }}>
-              <motion.div 
-                initial={false} 
-                animate={{ width: `${(player.xp % 100)}%` }} 
-                transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
-                style={{ height: '100%', background: 'linear-gradient(90deg, #34d399 0%, #10b981 60%, #059669 100%)', borderRadius: '5px', boxShadow: '0 0 8px rgba(16,185,129,0.4)' }} 
-              />
+              <div style={{ width: '100%', height: '6px', backgroundColor: 'rgba(0,0,0,0.08)', borderRadius: '3px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.06)', boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)' }}>
+                <motion.div 
+                  initial={false} 
+                  animate={{ width: `${(player.xp % 100)}%` }} 
+                  transition={{ type: 'spring', bounce: 0, duration: 0.5 }}
+                  style={{ height: '100%', background: 'linear-gradient(90deg, #34d399 0%, #10b981 60%, #059669 100%)', borderRadius: '3px', boxShadow: '0 0 6px rgba(16,185,129,0.4)' }} 
+                />
+              </div>
             </div>
           </div>
         </div>
