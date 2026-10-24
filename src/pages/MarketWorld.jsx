@@ -23,7 +23,11 @@ export default function MarketWorld() {
   return (
     <div className="fixed inset-0 overflow-y-auto bg-[#0f172a] text-slate-100 select-none">
       {/* Ambient background water & gradient */}
-      <RealisticWater preset="ocean" className="absolute inset-0 opacity-40 pointer-events-none" causticIntensity={0.8} />
+      <RealisticWater
+        preset="ocean"
+        className="absolute inset-0 opacity-40 pointer-events-none"
+        causticIntensity={0.8}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/90 to-slate-950 pointer-events-none" />
 
       <div className="relative min-h-screen flex flex-col justify-between p-4 sm:p-8 max-w-6xl mx-auto">
@@ -61,7 +65,9 @@ export default function MarketWorld() {
               Choose Your Business Path
             </h1>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Step onto the bustling market floor to master retail store logistics, or take the executive elevator to lead a corporation in the high-stakes CEO Decision Room.
+              Step onto the bustling market floor to master retail store
+              logistics, or take the executive elevator to lead a corporation in
+              the high-stakes CEO Decision Room.
             </p>
           </div>
 
@@ -84,7 +90,9 @@ export default function MarketWorld() {
                     Skillz Market
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-                    Operate a full 2D supermarket! Restock shelves from the warehouse, direct customers across aisles, manage inventory, and calculate exact change at checkout.
+                    Operate a full 2D supermarket! Restock shelves from the
+                    warehouse, direct customers across aisles, manage inventory,
+                    and calculate exact change at checkout.
                   </p>
                 </div>
 
@@ -129,18 +137,24 @@ export default function MarketWorld() {
                     CEO Decision Room
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-                    Lead an electric vehicle enterprise through real-world business challenges. Navigate battery cost inflation, negative reviews, burnout, expansion, and price wars.
+                    Lead an electric vehicle enterprise through real-world
+                    business challenges. Navigate battery cost inflation,
+                    negative reviews, burnout, expansion, and price wars.
                   </p>
                 </div>
 
                 <div className="space-y-2 pt-2 border-t border-slate-800">
                   <div className="flex items-center gap-2 text-xs text-slate-400">
                     <TrendingUp className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span>Real profit margins, revenue & cash calculations</span>
+                    <span>
+                      Real profit margins, revenue & cash calculations
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-400">
                     <ShieldCheck className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                    <span>Brand equity, employee morale & opportunity cost</span>
+                    <span>
+                      Brand equity, employee morale & opportunity cost
+                    </span>
                   </div>
                 </div>
               </div>
