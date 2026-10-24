@@ -313,7 +313,7 @@ export default function FarmGame2D() {
       else if (k === 'arrowright' || k === 'right') { e.preventDefault(); keys.current.right = true; }
       else if (k === 'e') {
         const dist = Math.hypot(1290 - playerPosRef.current.x, 350 - playerPosRef.current.y);
-        if (dist < 140) {
+        if (dist < 165) {
           setIsStorageOpen(prev => !prev);
         }
       }
@@ -1048,7 +1048,7 @@ export default function FarmGame2D() {
         y={350} 
         totalStored={totalStored} 
         onClick={() => setIsStorageOpen(true)} 
-        isNear={Math.hypot(1290 - playerPos.x, 350 - playerPos.y) < 140} 
+        isNear={Math.hypot(1290 - playerPos.x, 350 - playerPos.y) < 165} 
       />
 
       {/* Central Crossroads Signpost */}
@@ -2522,7 +2522,7 @@ function DecoFarmStorage({ x, y, totalStored, onClick, isNear }) {
       <div
         style={{
           position: 'absolute',
-          top: '-24px',
+          top: '-28px',
           left: '50%',
           transform: 'translateX(-50%)',
           backgroundColor: totalStored > 0 ? 'rgba(30, 20, 10, 0.94)' : 'rgba(30, 20, 10, 0.85)',
@@ -2548,7 +2548,7 @@ function DecoFarmStorage({ x, y, totalStored, onClick, isNear }) {
         <div
           style={{
             position: 'absolute',
-            bottom: '-18px',
+            bottom: '-22px',
             left: '50%',
             transform: 'translateX(-50%)',
             backgroundColor: '#10b981',
@@ -2567,7 +2567,7 @@ function DecoFarmStorage({ x, y, totalStored, onClick, isNear }) {
         </div>
       )}
 
-      <svg width="175" height="155" viewBox="0 0 175 155" fill="none" style={{ overflow: 'visible', filter: 'drop-shadow(0 10px 18px rgba(20,25,15,0.4))' }}>
+      <svg width="250" height="220" viewBox="0 0 175 155" fill="none" style={{ overflow: 'visible', filter: 'drop-shadow(0 12px 22px rgba(20,25,15,0.45))' }}>
         {/* Ground shadow */}
         <ellipse cx="88" cy="144" rx="82" ry="14" fill="rgba(20, 30, 15, 0.38)" />
 
