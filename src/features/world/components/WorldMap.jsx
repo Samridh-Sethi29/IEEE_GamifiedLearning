@@ -143,21 +143,17 @@ export default function WorldMap() {
             </radialGradient>
           </defs>
 
-          {/* ocean */}
-          <rect x="0" y="0" width={MAP_VIEW.width} height={MAP_VIEW.height} fill="url(#oceanGrad)" />
-
-          {/* rolling waves */}
+          {/* ambient flowing water wave crests */}
           {WAVE_ARCS.map((w, i) => (
-            <path
-              key={i}
-              className="anim-wave"
-              style={{ animationDelay: `${w.d}s` }}
-              d={`M ${w.x} ${w.y} q 10 -9 20 0 q 10 9 20 0`}
-              stroke="rgba(255, 255, 255, 0.55)"
-              strokeWidth="3.5"
-              fill="none"
-              strokeLinecap="round"
-            />
+            <g key={i} transform={`translate(${w.x} ${w.y})`} className="anim-wave" style={{ animationDelay: `${w.d}s` }}>
+              <path
+                d="M -22 0 Q -11 -6 0 0 Q 11 -6 22 0"
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.22)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </g>
           ))}
 
           {/* shore ripples */}
@@ -168,8 +164,8 @@ export default function WorldMap() {
                 style={{ animationDelay: `${-i * 1.8}s` }}
                 d={ISLAND_PATH}
                 fill="none"
-                stroke="rgba(255, 255, 255, 0.55)"
-                strokeWidth="5"
+                stroke="rgba(255, 255, 255, 0.28)"
+                strokeWidth="3.5"
               />
             </g>
           ))}

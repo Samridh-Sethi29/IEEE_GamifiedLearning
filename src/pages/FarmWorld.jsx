@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import FarmWorldMap from "@/features/world/components/FarmWorldMap";
 import GameHUD from "@/features/hud/components/GameHUD";
+import RealisticWater from "@/components/water/RealisticWater";
 
 // The Farm Hub screen: an interactive SVG map just like the main WorldMap.
 export default function FarmWorld() {
   return (
     <div className="fixed inset-0 overflow-hidden bg-[#0c699d]" data-testid="farm-world-page">
+      <RealisticWater preset="ocean" className="absolute inset-0" causticIntensity={1.15} />
       <FarmWorldMap />
       <GameHUD objective="Choose a farming activity." />
       

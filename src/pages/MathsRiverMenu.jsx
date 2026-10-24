@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
+import RealisticWater from "@/components/water/RealisticWater";
 
 const RIVER_TOPICS = [
   { id: "addition", icon: "➕", name: "Addition River", desc: "Jump using addition skills", color: "#10B981" },
@@ -18,27 +19,16 @@ export default function MathsRiverMenu() {
         position: "fixed",
         inset: 0,
         overflow: "auto",
-        background: "linear-gradient(180deg, #0284c7 0%, #0369a1 100%)",
+        backgroundColor: "#0369a1",
         fontFamily: "'Plus Jakarta Sans Variable', sans-serif",
       }}
     >
-      {/* Background decorations */}
-      <div style={{ position: "absolute", inset: 0, opacity: 0.1, pointerEvents: "none" }}>
-        {Array.from({ length: 15 }).map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{ x: ["-5%", "5%", "-5%"] }}
-            transition={{ duration: 3 + i % 5, repeat: Infinity, ease: "easeInOut" }}
-            style={{
-              position: "absolute",
-              top: `${(i / 15) * 100}%`,
-              left: "-10%", right: "-10%",
-              height: "4px", background: "#fff",
-              borderRadius: "50%", filter: "blur(2px)",
-            }}
-          />
-        ))}
-      </div>
+      {/* Realistic River Water Simulation */}
+      <RealisticWater
+        preset="river"
+        className="fixed inset-0 pointer-events-none"
+        causticIntensity={1.1}
+      />
 
       {/* Back button */}
       <div style={{ position: "fixed", left: 16, top: 20, zIndex: 40 }}>
