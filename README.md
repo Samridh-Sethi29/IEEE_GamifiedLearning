@@ -1,362 +1,547 @@
 <div align="center">
 
-<img src="https://placehold.co/1200x280/6a0dad/ffffff?text=SkillVerse+%F0%9F%8E%AE&font=montserrat" alt="SkillVerse Banner" width="100%"/>
+<img src="public/assets/skillverse/logo.png" alt="SkillVerse Logo" width="130"/>
+
+# 🌟 SKILLVERSE
+### 🎮 *Live a Day. Learn a Life.* 🚀
+**A Gamified Vocational & Experiential Learning Universe for Young Minds**
 
 <br/>
 
-# 🎮 SkillVerse
-
-### *Live a Day. Learn a Life.*
-
-**A browser-based life-simulation game that turns everyday decisions into real-world skills.**
-
-Built for **IEEE WIE ILS 2026 National Hackathon** — *Empower to Inspire: Thriving Together for an Inclusive and Sustainable Future*
+[![IEEE WIE ILS 2026](https://img.shields.io/badge/IEEE%20WIE%20ILS%202026-National%20Hackathon-c2185b?style=for-the-badge&logo=ieee&logoColor=white)](#)
+[![Status Prototype](https://img.shields.io/badge/Status-Prototype%20Build-10b981?style=for-the-badge)](#)
+[![License MIT](https://img.shields.io/badge/License-MIT-6366f1?style=for-the-badge)](#)
 
 <br/>
 
-![Team](https://img.shields.io/badge/Team-The%20CodeX-6a0dad?style=for-the-badge)
-![Problem Statement](https://img.shields.io/badge/PS--3-Gamified%20Vocational%20Learning-c2185b?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Prototype%20Build-ff69b4?style=for-the-badge)
-
-![Engine](https://img.shields.io/badge/Engine-Phaser%203-8b5cf6?style=flat-square&logo=phaser&logoColor=white)
-![Language](https://img.shields.io/badge/Language-TypeScript%20%2F%20JavaScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
-![Hosting](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages%20%7C%20Vercel-181717?style=flat-square&logo=github&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-2e7d32?style=flat-square)
+[![React 19](https://img.shields.io/badge/React%2019-20232a?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Vite 8](https://img.shields.io/badge/Vite%208-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Three.js](https://img.shields.io/badge/Three.js-black?style=flat-square&logo=three.js&logoColor=white)](https://threejs.org/)
+[![Phaser 4](https://img.shields.io/badge/Phaser%204-8b5cf6?style=flat-square&logo=phaser&logoColor=white)](https://phaser.io/)
+[![TailwindCSS 4](https://img.shields.io/badge/TailwindCSS%204-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Express 4](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47a248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
 </div>
 
+---
+
+## 📌 Quick Navigation
+
+- [🎯 The Problem](#-the-problem)
+- [🌟 The Vision](#-the-vision)
+- [⚡ The Paradigm Shift](#-the-paradigm-shift)
+- [🌱 What is SkillVerse?](#-what-is-skillverse)
+- [✨ Core Capabilities](#-core-capabilities)
+- [🧠 5-Pillar Progression System](#-5-pillar-progression-system)
+- [🌍 The 5 Learning Worlds](#-the-5-learning-worlds)
+  - [🏠 1. Explorer Haven — Home World](#-1-explorer-haven--home-world)
+  - [🏫 2. Academy of Skills — School World](#-2-academy-of-skills--school-world)
+  - [🌾 3. Verdant Fields — Farm World](#-3-verdant-fields--farm-world)
+  - [🛒 4. Bazaar Square — Market World](#-4-bazaar-square--market-world)
+  - [🎨 5. Creator Studio](#-5-creator-studio)
+- [🔄 Journey & Gameplay Flow](#-journey--gameplay-flow)
+- [🏛️ Full-Stack System Architecture](#-full-stack-system-architecture)
+- [🛠️ Complete Technology Stack](#-complete-technology-stack)
+- [📂 Repository Blueprint](#-repository-blueprint)
+- [🚀 Quickstart & Installation](#-quickstart--installation)
+- [🧪 Testing & Verification](#-testing--verification)
+- [🗺️ Development Roadmap](#-development-roadmap)
+- [👥 Meet the Team](#-meet-the-team)
+- [📜 License](#-license)
+
+---
+
 <br/>
 
-## 🌸 Table of Contents
+<div align="center">
 
-- [What is SkillVerse?](#-what-is-skillverse)
-- [The Problem](#-the-problem)
-- [World Previews](#-world-previews)
-- [How It Works](#-how-it-works)
-- [The Five Pillars](#-the-five-pillars-skill-dashboard)
-- [What Makes It Different](#-what-makes-it-different)
-- [System Architecture](#-system-architecture)
-- [Tech Stack](#-tech-stack)
-- [Roadmap / Build Milestones](#-roadmap--build-milestones)
-- [Expected Impact](#-expected-impact)
-- [Team](#-meet-the-team)
-- [Getting Started](#-getting-started)
-- [License](#-license)
+# 🎯 The Problem
 
-<br/>
-
-## 🌱 What is SkillVerse?
-
-> SkillVerse is a **web-based life-simulation game** where a child lives one complete virtual day — waking up, doing chores, attending school, tending a farm, selling goods at the market, and reflecting at night on what they've learned.
-
-Instead of quizzes and textbook recall, players are dropped into realistic scenarios — *a leaking pipe, a scarce water source, a tough negotiation* — and must **choose**. Every choice has a visible, lasting consequence on their character, their world, and their evolving skill profile.
-
-**Learning happens through experience, not instruction.** 🌟
-
-<br/>
-
-## 🎯 The Problem
+</div>
 
 Children learn concepts in class but rarely get the chance to *practice* them — decision-making, money management, digital literacy, sustainability, and entrepreneurial thinking are all skills built through repetition, not memorization.
 
 This gap is echoed by real frameworks, not just our assumption:
 
 | Source | What it says |
-|---|---|
+| :--- | :--- |
 | 🇮🇳 **NEP 2020** | Mandates experiential & vocational learning from Grade 6 onward |
 | 🏛️ **Ministry of Education** | Calls for vocational education to be more accessible, flexible & inclusive |
 | 🌍 **UNICEF India** | Identifies decision-making, empathy, teamwork & goal-setting as core life skills best learned through real practice |
 
 SkillVerse gives children a **safe, low-risk sandbox** to make decisions, see consequences, and learn from mistakes — right when habits are forming (ages 11–14).
 
-<br/>
-
-## 🖼️ World Previews
-
-> 🎨 *Mockups below are placeholder art — final in-game visuals are being built in Phaser 3.*
-
-<table>
-<tr>
-<td align="center" width="33%">
-<img src="https://placehold.co/380x220/2e7d32/ffffff?text=%F0%9F%8F%A0+Home+World&font=montserrat" width="100%"/>
-<br/><b>🏠 Home World</b><br/><sub>Leaking pipes · Waste sorting · Safety</sub>
-</td>
-<td align="center" width="33%">
-<img src="https://placehold.co/380x220/1565c0/ffffff?text=%F0%9F%8F%AB+School+World&font=montserrat" width="100%"/>
-<br/><b>🏫 School World</b><br/><sub>Coding · Teamwork · Communication</sub>
-</td>
-<td align="center" width="33%">
-<img src="https://placehold.co/380x220/558b2f/ffffff?text=%F0%9F%8C%BE+Farm+World&font=montserrat" width="100%"/>
-<br/><b>🌾 Farm World</b><br/><sub>Planting · Water budgeting · Weather</sub>
-</td>
-</tr>
-<tr>
-<td align="center" width="33%">
-<img src="https://placehold.co/380x220/c2185b/ffffff?text=%F0%9F%9B%92+Market+World&font=montserrat" width="100%"/>
-<br/><b>🛒 Market World</b><br/><sub>Negotiation · Pricing · Promotion</sub>
-</td>
-<td align="center" width="33%">
-<img src="https://placehold.co/380x220/6a0dad/ffffff?text=%E2%9C%A8+Dream+World&font=montserrat" width="100%"/>
-<br/><b>✨ Dream World</b><br/><sub>Imagine future goals & passions</sub>
-</td>
-<td align="center" width="33%">
-<img src="https://placehold.co/380x220/e6a817/ffffff?text=%F0%9F%93%8A+Skill+Dashboard&font=montserrat" width="100%"/>
-<br/><b>📊 Skill Dashboard</b><br/><sub>Five-pillar end-of-day review</sub>
-</td>
-</tr>
-</table>
+---
 
 <br/>
-
-## 🔄 How It Works
-
-Every phase follows the same loop: **situation → decision → result → visible effect.**
-
-```mermaid
-flowchart TD
-    A(["🌅 Wake Up"]) --> B["🏠 Home<br/><sub>Leaking pipes · Electricity · Waste sorting</sub>"]
-    B --> C["🏫 School / Digital Lab<br/><sub>Communication · Collaboration · Coding</sub>"]
-    C --> D["🌾 Farm<br/><sub>Planting · Water distribution · Weather</sub>"]
-    D --> E["🛒 Market / Marketing<br/><sub>Negotiation · Money decisions · Promotion</sub>"]
-    E --> F["📊 End-of-Day Review<br/><sub>Five-Pillar skill chart updates</sub>"]
-    F --> G(["✨ Dream World<br/><sub>Imagine future goals</sub>"])
-    G -->|Loop repeats · skills carry over| A
-
-    style A fill:#ffd6e8,stroke:#c2185b,stroke-width:2px,color:#4a004a
-    style B fill:#d9f2e6,stroke:#2e7d32,stroke-width:2px,color:#1b3a1f
-    style C fill:#d9f2e6,stroke:#2e7d32,stroke-width:2px,color:#1b3a1f
-    style D fill:#d9f2e6,stroke:#2e7d32,stroke-width:2px,color:#1b3a1f
-    style E fill:#d9f2e6,stroke:#2e7d32,stroke-width:2px,color:#1b3a1f
-    style F fill:#fff3cd,stroke:#e6a817,stroke-width:2px,color:#4a3800
-    style G fill:#e6d9ff,stroke:#6a0dad,stroke-width:2px,color:#2a0033
-```
-
-The magic: skills and consequences **carry over** between worlds. A water-management mistake on the Farm can ripple into the Market. Nothing resets — the child is building *one persistent character*, not five disconnected mini-games.
-
-<br/>
-
-## 🌈 The Five Pillars (Skill Dashboard)
-
-Success isn't tracked with marks — it's tracked across five growing skill pillars, visible to the child, parents, and teachers alike.
-
-| Pillar | Icon | Built Through |
-|---|:---:|---|
-| **Life Skills** | 🧭 | Home chores, safety decisions, waste sorting |
-| **Human Skills** | 🤝 | Teamwork, communication, empathy at School |
-| **Digital Skills** | 💻 | Coding puzzles, typing, debugging in the Digital Lab |
-| **Vocational Skills** | 🌾 | Farming, resource & water budgeting |
-| **Entrepreneurial Skills** | 💰 | Negotiation, pricing, marketing at the Market |
-
-<br/>
-
-## 💡 What Makes It Different
-
-<table>
-<tr><th>Existing Solution</th><th>Approach</th><th>Where SkillVerse Goes Further</th></tr>
-<tr><td>🧱 <b>Minecraft Education</b></td><td>Open-ended creative 3D platform</td><td>Replaces open sandbox with a <b>directed, consequence-driven</b> journey and a unified skill profile</td></tr>
-<tr><td>🎬 <b>UNICEF CRIIIO 4 GOOD</b></td><td>Guided, curated animated content</td><td>Turns passive content into <b>repeated, playable scenarios</b> with real-time consequences</td></tr>
-<tr><td>❓ <b>Quiz-based EdTech</b></td><td>Question → Answer → Score</td><td>Replaces the loop with <b>Situation → Decision → Consequence → Skill Growth → Reward → Progression</b></td></tr>
-</table>
-
-**The core innovation:** a **shared cross-world state** — a persistent architecture where your choices on the Farm genuinely affect your outcomes in the Market. One character. One evolving story. Real trade-offs.
-
-<br/>
-
-## 🏗️ System Architecture
-
-```mermaid
-flowchart LR
-    subgraph Client["🖥️ Browser (Any Device)"]
-        UI["Phaser 3 Game Engine<br/>(TypeScript / JavaScript)"]
-        LS[("localStorage<br/>Game State")]
-    end
-
-    subgraph Worlds["🌍 Game Worlds"]
-        Home["🏠 Home World"]
-        School["🏫 School World"]
-        Farm["🌾 Farm World"]
-        Market["🛒 Market World"]
-        Dream["✨ Dream World"]
-    end
-
-    UI --> Home & School & Farm & Market & Dream
-    Home -. XP + Flags .-> LS
-    School -. XP + Flags .-> LS
-    Farm -. XP + Flags .-> LS
-    Market -. XP + Flags .-> LS
-    LS -. Reads shared state .-> UI
-
-    UI --> Deploy["🚀 GitHub Pages / Vercel / itch.io"]
-
-    style Client fill:#f3e8ff,stroke:#6a0dad,stroke-width:2px
-    style Worlds fill:#e8f8f0,stroke:#2e7d32,stroke-width:2px
-    style LS fill:#fff3cd,stroke:#e6a817,stroke-width:2px
-```
-
-No backend, no paid APIs, no special hardware — it runs entirely client-side in a browser.
-
-<br/>
-
-## 🛠️ Tech Stack
 
 <div align="center">
 
-![Phaser](https://img.shields.io/badge/Phaser%203-8b5cf6?style=for-the-badge&logo=phaser&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222?style=for-the-badge&logo=github&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000?style=for-the-badge&logo=vercel&logoColor=white)
+# 🌟 The Vision
 
 </div>
 
-| Layer | Choice | Why |
-|---|---|---|
-| **Game Engine** | Phaser 3 | Mature, browser-native, built-in physics & animation |
-| **Logic** | JavaScript / TypeScript | Fast iteration, huge ecosystem |
-| **Persistence** | Browser `localStorage` | Zero backend cost, works offline |
-| **Hosting** | GitHub Pages / Vercel / itch.io | Free, one-URL deployment |
-| **AI/IoT** | ❌ None (by design) | Keeps the prototype lightweight, portable & reliable |
+> **Children learn best by doing, not memorising.**
 
-<br/>
-
-## 🗓️ Roadmap / Build Milestones
+SkillVerse turns abstract textbook theory into an interactive coastal village where every building is an opportunity to practice real-life skills. Instead of passively reading about ecology, commerce, or coding, young learners explore spaces, make consequential choices, and discover practical competencies through play.
 
 ```mermaid
-gantt
-    dateFormat  X
-    axisFormat %s h
-    section Hackathon Build (36h)
-    Setup core data, UI, repo         :m1, 0, 4h
-    Build world mechanics             :m2, after m1, 14h
-    Full integration & playtest       :m3, after m2, 4h
-    Bug fixes & accessibility polish  :m4, after m3, 12h
-    Final testing & demo prep         :m5, after m4, 2h
+flowchart LR
+    A["🧭 1. EXPLORE\nStep into living\nvillage environments"] ==> B["🎮 2. ENGAGE\nUse real tools &\ninteractive mini-games"]
+    B ==> C["⚖️ 3. DECIDE\nMake choices under\nbudget & resource limits"]
+    C ==> D["👁️ 4. OBSERVE\nSee immediate visual\n& financial feedback"]
+    D ==> E["🏆 5. EVOLVE\nLevel up Life, STEM &\nBusiness skills"]
+    E -.->|"Next In-Game Day"| A
+
+    style A fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style B fill:#f0fdf4,stroke:#22c55e,stroke-width:2px,color:#15803d
+    style C fill:#fefce8,stroke:#eab308,stroke-width:2px,color:#854d0e
+    style D fill:#fff1f2,stroke:#f43f5e,stroke-width:2px,color:#be123c
+    style E fill:#faf5ff,stroke:#a855f7,stroke-width:2px,color:#7e22ce
 ```
 
-| Risk | Mitigation |
-|---|---|
-| 🔗 Integration failure across 5 worlds | Lock shared game-state schema upfront; integrate at hour 18, not the end |
-| 📈 Scope creep | Hard cap: 2–4 mechanics per world |
-| 🎨 Inconsistent mechanics | Shared UI kit + one branch per world with PR merges |
-| 📡 Unreliable network | Maintain a working local build at all times |
+---
 
 <br/>
 
-## 🌍 Expected Impact
+<div align="center">
 
-- 🎒 **Primary users:** School children (11–14 initially, expanding to ages 3–16)
-- 👩‍🏫 **Secondary users:** Teachers & parents, via a live skill-progress dashboard
-- 🌐 **Access:** Runs on any browser — school lab PC, classroom laptop, or home phone. No install, no high-speed internet required
-- 🏘️ **Reach:** Urban, semi-urban, and resource-constrained communities alike
+# ⚡ The Paradigm Shift
 
-**Key metrics we'll track:** completion rate · repeat-session rate · skill transfer to real tasks · five-pillar growth · learner sentiment · educator feedback.
+</div>
+
+| Dimension | ❌ The Conventional Way | ✅ The SkillVerse Innovation |
+| :--- | :--- | :--- |
+| **Learning Format** | **Textbook Theory:** Passive memorisation of disconnected facts with no real context. | **Living Village Simulation:** Contextual 3D environments where knowledge is applied in daily routine. |
+| **Feedback Loop** | **Zero Practice:** Static end-of-chapter tests with delayed grading and zero consequence. | **Genuine Agency:** Real-time feedback with visible in-game, ecological, and economic outcomes. |
+| **Skill Outcome** | **Fragmented Knowledge:** High test marks, yet unprepared for real-world independent life. | **5-Pillar Practical Mastery:** Holistic, experiential muscle memory built through repeated decision-making. |
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🌱 What is SkillVerse?
+
+</div>
+
+> **SkillVerse is an interactive life-simulation universe designed to bridge the gap between classroom theory and real-world competence.**
+
+Through a dynamic, day-in-the-life coastal village simulation, young minds step into authentic roles — managing a home, navigating STEM discovery labs, cultivating climate-smart crops, and directing market commerce.
+
+Rather than relying on passive memorization or static quizzes, SkillVerse immerses players in consequential challenges:
+* 🚰 **Tackling domestic crises:** Diagnosing water leaks and enforcing electrical safety.
+* 💰 **Exercising financial agency:** Budgeting household groceries under strict ₹100 constraints and calculating real-time retail change.
+* 🌾 **Managing finite resources:** Balancing seasonal irrigation against drought to operate a sustainable farm.
+* 💻 **Thinking computationally:** Debugging real Python code syntax and wiring live electrical circuits.
+
+Every action creates tangible feedback that directly evolves the player's **5-Pillar Skill DNA** (*Life, Human, Digital, Vocational, and Entrepreneurial*).
+
+<div align="center">
+
+### *“Live a Day. Learn a Life.”* — Experiential mastery built on genuine agency. 🚀
+
+</div>
+
+---
+
+<br/>
+
+<div align="center">
+
+# ✨ Core Capabilities
+
+</div>
+
+* 🗺️ **3D Village Realm** — Top-down coastal world rendered in Three.js with ocean shaders and click-to-enter district portals.
+* 🏃 **Avatar Movement Engine** — Smooth keyboard and touch locomotion across multi-room spaces with real-time obstacle collision.
+* 🧠 **5-Pillar Skill DNA** — Continuous progression system tracking Life, Human, Digital, Vocational, and Entrepreneurial growth.
+* 🏆 **Milestone Achievements** — 5-tier badge unlock engine with level-up rewards, celebratory toasts, and profile showcases.
+* ☁️ **Dual-Layer Persistence** — Zero-friction offline play via `localStorage` paired with automatic background cloud sync to MongoDB Atlas.
+* 🎮 **Interactive Simulations** — Domain mini-games including circuit wiring, Phaser 4 crop farming, atom balancing, and supermarket till operations.
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🧠 5-Pillar Progression System
+
+</div>
+
+Instead of letter grades or standardized test scores, SkillVerse tracks holistic competence across five practical pillars:
+
+```mermaid
+flowchart TD
+    P["👤 PLAYER SKILL DNA"]
+    P --> L["🧭 Life Skills\n(Waste sorting, water saving, home safety)"]
+    P --> H["🤝 Human Skills\n(Dialogue choices, branching empathy stories)"]
+    P --> D["💻 Digital Skills\n(Typing speed, block coding, Python debugging)"]
+    P --> V["🌾 Vocational Skills\n(Crop planning, irrigation, pipeline networks)"]
+    P --> E["💰 Entrepreneurial\n(Supermarket math, inventory, CEO decisions)"]
+
+    style P fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#0f172a
+    style L fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+    style H fill:#fce7f3,stroke:#db2777,stroke-width:1.5px,color:#831843
+    style D fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#1e3a8a
+    style V fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f
+    style E fill:#ede9fe,stroke:#7c3aed,stroke-width:1.5px,color:#4c1d95
+```
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🌍 The 5 Learning Worlds
+
+</div>
+
+---
+
+### 🏠 1. Explorer Haven — Home World
+> 🧭 **Focus:** Domestic Sustainability & Home Safety &nbsp;•&nbsp; **Pillar:** `Life Skills`
+
+* **📦 What's Inside:** Waste sorting bins (wet/dry/e-waste), ₹100 grocery budgeting challenge, leaking pipe repair, electrical safety detective quiz, and morning routine sequencing.
+* **💡 What Child Learns:** Waste segregation habits, nutritional prioritization within a budget, water conservation facts, hazard prevention, and daily personal responsibility.
+
+---
+
+### 🏫 2. Academy of Skills — School World
+> 🔬 **Focus:** Applied STEM & Communication &nbsp;•&nbsp; **Pillars:** `Digital Skills` & `Human Skills`
+
+* **📦 What's Inside:** Interactive typing dojo, Python bug debugging, live electrical circuit wiring, atomic mass assembler, mental math rapids, and empathy dialogue builder.
+* **💡 What Child Learns:** Algorithmic thinking and code debugging, physical STEM concepts through hands-on labs, fast arithmetic, and respectful conversational conflict resolution.
+
+---
+
+### 🌾 3. Verdant Fields — Farm World
+> 🚜 **Focus:** Climate-Smart Agriculture & Agronomics &nbsp;•&nbsp; **Pillar:** `Vocational Skills`
+
+* **📦 What's Inside:** 4-season agricultural calendar (Spring to Winter), dynamic weather & finite water reserves, 12 regional crops (Wheat, Bajra, Mustard, etc.), and agronomic cards.
+* **💡 What Child Learns:** Kharif/Rabi/Zaid crop cycles, drought water rationing, why heat-resilient crops thrive in warming climates, and agricultural business economics.
+
+---
+
+### 🛒 4. Bazaar Square — Market World
+> 📊 **Focus:** Commerce, Numeracy & Leadership &nbsp;•&nbsp; **Pillar:** `Entrepreneurial Skills`
+
+* **📦 What's Inside:** 2D interactive supermarket with shelf stocking and cash register till, paired with an executive CEO Decision Room tackling quarterly corporate challenges.
+* **💡 What Child Learns:** Real-time cashier change calculations, inventory supply chain logistics, balancing short-term profits against brand trust, and leadership ethics.
+
+---
+
+### 🎨 5. Creator Studio
+> 🛠️ **Focus:** Civic Engineering & Visual Storytelling &nbsp;•&nbsp; **Pillars:** `Vocational Skills` & `Human Skills`
+
+* **📦 What's Inside:** World Builder pipeline crisis routing water under budget, Invention Lab mechanical workbench (gears & motors), branching story studio, and community poster atelier.
+* **💡 What Child Learns:** Designing public municipal utilities within resource constraints, mechanical gear ratios, ethical branching narrative outcomes, and impactful visual communication.
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🔄 Journey & Gameplay Flow
+
+</div>
+
+```mermaid
+flowchart TD
+    Start(["🚀 Launch SkillVerse"]) --> Auth{"Player State"}
+    Auth -->|"Instant Play"| Guest["⚡ Guest Mode (Local Storage)"]
+    Auth -->|"Returning User"| Login["🔑 Sign In (Cloud Sync)"]
+    Auth -->|"New Explorer"| Register["📝 Register Profile"]
+
+    Guest & Login & Register --> Onboard["👤 Onboarding: Set Name, Age & Interest"]
+    Onboard --> Village["🗺️ 3D Village Map Nexus"]
+
+    Village --> W1["🏠 Home: Explorer Haven"]
+    Village --> W2["🏫 School: Academy of Skills"]
+    Village --> W3["🌾 Farm: Verdant Fields"]
+    Village --> W4["🛒 Market: Bazaar Square"]
+    Village --> W5["🎨 Studio: Creator Studio"]
+
+    W1 & W2 & W3 & W4 & W5 --> Play["🎮 Complete Missions & Practical Challenges"]
+    Play --> Feedback["⚖️ Observe Direct Environmental & Financial Consequences"]
+    Feedback --> Rewards["🏆 Earn XP, Coins, 5-Pillar Stats & Badges"]
+
+    Rewards --> Night["🌙 Night Reflection: Skill Radar & Day Summary"]
+    Night --> Save["💾 Dual-Layer State Save (Cloud + Local)"]
+    Save --> NextDay["🌅 Start Next In-Game Day"]
+    NextDay --> Village
+
+    style Start fill:#e0e7ff,stroke:#6366f1,stroke-width:2px,color:#1e1b4b
+    style Village fill:#d1fae5,stroke:#10b981,stroke-width:2px,color:#064e3b
+    style Rewards fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f
+    style Night fill:#1e1b4b,stroke:#6366f1,stroke-width:2px,color:#e0e7ff
+```
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🏛️ Full-Stack System Architecture
+
+</div>
+
+```mermaid
+flowchart TB
+    subgraph Client["🖥️ CLIENT LAYER (Browser Single Page App)"]
+        UI["React 19 + Vite 8 Runtime"]
+        R3F["Three.js / React Three Fiber\n3D Village Map Nexus"]
+        PhaserEng["Phaser 4 Engine\n2D Farm Grid & Seasonal Simulation"]
+        SVGAvatar["Custom SVG Animation Engine\nMulti-Chamber Home Avatar Controller"]
+        RQ["TanStack React Query\nIn-Memory Cache & Optimistic UI Updates"]
+        LocalStore[("Browser localStorage\nImmediate Offline Persistence")]
+    end
+
+    subgraph Transport["⚡ SYNCHRONISATION LAYER"]
+        APIClient["API Service Layer (services/api.js)\nJWT Bearer Interceptor & Debounce Controller"]
+    end
+
+    subgraph Backend["⚙️ BACKEND LAYER (Node.js & Express REST API)"]
+        ServerCore["Express REST Server\nHelmet · CORS · Rate-Limiting"]
+        AuthRoute["/api/auth\nRegistration · Login · BCrypt Hashes"]
+        SaveRoute["/api/save\nState Sync · Schema Version Migrations"]
+        AchRoute["/api/achievements\nEvent Validation & XP Allocation"]
+    end
+
+    subgraph Storage["🗄️ PERSISTENCE LAYER"]
+        MDB[("MongoDB Atlas Database\nUsers & Saves Collections")]
+    end
+
+    UI --> R3F & PhaserEng & SVGAvatar
+    R3F & PhaserEng & SVGAvatar --> RQ
+    RQ <-->|"Instant Read / Write"| LocalStore
+    RQ -->|"1.5s Batched Debounce"| APIClient
+    APIClient --> ServerCore
+    ServerCore --> AuthRoute & SaveRoute & AchRoute
+    AuthRoute & SaveRoute & AchRoute --> MDB
+
+    style Client fill:#f8fafc,stroke:#64748b,stroke-width:2px
+    style Transport fill:#f0fdf4,stroke:#22c55e,stroke-width:2px
+    style Backend fill:#f5f3ff,stroke:#8b5cf6,stroke-width:2px
+    style Storage fill:#fffbeb,stroke:#f59e0b,stroke-width:2px
+```
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🛠️ Complete Technology Stack
+
+</div>
+
+| Category | Core Technology | Primary Role in SkillVerse |
+| :--- | :--- | :--- |
+| **Frontend Framework** | [React 19](https://react.dev/) + [Vite](https://vitejs.dev/) | Component architecture, responsive state & rapid HMR |
+| **3D World Engine** | [Three.js](https://threejs.org/) + [R3F](https://r3f.docs.pmnd.rs/) | Top-down 3D village map with custom water shaders |
+| **2D Simulation** | [Phaser 4](https://phaser.io/) | Agricultural grid tile physics & crop cycle simulation |
+| **Styling & UI** | [TailwindCSS 4](https://tailwindcss.com/) + [Motion](https://motion.dev/) | Modern dark-mode styling and micro-animations |
+| **Backend & Cloud API** | [Node.js](https://nodejs.org/) + [Express 4](https://expressjs.com/) | RESTful API server for identity and cloud save sync |
+| **Database & ODM** | [MongoDB Atlas](https://www.mongodb.com/) + [Mongoose](https://mongoosejs.com/) | Cloud persistence for player progression and badges |
+| **Security & Auth** | [JWT](https://jwt.io/) + [bcryptjs](https://github.com/dcodeIO/bcrypt.js) | Authenticated sessions with hashed credentials |
+
+---
+
+<br/>
+
+<div align="center">
+
+# 📂 Repository Blueprint
+
+</div>
+
+```text
+SkillVerse/
+├── public/                       # Static public assets (logo, avatars, 3D GLB models)
+├── src/                          # Frontend Application Source (React 19)
+│   ├── main.jsx                  # Entry point with LoaderGate
+│   ├── App.jsx                   # Central route architecture & route protection
+│   ├── config/locations.js       # Registry for all world coordinates & metadata
+│   ├── pages/                    # Core top-level page views (Home, School, Farm, Market, Studio)
+│   ├── features/                 # Modular domain feature slices
+│   │   ├── achievements/         # 5-tier badge registry & event processing
+│   │   ├── auth/                 # Authentication context & JWT token management
+│   │   ├── computer/             # Typing tutor, block coding, Python debugging
+│   │   ├── english/              # Quiz games, word vault, dialogue builders
+│   │   ├── farm/                 # Phaser 4 crop simulation & weather engine
+│   │   ├── home/                 # Multi-room avatar layouts & 12 mini-games
+│   │   ├── market/               # Skillz Market simulator & CEO Decision Room
+│   │   ├── player/               # usePlayer hook: state orchestrator & cloud sync
+│   │   ├── science/              # Biology, Chemistry, Physics sub-hubs & labs
+│   │   ├── studio/               # World Builder, Invention Lab, Story Studio, Design Atelier
+│   │   └── world/                # 3D and SVG interactive village map components
+│   └── services/                 # API client (Axios/fetch) & saveManager.js
+├── server/                       # Backend REST Application (Node.js/Express)
+│   ├── src/models/               # User.js and Save.js Mongoose schemas
+│   └── src/routes/               # /auth, /save, /achievements endpoints
+└── docs/                         # WORLD_PROGRESS_GUIDE.md integration docs
+```
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🚀 Quickstart & Installation
+
+</div>
+
+### Step 1: System Requirements
+- **Node.js:** `v18.0.0` or higher ([Download](https://nodejs.org/))
+- **npm:** `v9.0.0` or higher
+- **MongoDB:** Local instance (`mongodb://localhost:27017`) or free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster
+
+---
+
+### Step 2: Clone the Project
+```bash
+git clone https://github.com/your-username/SkillVerse.git
+cd SkillVerse/IEEE_GamifiedLearning
+```
+
+---
+
+### Step 3: Install Frontend & Backend Dependencies
+```bash
+# Install frontend packages (in root)
+npm install
+
+# Install backend packages
+cd server
+npm install
+cd ..
+```
+
+---
+
+### Step 4: Configure Environment Variables
+```bash
+cp server/.env.example server/.env
+```
+Edit `server/.env` with your settings:
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/skillverse
+JWT_SECRET=skillverse_super_secret_jwt_key_2026
+JWT_EXPIRES_IN=7d
+CLIENT_ORIGIN=http://localhost:5173
+```
+
+---
+
+### Step 5: Run the Backend & Frontend Servers
+In terminal 1 (Backend):
+```bash
+cd server
+npm run dev
+```
+In terminal 2 (Frontend):
+```bash
+npm run dev
+```
+
+Open **`http://localhost:5173`** in your browser. Choose **Guest Mode** for instant offline play, or create an account for full cloud saves!
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🧪 Testing & Verification
+
+</div>
+
+SkillVerse includes dedicated test suites for its simulation models, story graphs, and achievement engines:
+
+```bash
+# Run all Creative Studio test suites (World Builder, Story Studio, Engine)
+npm run test:studio
+
+# Run Story Studio branching, export, and schema tests
+npm run test:story
+
+# Run World Builder pipeline network and construction budget tests
+npm run test:world
+
+# Run Market World cashier logic and CEO decision tests
+npm run test:market
+
+# Run Achievement Engine milestone validation tests
+npm run test:achievements
+```
+
+---
+
+<br/>
+
+<div align="center">
+
+# 🗺️ Development Roadmap
+
+</div>
+
+| Phase | Milestone | Status |
+| :--- | :--- | :---: |
+| **Phase 1** | **Core Exploration:** 3D village map, Home World avatar movement, 12 stations | ✅ Complete |
+| **Phase 2** | **STEM & Vocational Wings:** Typing tutor, Python debugging, Phaser 4 crop grid | ✅ Complete |
+| **Phase 3** | **Commerce & Economy:** Skillz Market cashiering, CEO Decision Room simulation | ✅ Complete |
+| **Phase 4** | **Creative Studio:** World Builder pipeline crisis, Story Studio branching narratives | ✅ Complete |
+| **Phase 5** | **Cloud & Resilience:** Dual-layer persistence, JWT auth, MongoDB Atlas integration | ✅ Complete |
+| **Phase 6** | **Expansion (Planned):** Animal husbandry in Farm World, multiplayer collaborative builders | 🔄 In Progress |
+
+---
 
 <br/>
 
 ## 👩‍💻 Meet the Team — *The CodeX*
-
 **Sardar Vallabhbhai National Institute of Technology · Surat, Gujarat**
 
 | Avatar | Member | Role | Owns |
-|:---:|---|---|---|
-| <img src="https://placehold.co/80x80/6a0dad/ffffff?text=SS&font=montserrat" width="60"/> | **Samridh Sethi** *(Lead)* | 🏫 School World Lead | Communication & Digital Lab: body-language challenge, teamwork game, typing & coding puzzles |
-| <img src="https://placehold.co/80x80/2e7d32/ffffff?text=SM&font=montserrat" width="60"/> | **Shiva Shankar Malekar** | 🏠 Home World Lead | Water-leak event, electrical-safety decisions, waste-sorting |
-| <img src="https://placehold.co/80x80/558b2f/ffffff?text=SP&font=montserrat" width="60"/> | **Shaurya Prajapati** | 🌾 Farm World Lead | Crop grid, water-budget allocation, weather events, sustainability dashboard |
-| <img src="https://placehold.co/80x80/c2185b/ffffff?text=AS&font=montserrat" width="60"/> | **Arpita Soholkar** | 🛒 Market World Lead | Sell-to-buyer flow, negotiation mini-game, profit calculation |
-| <img src="https://placehold.co/80x80/1565c0/ffffff?text=LC&font=montserrat" width="60"/> | **Lavanya Choukiker** | 📣 Marketing Lead | Ad creation, packaging mini-games, customer-reaction scoring |
-| <img src="https://placehold.co/80x80/e6a817/ffffff?text=SP&font=montserrat" width="60"/> | **Shreya Patil** | ⚙️ Systems & Integration Lead | Shared game-state schema, day loop, XP/coins/badges |
+| :---: | :--- | :--- | :--- |
+| ![SS](https://img.shields.io/badge/SS-6b21a8?style=for-the-badge&logoColor=white) | **Samridh Sethi** *(Lead)* | 🏫 School World Lead | Communication & Digital Lab: body-language challenge, teamwork game, typing & coding puzzles |
+| ![SM](https://img.shields.io/badge/SM-15803d?style=for-the-badge&logoColor=white) | **Shiva Shankar Malekar** | 🏠 Home World Lead | Water-leak event, electrical-safety decisions, waste-sorting |
+| ![SP](https://img.shields.io/badge/SP-4d7c0f?style=for-the-badge&logoColor=white) | **Shaurya Prajapati** | 🌾 Farm World Lead | Crop grid, water-budget allocation, weather events, sustainability dashboard |
+| ![AS](https://img.shields.io/badge/AS-be185d?style=for-the-badge&logoColor=white) | **Arpita Soholkar** | 🛒 Market World Lead | Sell-to-buyer flow, negotiation mini-game, profit calculation |
+| ![LC](https://img.shields.io/badge/LC-0369a1?style=for-the-badge&logoColor=white) | **Lavanya Choukiker** | 📢 Marketing Lead | Ad creation, packaging mini-games, customer-reaction scoring |
+| ![SP](https://img.shields.io/badge/SP-b45309?style=for-the-badge&logoColor=white) | **Shreya Patil** | ⚙️ Systems & Integration Lead | Shared game-state schema, day loop, XP/coins/badges |
 
-<br/>
-
-## 🚀 Getting Started
-
-### Frontend Setup & Run
-```bash
-# install dependencies
-npm install
-
-# run locally
-npm run dev
-```
-Then open the local URL in your browser and start your first in-game day! 🌅
-
-### Backend Setup & Run
-```bash
-# navigate to backend directory
-cd backend
-
-# install dependencies
-npm install
-
-# run locally
-npm start
-```
-The backend server runs on `http://localhost:3000`.
-
-## 🏫 School World Features
-- **Mathematics (Math Market):** Shop for items within a given budget, calculating totals and remaining balances dynamically.
-- **Science (Science Lab):** Interactive plant growth simulator where players experiment with water and sunlight variables to observe consequences.
-- **Communication (Team Project):** Assign different students to appropriate roles based on their individual strengths to learn teamwork.
-- **Digital Skills (Digital Lab):** A debugging mini-game where the player must fix a broken algorithm sequence to help a robot reach its target.
-
-## 🎮 Game Mechanics
-- **Consequence-Driven Learning:** Making wrong choices (e.g. overwatering a plant, exceeding budget) isn't punished by failure, but visually demonstrated through consequence.
-- **Skill Pillars:** Completing tasks grants specific skill point progression (e.g. Math skill, Science skill) alongside XP and Coins.
-- **Immediate Rewards:** Meaningful visual feedback and direct increments to global game-state immediately upon activity completion.
-
-## 📡 API Endpoints (Backend)
-- `GET /api/player/:id` - Fetch player global game state.
-- `GET /api/player/:id/progress` - Fetch player progress.
-- `POST /api/player/:id/progress` - Update player progress.
-- `POST /api/player/:id/reward` - Add XP, coins, and specific skill points to the player.
-- `POST /api/player/:id/activity` - Log a completed activity.
-- `GET /api/school/:id/progress` - Fetch specific School World activity completion states.
-
-## 📁 Folder Structure
-```
-/project-root
-    /src               # Frontend Game Code (React/Vite)
-        /components
-        /config
-        /features
-        /pages         # Contains SchoolWorld.jsx, HomeWorld.jsx
-    /backend           # Lightweight Express Backend
-        server.js
-        package.json
-    README.md
-```
-
-## 🔄 Global Game State Integration
-The School World strictly utilizes the existing `usePlayer` hook (`@tanstack/react-query`) to mutate global state. Instead of isolating data, School World completions write directly into the shared state:
-```json
-{
-    "xp": 280,
-    "coins": 85,
-    "skills": {
-        "math": 10,
-        "science": 5,
-        "communication": 5,
-        "digital": 10
-    }
-}
-```
-This ensures a cohesive SkillVerse experience across all domains!
-
-<br/>
-
-## 📜 License
-
-This project is submitted for the **IEEE WIE ILS 2026 National Hackathon**. License to be finalized by the team — MIT recommended for open collaboration.
+---
 
 <br/>
 
 <div align="center">
 
-### 🌸 *Powering Solutions. Empowering Women. Shaping Tomorrow.* 🌸
+# 📜 License
 
-Made with 💜 by **Team The CodeX**
+</div>
+
+Built for the **IEEE WIE ILS 2026 National Hackathon** at Sardar Vallabhbhai National Institute of Technology (SVNIT), Surat. Distributed under the **MIT License**.
+
+---
+
+<div align="center">
+
+<img src="public/assets/skillverse/logo.png" alt="SkillVerse" width="55"/>
+
+<br/>
+
+### *Live a Day. Learn a Life.*
+
+**Crafted with 💜 for IEEE WIE ILS 2026 National Hackathon**<br/>
+<sub><em>Empower to Inspire: Thriving Together for an Inclusive and Sustainable Future</em></sub>
 
 </div>
