@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Volume2, VolumeX, RotateCcw, ClipboardList, Check } from "lucide-react";
+import { ArrowLeft, Volume2, VolumeX, RotateCcw, ClipboardList, Check, Briefcase } from "lucide-react";
 import "../market-ui.css";
 
 export default function MarketHUD({
@@ -8,7 +8,8 @@ export default function MarketHUD({
   goals = [],
   isMuted = false,
   onToggleMute,
-  onRestartDay
+  onRestartDay,
+  onOpenBusinessGrowth,
 }) {
   return (
     <header className="sv-root sv-hud">
@@ -73,6 +74,16 @@ export default function MarketHUD({
             );
           })}
         </div>
+
+        <button
+          onClick={onOpenBusinessGrowth}
+          title="Store Expansion & Business Strategy Lab"
+          aria-label="Business Strategy"
+          className="sv-glass sv-iconbtn"
+          style={{ background: "rgba(245, 158, 11, 0.25)", borderColor: "rgba(245, 158, 11, 0.7)" }}
+        >
+          <Briefcase className="text-amber-500" />
+        </button>
 
         <button
           onClick={onToggleMute}

@@ -5,6 +5,7 @@
  */
 
 import api, { ApiError } from "@/services/api";
+import { normalizeAchievements } from "@/features/achievements/engine/achievementEngine";
 
 export const STORAGE_KEY = "skillverse_save"; // Matches usePlayer.js - DO NOT CHANGE
 export const QUEUE_KEY = "skillverse_save_queue";
@@ -45,6 +46,9 @@ export function migrateState(rawState, fromVersion = 1) {
   if (typeof state.day !== "number" || state.day < 1) {
     state.day = 1;
   }
+
+  // Ensure achievements object is normalized
+  state.achievements = normalizeAchievements(state.achievements);
 
   // Future version migration hooks
   if (fromVersion < 1) {
