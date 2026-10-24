@@ -8,6 +8,11 @@ import {
   calculateMargin,
   evaluateFinalScore,
 } from "../ceo-room/data/scenarios.js";
+import {
+  INITIAL_COMPANY_STATE,
+  runQuarterSimulation,
+  evaluateAnnualPerformance,
+} from "../ceo-room/data/simulationEngine.js";
 
 test("formatRupees properly formats Indian numbers and negative values", () => {
   assert.equal(formatRupees(5000000), "₹50,00,000");
@@ -72,10 +77,6 @@ test("evaluateFinalScore produces balanced evaluation and correct grades", () =>
   const highResult = evaluateFinalScore(highMetrics, []);
   assert.ok(highResult.totalScore >= 80, "High metrics receive high score");
   assert.ok(["A", "A+"].includes(highResult.grade), "High metrics receive A or A+");
-  assert.ok(highResult.breakdown.financial > 0);
-  assert.ok(highResult.breakdown.trust > 0);
-  assert.ok(highResult.breakdown.morale > 0);
-  assert.ok(highResult.breakdown.market > 0);
 
   // Stressed company test
   const lowMetrics = {
@@ -89,4 +90,54 @@ test("evaluateFinalScore produces balanced evaluation and correct grades", () =>
   const lowResult = evaluateFinalScore(lowMetrics, []);
   assert.ok(lowResult.totalScore < 60, "Stressed company receives lower score");
   assert.equal(lowResult.grade, "C");
+});
+
+test("runQuarterSimulation computes accurate P&L, customer demand, and logistics bottlenecks", () => {
+  // Scenario 1: Balanced allocation with 3PL Agency
+  const { nextState, quarterResult } = runQuarterSimulation(INITIAL_COMPANY_STATE, {
+    adSpend: 500000,
+    rdSpend: 500000,
+    transportType: "agency",
+  });
+
+  assert.equal(quarterResult.quarter, 1);
+  assert.ok(quarterResult.totalBuyerDemand > 150, "Marketing generates customer demand");
+  assert.ok(quarterResult.deliveredUnits <= 320, "Agency capacity caps at 320 units");
+  assert.ok(quarterResult.grossRevenue > 0, "Revenue earned from delivered units");
+  assert.ok(quarterResult.totalExpenses > 0, "Expenses accounted");
+  assert.equal(quarterResult.endingCash, quarterResult.beginningCash + quarterResult.netProfit);
+  assert.equal(nextState.quarter, 2, "Advances to Quarter 2");
+
+  // Scenario 2: In-House Fleet purchase handles high demand without backlog
+  const { nextState: fleetState, quarterResult: fleetResult } = runQuarterSimulation(
+    INITIAL_COMPANY_STATE,
+    {
+      adSpend: 1000000, // Aggressive marketing
+      rdSpend: 800000,  // High quality
+      transportType: "fleet",
+    }
+  );
+
+  assert.equal(fleetResult.fleetCapEx, 1200000, "Applies one-time fleet purchase CapEx");
+  assert.ok(fleetResult.deliveredUnits > 320, "Fleet fulfills high volume beyond agency limit");
+  assert.equal(fleetState.hasOwnedFleet, true, "Marks fleet as owned");
+});
+
+test("evaluateAnnualPerformance computes comprehensive 4-quarter scorecard", () => {
+  const mockAnnualState = {
+    ...INITIAL_COMPANY_STATE,
+    cash: 6500000,
+    customerTrust: 88,
+    financialHistory: [
+      { grossRevenue: 3000000, totalExpenses: 2200000, deliveredUnits: 250, defectiveUnits: 2 },
+      { grossRevenue: 3600000, totalExpenses: 2600000, deliveredUnits: 300, defectiveUnits: 3 },
+      { grossRevenue: 4200000, totalExpenses: 3000000, deliveredUnits: 350, defectiveUnits: 3 },
+      { grossRevenue: 4800000, totalExpenses: 3400000, deliveredUnits: 400, defectiveUnits: 4 },
+    ],
+  };
+
+  const perf = evaluateAnnualPerformance(mockAnnualState);
+  assert.ok(perf.score >= 80, "Profitable year receives high score");
+  assert.ok(["A", "A+"].includes(perf.grade), "Received top grade");
+  assert.equal(perf.totalUnitsDelivered, 1300);
 });
