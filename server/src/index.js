@@ -11,6 +11,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const saveRoutes = require("./routes/save");
 const healthRoutes = require("./routes/health");
+const achievementRoutes = require("./routes/achievements");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,6 +48,7 @@ app.use(express.urlencoded({ extended: true, limit: "500kb" }));
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/save", saveRoutes);
+app.use("/api/achievements", achievementRoutes);
 
 // 404 Handler
 app.use((req, res) => {

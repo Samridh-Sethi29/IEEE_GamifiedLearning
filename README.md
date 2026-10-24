@@ -273,19 +273,77 @@ gantt
 
 ## 🚀 Getting Started
 
+### Frontend Setup & Run
 ```bash
-# clone the repo
-git clone https://github.com/<your-org>/skillverse.git
-cd skillverse
-
 # install dependencies
 npm install
 
 # run locally
 npm run dev
 ```
-
 Then open the local URL in your browser and start your first in-game day! 🌅
+
+### Backend Setup & Run
+```bash
+# navigate to backend directory
+cd backend
+
+# install dependencies
+npm install
+
+# run locally
+npm start
+```
+The backend server runs on `http://localhost:3000`.
+
+## 🏫 School World Features
+- **Mathematics (Math Market):** Shop for items within a given budget, calculating totals and remaining balances dynamically.
+- **Science (Science Lab):** Interactive plant growth simulator where players experiment with water and sunlight variables to observe consequences.
+- **Communication (Team Project):** Assign different students to appropriate roles based on their individual strengths to learn teamwork.
+- **Digital Skills (Digital Lab):** A debugging mini-game where the player must fix a broken algorithm sequence to help a robot reach its target.
+
+## 🎮 Game Mechanics
+- **Consequence-Driven Learning:** Making wrong choices (e.g. overwatering a plant, exceeding budget) isn't punished by failure, but visually demonstrated through consequence.
+- **Skill Pillars:** Completing tasks grants specific skill point progression (e.g. Math skill, Science skill) alongside XP and Coins.
+- **Immediate Rewards:** Meaningful visual feedback and direct increments to global game-state immediately upon activity completion.
+
+## 📡 API Endpoints (Backend)
+- `GET /api/player/:id` - Fetch player global game state.
+- `GET /api/player/:id/progress` - Fetch player progress.
+- `POST /api/player/:id/progress` - Update player progress.
+- `POST /api/player/:id/reward` - Add XP, coins, and specific skill points to the player.
+- `POST /api/player/:id/activity` - Log a completed activity.
+- `GET /api/school/:id/progress` - Fetch specific School World activity completion states.
+
+## 📁 Folder Structure
+```
+/project-root
+    /src               # Frontend Game Code (React/Vite)
+        /components
+        /config
+        /features
+        /pages         # Contains SchoolWorld.jsx, HomeWorld.jsx
+    /backend           # Lightweight Express Backend
+        server.js
+        package.json
+    README.md
+```
+
+## 🔄 Global Game State Integration
+The School World strictly utilizes the existing `usePlayer` hook (`@tanstack/react-query`) to mutate global state. Instead of isolating data, School World completions write directly into the shared state:
+```json
+{
+    "xp": 280,
+    "coins": 85,
+    "skills": {
+        "math": 10,
+        "science": 5,
+        "communication": 5,
+        "digital": 10
+    }
+}
+```
+This ensures a cohesive SkillVerse experience across all domains!
 
 <br/>
 

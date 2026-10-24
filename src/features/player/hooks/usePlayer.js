@@ -2,6 +2,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useRef } from "react";
 import api from "@/services/api";
 import { migrateState, SCHEMA_VERSION } from "@/services/saveManager";
+import {
+  DEFAULT_ACHIEVEMENTS,
+  normalizeAchievements,
+  processGameplayEvent,
+} from "@/features/achievements/engine/achievementEngine";
 
 // Local storage key used as offline/guest cache
 const STORAGE_KEY = "skillverse_save";
@@ -47,6 +52,7 @@ export const DEFAULT_PLAYER = {
     streak: 0,
     bestStreak: 0,
   },
+  achievements: DEFAULT_ACHIEVEMENTS,
 };
 
 /**
@@ -159,6 +165,9 @@ export function usePlayer() {
             ...updates.computerProgress,
           };
         }
+        if (updates.achievements) {
+          next.achievements = normalizeAchievements(updates.achievements);
+        }
 
         persistToCloud(next);
         return next;
@@ -265,6 +274,63 @@ export function usePlayer() {
     [player, updatePlayer]
   );
 
+  const recordGameplayEvent = useCallback(
+    (event) => {
+      if (!event || !event.type) return { newlyUnlocked: [], xpAwarded: 0 };
+
+      const eventWithId = {
+        ...event,
+        eventId:
+          event.eventId ||
+          `${event.type}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      };
+
+      const currentAchievements = normalizeAchievements(player.achievements);
+      const { nextAchievements, newlyUnlocked, xpAwarded } = processGameplayEvent(
+        currentAchievements,
+        eventWithId
+      );
+
+      const updates = {
+        achievements: nextAchievements,
+      };
+
+      if (newlyUnlocked.length > 0) {
+        const newXP = (player.xp || 0) + xpAwarded;
+        const newLevel = Math.floor(newXP / 100) + 1;
+        updates.xp = newXP;
+        updates.level = newLevel;
+
+        const currentBadges = Array.isArray(player.badges) ? player.badges : [];
+        const newBadgeIds = newlyUnlocked.map((b) => b.id);
+        updates.badges = Array.from(new Set([...currentBadges, ...newBadgeIds]));
+
+        // Dispatch browser window event for in-game celebration toasts
+        if (typeof window !== "undefined") {
+          newlyUnlocked.forEach((badge) => {
+            window.dispatchEvent(
+              new CustomEvent("skillverse:achievement-unlocked", {
+                detail: badge,
+              })
+            );
+          });
+        }
+      }
+
+      updatePlayer(updates);
+
+      // Async cloud event synchronization if authenticated
+      if (api.getToken()) {
+        api.postAchievementEvent(eventWithId).catch((err) => {
+          console.warn("[usePlayer] Cloud achievement event logging error:", err?.message);
+        });
+      }
+
+      return { newlyUnlocked, xpAwarded, nextAchievements };
+    },
+    [player, updatePlayer]
+  );
+
   /**
    * Triggers a fresh fetch from MongoDB (e.g. after login so cloud data
    * immediately replaces any stale local data).
@@ -285,6 +351,7 @@ export function usePlayer() {
     markWorldCompleted,
     startNewDay,
     saveEnglishProgress,
+    recordGameplayEvent,
     reloadFromCloud,
   };
 }

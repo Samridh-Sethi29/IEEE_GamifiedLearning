@@ -5,6 +5,7 @@ import CheckoutModal from "./CheckoutModal";
 import RestockModal from "./RestockModal";
 import ShelfDetailModal from "./ShelfDetailModal";
 import DaySummaryModal from "./DaySummaryModal";
+import BusinessGrowthModal from "./BusinessGrowthModal";
 import VirtualControls from "./VirtualControls";
 import { PRODUCTS, DEFAULT_GOALS } from "../utils/constants";
 import { generateCustomer } from "../utils/marketLogic";
@@ -67,7 +68,7 @@ function createInitialCustomers(inv, count = 3) {
 }
 
 export default function SkillzMarketGame() {
-  const { player, earnXP, addCoins, markWorldCompleted } = usePlayer();
+  const { player, earnXP, addCoins, spendCoins, markWorldCompleted, recordGameplayEvent } = usePlayer();
 
   // Dynamic viewport tracking
   const [viewport, setViewport] = useState({
@@ -267,8 +268,18 @@ export default function SkillzMarketGame() {
   const [isShelfDetailOpen, setIsShelfDetailOpen] = useState(false);
   const [selectedShelfCategory, setSelectedShelfCategory] = useState("drinks");
   const [isGameCompletedOpen, setIsGameCompletedOpen] = useState(false);
+  const [isBusinessGrowthOpen, setIsBusinessGrowthOpen] = useState(false);
 
-  const anyModalOpen = isCheckoutOpen || isRestockOpen || isShelfDetailOpen || isGameCompletedOpen;
+  const [upgrades, setUpgrades] = useState(() => {
+    try {
+      const stored = localStorage.getItem("skillz_market_upgrades");
+      return stored ? JSON.parse(stored) : { newShelf: false, largerSpace: false, moreCustomers: false };
+    } catch {
+      return { newShelf: false, largerSpace: false, moreCustomers: false };
+    }
+  });
+
+  const anyModalOpen = isCheckoutOpen || isRestockOpen || isShelfDetailOpen || isGameCompletedOpen || isBusinessGrowthOpen;
   const anyModalOpenRef = useRef(anyModalOpen);
   anyModalOpenRef.current = anyModalOpen;
 
@@ -799,6 +810,36 @@ export default function SkillzMarketGame() {
     addCoins(revenue);
     earnXP(40);
 
+    // Calculate real COGS and net business profit
+    const cogs = servedCustomer.items.reduce((sum, item) => {
+      const restock = PRODUCTS[item.productId]?.restockCost || Math.round((item.unitPrice || 20) * 0.6);
+      return sum + ((item.quantity || 1) * restock);
+    }, 0);
+    const saleNetProfit = Math.max(0, revenue - cogs);
+
+    // Authoritative event evaluation for achievements
+    const saleEventId = `sale_${Date.now()}_${servedCustomer.id}`;
+    recordGameplayEvent({
+      type: "SALE_COMPLETED",
+      eventId: saleEventId,
+      payload: {
+        revenue,
+        billTotal: revenue,
+        cogs,
+        profit: saleNetProfit,
+        items: servedCustomer.items,
+        satisfaction: 95,
+      },
+    });
+
+    recordGameplayEvent({
+      type: "CUSTOMER_SERVED",
+      eventId: `cust_${Date.now()}_${servedCustomer.id}`,
+      payload: {
+        satisfaction: 95,
+      },
+    });
+
     // Update daily stats
     setDailyStats((prev) => ({
       ...prev,
@@ -823,6 +864,19 @@ export default function SkillzMarketGame() {
       // Check if all goals are completed
       const allCompleted = nextGoals.every((g) => g.completed || g.current >= g.target);
       if (allCompleted) {
+        recordGameplayEvent({
+          type: "MARKET_DAY_COMPLETED",
+          eventId: `mkt_day_${Date.now()}`,
+          payload: {
+            dayRevenue: revenue,
+            dayExpenses: cogs,
+            dayNetProfit: Math.max(1, revenue - cogs),
+            stockouts: 0,
+            waste: 0,
+            avgSatisfaction: 95,
+          },
+        });
+
         setTimeout(() => {
           marketAudio.playFanfare();
           setIsGameCompletedOpen(true);
@@ -965,6 +1019,7 @@ export default function SkillzMarketGame() {
             marketAudio.setMuted(next);
           }}
           onRestartDay={handleRestartDay}
+          onOpenBusinessGrowth={() => setIsBusinessGrowthOpen(true)}
         />
 
         {/* 2. MAIN 2D GAME CANVAS AREA */}
@@ -1033,6 +1088,26 @@ export default function SkillzMarketGame() {
           onReturnToMap={() => {
             window.location.href = "/world";
           }}
+        />
+
+        {/* 8. BUSINESS GROWTH & EXPANSION LAB */}
+        <BusinessGrowthModal
+          isOpen={isBusinessGrowthOpen}
+          onClose={() => setIsBusinessGrowthOpen(false)}
+          coins={player.coins}
+          onSpendCoins={spendCoins}
+          achievements={player.achievements}
+          onRecordEvent={(ev) => {
+            if (ev.type === "SHOP_UPGRADED" && ev.payload?.upgradeId) {
+              const nextUpgrades = { ...upgrades, [ev.payload.upgradeId]: true };
+              setUpgrades(nextUpgrades);
+              try {
+                localStorage.setItem("skillz_market_upgrades", JSON.stringify(nextUpgrades));
+              } catch (e) {}
+            }
+            recordGameplayEvent(ev);
+          }}
+          upgrades={upgrades}
         />
 
       </div>

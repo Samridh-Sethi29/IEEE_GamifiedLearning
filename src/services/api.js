@@ -154,6 +154,19 @@ class ApiService {
     return this.put("/save", savePayload);
   }
 
+  // Achievement Endpoints
+  getAchievementDefinitions() {
+    return this.get("/achievements/definitions");
+  }
+
+  getAchievements() {
+    return this.get("/achievements");
+  }
+
+  postAchievementEvent(eventPayload) {
+    return this.post("/achievements/event", eventPayload);
+  }
+
   // Health
   checkHealth() {
     return this.get("/health");
