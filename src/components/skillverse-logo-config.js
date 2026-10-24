@@ -1,28 +1,137 @@
 /**
- * Skillverse loader layers — cut from the ORIGINAL artwork (public/assets/skillverse/*.webp).
- * Each layer is a transparent crop of the real logo; stacked at `box` (% of the logo square,
- * [left, top, width, height]) they rebuild the original exactly. Nothing is redrawn.
- * Paint order = array order. `at` = entrance start (s). `from` = fly-in offset (% of logo size).
+ * Skillverse loader layer map (generated from the ORIGINAL artwork).
+ *
+ * The original logo was cut into aligned, transparent layers (planet, rings, 4 skill icons,
+ * boy, girl, 5 stars, wordmark, controller). Each layer is the real artwork pixels, positioned
+ * with percentages of the 1254x1254 composition, so stacked at rest they reproduce the
+ * original logo. Nothing is redrawn.
+ *
+ * x / y / w / h are percentages of the full logo box.
  */
-export const ASSET_DIR = "/assets/skillverse/";
+const BASE = "/assets/skillverse/layers/";
+export const LOGO_FULL = "/assets/skillverse/logo.png"; // the exact assembled logo (reference / fallback)
 
-export const LAYERS = [
-  { id: "base", kind: "planet", at: 0.25, box: [0.0, 0.0, 100.0, 100.0] },
-  // (the traveling orbit highlight is rendered here, under the icons/characters/wordmark)
-  { id: "iconTools", kind: "icon", at: 0.65, box: [5.66, 25.6, 14.11, 17.07], from: [-32, -10] },
-  { id: "iconChef", kind: "icon", at: 0.75, box: [19.94, 11.72, 16.67, 14.43], from: [-20, -34] },
-  { id: "iconPalette", kind: "icon", at: 0.85, box: [62.36, 11.56, 16.91, 15.15], from: [20, -34] },
-  { id: "iconCode", kind: "icon", at: 0.95, box: [79.19, 27.83, 15.23, 14.83], from: [32, -10] },
-  { id: "girl", kind: "char", at: 1.0, box: [48.41, 31.34, 32.38, 30.06] },
-  { id: "boy", kind: "char", at: 1.08, box: [17.78, 22.97, 35.09, 36.68] },
-  { id: "word", kind: "word", at: 1.25, box: [5.26, 55.42, 88.84, 25.6] },
-  { id: "pad", kind: "pad", at: 1.5, box: [36.12, 74.4, 24.32, 12.36] },
-  { id: "star0", kind: "star", at: 1.15, box: [46.41, 8.85, 5.42, 6.22] },
-  { id: "star1", kind: "star", at: 1.32, box: [32.3, 76.63, 4.39, 4.39] },
-  { id: "star2", kind: "star", at: 1.4, box: [54.63, 72.41, 4.39, 4.39] },
-  { id: "star3", kind: "star", at: 1.48, box: [63.72, 83.01, 4.39, 4.39] },
-  { id: "star4", kind: "star", at: 1.56, box: [66.27, 80.78, 4.39, 4.39] },
-];
+export const LAYERS = {
+  "planet": {
+    "file": "planet.webp",
+    "x": 3.03,
+    "y": 7.656,
+    "w": 94.976,
+    "h": 85.008
+  },
+  "rings": {
+    "file": "rings.webp",
+    "x": 2.711,
+    "y": 11.802,
+    "w": 94.338,
+    "h": 71.691
+  },
+  "iconChef": {
+    "file": "iconChef.webp",
+    "x": 19.856,
+    "y": 11.563,
+    "w": 16.268,
+    "h": 16.188
+  },
+  "iconPalette": {
+    "file": "iconPalette.webp",
+    "x": 63.078,
+    "y": 11.404,
+    "w": 16.268,
+    "h": 16.188
+  },
+  "iconTools": {
+    "file": "iconTools.webp",
+    "x": 5.423,
+    "y": 28.309,
+    "w": 16.268,
+    "h": 16.348
+  },
+  "iconCode": {
+    "file": "iconCode.webp",
+    "x": 78.469,
+    "y": 28.549,
+    "w": 16.108,
+    "h": 16.188
+  },
+  "boy": {
+    "file": "boy.webp",
+    "x": 18.979,
+    "y": 22.648,
+    "w": 32.217,
+    "h": 41.547
+  },
+  "girl": {
+    "file": "girl.webp",
+    "x": 47.368,
+    "y": 31.499,
+    "w": 33.573,
+    "h": 32.695
+  },
+  "star0": {
+    "file": "star0.webp",
+    "x": 46.252,
+    "y": 8.373,
+    "w": 6.3,
+    "h": 7.018
+  },
+  "star1": {
+    "file": "star1.webp",
+    "x": 31.818,
+    "y": 76.236,
+    "w": 5.502,
+    "h": 5.502
+  },
+  "star2": {
+    "file": "star2.webp",
+    "x": 54.545,
+    "y": 74.482,
+    "w": 4.545,
+    "h": 4.545
+  },
+  "star3": {
+    "file": "star3.webp",
+    "x": 62.998,
+    "y": 82.616,
+    "w": 5.502,
+    "h": 5.502
+  },
+  "star4": {
+    "file": "star4.webp",
+    "x": 66.188,
+    "y": 80.941,
+    "w": 4.545,
+    "h": 4.545
+  },
+  "word": {
+    "file": "word.webp",
+    "x": 5.502,
+    "y": 57.895,
+    "w": 88.437,
+    "h": 25.678
+  },
+  "pad": {
+    "file": "pad.webp",
+    "x": 36.523,
+    "y": 76.475,
+    "w": 24.322,
+    "h": 12.201
+  }
+};
 
-// Orbital highlight path (ellipse, % of logo square) following the golden ring.
-export const ORBIT = { cx: 44, cy: 37, rx: 37.5, ry: 7, rot: -15 };
+// Planet centre (percent of the full logo box) – spark, ring sweep and shimmer pivot around it.
+export const PLANET_CENTER = { x: 49.2, y: 55.0 };
+
+// Wordmark is animated as 10 letter-slices (percent of the wordmark layer, left/right edges).
+export const WORD_SLICES = [[0.36, 16.14], [16.14, 26.87], [26.87, 32.73], [32.73, 38.59], [38.59, 44.91], [44.91, 58.52], [58.52, 67.27], [67.27, 73.85], [73.85, 82.6], [82.6, 99.64]];
+
+// Fly-in offsets for the four skill icons, in cqw (1cqw = 1% of the logo width).
+export const ICON_FROM = {
+  iconChef:    [-24, -18],
+  iconPalette: [ 24, -18],
+  iconTools:   [-26,  16],
+  iconCode:    [ 26,  16],
+};
+
+export const layerUrl = (L) => BASE + L.file;
+export const ALL_URLS = [...new Set(Object.values(LAYERS).map(layerUrl))];

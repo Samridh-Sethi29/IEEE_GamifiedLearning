@@ -1,93 +1,119 @@
-.svlg{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;
-  background:radial-gradient(circle at 50% 40%,#fffdf6 0%,#fff1d6 100%);overflow:hidden;
-  transition:opacity .42s ease,transform .42s ease}
-.svlg-exit{opacity:0;transform:scale(1.03);pointer-events:none}
+/* Skillverse assembling loader – layered original artwork.
+   Timeline (s): spark 0 · planet .1 · rings .45 · icons .5–.7 · characters .78/.88 ·
+   stars 1.0 · wordmark .94 (+.03 per letter) · controller 1.2 · final sparkle 1.4 · idle from ~1.9 */
+.svlg{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(circle at 50% 42%,#ffffff 0%,#f4f8ff 55%,#e7f0fb 100%);
+  transition:opacity .45s ease}
+.svlg-exit{opacity:0;pointer-events:none}
+.svlg-exit .svlg-stage{transform:scale(1.04);transition:transform .45s ease}
 .svlg-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-.svlg-stage{position:relative;container-type:inline-size;
-  width:min(92vw,720px,82vh);aspect-ratio:1;}
-.svlg-float{position:absolute;inset:0;animation:svlg-float 5s ease-in-out 2s infinite}
-@keyframes svlg-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2%)}}
+.svlg-stage{position:relative;container-type:inline-size;opacity:0;
+  width:min(96vw,92vh,980px);aspect-ratio:1/1}
+.svlg-armed .svlg-stage{opacity:1}
+.svlg-float{position:absolute;inset:0}
+.svlg-armed .svlg-float{animation:svlg-float 5.6s ease-in-out 2s infinite}
+@keyframes svlg-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.1cqw)}}
 
-.svlg-layer{position:absolute;will-change:transform,opacity}
-.svlg-layer img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;pointer-events:none}
-.svlg-inner{position:absolute;inset:0}
+.svlg-layer{position:absolute;pointer-events:none}
+.svlg-in{position:absolute;inset:0}
+.svlg-in img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
 
-/* 1 spark */
-.svlg-spark{position:absolute;left:50%;top:40%;width:8cqw;height:8cqw;margin:-4cqw 0 0 -4cqw;
-  background:radial-gradient(circle,#fff 0 12%,#ffd34d 30%,rgba(255,200,60,0) 70%);
-  clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);
-  animation:svlg-spark .6s ease-out both}
-@keyframes svlg-spark{0%{transform:scale(0) rotate(0);opacity:0}35%{transform:scale(1.4) rotate(45deg);opacity:1}
-  60%{transform:scale(.8) rotate(80deg);opacity:1}100%{transform:scale(0) rotate(130deg);opacity:0}}
-.svlg-glow{position:absolute;left:50%;top:40%;width:44cqw;height:44cqw;margin:-22cqw 0 0 -22cqw;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,214,90,.55),rgba(255,214,90,0) 65%);
-  animation:svlg-glow 1s ease-out .15s both}
-@keyframes svlg-glow{0%{transform:scale(.1);opacity:0}40%{opacity:1}100%{transform:scale(1.2);opacity:0}}
+/* the idle/entrance animations only start once artwork is decoded (.svlg-armed) */
 
-/* 2 planet (+ rings that live in the planet region): scale + a ring-sweep reveal */
-.svlg-planet{animation:svlg-planet .8s cubic-bezier(.34,1.3,.64,1) var(--at) both}
-@keyframes svlg-planet{0%{transform:scale(.1);opacity:0}40%{opacity:1}100%{transform:none;opacity:1}}
-.svlg-planet{transform-origin:50% 45%}
-.svlg-planet .svlg-inner{-webkit-mask-image:conic-gradient(from -90deg at 50% 45%,#000 calc(var(--sweep,360deg) - 14deg),transparent var(--sweep,360deg));
-  mask-image:conic-gradient(from -90deg at 50% 45%,#000 calc(var(--sweep,360deg) - 14deg),transparent var(--sweep,360deg));
-  animation:svlg-sweep .9s cubic-bezier(.4,.1,.2,1) calc(var(--at) + .1s) both}
-@property --sweep{syntax:"<angle>";inherits:true;initial-value:360deg}
-@keyframes svlg-sweep{from{--sweep:150deg}to{--sweep:360deg}}
+/* 1 · spark */
+.svlg-spark,.svlg-final,.svlg-tiny{pointer-events:none;
+  background:radial-gradient(circle,#fff 0 14%,#ffd34d 38%,rgba(255,200,60,0) 72%);
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%)}
+.svlg-spark{position:absolute;width:9cqw;height:9cqw;margin:-4.5cqw 0 0 -4.5cqw;opacity:0}
+.svlg-armed .svlg-spark{animation:svlg-spark .62s ease-out both}
+@keyframes svlg-spark{0%{transform:scale(0) rotate(0);opacity:0}35%{transform:scale(1.3) rotate(45deg);opacity:1}
+  65%{transform:scale(.8) rotate(80deg);opacity:1}100%{transform:scale(0) rotate(130deg);opacity:0}}
+.svlg-glow{position:absolute;width:52cqw;height:52cqw;margin:-26cqw 0 0 -26cqw;border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(255,214,90,.5),rgba(255,214,90,0) 66%)}
+.svlg-armed .svlg-glow{animation:svlg-glow .95s ease-out .12s both}
+@keyframes svlg-glow{0%{transform:scale(.1);opacity:0}40%{opacity:1}100%{transform:scale(1.15);opacity:0}}
 
-/* 4 icons on curved paths (two axes, different easing) */
-.svlg-icon{animation:svlg-ix .85s cubic-bezier(.2,.8,.25,1) var(--at) both}
-.svlg-icon .svlg-inner{animation:svlg-iy .85s cubic-bezier(.34,1.4,.64,1) var(--at) both}
-@keyframes svlg-ix{0%{transform:translateX(var(--fx));opacity:0}30%{opacity:1}100%{transform:none;opacity:1}}
-@keyframes svlg-iy{0%{transform:translateY(var(--fy)) scale(.6)}100%{transform:none}}
+/* 2 · planet */
+.svlg-planet{transform-origin:var(--px) var(--py);opacity:0}
+.svlg-armed .svlg-planet{animation:svlg-planet .78s cubic-bezier(.25,.8,.3,1) .1s both}
+@keyframes svlg-planet{0%{transform:scale(.12);opacity:0}30%{opacity:1}75%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
 
-/* 5 characters rise + settle, then breathe */
-.svlg-char{transform-origin:50% 100%;animation:svlg-char .85s cubic-bezier(.3,1.25,.55,1) var(--at) both}
-.svlg-char .svlg-inner{transform-origin:50% 100%;animation:svlg-breathe 4s ease-in-out 2.2s infinite}
-@keyframes svlg-char{0%{transform:translateY(14%) scale(.92);opacity:0}40%{opacity:1}
-  72%{transform:translateY(-1.2%) scale(1.01)}100%{transform:none;opacity:1}}
-@keyframes svlg-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.012,1.018)}}
+/* 3 · rings: rotate-in + conic sweep reveal around the planet centre */
+@property --sw{syntax:"<angle>";inherits:false;initial-value:360deg}
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+.svlg-rings{transform-origin:var(--px) var(--py);opacity:0}
+.svlg-armed .svlg-rings{animation:svlg-ringin .8s cubic-bezier(.3,.7,.3,1) .42s both}
+.svlg-armed .svlg-rings .svlg-in{
+  -webkit-mask-image:conic-gradient(from -100deg at var(--px) var(--py),#000 0,#000 var(--sw),transparent calc(var(--sw) + .6deg));
+  mask-image:conic-gradient(from -100deg at var(--px) var(--py),#000 0,#000 var(--sw),transparent calc(var(--sw) + .6deg));
+  animation:svlg-sweep .8s cubic-bezier(.45,.1,.25,1) .42s both}
+@keyframes svlg-ringin{0%{transform:rotate(-16deg) scale(.9);opacity:0}25%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes svlg-sweep{from{--sw:0deg}to{--sw:360deg}}
+.svlg-settled .svlg-rings .svlg-in{-webkit-mask-image:none;mask-image:none;animation:none}
 
-/* 7 wordmark: quick staggered entrance (masked slices so letters arrive left→right) */
-.svlg-word{animation:svlg-word .6s cubic-bezier(.34,1.4,.64,1) var(--at) both}
-.svlg-word .svlg-inner{-webkit-mask-image:linear-gradient(90deg,#000 var(--wipe,100%),transparent calc(var(--wipe,100%) + 8%));
-  mask-image:linear-gradient(90deg,#000 var(--wipe,100%),transparent calc(var(--wipe,100%) + 8%));
-  animation:svlg-wipe .7s cubic-bezier(.3,.7,.3,1) var(--at) both}
-@property --wipe{syntax:"<percentage>";inherits:true;initial-value:100%}
-@keyframes svlg-wipe{from{--wipe:-8%}to{--wipe:100%}}
-@keyframes svlg-word{0%{transform:translateY(18%) scale(.85);opacity:0}55%{transform:translateY(-2%) scale(1.04);opacity:1}100%{transform:none;opacity:1}}
+/* idle: travelling highlight on the rings (bright wedge circling the planet) */
+.svlg-shine{opacity:0;transform-origin:var(--px) var(--py)}
+.svlg-shine .svlg-in{filter:brightness(2.6) saturate(.4);
+  -webkit-mask-image:conic-gradient(from calc(var(--ang) - 90deg) at var(--px) var(--py),transparent 0deg,#000 12deg,transparent 30deg,transparent 360deg);
+  mask-image:conic-gradient(from calc(var(--ang) - 90deg) at var(--px) var(--py),transparent 0deg,#000 12deg,transparent 30deg,transparent 360deg)}
+.svlg-settled .svlg-shine{opacity:.85;transition:opacity .5s}
+.svlg-settled .svlg-shine .svlg-in{animation:svlg-orbit 6s linear infinite}
+@keyframes svlg-orbit{from{--ang:0deg}to{--ang:360deg}}
 
-/* 8 controller: single soft bounce */
-.svlg-pad{transform-origin:50% 100%;animation:svlg-pad .7s cubic-bezier(.3,1.2,.5,1) var(--at) both}
-@keyframes svlg-pad{0%{transform:translateY(40%) scale(.7);opacity:0}55%{transform:translateY(-8%) scale(1.04);opacity:1}
-  80%{transform:translateY(1.5%) scale(.995)}100%{transform:none;opacity:1}}
+/* 4 · icons: two axes with different easing -> curved flight paths */
+.svlg-icon{opacity:0}
+.svlg-armed .svlg-icon{animation:svlg-ix .8s cubic-bezier(.22,.8,.3,1) var(--d) both}
+.svlg-armed .svlg-icon .svlg-in{animation:svlg-iy .8s cubic-bezier(.3,1.3,.55,1) var(--d) both}
+@keyframes svlg-ix{0%{transform:translateX(var(--fx));opacity:0}22%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes svlg-iy{0%{transform:translateY(var(--fy)) scale(.5) rotate(var(--rot))}100%{transform:none}}
+.svlg-settled .svlg-icon .svlg-in{animation:svlg-bob 4.4s ease-in-out infinite;animation-delay:var(--bd)}
+@keyframes svlg-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-.7cqw)}}
 
-/* 6 stars (real cutouts) pop in, then twinkle */
-.svlg-star{animation:svlg-star .55s cubic-bezier(.34,1.7,.64,1) var(--at) both}
-.svlg-star .svlg-inner{animation:svlg-twinkle 4.5s ease-in-out calc(2.2s + var(--i)*.6s) infinite}
-@keyframes svlg-star{0%{transform:scale(0) rotate(-50deg);opacity:0}100%{transform:none;opacity:1}}
-@keyframes svlg-twinkle{0%,70%,100%{transform:scale(1);filter:none}82%{transform:scale(1.28) rotate(12deg);filter:brightness(1.25)}90%{transform:scale(.92)}}
+/* 5 · characters */
+.svlg-char{transform-origin:50% 100%;opacity:0}
+.svlg-char .svlg-in{transform-origin:50% 100%}
+.svlg-armed .svlg-char{animation:svlg-char .85s cubic-bezier(.3,1.15,.5,1) var(--d) both}
+@keyframes svlg-char{0%{transform:translateY(9cqw) scale(.94);opacity:0}40%{opacity:1}
+  72%{transform:translateY(-.8cqw) scale(1.01)}100%{transform:none;opacity:1}}
+.svlg-settled .svlg-char .svlg-in{animation:svlg-breathe 4.2s ease-in-out infinite;animation-delay:var(--bd)}
+@keyframes svlg-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.005,1.013)}}
 
-/* idle: traveling orbital highlight */
-.svlg-orbit{position:absolute;width:0;height:0;transform:rotate(var(--rot));pointer-events:none}
-.svlg-orbit b{position:absolute;width:2.6cqw;height:2.6cqw;margin:-1.3cqw;border-radius:50%;
-  background:radial-gradient(circle,#fff,rgba(255,236,150,.8) 40%,rgba(255,236,150,0) 70%);opacity:0;
-  offset-path:ellipse(var(--rx) var(--ry) at 0 0);offset-rotate:0deg;
-  animation:svlg-orbit 6.5s linear 2.1s infinite}
-@keyframes svlg-orbit{0%{offset-distance:0%;opacity:0}8%{opacity:.95}92%{opacity:.95}100%{offset-distance:100%;opacity:0}}
+/* 6 · stars + sparkle pop, idle twinkle */
+.svlg-star{opacity:0}
+.svlg-armed .svlg-star{animation:svlg-starin .5s cubic-bezier(.3,1.6,.5,1) var(--d) both}
+@keyframes svlg-starin{0%{transform:scale(0) rotate(-50deg);opacity:0}100%{transform:none;opacity:1}}
+.svlg-tiny{position:absolute;left:50%;top:50%;width:210%;height:210%;margin:-105% 0 0 -105%;opacity:0}
+.svlg-armed .svlg-tiny{animation:svlg-tiny .5s ease-out calc(var(--d) + .08s) both}
+@keyframes svlg-tiny{0%{transform:scale(0) rotate(0);opacity:0}40%{transform:scale(1) rotate(35deg);opacity:1}100%{transform:scale(1.3) rotate(80deg);opacity:0}}
+.svlg-settled .svlg-star .svlg-in{animation:svlg-twinkle 4.8s ease-in-out infinite;animation-delay:var(--bd)}
+@keyframes svlg-twinkle{0%,62%,100%{transform:scale(1) rotate(0);opacity:1}78%{transform:scale(1.28) rotate(14deg)}90%{transform:scale(.86);opacity:.7}}
 
-/* 9 final golden sparkle */
-.svlg-final{position:absolute;left:61%;top:78%;width:7cqw;height:7cqw;margin:-3.5cqw;pointer-events:none;
-  background:radial-gradient(circle,#fff 0 14%,#ffd34d 36%,rgba(255,211,77,0) 72%);
-  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
-  animation:svlg-final .6s ease-out 1.65s both}
-@keyframes svlg-final{0%{transform:scale(0) rotate(0);opacity:0}45%{transform:scale(1.3) rotate(40deg);opacity:1}100%{transform:scale(0) rotate(90deg);opacity:0}}
+/* 7 · wordmark slices */
+.svlg-wslice{transform-origin:var(--ox) 100%;opacity:0}
+.svlg-armed .svlg-wslice{animation:svlg-wslice .5s cubic-bezier(.3,1.3,.5,1) var(--d) both}
+@keyframes svlg-wslice{0%{transform:translateY(7cqw) scale(.6) rotate(-5deg);opacity:0}
+  55%{transform:translateY(-.9cqw) scale(1.04) rotate(.5deg);opacity:1}100%{transform:none;opacity:1}}
 
-.svlg-debug .svlg-layer{outline:2px solid hsl(calc(var(--ci)*40) 90% 50%);outline-offset:-2px}
+/* 8 · controller */
+.svlg-pad{transform-origin:50% 100%;opacity:0}
+.svlg-armed .svlg-pad{animation:svlg-pad .62s cubic-bezier(.3,1.2,.5,1) 1.2s both}
+@keyframes svlg-pad{0%{transform:translateY(9cqw) scale(.6);opacity:0}55%{transform:translateY(-1.6cqw) scale(1.06);opacity:1}
+  78%{transform:translateY(.35cqw) scale(.99)}100%{transform:none;opacity:1}}
 
+/* 9 · final sparkle */
+.svlg-final{position:absolute;width:8cqw;height:8cqw;margin:-4cqw 0 0 -4cqw;opacity:0}
+.svlg-armed .svlg-final{animation:svlg-final .6s ease-out 1.42s both}
+@keyframes svlg-final{0%{transform:scale(0) rotate(0);opacity:0}45%{transform:scale(1.25) rotate(40deg);opacity:1}100%{transform:scale(0) rotate(90deg);opacity:0}}
+
+/* reduced motion: show the finished logo with a soft fade only */
 @media (prefers-reduced-motion:reduce){
-  .svlg *,.svlg *::before{animation:none!important;-webkit-mask-image:none!important;mask-image:none!important}
-  .svlg-spark,.svlg-glow,.svlg-orbit,.svlg-final{display:none}
-  .svlg-stage{animation:svlg-rm .35s ease-out both!important}
-  @keyframes svlg-rm{from{opacity:0}to{opacity:1}}
+  .svlg *,.svlg *::before,.svlg *::after{animation:none!important;transition-duration:.01ms!important}
+  .svlg-layer{opacity:1!important}
+  .svlg-spark,.svlg-glow,.svlg-final,.svlg-tiny,.svlg-shine{display:none}
+  .svlg-stage{transition:opacity .3s ease!important}
+  .svlg-exit{transition:opacity .25s ease!important}
 }
+.svlg-rm *,.svlg-rm *::before,.svlg-rm *::after{animation:none!important}
+.svlg-rm .svlg-layer{opacity:1!important}
+.svlg-rm .svlg-spark,.svlg-rm .svlg-glow,.svlg-rm .svlg-final,.svlg-rm .svlg-tiny,.svlg-rm .svlg-shine{display:none}

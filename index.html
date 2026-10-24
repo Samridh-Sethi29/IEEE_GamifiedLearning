@@ -4,17 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skillverse Game</title>
-    <link rel="preload" as="image" href="/assets/skillverse/base.webp" />
-      <style>
-      html,body{background:#fff6e0}
-      #sv-boot{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#fffdf6 0%,#fff1d6 100%)}
-      #sv-boot i{width:36px;height:36px;background:radial-gradient(circle,#fff 0 14%,#ffd34d 38%,rgba(255,211,77,0) 72%);
-        clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:svb 1.2s ease-in-out infinite}
-      @keyframes svb{0%,100%{transform:scale(.5) rotate(0);opacity:.5}50%{transform:scale(1.1) rotate(45deg);opacity:1}}
+    <!-- Skillverse loader: warm the biggest artwork layers -->
+    <link rel="preload" as="image" type="image/webp" href="/assets/skillverse/layers/planet.webp" />
+    <link rel="preload" as="image" type="image/webp" href="/assets/skillverse/layers/word.webp" />
+    <link rel="preload" as="image" type="image/webp" href="/assets/skillverse/layers/boy.webp" />
+    <link rel="preload" as="image" type="image/webp" href="/assets/skillverse/layers/girl.webp" />
+    <!-- Boot cover: same backdrop as the loader, so there is no flash before React mounts -->
+    <style>
+      html,body{margin:0;background:#f4f8ff}
+      #svlg-boot{position:fixed;inset:0;z-index:99998;
+        background:radial-gradient(circle at 50% 42%,#ffffff 0%,#f4f8ff 55%,#e7f0fb 100%)}
     </style>
   </head>
   <body>
-    <div id="sv-boot"><i></i></div>
+    <div id="svlg-boot"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

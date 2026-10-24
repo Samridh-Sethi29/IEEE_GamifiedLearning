@@ -3,23 +3,26 @@ import SkillverseLogoLoader from "./SkillverseLogoLoader";
 import SkillverseLoaderFallback from "./SkillverseLoaderFallback";
 
 /**
- * Root-level gate. Mounted in main.jsx ABOVE <App/>, so it shows on every full page load
- * (any URL), and resets on every reload because its state lives only in React memory —
- * no localStorage / sessionStorage / cookies.
+ * Root-level gate, mounted in main.jsx ABOVE <App/>.
  *
- * The app renders underneath immediately (real startup work proceeds), hidden behind
- * an opaque full-viewport overlay. The overlay leaves once the entrance finished AND
- * startup is ready (fonts + window load + app mounted).
+ * - Shows on EVERY full page load (any URL) and replays on every reload: its state lives only in
+ *   React memory — no localStorage / sessionStorage / cookies / flags.
+ * - The app renders underneath straight away (real startup work proceeds) behind an opaque,
+ *   full-viewport overlay, so nothing flashes through.
+ * - The overlay leaves once the entrance has finished AND startup is ready (fonts + window load).
+ *   MAX_WAIT_MS is only a safety valve; a healthy load never waits for it.
+ * - Strict-Mode safe: effects are idempotent and fully cleaned up, so no duplicate timers/animations.
  */
-const MAX_WAIT_MS = 6000; // safety valve only — never delays a healthy load
+const MAX_WAIT_MS = 8000;
 
 export default function LoaderGate({ children }) {
   const [ready, setReady] = useState(false);
   const [gone, setGone] = useState(false);
   const [useFallback, setUseFallback] = useState(false);
+  const [run, setRun] = useState(0); // bump to replay (bfcache restore)
 
-  // Remove the static pre-React boot screen (index.html) once the real loader has mounted.
-  useEffect(() => { document.getElementById("sv-boot")?.remove(); }, []);
+  // The static boot cover from index.html hands over to the real overlay (same background).
+  useEffect(() => { document.getElementById("svlg-boot")?.remove(); }, []);
 
   useEffect(() => {
     let alive = true;
@@ -30,10 +33,21 @@ export default function LoaderGate({ children }) {
         ? Promise.resolve()
         : new Promise((r) => window.addEventListener("load", r, { once: true })),
     ];
-    // Strict-Mode safe: effect cleanup cancels; second mount just redoes the same idempotent wait.
     Promise.all(waits).then(done, done);
     const safety = setTimeout(done, MAX_WAIT_MS);
     return () => { alive = false; clearTimeout(safety); };
+  }, []);
+
+  // Back/forward cache restores skip a real reload – replay the intro there too.
+  useEffect(() => {
+    const onShow = (e) => {
+      if (!e.persisted) return;
+      setReady(true); // app is already running
+      setGone(false);
+      setRun((n) => n + 1);
+    };
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
   }, []);
 
   const handleExited = useCallback(() => setGone(true), []);
@@ -43,8 +57,8 @@ export default function LoaderGate({ children }) {
     <>
       {children}
       {!gone && (useFallback
-        ? <SkillverseLoaderFallback ready={ready} onExited={handleExited} />
-        : <SkillverseLogoLoader ready={ready} onExited={handleExited} onImageError={onImageError} />)}
+        ? <SkillverseLoaderFallback key={run} ready={ready} onExited={handleExited} />
+        : <SkillverseLogoLoader key={run} ready={ready} onExited={handleExited} onImageError={onImageError} />)}
     </>
   );
 }
